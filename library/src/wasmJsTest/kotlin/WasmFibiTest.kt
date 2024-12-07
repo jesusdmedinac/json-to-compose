@@ -3,10 +3,10 @@ package io.github.kotlin.fibonacci
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LinuxFibiTest {
+class WasmFibiTest {
 
     @Test
-    fun `test 3rd element`() {
-        assertEquals(8, generateFibi().take(3).last())
+    fun `test3rdElement`() {
+        assertEquals(11, generateFibi().take(3).last())
     }
 }
