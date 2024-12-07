@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-group = "io.github.kotlin"
+group = "io.github.jesusdmedinac"
 version = "1.0.0"
 
 kotlin {
@@ -40,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.jetbrains.kotlinx.multiplatform.library.template"
+    namespace = "com.jesusdmedinac.json.to.compose"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -52,31 +52,31 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates(group.toString(), "library", version.toString())
+    coordinates(group.toString(), "json-to-compose", version.toString())
 
     pom {
-        name = "My library"
-        description = "A library."
+        name = "Json to compose"
+        description = "JSON to compose converter"
         inceptionYear = "2024"
-        url = "https://github.com/kotlin/multiplatform-library-template/"
+        url = "https://github.com/jesusdmedinac/json-to-compose"
         licenses {
             license {
-                name = "XXX"
-                url = "YYY"
-                distribution = "ZZZ"
+                name = "MIT License" // Reemplaza con la licencia que elijas
+                url = "https://opensource.org/licenses/MIT" // Reemplaza con la URL de la licencia
+                distribution = "https://opensource.org/licenses/MIT" // Reemplaza con la URL de la licencia
             }
         }
         developers {
             developer {
-                id = "XXX"
-                name = "YYY"
-                url = "ZZZ"
+                id = "jesusdmedinac"
+                name = "Jesús Daniel Medina Cruz"
+                url = "https://github.com/jesusdmedinac/"
             }
         }
         scm {
-            url = "XXX"
-            connection = "YYY"
-            developerConnection = "ZZZ"
+            url = "https://github.com/jesusdmedinac/json-to-compose"
+            connection = "scm:git:git://github.com/jesusdmedinac/json-to-compose.git"
+            developerConnection = "scm:git:ssh://git@github.com/jesusdmedinac/json-to-compose.git"
         }
     }
 }
