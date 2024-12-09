@@ -1,4 +1,4 @@
-import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -6,22 +6,16 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.vanniktech.mavenPublish)
+    alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinSerialization)
 }
-
-group = "com.jesusdmedinac"
-version = "1.0.1"
 
 kotlin {
     androidTarget {
-        publishLibraryVariants("release")
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
@@ -65,11 +59,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
-        androidInstrumentedTest.dependencies {
-            implementation("androidx.test.ext:junit:1.1.5")
-            implementation("androidx.test.espresso:espresso-core:3.5.1")
-            implementation("androidx.compose.ui:ui-test-junit4:1.7.0")
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -79,14 +68,8 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.kotlinx.serialization.json)
+            implementation(projects.library)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
-        }
-
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
@@ -95,11 +78,29 @@ kotlin {
 }
 
 android {
-    namespace = "com.jesusdmedinac.json.to.compose"
+    namespace = "com.jesusdmedinac.compose.sdui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
     defaultConfig {
+        applicationId = "com.jesusdmedinac.compose.sdui"
         minSdk = libs.versions.android.minSdk.get().toInt()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
@@ -107,36 +108,14 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
-mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+compose.desktop {
+    application {
+        mainClass = "com.jesusdmedinac.compose.sdui.MainKt"
 
-    signAllPublications()
-
-    coordinates(group.toString(), "json-to-compose", version.toString())
-
-    pom {
-        name = "Json to compose"
-        description = "JSON to compose converter"
-        inceptionYear = "2024"
-        url = "https://github.com/jesusdmedinac/json-to-compose"
-        licenses {
-            license {
-                name = "MIT License" // Reemplaza con la licencia que elijas
-                url = "https://opensource.org/licenses/MIT" // Reemplaza con la URL de la licencia
-                distribution = "https://opensource.org/licenses/MIT" // Reemplaza con la URL de la licencia
-            }
-        }
-        developers {
-            developer {
-                id = "jesusdmedinac"
-                name = "Jesús Daniel Medina Cruz"
-                url = "https://github.com/jesusdmedinac/"
-            }
-        }
-        scm {
-            url = "https://github.com/jesusdmedinac/json-to-compose"
-            connection = "scm:git:git://github.com/jesusdmedinac/json-to-compose.git"
-            developerConnection = "scm:git:ssh://git@github.com/jesusdmedinac/json-to-compose.git"
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.jesusdmedinac.compose.sdui"
+            packageVersion = "1.0.0"
         }
     }
 }
