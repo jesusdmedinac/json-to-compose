@@ -10,28 +10,109 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme {
-        """
-            {
-                "type": "Column",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "Hello, World!"
-                    },
-                    {
-                        "type": "Button",
-                        "onClickEventName": "button_click",
-                        "child": {
-                            "type": "Text",
-                            "text": "Click me!"
-                        }
-                    }
-                ]
-            }
-        """.trimIndent().ToCompose(object : Behavior {
+        JSON_AS_STRING.ToCompose(object : Behavior {
             override fun onClick(eventName: String) {
                 println("Event: $eventName")
             }
         })
     }
 }
+
+val JSON_AS_STRING = """
+    {
+        "type": "Column",
+        "children": [
+            {
+                "type": "Text",
+                "text": "String to Text"
+            },
+            {
+                "type": "Text",
+                "text": "{\"type\": \"Text\",\"text\": \"String to Text\"}"
+            },
+            {
+                "type": "Text",
+                "text": "String to Text"
+            },
+            {
+                "type": "Text",
+                "text": "String to Button"
+            },
+            {
+                "type": "Text",
+                "text": "{\"type\": \"Button\",\"onClickEventName\": \"button_clicked\",\"child\": {\"type\": \"Text\",\"text\": \"Click me!\"}}"
+            },
+            {
+                "type": "Button",
+                "onClickEventName": "button_clicked",
+                "child": {
+                    "type": "Text",
+                    "text": "Click me!"
+                }
+            },
+            {
+                "type": "Text",
+                "text": "String to Column"
+            },
+            {
+                "type": "Text",
+                "text": "{\"type\": \"Column\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
+            },
+            {
+                "type": "Column",
+                "children": [
+                    {
+                        "type": "Text",
+                        "text": "First text"
+                    },
+                    {
+                        "type": "Text",
+                        "text": "Second text"
+                    }
+                ]
+            },
+            {
+                "type": "Text",
+                "text": "String to Row"
+            },
+            {
+                "type": "Text",
+                "text": "{\"type\": \"Row\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
+            },
+            {
+                "type": "Row",
+                "children": [
+                    {
+                        "type": "Text",
+                        "text": "First text"
+                    },
+                    {
+                        "type": "Text",
+                        "text": "Second text"
+                    }
+                ]
+            },
+            {
+                "type": "Text",
+                "text": "String to Box"
+            },
+            {
+                "type": "Text",
+                "text": "{\"type\": \"Box\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
+            },
+            {
+                "type": "Box",
+                "children": [
+                    {
+                        "type": "Text",
+                        "text": "First text"
+                    },
+                    {
+                        "type": "Text",
+                        "text": "Second text"
+                    }
+                ]
+            }
+        ]
+    }
+""".trimIndent()
