@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "com.jesusdmedinac"
-version = "1.0.1"
+version = "1.0.2"
 
 kotlin {
     androidTarget {
