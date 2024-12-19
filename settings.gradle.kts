@@ -30,4 +30,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "json-to-compose"
 include(":composeApp")
+include(":composy")
 include(":library")
