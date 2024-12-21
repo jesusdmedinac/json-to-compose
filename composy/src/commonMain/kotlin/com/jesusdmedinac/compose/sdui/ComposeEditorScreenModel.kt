@@ -69,7 +69,8 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     private fun addNode(composeNode: ComposeNode): ComposeNode {
         val parent = composeNode.parent ?: return composeNode
         val updatedChild = composeNode.copy(
-            parent = parent
+            parent = parent,
+            text = if (composeNode.type == ComposeType.Text) "New Text" else null
         )
         val updatedParent = parent.copy(
             children = parent.children?.plus(updatedChild) ?: listOf(updatedChild)
