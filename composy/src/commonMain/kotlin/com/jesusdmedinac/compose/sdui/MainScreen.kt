@@ -26,6 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ToCompose
 import json_to_compose.composy.generated.resources.Res
@@ -36,25 +38,24 @@ import org.jetbrains.compose.resources.painterResource
 data object MainScreen : Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val screenModel = koinScreenModel<MainScreenModel>()
         val composeEditorScreenModel = koinScreenModel<ComposeEditorScreenModel>()
         val state by screenModel.state.collectAsState()
         val isLeftPanelDisplayed = state.isLeftPanelDisplayed
         val composeEditorState by composeEditorScreenModel.state.collectAsState()
         val composeNodeRoot = composeEditorState.composeNodeRoot
+        val composeEditorSideEffect by composeEditorScreenModel.sideEffect.collectAsState()
 
-        LaunchedEffect(composeEditorState) {
-            println(composeNodeRoot)
+        LaunchedEffect(composeEditorSideEffect) {
+            when (val sideEffect = composeEditorSideEffect) {
+                ComposeEditorSideEffect.Idle -> Unit
+                is ComposeEditorSideEffect.DisplayEditNodeDialog -> {
+                    navigator.push(EditNodeScreen(sideEffect.composeNode))
+                }
+            }
         }
 
-        var addNewNodeMenuDisplayed by remember { mutableStateOf(false) }
-        var addNewNodeLayoutMenuDisplayed by remember { mutableStateOf(false) }
-
-        fun addNewNode(composeNode: ComposeNode) {
-            addNewNodeMenuDisplayed = false
-            addNewNodeLayoutMenuDisplayed = false
-            // composeNodeChildren = composeNodeChildren + composeNode
-        }
         MaterialTheme {
             val animatedLeftSideOffsetDp by animateDpAsState(if (isLeftPanelDisplayed) 0.dp else (-384).dp)
             val animatedLeftSideSpacerDp by animateDpAsState(if (isLeftPanelDisplayed) 384.dp else 0.dp)

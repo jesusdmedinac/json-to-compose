@@ -1,12 +1,15 @@
 package com.jesusdmedinac.compose.sdui
 
 import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     private val _state = MutableStateFlow(ComposeEditorState())
@@ -44,8 +47,14 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     }
 
     override fun onEditNodeClick(composeNode: ComposeNode) {
-        _sideEffect.update {
-            ComposeEditorSideEffect.DisplayEditNodeDialog
+        screenModelScope.launch {
+            _sideEffect.update {
+                ComposeEditorSideEffect.DisplayEditNodeDialog(composeNode)
+            }
+            delay(100)
+            _sideEffect.update {
+                ComposeEditorSideEffect.Idle
+            }
         }
     }
 }
@@ -53,12 +62,11 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
 data class ComposeEditorState(
     val composeNodeRoot: ComposeNode = ComposeNode(
         ComposeType.Layout.Column,
-        children = emptyList()
     ),
     val isAddNewNodeMenuDisplayed: Boolean = false,
 )
 
 sealed class ComposeEditorSideEffect {
     data object Idle : ComposeEditorSideEffect()
-    data object DisplayEditNodeDialog : ComposeEditorSideEffect()
+    data class DisplayEditNodeDialog(val composeNode: ComposeNode) : ComposeEditorSideEffect()
 }

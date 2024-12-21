@@ -36,7 +36,11 @@ fun ComposeNode.ToComposeEditor(
             behavior,
         )
 
-        ComposeType.Text -> ToTextEditor(modifier)
+        ComposeType.Text -> ToTextEditor(
+            modifier,
+            behavior,
+        )
+
         ComposeType.Button -> ToButtonEditor(modifier)
     }
 }
@@ -89,10 +93,14 @@ fun ComposeNode.ToLayoutEditor(
         modifier = modifier
     ) {
         item {
-            ToComposeEditorListItem()
+            ToComposeEditorListItem(
+                behavior = behavior
+            )
         }
         items(children ?: emptyList()) {
-            it.ToComposeEditor()
+            it.ToComposeEditor(
+                behavior = behavior
+            )
         }
         item {
             Box {
@@ -163,9 +171,11 @@ fun ComposeNode.ToBoxEditor(
 @Composable
 fun ComposeNode.ToTextEditor(
     modifier: Modifier = Modifier,
+    behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
 ) {
     ToComposeEditorListItem(
-        modifier = modifier
+        modifier = modifier,
+        behavior = behavior
     )
 }
 
@@ -185,19 +195,19 @@ interface ComposeEditorBehavior {
     companion object {
         val Default = object : ComposeEditorBehavior {
             override fun onAddNewNodeClick() {
-                TODO("Not yet implemented")
+                TODO("onAddNewNodeClick is not implemented")
             }
 
             override fun onAddNewNodeMenuDismiss() {
-                TODO("Not yet implemented")
+                TODO("onAddNewNodeMenuDismiss is not implemented")
             }
 
             override fun onAddNewNode(composeNode: ComposeNode) {
-                TODO("Not yet implemented")
+                TODO("onAddNewNode is not implemented")
             }
 
             override fun onEditNodeClick(composeNode: ComposeNode) {
-                TODO("Not yet implemented")
+                TODO("onEditNodeClick is not implemented")
             }
         }
     }
