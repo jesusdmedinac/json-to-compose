@@ -50,9 +50,9 @@ data object MainScreen : Screen {
     override fun Content() {
         val screenModel = koinScreenModel<MainScreenModel>()
         val state by screenModel.state.collectAsState()
+        val composeNodeRoot = state.composeNodeRoot
+        var composeNodeChildren = composeNodeRoot.children
         val isLeftPanelDisplayed = state.isLeftPanelDisplayed
-
-        var composeNodeChildren by remember { mutableStateOf(emptyList<ComposeNode>()) }
 
         var addNewNodeMenuDisplayed by remember { mutableStateOf(false) }
         var addNewNodeLayoutMenuDisplayed by remember { mutableStateOf(false) }
@@ -60,26 +60,21 @@ data object MainScreen : Screen {
         var addNewSubNodeMenuDisplayed by remember { mutableStateOf(false) }
         var addNewSubNodeLayoutMenuDisplayed by remember { mutableStateOf(false) }
 
-        val composeNodeRoot = ComposeNode(
-            ComposeType.Layout.Column,
-            children = composeNodeChildren
-        )
-
         fun addNewNode(composeNode: ComposeNode) {
             addNewNodeMenuDisplayed = false
             addNewNodeLayoutMenuDisplayed = false
-            composeNodeChildren = composeNodeChildren + composeNode
+            // composeNodeChildren = composeNodeChildren + composeNode
         }
         fun addNewSubNode(composeNode: ComposeNode, composeChild: ComposeNode) {
             addNewSubNodeMenuDisplayed = false
             addNewSubNodeLayoutMenuDisplayed = false
-            composeNodeChildren = composeNodeChildren.map {
+            /*composeNodeChildren = composeNodeChildren.map {
                 if (it == composeNode) {
                     it.copy(children = it.children?.plus(composeChild))
                 } else {
                     it
                 }
-            }
+            }*/
         }
         MaterialTheme {
             val animatedLeftSideOffsetDp by animateDpAsState(if (isLeftPanelDisplayed) 0.dp else (-256).dp)
@@ -94,7 +89,7 @@ data object MainScreen : Screen {
                         .offset(x = animatedLeftSideOffsetDp)
                         .background(Color(0xFF2C2C2C))
                 ) {
-                    composeNodeRoot.children?.let {
+                    composeNodeChildren?.let {
                         items(it) { node ->
                             ListItem(
                                 overlineText = {
@@ -205,8 +200,7 @@ data object MainScreen : Screen {
                                 },
                                 trailing = {
                                     IconButton(onClick = {
-                                        composeNodeChildren =
-                                            composeNodeChildren.filter { child -> child != node }
+                                        // composeNodeChildren = composeNodeChildren.filter { child -> child != node }
                                     }) {
                                         Icon(
                                             Icons.Default.Delete,
