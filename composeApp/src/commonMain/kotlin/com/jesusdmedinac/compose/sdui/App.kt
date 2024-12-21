@@ -10,11 +10,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme {
-        JSON_AS_STRING.ToCompose(object : Behavior {
-            override fun onClick(eventName: String) {
-                println("Event: $eventName")
-            }
-        })
+        JSON_AS_STRING.ToCompose(
+            behavior = object : Behavior {
+                override fun onClick(eventName: String) {
+                    println("Event: $eventName")
+                }
+            },
+        )
     }
 }
 

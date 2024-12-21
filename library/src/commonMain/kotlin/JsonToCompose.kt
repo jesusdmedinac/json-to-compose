@@ -6,30 +6,42 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Composable
-fun String.ToCompose(behavior: Behavior? = null) {
-    Json.decodeFromString<ComposeNode>(this).ToCompose(behavior)
+fun String.ToCompose(
+    modifier: Modifier = Modifier,
+    behavior: Behavior? = null,
+) {
+    Json.decodeFromString<ComposeNode>(this).ToCompose(
+        modifier,
+        behavior
+    )
 }
 
 @Composable
 fun ComposeNode.ToCompose(
+    modifier: Modifier = Modifier,
     behavior: Behavior? = null
 ) {
     when (type) {
-        ComposeType.Column -> ToColumn()
-        ComposeType.Row -> ToRow()
-        ComposeType.Box -> ToBox()
-        ComposeType.Text -> ToText()
-        ComposeType.Button -> ToButton(behavior)
+        ComposeType.Layout.Column -> ToColumn(modifier)
+        ComposeType.Layout.Row -> ToRow(modifier)
+        ComposeType.Layout.Box -> ToBox(modifier)
+        ComposeType.Text -> ToText(modifier)
+        ComposeType.Button -> ToButton(modifier, behavior)
     }
 }
 
 @Composable
-fun ComposeNode.ToColumn() {
-    Column {
+fun ComposeNode.ToColumn(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+    ) {
         children?.forEach {
             it.ToCompose()
         }
@@ -37,8 +49,12 @@ fun ComposeNode.ToColumn() {
 }
 
 @Composable
-fun ComposeNode.ToRow() {
-    Row {
+fun ComposeNode.ToRow(
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+    ) {
         children?.forEach {
             it.ToCompose()
         }
@@ -46,8 +62,12 @@ fun ComposeNode.ToRow() {
 }
 
 @Composable
-fun ComposeNode.ToBox() {
-    Box {
+fun ComposeNode.ToBox(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier,
+    ) {
         children?.forEach {
             it.ToCompose()
         }
@@ -55,15 +75,26 @@ fun ComposeNode.ToBox() {
 }
 
 @Composable
-fun ComposeNode.ToText() {
-    Text(text = text ?: "")
+fun ComposeNode.ToText(
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = text ?: "",
+        modifier = modifier,
+    )
 }
 
 @Composable
-fun ComposeNode.ToButton(behavior: Behavior? = null) {
-    Button(onClick = {
-        behavior?.onClick(onClickEventName ?: "")
-    }) {
+fun ComposeNode.ToButton(
+    modifier: Modifier = Modifier,
+    behavior: Behavior? = null,
+) {
+    Button(
+        onClick = {
+            behavior?.onClick(onClickEventName ?: "")
+        },
+        modifier = modifier,
+    ) {
         child?.ToCompose()
     }
 }
@@ -77,12 +108,16 @@ data class ComposeNode(
     val children: List<ComposeNode>? = null,
 )
 
-enum class ComposeType {
-    Column,
-    Row,
-    Box,
-    Text,
-    Button
+@Serializable
+sealed class ComposeType {
+    @Serializable
+    sealed class Layout : ComposeType() {
+        data object Column : Layout()
+        data object Row : Layout()
+        data object Box : Layout()
+    }
+    data object Text : ComposeType()
+    data object Button : ComposeType()
 }
 
 interface Behavior {
