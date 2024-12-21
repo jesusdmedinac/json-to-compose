@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
 import io.github.kotlin.fibonacci.ToCompose
@@ -46,7 +48,10 @@ import org.jetbrains.compose.resources.painterResource
 data object MainScreen : Screen {
     @Composable
     override fun Content() {
-        var displayComposeNodeRoot by remember { mutableStateOf(true) }
+        val screenModel = koinScreenModel<MainScreenModel>()
+        val state by screenModel.state.collectAsState()
+        val isLeftPanelDisplayed = state.isLeftPanelDisplayed
+
         var composeNodeChildren by remember { mutableStateOf(emptyList<ComposeNode>()) }
 
         var addNewNodeMenuDisplayed by remember { mutableStateOf(false) }
@@ -77,8 +82,8 @@ data object MainScreen : Screen {
             }
         }
         MaterialTheme {
-            val animatedLeftSideOffsetDp by animateDpAsState(if (displayComposeNodeRoot) 0.dp else (-256).dp)
-            val animatedLeftSideSpacerDp by animateDpAsState(if (displayComposeNodeRoot) 256.dp else 0.dp)
+            val animatedLeftSideOffsetDp by animateDpAsState(if (isLeftPanelDisplayed) 0.dp else (-256).dp)
+            val animatedLeftSideSpacerDp by animateDpAsState(if (isLeftPanelDisplayed) 256.dp else 0.dp)
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -304,29 +309,44 @@ data object MainScreen : Screen {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Spacer(modifier = Modifier.width(animatedLeftSideSpacerDp))
-                    Column(
+                    ComposePreview(
+                        composeNodeRoot,
+                        onMenuClick = {
+                            screenModel.onDisplayLeftPanelClick()
+                        },
                         modifier = Modifier
                             .fillMaxHeight()
                             .weight(3f)
                             .background(Color(0xFF1E1E1E))
-                    ) {
-                        IconButton(onClick = {
-                            displayComposeNodeRoot = !displayComposeNodeRoot
-                        }) {
-                            Icon(
-                                painterResource(Res.drawable.ic_menu),
-                                contentDescription = null,
-                                tint = Color.White
-                            )
-                        }
-                        composeNodeRoot.ToCompose(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.White)
-                        )
-                    }
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ComposePreview(
+    composeNodeRoot: ComposeNode,
+    onMenuClick: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+        IconButton(onClick = {
+            onMenuClick()
+        }) {
+            Icon(
+                painterResource(Res.drawable.ic_menu),
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+        composeNodeRoot.ToCompose(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        )
     }
 }
