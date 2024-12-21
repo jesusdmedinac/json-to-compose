@@ -118,6 +118,16 @@ sealed class ComposeType {
     }
     data object Text : ComposeType()
     data object Button : ComposeType()
+
+    companion object {
+        val values = listOf(
+            Layout.Column,
+            Layout.Row,
+            Layout.Box,
+            Text,
+            Button,
+        )
+    }
 }
 
 interface Behavior {
