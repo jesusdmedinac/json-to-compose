@@ -110,7 +110,7 @@ data class EditNodeScreen(
                     ) {
                         OutlinedTextField(
                             readOnly = true,
-                            value = editingComposeNode?.type?.let { type -> type::class.simpleName.toString() } ?: "",
+                            value = editingComposeNode?.type?.name ?: "",
                             onValueChange = {},
                             label = { Text("Compose type", color = Color.White) },
                             trailingIcon = {

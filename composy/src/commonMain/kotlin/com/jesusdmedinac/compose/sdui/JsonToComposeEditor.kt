@@ -131,10 +131,7 @@ fun ComposeNode.ToLayoutEditor(
                                 behavior.onAddNewNode(
                                     ComposeNode(
                                         type,
-                                        text = "New ${type.name}",
-                                        child = null,
-                                        children = emptyList(),
-                                        onClickEventName = "onClick_${type.name}",
+                                        parent = this@ToLayoutEditor
                                     )
                                 )
                             }

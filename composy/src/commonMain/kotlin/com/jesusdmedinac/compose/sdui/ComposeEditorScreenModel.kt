@@ -36,11 +36,10 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
 
     override fun onAddNewNode(composeNode: ComposeNode) {
         _state.update { state ->
-            val composeNodeRoot = state.composeNodeRoot.copy(
-                children = state.composeNodeRoot.children?.plus(composeNode)
-            )
+            val updatedParent = addNode(composeNode)
+            val updatedRoot = updateNode(updatedParent)
             state.copy(
-                composeNodeRoot = composeNodeRoot,
+                composeNodeRoot = updatedRoot,
                 isAddNewNodeMenuDisplayed = false
             )
         }
@@ -60,21 +59,36 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
 
     override fun saveNode(composeNode: ComposeNode) {
         _state.update { state ->
-            val composeNodeRoot = updateNode(state.composeNodeRoot, composeNode)
-            state.copy(composeNodeRoot = composeNodeRoot)
+            val updatedRoot = updateNode(composeNode)
+            state.copy(
+                composeNodeRoot = updatedRoot
+            )
         }
     }
 
-    private fun updateNode(composeNodeRoot: ComposeNode, composeNode: ComposeNode): ComposeNode {
-        if (composeNodeRoot.id == composeNode.id) {
-            return composeNode
-        }
-        val children = composeNodeRoot.children?.map {
-            updateNode(it, composeNode)
-        }
-        return composeNodeRoot.copy(
-            children = children
+    private fun addNode(composeNode: ComposeNode): ComposeNode {
+        val parent = composeNode.parent ?: return composeNode
+        val updatedChild = composeNode.copy(
+            parent = parent
         )
+        val updatedParent = parent.copy(
+            children = parent.children?.plus(updatedChild) ?: listOf(updatedChild)
+        )
+        return updatedParent
+    }
+
+    private fun updateNode(composeNode: ComposeNode): ComposeNode {
+        val parent = composeNode.parent ?: return composeNode
+        val updatedParent = parent.copy(
+            children = parent.children?.map {
+                if (it.id == composeNode.id) {
+                    composeNode
+                } else {
+                    it
+                }
+            } ?: parent.children
+        )
+        return updateNode(updatedParent)
     }
 }
 
