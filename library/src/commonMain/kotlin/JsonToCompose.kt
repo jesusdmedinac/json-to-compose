@@ -27,9 +27,9 @@ fun ComposeNode.ToCompose(
     behavior: Behavior? = null
 ) {
     when (type) {
-        ComposeType.Layout.Column -> ToColumn(modifier)
-        ComposeType.Layout.Row -> ToRow(modifier)
-        ComposeType.Layout.Box -> ToBox(modifier)
+        ComposeType.Column -> ToColumn(modifier)
+        ComposeType.Row -> ToRow(modifier)
+        ComposeType.Box -> ToBox(modifier)
         ComposeType.Text -> ToText(modifier)
         ComposeType.Button -> ToButton(modifier, behavior)
     }
@@ -110,33 +110,23 @@ data class ComposeNode(
 ) {
     val id: String = when {
         parent == null -> "root"
-        type is ComposeType.Layout -> parent.id + "_${type::class.simpleName}"
+        type == ComposeType.Column ||
+                type == ComposeType.Row ||
+                type == ComposeType.Box -> parent.id + "_${type::class.simpleName}"
+
         parent.child != null -> parent.id + "_${type::class.simpleName}_1"
         parent.children != null -> parent.id + "_${type::class.simpleName}_${parent.children.size + 1}"
         else -> "Unknown"
     }
 }
 
-@Serializable
-sealed class ComposeType {
-    @Serializable
-    sealed class Layout : ComposeType() {
-        data object Column : Layout()
-        data object Row : Layout()
-        data object Box : Layout()
-    }
-    data object Text : ComposeType()
-    data object Button : ComposeType()
 
-    companion object {
-        val values = listOf(
-            Layout.Column,
-            Layout.Row,
-            Layout.Box,
-            Text,
-            Button,
-        )
-    }
+enum class ComposeType {
+    Column,
+    Row,
+    Box,
+    Text,
+    Button
 }
 
 interface Behavior {

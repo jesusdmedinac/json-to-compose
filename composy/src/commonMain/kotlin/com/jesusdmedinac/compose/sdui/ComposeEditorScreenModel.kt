@@ -80,7 +80,7 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
 
 data class ComposeEditorState(
     val composeNodeRoot: ComposeNode = ComposeNode(
-        ComposeType.Layout.Column,
+        ComposeType.Column,
     ),
     val isAddNewNodeMenuDisplayed: Boolean = false,
 )

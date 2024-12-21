@@ -133,13 +133,13 @@ data class EditNodeScreen(
                             expanded = isComposeTypeMenuExpanded,
                             onDismissRequest = { screenModel.onComposeTypeMenuExpandedChange(false) }
                         ) {
-                            ComposeType.values.forEach { type ->
+                            ComposeType.entries.forEach { type ->
                                 DropdownMenuItem(
                                     onClick = {
                                         screenModel.onComposeTypeSelected(type)
                                     }
                                 ) {
-                                    Text(text = type::class.simpleName.toString())
+                                    Text(text = type.name)
                                 }
                             }
                         }

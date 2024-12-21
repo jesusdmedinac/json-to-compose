@@ -30,7 +30,7 @@ fun ComposeNode.ToComposeEditor(
     behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
 ) {
     when (type) {
-        is ComposeType.Layout -> ToLayoutEditor(
+        ComposeType.Column, ComposeType.Row, ComposeType.Box -> ToLayoutEditor(
             modifier,
             state,
             behavior,
@@ -75,7 +75,7 @@ fun ComposeNode.ToComposeEditorListItem(
         },
         text = {
             Text(
-                text = type::class.simpleName ?: "",
+                text = type.name,
                 color = Color.White
             )
         },
@@ -88,7 +88,8 @@ fun ComposeNode.ToLayoutEditor(
     state: ComposeEditorState = ComposeEditorState(),
     behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
 ) {
-    if (type !is ComposeType.Layout) throw IllegalArgumentException("Type is not a layout")
+    if (type != ComposeType.Column && type != ComposeType.Row && type != ComposeType.Box)
+        throw IllegalArgumentException("Type is not a layout")
     LazyColumn(
         modifier = modifier
     ) {
@@ -117,28 +118,28 @@ fun ComposeNode.ToLayoutEditor(
                         Icons.Filled.Add,
                         contentDescription = null,
                     )
-                    Text("Add node into ${type::class.simpleName}")
+                    Text("Add node into ${type.name}")
                 }
                 DropdownMenu(
                     expanded = state.isAddNewNodeMenuDisplayed,
                     onDismissRequest = {
                         behavior.onAddNewNodeMenuDismiss()
                     }) {
-                    ComposeType.values.forEach {
+                    ComposeType.entries.forEach { type ->
                         DropdownMenuItem(
                             onClick = {
                                 behavior.onAddNewNode(
                                     ComposeNode(
-                                        it,
-                                        text = "New ${it::class.simpleName}",
+                                        type,
+                                        text = "New ${type.name}",
                                         child = null,
                                         children = emptyList(),
-                                        onClickEventName = "onClick_${it::class.simpleName}",
+                                        onClickEventName = "onClick_${type.name}",
                                     )
                                 )
                             }
                         ) {
-                            Text(it::class.simpleName ?: "")
+                            Text(type.name)
                         }
                     }
                 }
