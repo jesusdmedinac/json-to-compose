@@ -191,6 +191,7 @@ interface ComposeEditorBehavior {
     fun onAddNewNodeMenuDismiss()
     fun onAddNewNode(composeNode: ComposeNode)
     fun onEditNodeClick(composeNode: ComposeNode)
+    fun saveNode(composeNode: ComposeNode)
 
     companion object {
         val Default = object : ComposeEditorBehavior {
@@ -208,6 +209,10 @@ interface ComposeEditorBehavior {
 
             override fun onEditNodeClick(composeNode: ComposeNode) {
                 TODO("onEditNodeClick is not implemented")
+            }
+
+            override fun saveNode(composeNode: ComposeNode) {
+                TODO("Not yet implemented")
             }
         }
     }

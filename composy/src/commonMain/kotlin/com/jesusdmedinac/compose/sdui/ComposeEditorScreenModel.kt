@@ -57,6 +57,25 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
             }
         }
     }
+
+    override fun saveNode(composeNode: ComposeNode) {
+        _state.update { state ->
+            val composeNodeRoot = updateNode(state.composeNodeRoot, composeNode)
+            state.copy(composeNodeRoot = composeNodeRoot)
+        }
+    }
+
+    private fun updateNode(composeNodeRoot: ComposeNode, composeNode: ComposeNode): ComposeNode {
+        if (composeNodeRoot.id == composeNode.id) {
+            return composeNode
+        }
+        val children = composeNodeRoot.children?.map {
+            updateNode(it, composeNode)
+        }
+        return composeNodeRoot.copy(
+            children = children
+        )
+    }
 }
 
 data class ComposeEditorState(

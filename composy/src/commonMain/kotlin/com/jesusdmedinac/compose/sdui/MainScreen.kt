@@ -41,17 +41,28 @@ data object MainScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = koinScreenModel<MainScreenModel>()
         val composeEditorScreenModel = koinScreenModel<ComposeEditorScreenModel>()
+        val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
         val state by screenModel.state.collectAsState()
         val isLeftPanelDisplayed = state.isLeftPanelDisplayed
         val composeEditorState by composeEditorScreenModel.state.collectAsState()
         val composeNodeRoot = composeEditorState.composeNodeRoot
         val composeEditorSideEffect by composeEditorScreenModel.sideEffect.collectAsState()
+        val editNodeSideEffect by editNodeScreenModel.sideEffect.collectAsState()
 
         LaunchedEffect(composeEditorSideEffect) {
             when (val sideEffect = composeEditorSideEffect) {
                 ComposeEditorSideEffect.Idle -> Unit
                 is ComposeEditorSideEffect.DisplayEditNodeDialog -> {
                     navigator.push(EditNodeScreen(sideEffect.composeNode))
+                }
+            }
+        }
+
+        LaunchedEffect(editNodeSideEffect) {
+            when (val sideEffect = editNodeSideEffect) {
+                EditNodeSideEffect.Idle -> Unit
+                is EditNodeSideEffect.SaveNode -> {
+                    composeEditorScreenModel.saveNode(sideEffect.composeNode)
                 }
             }
         }

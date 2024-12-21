@@ -103,10 +103,19 @@ fun ComposeNode.ToButton(
 data class ComposeNode(
     val type: ComposeType,
     val text: String? = null,
+    val parent: ComposeNode? = null,
     val child: ComposeNode? = null,
     val onClickEventName: String? = null,
     val children: List<ComposeNode>? = null,
-)
+) {
+    val id: String = when {
+        parent == null -> "root"
+        type is ComposeType.Layout -> parent.id + "_${type::class.simpleName}"
+        parent.child != null -> parent.id + "_${type::class.simpleName}_1"
+        parent.children != null -> parent.id + "_${type::class.simpleName}_${parent.children.size + 1}"
+        else -> "Unknown"
+    }
+}
 
 @Serializable
 sealed class ComposeType {
