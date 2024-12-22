@@ -2,6 +2,9 @@ package com.jesusdmedinac.compose.sdui
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -21,8 +25,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -32,7 +39,9 @@ import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ToCompose
 import json_to_compose.composy.generated.resources.Res
 import json_to_compose.composy.generated.resources.ic_menu
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class)
 data object MainScreen : Screen {
@@ -68,24 +77,64 @@ data object MainScreen : Screen {
         }
 
         MaterialTheme {
-            val animatedLeftSideOffsetDp by animateDpAsState(if (isLeftPanelDisplayed) 0.dp else (-384).dp)
-            val animatedLeftSideSpacerDp by animateDpAsState(if (isLeftPanelDisplayed) 384.dp else 0.dp)
+            val leftSideWidth = 384
+            val draggableWidth = 4
+            val max = (leftSideWidth - draggableWidth).dp
+            val min = 0.dp
+            val (minPx, maxPx) = with(LocalDensity.current) { min.toPx() to max.toPx() }
+            val offsetPositionFromDp = with(LocalDensity.current) { max.toPx() }
+            var offsetPosition by remember { mutableStateOf(offsetPositionFromDp) }
+
+            LaunchedEffect(isLeftPanelDisplayed) {
+                when {
+                    isLeftPanelDisplayed && offsetPosition < maxPx -> {
+                        val start = if (offsetPosition == minPx) minPx
+                        else offsetPosition
+                        for (i in start.roundToInt() .. maxPx.roundToInt()) {
+                            offsetPosition = i.toFloat()
+                            if (i % 8 == 0) {
+                                delay(1)
+                            }
+                        }
+                    }
+                    !isLeftPanelDisplayed && offsetPosition > minPx -> {
+                        val start = if (offsetPosition == maxPx) maxPx
+                        else offsetPosition
+                        for (i in start.roundToInt()downTo minPx.roundToInt()) {
+                            offsetPosition = i.toFloat()
+                            if (i % 8 == 0) {
+                                delay(1)
+                            }
+                        }
+                    }
+                }
+            }
+
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .draggable(
+                        orientation = Orientation.Horizontal,
+                        state = rememberDraggableState { delta ->
+                            val newValue = offsetPosition + delta
+                            offsetPosition = newValue.coerceIn(minPx, maxPx)
+                        }
+                    )
             ) {
                 ComposeNodeTree(
                     composeNodeRoot,
                     composeEditorScreenModel,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(384.dp)
-                        .offset(x = animatedLeftSideOffsetDp)
+                        .width(leftSideWidth.dp)
                         .background(Color(0xFF2C2C2C))
                 )
                 Row(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Spacer(modifier = Modifier.width(animatedLeftSideSpacerDp))
+                    val leftSideSpaceWidth =
+                        with(LocalDensity.current) { (offsetPosition).toDp() }
+                    Spacer(modifier = Modifier.width(leftSideSpaceWidth))
                     ComposePreview(
                         composeNodeRoot,
                         onMenuClick = {
@@ -97,6 +146,13 @@ data object MainScreen : Screen {
                             .background(Color(0xFF1E1E1E))
                     )
                 }
+                Box(
+                    modifier = Modifier
+                        .offset { IntOffset(offsetPosition.roundToInt(), 0) }
+                        .fillMaxHeight()
+                        .width(4.dp)
+                        .background(Color(0xFF1E1E1E))
+                ) { }
             }
         }
     }
