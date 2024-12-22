@@ -15,24 +15,9 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     private val _state = MutableStateFlow(ComposeEditorState())
     val state: StateFlow<ComposeEditorState> = _state.asStateFlow()
 
-    private val _sideEffect = MutableStateFlow<ComposeEditorSideEffect>(ComposeEditorSideEffect.Idle)
+    private val _sideEffect =
+        MutableStateFlow<ComposeEditorSideEffect>(ComposeEditorSideEffect.Idle)
     val sideEffect: StateFlow<ComposeEditorSideEffect> = _sideEffect.asStateFlow()
-
-    override fun onAddNewNodeClick() {
-        _state.update { state ->
-            state.copy(
-                isAddNewNodeMenuDisplayed = true
-            )
-        }
-    }
-
-    override fun onAddNewNodeMenuDismiss() {
-        _state.update { state ->
-            state.copy(
-                isAddNewNodeMenuDisplayed = false
-            )
-        }
-    }
 
     override fun onAddNewNode(composeNode: ComposeNode) {
         _state.update { state ->
@@ -40,7 +25,6 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
             val updatedRoot = updateNode(updatedParent)
             state.copy(
                 composeNodeRoot = updatedRoot,
-                isAddNewNodeMenuDisplayed = false
             )
         }
     }
@@ -67,29 +51,26 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     }
 
     private fun addNode(composeNode: ComposeNode): ComposeNode {
-        val parent = composeNode.parent ?: return composeNode
-        val updatedChild = composeNode.copy(
-            parent = parent,
-            text = if (composeNode.type == ComposeType.Text) "New Text" else null
+        val updatedNode = composeNode.copy(
+            text = if (composeNode.type == ComposeType.Text) "New Text Node" else null
         )
-        val updatedParent = parent.copy(
-            children = parent.children?.plus(updatedChild) ?: listOf(updatedChild)
-        )
-        return updatedParent
+        val parentNode = updatedNode.parent ?: return updatedNode
+        val updatedChildren = parentNode.children?.plus(updatedNode) ?: listOf(updatedNode)
+        return parentNode.copy(children = updatedChildren)
     }
 
-    private fun updateNode(composeNode: ComposeNode): ComposeNode {
-        val parent = composeNode.parent ?: return composeNode
-        val updatedParent = parent.copy(
-            children = parent.children?.map {
-                if (it.id == composeNode.id) {
-                    composeNode
-                } else {
-                    it
-                }
-            } ?: parent.children
-        )
-        return updateNode(updatedParent)
+    private fun updateNode(updatedNode: ComposeNode): ComposeNode {
+        return updateNodeRecursive(_state.value.composeNodeRoot, updatedNode)
+    }
+
+    private fun updateNodeRecursive(currentNode: ComposeNode, updatedNode: ComposeNode): ComposeNode {
+        if (currentNode.id == updatedNode.id) {
+            return updatedNode
+        }
+        val updatedChildren = currentNode.children?.map { child ->
+            updateNodeRecursive(child, updatedNode)
+        } ?: emptyList()
+        return currentNode.copy(children = updatedChildren)
     }
 }
 
@@ -97,7 +78,6 @@ data class ComposeEditorState(
     val composeNodeRoot: ComposeNode = ComposeNode(
         ComposeType.Column,
     ),
-    val isAddNewNodeMenuDisplayed: Boolean = false,
 )
 
 sealed class ComposeEditorSideEffect {

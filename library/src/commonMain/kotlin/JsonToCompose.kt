@@ -109,14 +109,20 @@ data class ComposeNode(
     val children: List<ComposeNode>? = null,
 ) {
     val id: String = when {
-        parent == null -> "root"
-        type == ComposeType.Column ||
-                type == ComposeType.Row ||
-                type == ComposeType.Box -> parent.id + "_${type::class.simpleName}"
+        parent == null -> type.name
+        else -> parent.id + "_" + type.name + "_" + ((parent.children ?: emptyList()).size + 1)
+    }
 
-        parent.child != null -> parent.id + "_${type::class.simpleName}_1"
-        parent.children != null -> parent.id + "_${type::class.simpleName}_${parent.children.size + 1}"
-        else -> "Unknown"
+    fun countLevels(count: Int = 0): Int =
+        parent?.countLevels(count + 1) ?: count
+
+    fun asList(): List<ComposeNode> {
+        val list = mutableListOf<ComposeNode>()
+        list.add(this)
+        children?.forEach {
+            list.addAll(it.asList())
+        }
+        return list
     }
 }
 
