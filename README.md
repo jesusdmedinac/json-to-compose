@@ -180,6 +180,15 @@ val JSON_AS_STRING = """
 - Button
 - Much more comming soon...
 
+## 🧩 Composy
+
+Composy is a web and desktop app that facilitates the creation of JSON structures for json-to-compose. It provides a compose-tree editor, real-time preview, and export functionality. Composy is perfect for designing dynamic UIs and generating JSON definitions for your app.
+
+### Features
+- Compose-tree editor
+- Real-time preview
+- Export functionality
+
 ## 📚 Documentation
 
 WIP
