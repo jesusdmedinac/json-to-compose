@@ -1,69 +1,68 @@
 package com.jesusdmedinac.compose.sdui
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import io.github.kotlin.fibonacci.ComposeNode
+import io.github.kotlin.fibonacci.ComposeType
 import io.github.kotlin.fibonacci.ToCompose
 import json_to_compose.composy.generated.resources.Res
 import json_to_compose.composy.generated.resources.ic_menu
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
-import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterialApi::class)
 data object MainScreen : Screen {
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val screenModel = koinScreenModel<MainScreenModel>()
-        val composeEditorScreenModel = koinScreenModel<ComposeEditorScreenModel>()
-        val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
         val state by screenModel.state.collectAsState()
         val isLeftPanelDisplayed = state.isLeftPanelDisplayed
+        val isRightPanelDisplayed = state.isRightPanelDisplayed
+
+        val composeEditorScreenModel = koinScreenModel<ComposeEditorScreenModel>()
         val composeEditorState by composeEditorScreenModel.state.collectAsState()
         val composeNodeRoot = composeEditorState.composeNodeRoot
         val composeEditorSideEffect by composeEditorScreenModel.sideEffect.collectAsState()
+
+        val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
+        val editNodeState by editNodeScreenModel.state.collectAsState()
         val editNodeSideEffect by editNodeScreenModel.sideEffect.collectAsState()
 
         LaunchedEffect(composeEditorSideEffect) {
             when (val sideEffect = composeEditorSideEffect) {
                 ComposeEditorSideEffect.Idle -> Unit
                 is ComposeEditorSideEffect.DisplayEditNodeDialog -> {
-                    navigator.push(EditNodeScreen(sideEffect.composeNode))
+                    editNodeScreenModel.onComposeNodeSelected(sideEffect.composeNode)
                 }
             }
         }
@@ -78,41 +77,15 @@ data object MainScreen : Screen {
         }
 
         MaterialTheme {
-            val leftSideWidth = 384
-            val draggableWidth = 4
-            val max = (leftSideWidth - draggableWidth).dp
-            val min = 0.dp
-            val (minPx, maxPx) = with(LocalDensity.current) { min.toPx() to max.toPx() }
-            val offsetPositionFromDp = with(LocalDensity.current) { max.toPx() }
-            var offsetPosition by remember { mutableStateOf(offsetPositionFromDp) }
-
-            LaunchedEffect(isLeftPanelDisplayed) {
-                when {
-                    isLeftPanelDisplayed && offsetPosition < maxPx -> {
-                        val start = if (offsetPosition == minPx) minPx
-                        else offsetPosition
-                        for (i in start.roundToInt() .. maxPx.roundToInt()) {
-                            offsetPosition = i.toFloat()
-                            if (i % 8 == 0) {
-                                delay(1)
-                            }
-                        }
-                    }
-                    !isLeftPanelDisplayed && offsetPosition > minPx -> {
-                        val start = if (offsetPosition == maxPx) maxPx
-                        else offsetPosition
-                        for (i in start.roundToInt()downTo minPx.roundToInt()) {
-                            offsetPosition = i.toFloat()
-                            if (i % 8 == 0) {
-                                delay(1)
-                            }
-                        }
-                    }
-                }
-            }
-
-            WindowWithLeftPanel(
+            WindowWithPanels(
                 isLeftPanelDisplayed,
+                onLeftPanelClosed = {
+                    screenModel.onDisplayLeftPanelChange(false)
+                },
+                isRightPanelDisplayed,
+                onRightPanelClosed = {
+                    screenModel.onDisplayRightPanelChange(false)
+                },
                 leftPanelContent = {
                     ComposeNodeTree(
                         composeNodeRoot,
@@ -122,13 +95,19 @@ data object MainScreen : Screen {
                             .background(Color(0xFF2C2C2C))
                     )
                 },
+                rightPanelContent = {
+                    ComposeNodeEditor(
+                        editNodeState,
+                        editNodeScreenModel
+                    )
+                },
                 modifier = Modifier
                     .fillMaxSize()
             ) {
                 ComposePreview(
                     composeNodeRoot,
                     onMenuClick = {
-                        screenModel.onDisplayLeftPanelClick()
+                        screenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
                     },
                     modifier = Modifier
                         .fillMaxSize()

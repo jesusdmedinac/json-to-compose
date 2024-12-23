@@ -9,13 +9,20 @@ class MainScreenModel : ScreenModel {
     private val _state = MutableStateFlow(MainScreenState())
     val state: StateFlow<MainScreenState> = _state
 
-    fun onDisplayLeftPanelClick() {
+    fun onDisplayLeftPanelChange(isLeftPanelDisplayed: Boolean) {
         _state.update { state ->
-            state.copy(isLeftPanelDisplayed = !state.isLeftPanelDisplayed)
+            state.copy(isLeftPanelDisplayed = isLeftPanelDisplayed)
+        }
+    }
+
+    fun onDisplayRightPanelChange(isRightPanelDisplayed: Boolean) {
+        _state.update { state ->
+            state.copy(isRightPanelDisplayed = isRightPanelDisplayed)
         }
     }
 }
 
 data class MainScreenState(
     val isLeftPanelDisplayed: Boolean = true,
+    val isRightPanelDisplayed: Boolean = false,
 )
