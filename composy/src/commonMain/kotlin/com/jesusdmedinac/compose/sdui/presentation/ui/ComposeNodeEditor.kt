@@ -2,6 +2,7 @@ package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,6 +42,10 @@ fun ComposeNodeEditor(
     val selectedComposeNode = editNodeState.selectedComposeNode
     val editingComposeNode = editNodeState.editingComposeNode
 
+    if (selectedComposeNode == null) {
+        NoComposeNodeSelected()
+        return
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -131,5 +136,20 @@ fun ComposeNodeEditor(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun NoComposeNodeSelected() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF1E1E1E)),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "No compose node selected",
+            color = Color.White
+        )
     }
 }

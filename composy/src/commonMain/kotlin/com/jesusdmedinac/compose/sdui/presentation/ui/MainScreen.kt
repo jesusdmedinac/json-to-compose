@@ -2,6 +2,8 @@ package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -85,8 +87,11 @@ data object MainScreen : Screen {
             ) {
                 ComposePreview(
                     composeNodeRoot,
-                    onMenuClick = {
+                    onLeftPanelButtonClick = {
                         screenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
+                    },
+                    onRightPanelButtonClick = {
+                        screenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -100,20 +105,33 @@ data object MainScreen : Screen {
 @Composable
 fun ComposePreview(
     composeNodeRoot: ComposeNode,
-    onMenuClick: () -> Unit = {},
+    onLeftPanelButtonClick: () -> Unit,
+    onRightPanelButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
-        IconButton(onClick = {
-            onMenuClick()
-        }) {
-            Icon(
-                painterResource(Res.drawable.ic_menu),
-                contentDescription = null,
-                tint = Color.White
-            )
+        Row {
+            IconButton(onClick = {
+                onLeftPanelButtonClick()
+            }) {
+                Icon(
+                    painterResource(Res.drawable.ic_menu),
+                    contentDescription = "Open left panel",
+                    tint = Color.White
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(onClick = {
+                onRightPanelButtonClick()
+            }) {
+                Icon(
+                    painterResource(Res.drawable.ic_menu),
+                    contentDescription = "Open right panel",
+                    tint = Color.White
+                )
+            }
         }
         composeNodeRoot.ToCompose(
             modifier = Modifier
