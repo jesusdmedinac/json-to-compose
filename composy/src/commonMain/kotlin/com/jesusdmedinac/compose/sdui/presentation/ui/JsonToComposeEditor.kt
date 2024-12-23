@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -83,6 +84,9 @@ fun ComposeNode.ComposeTreeItem(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
+            .clickable {
+                behavior.onEditNodeClick(this@ComposeTreeItem)
+            }
             .hoverable(
                 interactionSource = interactionSource,
                 enabled = true,
@@ -106,11 +110,19 @@ fun ComposeNode.ComposeTreeItem(
                 if (isHovered) {
                     Modifier
                         .background(Color(0xFF37474F))
-                        .padding(horizontal = 16.dp)
                 } else {
-                    Modifier.padding(horizontal = 16.dp)
+                    Modifier
                 }
             )
+            .then(
+                if (state.selectedComposeNode == this@ComposeTreeItem) {
+                    Modifier
+                        .background(Color(0xFF4A5878))
+                } else {
+                    Modifier
+                }
+            )
+            .padding(horizontal = 16.dp)
         ,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
