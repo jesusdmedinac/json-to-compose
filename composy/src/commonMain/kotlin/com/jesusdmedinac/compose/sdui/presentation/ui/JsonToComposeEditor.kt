@@ -2,17 +2,24 @@ package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -28,16 +35,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
 
 @Composable
-fun ComposeNode.ToComposeEditor(
+fun ComposeNode.ToComposeTree(
     modifier: Modifier = Modifier,
     state: ComposeTreeState = ComposeTreeState(),
     behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
@@ -45,25 +58,60 @@ fun ComposeNode.ToComposeEditor(
     val horizontalScrollState = rememberScrollState()
     LazyColumn(
         modifier
-            .horizontalScroll(horizontalScrollState)
+            .fillMaxSize()
+            .horizontalScroll(horizontalScrollState),
     ) {
-        items(this@ToComposeEditor.asList()) {
-            it.ComposeEditorItem(
+        items(this@ToComposeTree.asList()) {
+            it.ComposeTreeItem(
                 state = state,
                 behavior = behavior,
+                modifier = Modifier.height(40.dp)
             )
         }
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ComposeNode.ComposeEditorItem(
+fun ComposeNode.ComposeTreeItem(
     state: ComposeTreeState = ComposeTreeState(),
     behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
+    modifier: Modifier = Modifier,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    var isHovered by remember { mutableStateOf(false) }
     Row(
-        modifier = Modifier
-            .height(40.dp),
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .hoverable(
+                interactionSource = interactionSource,
+                enabled = true,
+            )
+            .pointerHoverIcon(
+                icon = PointerIcon.Hand
+            )
+            .onPointerEvent(
+                PointerEventType.Enter,
+                onEvent = {
+                    isHovered = true
+                }
+            )
+            .onPointerEvent(
+                PointerEventType.Exit,
+                onEvent = {
+                    isHovered = false
+                }
+            )
+            .then(
+                if (isHovered) {
+                    Modifier
+                        .background(Color(0xFF37474F))
+                        .padding(horizontal = 16.dp)
+                } else {
+                    Modifier.padding(horizontal = 16.dp)
+                }
+            )
+        ,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
@@ -80,11 +128,7 @@ fun ComposeNode.ComposeEditorItem(
             text = type.name,
             color = Color.White,
         )
-        Text(
-            text = id,
-            color = Color.White,
-        )
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(64.dp))
         if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box) {
             var expanded by remember { mutableStateOf(false) }
             Box {
@@ -111,7 +155,7 @@ fun ComposeNode.ComposeEditorItem(
                                 behavior.onAddNewNode(
                                     ComposeNode(
                                         type = it,
-                                        parent = this@ComposeEditorItem,
+                                        parent = this@ComposeTreeItem,
                                     )
                                 )
                                 expanded = false

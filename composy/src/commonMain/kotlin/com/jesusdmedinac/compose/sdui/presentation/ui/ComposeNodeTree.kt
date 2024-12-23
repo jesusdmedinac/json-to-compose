@@ -15,7 +15,7 @@ fun ComposeNodeTree(
     modifier: Modifier = Modifier,
 ) {
     val state by screenModel.state.collectAsState()
-    composeNodeRoot.ToComposeEditor(
+    composeNodeRoot.ToComposeTree(
         modifier = modifier,
         state = state,
         behavior = screenModel
