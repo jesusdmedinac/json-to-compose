@@ -13,9 +13,19 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
     private val _state = MutableStateFlow(ComposeTreeState())
     val state: StateFlow<ComposeTreeState> = _state.asStateFlow()
 
-    override fun onAddNewNode(composeNode: ComposeNode) {
+    override fun onAddNewNodeToChildren(composeNode: ComposeNode) {
         _state.update { state ->
-            val updatedParent = addNode(composeNode)
+            val updatedParent = addNodeToChildren(composeNode)
+            val updatedRoot = updateNode(updatedParent)
+            state.copy(
+                composeNodeRoot = updatedRoot,
+            )
+        }
+    }
+
+    override fun onAddNewNodeAsChild(composeNode: ComposeNode) {
+        _state.update { state ->
+            val updatedParent = addNodeToChild(composeNode)
             val updatedRoot = updateNode(updatedParent)
             state.copy(
                 composeNodeRoot = updatedRoot,
@@ -40,13 +50,27 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         }
     }
 
-    private fun addNode(composeNode: ComposeNode): ComposeNode {
-        val updatedNode = composeNode.copy(
-            text = if (composeNode.type == ComposeType.Text) "New Text Node" else null
-        )
+    private fun addNodeToChildren(composeNode: ComposeNode): ComposeNode {
+        val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
         val parentNode = updatedNode.parent ?: return updatedNode
         val updatedChildren = parentNode.children?.plus(updatedNode) ?: listOf(updatedNode)
         return parentNode.copy(children = updatedChildren)
+    }
+
+    private fun addNodeToChild(composeNode: ComposeNode): ComposeNode {
+        val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
+        val parentNode = updatedNode.parent ?: return updatedNode
+        return parentNode.copy(child = updatedNode)
+    }
+
+    private fun ComposeNode.applyDefaultTextIfComposeTypeIsText(): ComposeNode {
+        val updatedNode = copy(
+            text = when (type) {
+                ComposeType.Text -> "New Text Node"
+                else -> null
+            },
+        )
+        return updatedNode
     }
 
     private fun updateNode(updatedNode: ComposeNode): ComposeNode {

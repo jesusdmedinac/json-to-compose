@@ -119,6 +119,7 @@ data class ComposeNode(
     fun asList(): List<ComposeNode> {
         val list = mutableListOf<ComposeNode>()
         list.add(this)
+        child?.let { list.add(it) }
         children?.forEach {
             list.addAll(it.asList())
         }

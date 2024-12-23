@@ -138,7 +138,7 @@ fun ComposeNode.ComposeTreeItem(
             color = Color.White,
         )
         Spacer(modifier = Modifier.width(64.dp))
-        if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box) {
+        if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box || type == ComposeType.Button) {
             var expanded by remember { mutableStateOf(false) }
             Box {
                 IconButton(
@@ -161,12 +161,22 @@ fun ComposeNode.ComposeTreeItem(
                     ComposeType.entries.forEach {
                         DropdownMenuItem(
                             onClick = {
-                                behavior.onAddNewNode(
-                                    ComposeNode(
-                                        type = it,
-                                        parent = this@ComposeTreeItem,
+                                if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box) {
+                                    behavior.onAddNewNodeToChildren(
+                                        ComposeNode(
+                                            type = it,
+                                            parent = this@ComposeTreeItem,
+                                        )
                                     )
-                                )
+                                }
+                                if (type == ComposeType.Button) {
+                                    behavior.onAddNewNodeAsChild(
+                                        ComposeNode(
+                                            type = it,
+                                            parent = this@ComposeTreeItem,
+                                        )
+                                    )
+                                }
                                 expanded = false
                             }
                         ) {
@@ -191,14 +201,19 @@ fun ComposeNode.ComposeTreeItem(
 }
 
 interface ComposeTreeBehavior {
-    fun onAddNewNode(composeNode: ComposeNode)
+    fun onAddNewNodeToChildren(composeNode: ComposeNode)
+    fun onAddNewNodeAsChild(composeNode: ComposeNode)
     fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun saveNode(composeNode: ComposeNode)
 
     companion object {
         val Default = object : ComposeTreeBehavior {
-            override fun onAddNewNode(composeNode: ComposeNode) {
-                TODO("onAddNewNode is not implemented")
+            override fun onAddNewNodeToChildren(composeNode: ComposeNode) {
+                TODO("onAddNewNodeToChildren is not implemented")
+            }
+
+            override fun onAddNewNodeAsChild(composeNode: ComposeNode) {
+                TODO("onAddNewNodeAsChild is not implemented")
             }
 
             override fun onComposeNodeSelected(composeNode: ComposeNode?) {
