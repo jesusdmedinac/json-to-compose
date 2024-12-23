@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -110,49 +111,29 @@ data object MainScreen : Screen {
                 }
             }
 
-            Box(
+            WindowWithLeftPanel(
+                isLeftPanelDisplayed,
+                leftPanelContent = {
+                    ComposeNodeTree(
+                        composeNodeRoot,
+                        composeEditorScreenModel,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xFF2C2C2C))
+                    )
+                },
                 modifier = Modifier
                     .fillMaxSize()
-                    .draggable(
-                        orientation = Orientation.Horizontal,
-                        state = rememberDraggableState { delta ->
-                            val newValue = offsetPosition + delta
-                            offsetPosition = newValue.coerceIn(minPx, maxPx)
-                        }
-                    )
             ) {
-                ComposeNodeTree(
+                ComposePreview(
                     composeNodeRoot,
-                    composeEditorScreenModel,
+                    onMenuClick = {
+                        screenModel.onDisplayLeftPanelClick()
+                    },
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .width(leftSideWidth.dp)
-                        .background(Color(0xFF2C2C2C))
-                )
-                Row(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    val leftSideSpaceWidth =
-                        with(LocalDensity.current) { (offsetPosition).toDp() }
-                    Spacer(modifier = Modifier.width(leftSideSpaceWidth))
-                    ComposePreview(
-                        composeNodeRoot,
-                        onMenuClick = {
-                            screenModel.onDisplayLeftPanelClick()
-                        },
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(3f)
-                            .background(Color(0xFF1E1E1E))
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .offset { IntOffset(offsetPosition.roundToInt(), 0) }
-                        .fillMaxHeight()
-                        .width(4.dp)
+                        .fillMaxSize()
                         .background(Color(0xFF1E1E1E))
-                ) { }
+                )
             }
         }
     }
