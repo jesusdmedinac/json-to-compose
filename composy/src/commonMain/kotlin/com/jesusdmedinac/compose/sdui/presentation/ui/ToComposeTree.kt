@@ -7,13 +7,10 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -54,7 +51,7 @@ import io.github.kotlin.fibonacci.ComposeType
 fun ComposeNode.ToComposeTree(
     modifier: Modifier = Modifier,
     state: ComposeTreeState = ComposeTreeState(),
-    behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
+    behavior: ComposeTreeBehavior = ComposeTreeBehavior.Default,
 ) {
     val horizontalScrollState = rememberScrollState()
     LazyColumn(
@@ -76,7 +73,7 @@ fun ComposeNode.ToComposeTree(
 @Composable
 fun ComposeNode.ComposeTreeItem(
     state: ComposeTreeState = ComposeTreeState(),
-    behavior: ComposeEditorBehavior = ComposeEditorBehavior.Default,
+    behavior: ComposeTreeBehavior = ComposeTreeBehavior.Default,
     modifier: Modifier = Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -109,7 +106,7 @@ fun ComposeNode.ComposeTreeItem(
             .then(
                 if (isHovered) {
                     Modifier
-                        .background(Color(0xFF37474F))
+                        .background(Color(0xFF383838))
                 } else {
                     Modifier
                 }
@@ -193,13 +190,13 @@ fun ComposeNode.ComposeTreeItem(
     }
 }
 
-interface ComposeEditorBehavior {
+interface ComposeTreeBehavior {
     fun onAddNewNode(composeNode: ComposeNode)
     fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun saveNode(composeNode: ComposeNode)
 
     companion object {
-        val Default = object : ComposeEditorBehavior {
+        val Default = object : ComposeTreeBehavior {
             override fun onAddNewNode(composeNode: ComposeNode) {
                 TODO("onAddNewNode is not implemented")
             }

@@ -1,7 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.ui.ComposeEditorBehavior
+import com.jesusdmedinac.compose.sdui.presentation.ui.ComposeTreeBehavior
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class ComposeTreeScreenModel : ScreenModel, ComposeEditorBehavior {
+class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
     private val _state = MutableStateFlow(ComposeTreeState())
     val state: StateFlow<ComposeTreeState> = _state.asStateFlow()
 
