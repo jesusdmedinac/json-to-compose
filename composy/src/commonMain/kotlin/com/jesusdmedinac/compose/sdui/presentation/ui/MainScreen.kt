@@ -1,40 +1,25 @@
-package com.jesusdmedinac.compose.sdui
+package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ExposedDropdownMenuBox
-import androidx.compose.material.ExposedDropdownMenuDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeSideEffect
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import io.github.kotlin.fibonacci.ComposeNode
-import io.github.kotlin.fibonacci.ComposeType
 import io.github.kotlin.fibonacci.ToCompose
 import json_to_compose.composy.generated.resources.Res
 import json_to_compose.composy.generated.resources.ic_menu
@@ -49,29 +34,23 @@ data object MainScreen : Screen {
         val isLeftPanelDisplayed = state.isLeftPanelDisplayed
         val isRightPanelDisplayed = state.isRightPanelDisplayed
 
-        val composeEditorScreenModel = koinScreenModel<ComposeEditorScreenModel>()
-        val composeEditorState by composeEditorScreenModel.state.collectAsState()
+        val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
+        val composeEditorState by composeTreeScreenModel.state.collectAsState()
         val composeNodeRoot = composeEditorState.composeNodeRoot
-        val composeEditorSideEffect by composeEditorScreenModel.sideEffect.collectAsState()
 
         val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
         val editNodeState by editNodeScreenModel.state.collectAsState()
         val editNodeSideEffect by editNodeScreenModel.sideEffect.collectAsState()
 
-        LaunchedEffect(composeEditorSideEffect) {
-            when (val sideEffect = composeEditorSideEffect) {
-                ComposeEditorSideEffect.Idle -> Unit
-                is ComposeEditorSideEffect.DisplayEditNodeDialog -> {
-                    editNodeScreenModel.onComposeNodeSelected(sideEffect.composeNode)
-                }
-            }
+        LaunchedEffect(composeEditorState.selectedComposeNode) {
+            editNodeScreenModel.onComposeNodeSelected(composeEditorState.selectedComposeNode)
         }
 
         LaunchedEffect(editNodeSideEffect) {
             when (val sideEffect = editNodeSideEffect) {
                 EditNodeSideEffect.Idle -> Unit
                 is EditNodeSideEffect.SaveNode -> {
-                    composeEditorScreenModel.saveNode(sideEffect.composeNode)
+                    composeTreeScreenModel.saveNode(sideEffect.composeNode)
                 }
             }
         }
@@ -89,7 +68,7 @@ data object MainScreen : Screen {
                 leftPanelContent = {
                     ComposeNodeTree(
                         composeNodeRoot,
-                        composeEditorScreenModel,
+                        composeTreeScreenModel,
                         modifier = Modifier
                             .fillMaxSize()
                             .background(Color(0xFF2C2C2C))

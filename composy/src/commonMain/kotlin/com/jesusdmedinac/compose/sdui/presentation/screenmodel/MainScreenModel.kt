@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui
+package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import kotlinx.coroutines.flow.MutableStateFlow

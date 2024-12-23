@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui
+package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable

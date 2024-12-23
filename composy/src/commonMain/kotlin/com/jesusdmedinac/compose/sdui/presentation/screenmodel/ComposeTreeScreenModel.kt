@@ -1,23 +1,17 @@
-package com.jesusdmedinac.compose.sdui
+package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import com.jesusdmedinac.compose.sdui.presentation.ui.ComposeEditorBehavior
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
-class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
-    private val _state = MutableStateFlow(ComposeEditorState())
-    val state: StateFlow<ComposeEditorState> = _state.asStateFlow()
-
-    private val _sideEffect =
-        MutableStateFlow<ComposeEditorSideEffect>(ComposeEditorSideEffect.Idle)
-    val sideEffect: StateFlow<ComposeEditorSideEffect> = _sideEffect.asStateFlow()
+class ComposeTreeScreenModel : ScreenModel, ComposeEditorBehavior {
+    private val _state = MutableStateFlow(ComposeTreeState())
+    val state: StateFlow<ComposeTreeState> = _state.asStateFlow()
 
     override fun onAddNewNode(composeNode: ComposeNode) {
         _state.update { state ->
@@ -30,14 +24,10 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     }
 
     override fun onEditNodeClick(composeNode: ComposeNode) {
-        screenModelScope.launch {
-            _sideEffect.update {
-                ComposeEditorSideEffect.DisplayEditNodeDialog(composeNode)
-            }
-            delay(100)
-            _sideEffect.update {
-                ComposeEditorSideEffect.Idle
-            }
+        _state.update { state ->
+            state.copy(
+                selectedComposeNode = composeNode
+            )
         }
     }
 
@@ -63,7 +53,10 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
         return updateNodeRecursive(_state.value.composeNodeRoot, updatedNode)
     }
 
-    private fun updateNodeRecursive(currentNode: ComposeNode, updatedNode: ComposeNode): ComposeNode {
+    private fun updateNodeRecursive(
+        currentNode: ComposeNode,
+        updatedNode: ComposeNode
+    ): ComposeNode {
         if (currentNode.id == updatedNode.id) {
             return updatedNode
         }
@@ -74,13 +67,9 @@ class ComposeEditorScreenModel : ScreenModel, ComposeEditorBehavior {
     }
 }
 
-data class ComposeEditorState(
+data class ComposeTreeState(
     val composeNodeRoot: ComposeNode = ComposeNode(
         ComposeType.Column,
     ),
+    val selectedComposeNode: ComposeNode? = null,
 )
-
-sealed class ComposeEditorSideEffect {
-    data object Idle : ComposeEditorSideEffect()
-    data class DisplayEditNodeDialog(val composeNode: ComposeNode) : ComposeEditorSideEffect()
-}

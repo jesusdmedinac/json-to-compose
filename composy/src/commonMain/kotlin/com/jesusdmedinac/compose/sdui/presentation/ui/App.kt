@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui
+package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator

@@ -1,12 +1,12 @@
 package com.jesusdmedinac.compose.sdui.di
 
-import com.jesusdmedinac.compose.sdui.ComposeEditorScreenModel
-import com.jesusdmedinac.compose.sdui.EditNodeScreenModel
-import com.jesusdmedinac.compose.sdui.MainScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import org.koin.dsl.module
 
 fun appModule() = module {
     single { MainScreenModel() }
-    single { ComposeEditorScreenModel() }
+    single { ComposeTreeScreenModel() }
     single { EditNodeScreenModel() }
 }

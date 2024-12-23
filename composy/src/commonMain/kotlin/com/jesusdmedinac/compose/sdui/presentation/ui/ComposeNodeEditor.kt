@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui
+package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
 import io.github.kotlin.fibonacci.ComposeType
 
 @OptIn(ExperimentalMaterialApi::class)
