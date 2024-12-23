@@ -54,7 +54,8 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
     override fun onComposeNodeSelected(composeNode: ComposeNode?) {
         _state.update { state ->
             state.copy(
-                selectedComposeNode = composeNode
+                selectedComposeNode = composeNode,
+                editingComposeNode = composeNode
             )
         }
     }

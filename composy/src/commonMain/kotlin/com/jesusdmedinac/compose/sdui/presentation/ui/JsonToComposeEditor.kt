@@ -85,7 +85,7 @@ fun ComposeNode.ComposeTreeItem(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable {
-                behavior.onEditNodeClick(this@ComposeTreeItem)
+                behavior.onComposeNodeSelected(this@ComposeTreeItem)
             }
             .hoverable(
                 interactionSource = interactionSource,
@@ -195,7 +195,7 @@ fun ComposeNode.ComposeTreeItem(
 
 interface ComposeEditorBehavior {
     fun onAddNewNode(composeNode: ComposeNode)
-    fun onEditNodeClick(composeNode: ComposeNode)
+    fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun saveNode(composeNode: ComposeNode)
 
     companion object {
@@ -204,8 +204,8 @@ interface ComposeEditorBehavior {
                 TODO("onAddNewNode is not implemented")
             }
 
-            override fun onEditNodeClick(composeNode: ComposeNode) {
-                TODO("onEditNodeClick is not implemented")
+            override fun onComposeNodeSelected(composeNode: ComposeNode?) {
+                TODO("onComposeNodeSelected is not implemented")
             }
 
             override fun saveNode(composeNode: ComposeNode) {

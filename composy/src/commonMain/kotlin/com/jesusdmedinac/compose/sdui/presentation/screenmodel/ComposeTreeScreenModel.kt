@@ -23,7 +23,7 @@ class ComposeTreeScreenModel : ScreenModel, ComposeEditorBehavior {
         }
     }
 
-    override fun onEditNodeClick(composeNode: ComposeNode) {
+    override fun onComposeNodeSelected(composeNode: ComposeNode?) {
         _state.update { state ->
             state.copy(
                 selectedComposeNode = composeNode

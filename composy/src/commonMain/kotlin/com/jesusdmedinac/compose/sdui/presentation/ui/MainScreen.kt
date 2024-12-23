@@ -39,13 +39,21 @@ data object MainScreen : Screen {
         val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
         val composeEditorState by composeTreeScreenModel.state.collectAsState()
         val composeNodeRoot = composeEditorState.composeNodeRoot
+        val selectedComposeNode = composeEditorState.selectedComposeNode
 
         val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
         val editNodeState by editNodeScreenModel.state.collectAsState()
+        val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
         val editNodeSideEffect by editNodeScreenModel.sideEffect.collectAsState()
 
-        LaunchedEffect(composeEditorState.selectedComposeNode) {
-            editNodeScreenModel.onComposeNodeSelected(composeEditorState.selectedComposeNode)
+        LaunchedEffect(selectedComposeNode) {
+            screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
+            editNodeScreenModel.onComposeNodeSelected(selectedComposeNode)
+        }
+
+        LaunchedEffect(selectedComposeNodeOnEditor) {
+            screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNodeOnEditor != null)
+            composeTreeScreenModel.onComposeNodeSelected(selectedComposeNodeOnEditor)
         }
 
         LaunchedEffect(editNodeSideEffect) {
