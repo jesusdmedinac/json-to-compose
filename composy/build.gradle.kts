@@ -53,6 +53,7 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation("io.github.vinceglb:filekit-compose:0.8.7")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -69,6 +70,9 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.jesusdmedinac.compose.sdui"
             packageVersion = "1.0.0"
+            linux {
+                modules("jdk.security.auth")
+            }
         }
     }
 }

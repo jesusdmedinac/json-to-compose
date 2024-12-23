@@ -6,6 +6,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import com.jesusdmedinac.compose.sdui.presentation.ui.App
+import io.github.vinceglb.filekit.core.FileKit
 
 fun main() = application {
     Window(

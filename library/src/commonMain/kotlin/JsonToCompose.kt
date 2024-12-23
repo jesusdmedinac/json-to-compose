@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -103,6 +104,7 @@ fun ComposeNode.ToButton(
 data class ComposeNode(
     val type: ComposeType,
     val text: String? = null,
+    @Transient
     val parent: ComposeNode? = null,
     val child: ComposeNode? = null,
     val onClickEventName: String? = null,
