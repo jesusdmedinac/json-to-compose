@@ -59,6 +59,17 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
             )
         }
     }
+
+    override fun onComposeNodeTextChange(text: String) {
+        _state.update { state ->
+            val editingComposeNode = state.editingComposeNode?.copy(
+                text = text
+            )
+            state.copy(
+                editingComposeNode = editingComposeNode
+            )
+        }
+    }
 }
 
 data class EditNodeScreenState(
@@ -77,4 +88,5 @@ interface EditNodeBehavior {
     fun onSaveNodeClick(composeNode: ComposeNode)
     fun onComposeTypeSelected(type: ComposeType)
     fun onComposeNodeSelected(composeNode: ComposeNode?)
+    fun onComposeNodeTextChange(text: String)
 }

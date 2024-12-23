@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenuItem
@@ -38,7 +39,6 @@ fun ComposeNodeEditor(
     editNodeState: EditNodeScreenState,
     editNodeBehavior: EditNodeBehavior,
 ) {
-    val isComposeTypeMenuExpanded = editNodeState.isComposeTypeMenuExpanded
     val selectedComposeNode = editNodeState.selectedComposeNode
     val editingComposeNode = editNodeState.editingComposeNode
 
@@ -86,55 +86,16 @@ fun ComposeNodeEditor(
             }
         }
         item {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                ExposedDropdownMenuBox(
-                    expanded = isComposeTypeMenuExpanded,
-                    onExpandedChange = { editNodeBehavior.onComposeTypeMenuExpandedChange(true) },
-                ) {
-                    OutlinedTextField(
-                        readOnly = true,
-                        value = editingComposeNode?.type?.name ?: "",
-                        onValueChange = {},
-                        label = { Text("Compose type", color = Color.White) },
-                        trailingIcon = {
-                            Icon(
-                                Icons.Filled.ArrowDropDown,
-                                "Trailing icon for exposed dropdown menu",
-                                Modifier.rotate(if (isComposeTypeMenuExpanded) 180f else 360f),
-                                tint = Color.White
-                            )
-                        },
-                        colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.White,
-                            unfocusedBorderColor = Color.White,
-                            textColor = Color.White
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = isComposeTypeMenuExpanded,
-                        onDismissRequest = {
-                            editNodeBehavior
-                                .onComposeTypeMenuExpandedChange(false)
-                        }
-                    ) {
-                        ComposeType.entries.forEach { type ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    editNodeBehavior.onComposeTypeSelected(type)
-                                }
-                            ) {
-                                Text(text = type.name)
-                            }
-                        }
-                    }
-                }
-            }
+            ComposeTypeDropdownMenu(
+                editNodeState = editNodeState,
+                editNodeBehavior = editNodeBehavior
+            )
+        }
+        item {
+            ComposeTextTextField(
+                editNodeState = editNodeState,
+                editNodeBehavior = editNodeBehavior
+            )
         }
     }
 }
@@ -151,5 +112,97 @@ fun NoComposeNodeSelected() {
             text = "No compose node selected",
             color = Color.White
         )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ComposeTypeDropdownMenu(
+    editNodeState: EditNodeScreenState,
+    editNodeBehavior: EditNodeBehavior,
+) {
+    val isComposeTypeMenuExpanded = editNodeState.isComposeTypeMenuExpanded
+    val editingComposeNode = editNodeState.editingComposeNode
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(16.dp)
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = isComposeTypeMenuExpanded,
+            onExpandedChange = { editNodeBehavior.onComposeTypeMenuExpandedChange(true) },
+        ) {
+            OutlinedTextField(
+                readOnly = true,
+                value = editingComposeNode?.type?.name ?: "",
+                onValueChange = {},
+                label = { Text("Compose type", color = Color.White) },
+                trailingIcon = {
+                    Icon(
+                        Icons.Filled.ArrowDropDown,
+                        "Trailing icon for exposed dropdown menu",
+                        Modifier.rotate(if (isComposeTypeMenuExpanded) 180f else 360f),
+                        tint = Color.White
+                    )
+                },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.White,
+                    textColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            ExposedDropdownMenu(
+                expanded = isComposeTypeMenuExpanded,
+                onDismissRequest = {
+                    editNodeBehavior
+                        .onComposeTypeMenuExpandedChange(false)
+                }
+            ) {
+                ComposeType.entries.forEach { type ->
+                    DropdownMenuItem(
+                        onClick = {
+                            editNodeBehavior.onComposeTypeSelected(type)
+                        }
+                    ) {
+                        Text(text = type.name)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun ComposeTextTextField(
+    editNodeState: EditNodeScreenState,
+    editNodeBehavior: EditNodeBehavior,
+) {
+    val editingComposeNode = editNodeState.editingComposeNode
+    if (editingComposeNode?.text != null) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(16.dp)
+        ) {
+            OutlinedTextField(
+                value = editingComposeNode.text ?: "",
+                onValueChange = {
+                    editNodeBehavior.onComposeNodeTextChange(it)
+                },
+                label = { Text("Text", color = Color.White) },
+                colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.White,
+                    textColor = Color.White
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
 }
