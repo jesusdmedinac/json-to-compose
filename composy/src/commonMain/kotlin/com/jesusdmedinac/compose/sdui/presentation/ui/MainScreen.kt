@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -18,8 +17,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import com.jesusdmedinac.compose.sdui.Platform
+import com.jesusdmedinac.compose.sdui.getPlatform
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeSideEffect
@@ -98,10 +101,30 @@ data object MainScreen : Screen {
                         )
                     },
                     actions = {
+                        if (getPlatform() == Platform.Wasm) {
+                            TextButton(
+                                onClick = {
+                                    screenModel.onDownloadDesktopClick()
+                                },
+                                modifier = Modifier
+                                    .pointerHoverIcon(
+                                        icon = PointerIcon.Hand
+                                    )
+                            ) {
+                                Text(
+                                    text = "Download Desktop App",
+                                    color = Color.White
+                                )
+                            }
+                        }
                         TextButton(
                             onClick = {
-                                screenModel.exportAsJSON(composeNodeRoot)
-                            }
+                                screenModel.exportAsJSONClick(composeNodeRoot)
+                            },
+                            modifier = Modifier
+                                .pointerHoverIcon(
+                                    icon = PointerIcon.Hand
+                                )
                         ) {
                             Text(
                                 text = "Export as JSON",
@@ -168,9 +191,15 @@ fun ComposePreview(
         modifier = modifier
     ) {
         Row {
-            IconButton(onClick = {
-                onLeftPanelButtonClick()
-            }) {
+            IconButton(
+                onClick = {
+                    onLeftPanelButtonClick()
+                },
+                modifier = Modifier
+                    .pointerHoverIcon(
+                        icon = PointerIcon.Hand
+                    )
+            ) {
                 Icon(
                     painterResource(Res.drawable.ic_menu),
                     contentDescription = "Open left panel",
@@ -178,9 +207,15 @@ fun ComposePreview(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = {
-                onRightPanelButtonClick()
-            }) {
+            IconButton(
+                onClick = {
+                    onRightPanelButtonClick()
+                },
+                modifier = Modifier
+                    .pointerHoverIcon(
+                        icon = PointerIcon.Hand
+                    )
+            ) {
                 Icon(
                     painterResource(Res.drawable.ic_menu),
                     contentDescription = "Open right panel",

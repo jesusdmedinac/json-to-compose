@@ -3,7 +3,6 @@ package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import io.github.kotlin.fibonacci.ComposeNode
-import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +30,7 @@ class MainScreenModel : ScreenModel {
         }
     }
 
-    fun exportAsJSON(composeTree: ComposeNode) {
+    fun exportAsJSONClick(composeTree: ComposeNode) {
         screenModelScope.launch {
             _sideEffect.emit(MainScreenSideEffect.ExportAsJSON(
                 baseName = "composeAsJSON",
@@ -42,6 +41,10 @@ class MainScreenModel : ScreenModel {
             delay(100)
             _sideEffect.emit(MainScreenSideEffect.Idle)
         }
+    }
+
+    fun onDownloadDesktopClick() {
+        TODO("Not yet implemented")
     }
 }
 
@@ -58,4 +61,31 @@ sealed class MainScreenSideEffect {
         val initialDirectory: String,
         val content: String,
     ) : MainScreenSideEffect()
+}
+
+interface MainScreenBehavior {
+    fun onDisplayLeftPanelChange(isLeftPanelDisplayed: Boolean)
+    fun onDisplayRightPanelChange(isRightPanelDisplayed: Boolean)
+    fun exportAsJSONClick(composeTree: ComposeNode)
+    fun onDownloadDesktopClick()
+
+    companion object {
+        val Default = object : MainScreenBehavior {
+            override fun onDisplayLeftPanelChange(isLeftPanelDisplayed: Boolean) {
+                TODO("onDisplayLeftPanelChange is not implemented")
+            }
+
+            override fun onDisplayRightPanelChange(isRightPanelDisplayed: Boolean) {
+                TODO("onDisplayRightPanelChange is not implemented")
+            }
+
+            override fun exportAsJSONClick(composeTree: ComposeNode) {
+                TODO("exportAsJSONClick is not implemented")
+            }
+
+            override fun onDownloadDesktopClick() {
+                TODO("onDownloadDesktopClick is not implemented")
+            }
+        }
+    }
 }

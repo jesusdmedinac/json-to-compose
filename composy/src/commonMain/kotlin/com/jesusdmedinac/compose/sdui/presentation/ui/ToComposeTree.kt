@@ -144,7 +144,11 @@ fun ComposeNode.ComposeTreeItem(
                 IconButton(
                     onClick = {
                         expanded = true
-                    }
+                    },
+                    modifier = Modifier
+                        .pointerHoverIcon(
+                            icon = PointerIcon.Hand
+                        )
                 ) {
                     Icon(
                         Icons.Filled.Add,
@@ -186,16 +190,23 @@ fun ComposeNode.ComposeTreeItem(
                 }
             }
         }
-        IconButton(
-            onClick = {}
-        ) {
-            val expanded = true
-            Icon(
-                Icons.Filled.ArrowDropDown,
-                contentDescription = "Trailing icon for exposed dropdown menu",
-                modifier = Modifier.rotate(if (expanded) 180f else 360f),
-                tint = Color.White
-            )
+        // TODO Display when hide children implemented
+        if (false) {
+            IconButton(
+                onClick = {},
+                modifier = Modifier
+                    .pointerHoverIcon(
+                        icon = PointerIcon.Hand
+                    )
+            ) {
+                val expanded = true
+                Icon(
+                    Icons.Filled.ArrowDropDown,
+                    contentDescription = "Trailing icon for exposed dropdown menu",
+                    modifier = Modifier.rotate(if (expanded) 180f else 360f),
+                    tint = Color.White
+                )
+            }
         }
     }
 }
