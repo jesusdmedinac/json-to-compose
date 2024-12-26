@@ -9,9 +9,13 @@ import org.koin.compose.KoinApplication
 @Composable
 @Preview
 fun App() {
-    KoinApplication(application = {
-        modules(appModule())
-    }) {
-        Navigator(MainScreen)
+    ComposyTheme(
+        useDarkTheme = true
+    ) {
+        KoinApplication(application = {
+            modules(appModule())
+        }) {
+            Navigator(MainScreen)
+        }
     }
 }

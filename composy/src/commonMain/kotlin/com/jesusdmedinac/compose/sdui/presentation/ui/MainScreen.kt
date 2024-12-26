@@ -88,38 +88,22 @@ data object MainScreen : Screen {
             }
         }
 
-        MaterialTheme {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Composy",
-                            color = Color.White
-                        )
-                    },
-                    actions = {
-                        if (getPlatform() == Platform.Wasm) {
-                            TextButton(
-                                onClick = {
-                                    screenModel.onDownloadDesktopClick()
-                                },
-                                modifier = Modifier
-                                    .pointerHoverIcon(
-                                        icon = PointerIcon.Hand
-                                    )
-                            ) {
-                                Text(
-                                    text = "Download Desktop App",
-                                    color = Color.White
-                                )
-                            }
-                        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Composy",
+                        color = Color.White
+                    )
+                },
+                actions = {
+                    if (getPlatform() == Platform.Wasm) {
                         TextButton(
                             onClick = {
-                                screenModel.exportAsJSONClick(composeNodeRoot)
+                                screenModel.onDownloadDesktopClick()
                             },
                             modifier = Modifier
                                 .pointerHoverIcon(
@@ -127,54 +111,68 @@ data object MainScreen : Screen {
                                 )
                         ) {
                             Text(
-                                text = "Export as JSON",
+                                text = "Download Desktop App",
                                 color = Color.White
                             )
                         }
-                    },
-                    backgroundColor = Color(0xFF1E1E1E),
-                    contentColor = Color.White
-                )
-                WindowWithPanels(
-                    isLeftPanelDisplayed,
-                    onLeftPanelClosed = {
-                        screenModel.onDisplayLeftPanelChange(false)
-                    },
-                    isRightPanelDisplayed,
-                    onRightPanelClosed = {
-                        screenModel.onDisplayRightPanelChange(false)
-                    },
-                    leftPanelContent = {
-                        ComposeNodeTree(
-                            composeNodeRoot,
-                            composeTreeScreenModel,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color(0xFF2C2C2C))
+                    }
+                    TextButton(
+                        onClick = {
+                            screenModel.exportAsJSONClick(composeNodeRoot)
+                        },
+                        modifier = Modifier
+                            .pointerHoverIcon(
+                                icon = PointerIcon.Hand
+                            )
+                    ) {
+                        Text(
+                            text = "Export as JSON",
+                            color = Color.White
                         )
+                    }
+                },
+                backgroundColor = Color(0xFF1E1E1E),
+                contentColor = Color.White
+            )
+            WindowWithPanels(
+                isLeftPanelDisplayed,
+                onLeftPanelClosed = {
+                    screenModel.onDisplayLeftPanelChange(false)
+                },
+                isRightPanelDisplayed,
+                onRightPanelClosed = {
+                    screenModel.onDisplayRightPanelChange(false)
+                },
+                leftPanelContent = {
+                    ComposeNodeTree(
+                        composeNodeRoot,
+                        composeTreeScreenModel,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xFF2C2C2C))
+                    )
+                },
+                rightPanelContent = {
+                    ComposeNodeEditor(
+                        editNodeState,
+                        editNodeScreenModel
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                ComposePreview(
+                    composeNodeRoot,
+                    onLeftPanelButtonClick = {
+                        screenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
                     },
-                    rightPanelContent = {
-                        ComposeNodeEditor(
-                            editNodeState,
-                            editNodeScreenModel
-                        )
+                    onRightPanelButtonClick = {
+                        screenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
                     },
                     modifier = Modifier
                         .fillMaxSize()
-                ) {
-                    ComposePreview(
-                        composeNodeRoot,
-                        onLeftPanelButtonClick = {
-                            screenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
-                        },
-                        onRightPanelButtonClick = {
-                            screenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
-                        },
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color(0xFF1E1E1E))
-                    )
-                }
+                        .background(Color(0xFF1E1E1E))
+                )
             }
         }
     }
