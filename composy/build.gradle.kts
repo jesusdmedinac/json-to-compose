@@ -1,15 +1,23 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    id("dev.hydraulic.conveyor") version "1.12"
 }
 
+group = "com.jesusdmedinac.composy"
+version = "1.0"
+
 kotlin {
-    jvm("desktop")
+    jvm("desktop") {
+        withJava()
+    }
+    jvmToolchain(21)
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -32,7 +40,7 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
+        val desktopMain: KotlinSourceSet by getting
 
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -59,6 +67,19 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+    }
+}
+
+dependencies {
+    linuxAmd64(compose.desktop.linux_x64)
+    macAmd64(compose.desktop.macos_x64)
+    macAarch64(compose.desktop.macos_arm64)
+    windowsAmd64(compose.desktop.windows_x64)
+}
+
+configurations.all {
+    attributes {
+        attribute(Attribute.of("ui", String::class.java), "awt")
     }
 }
 

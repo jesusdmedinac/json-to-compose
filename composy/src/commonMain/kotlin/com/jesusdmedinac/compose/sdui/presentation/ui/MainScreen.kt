@@ -28,11 +28,11 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenMod
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeSideEffect
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
+import com.jesusdmedinac.composy.composy.generated.resources.Res
+import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ToCompose
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
-import json_to_compose.composy.generated.resources.Res
-import json_to_compose.composy.generated.resources.ic_menu
 import org.jetbrains.compose.resources.painterResource
 
 data object MainScreen : Screen {
