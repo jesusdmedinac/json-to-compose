@@ -127,7 +127,7 @@ fun ComposeNode.ComposeTreeItem(
         if (parent != null) {
             Divider(
                 modifier = Modifier
-                    .padding(horizontal = (16 * countLevels()).dp)
+                    //.padding(horizontal = (16 * countLevels()).dp)
                     .fillMaxHeight()
                     .width(1.dp)
                     .background(Color.White)

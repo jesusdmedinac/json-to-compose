@@ -4,3 +4,12 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply  false
     alias(libs.plugins.vanniktech.mavenPublish) apply false
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.15.1")
+    }
+}

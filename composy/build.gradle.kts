@@ -1,13 +1,19 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.io.FileInputStream
+import java.io.InputStreamReader
+import java.util.Properties
+
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    id("dev.hydraulic.conveyor") version "1.12"
+    alias(libs.plugins.conveyor)
+    id("com.codingfeline.buildkonfig")
 }
 
 group = "com.jesusdmedinac.composy"
@@ -61,11 +67,15 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
-            implementation("io.github.vinceglb:filekit-compose:0.8.7")
+            implementation(libs.filekit.compose)
+            implementation(project.dependencies.platform(libs.supabase.bom))
+            implementation(libs.supabase.auth)
+            implementation(libs.ktor.client.core)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.cio)
         }
     }
 }
@@ -83,4 +93,36 @@ compose.desktop {
             }
         }
     }
+}
+
+buildkonfig {
+    packageName = "com.jesusdmedinac.composy"
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.STRING, "SUPABASE_URL", getPropertiesFile("supabase.url"))
+        buildConfigField(FieldSpec.Type.STRING, "SUPABASE_KEY", getPropertiesFile("supabase.key"))
+    }
+}
+
+fun Project.getPropertiesFile(key: String, file: String = "local.properties"): String {
+    val properties = Properties()
+    val localProperties = File(file)
+    when {
+        localProperties.isFile -> {
+            InputStreamReader(FileInputStream(localProperties), Charsets.UTF_8).use { reader ->
+                properties.load(reader)
+            }
+        }
+        key == "supabase.url" -> {
+            return ""
+        }
+        key == "supabase.key" -> {
+            return ""
+        }
+        else -> {
+            error("File from not found")
+        }
+    }
+
+    return properties.getProperty(key)
 }
