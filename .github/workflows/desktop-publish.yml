@@ -17,6 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Update CA Certificates
+        run: sudo apt-get update && sudo apt-get install --reinstall ca-certificates
+
       - name: Set up Conveyor
         run: |
           curl -LO https://releases.hydraulic.dev/conveyor/latest/conveyor-linux-amd64
@@ -24,7 +27,7 @@ jobs:
           sudo mv conveyor-linux-amd64 /usr/local/bin/conveyor
 
       - name: Build site with Conveyor
-        run: conveyor make site
+        run: conveyor make site --rerun=all
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
