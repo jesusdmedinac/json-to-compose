@@ -26,6 +26,12 @@ jobs:
       - name: Build site with Conveyor
         run: conveyor make site --rerun=all
 
+      - name: Check pwd
+        run: pwd
+
+      - name: Check ls
+        run: ls
+
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
