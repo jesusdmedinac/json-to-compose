@@ -17,12 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Update CA Certificates
-        run: sudo apt-get update && sudo apt-get install --reinstall ca-certificates
-
       - name: Set up Conveyor
         run: |
-          curl -LO https://releases.hydraulic.dev/conveyor/latest/conveyor-linux-amd64
+          curl -LO --insecure https://releases.hydraulic.dev/conveyor/latest/conveyor-linux-amd64
           chmod +x conveyor-linux-amd64
           sudo mv conveyor-linux-amd64 /usr/local/bin/conveyor
 
