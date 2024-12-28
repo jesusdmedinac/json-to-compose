@@ -100,7 +100,8 @@ data object MainScreen : Screen {
                     )
                 },
                 actions = {
-                    if (getPlatform() == Platform.Wasm) {
+                    // TODO Ignore until desktop app is deployed
+                    if (false && getPlatform() == Platform.Wasm) {
                         TextButton(
                             onClick = {
                                 screenModel.onDownloadDesktopClick()
