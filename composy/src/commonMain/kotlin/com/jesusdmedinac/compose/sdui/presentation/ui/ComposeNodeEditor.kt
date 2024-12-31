@@ -34,7 +34,7 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
-import io.github.kotlin.fibonacci.ComposeType
+import com.jesusdmedinac.jsontocompose.ComposeType
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

@@ -49,8 +49,8 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
-import io.github.kotlin.fibonacci.ComposeNode
-import io.github.kotlin.fibonacci.ComposeType
+import com.jesusdmedinac.jsontocompose.ComposeNode
+import com.jesusdmedinac.jsontocompose.ComposeType
 
 @Composable
 fun ComposeNode.ToComposeTree(

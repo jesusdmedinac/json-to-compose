@@ -1,8 +1,8 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import io.github.kotlin.fibonacci.ComposeNode
-import io.github.kotlin.fibonacci.ComposeType
+import com.jesusdmedinac.jsontocompose.ComposeNode
+import com.jesusdmedinac.jsontocompose.ComposeType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

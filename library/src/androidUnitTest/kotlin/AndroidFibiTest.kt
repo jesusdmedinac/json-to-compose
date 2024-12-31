@@ -1,4 +1,4 @@
-package io.github.kotlin.fibonacci
+package com.jesusdmedinac.jsontocompose
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

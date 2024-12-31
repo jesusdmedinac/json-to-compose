@@ -1,4 +1,4 @@
-package io.github.kotlin.fibonacci
+package com.jesusdmedinac.jsontocompose
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule

@@ -37,7 +37,7 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
-import io.github.kotlin.fibonacci.ComposeType
+import com.jesusdmedinac.jsontocompose.ComposeType
 
 @Composable
 fun ComposeComponents(

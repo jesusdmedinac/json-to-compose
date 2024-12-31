@@ -37,9 +37,9 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
-import io.github.kotlin.fibonacci.ComposeNode
-import io.github.kotlin.fibonacci.ComposeType
-import io.github.kotlin.fibonacci.ToCompose
+import com.jesusdmedinac.jsontocompose.ComposeNode
+import com.jesusdmedinac.jsontocompose.ComposeType
+import com.jesusdmedinac.jsontocompose.ToCompose
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 import org.jetbrains.compose.resources.painterResource
 

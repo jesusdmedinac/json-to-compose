@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
-import io.github.kotlin.fibonacci.ComposeNode
+import com.jesusdmedinac.jsontocompose.ComposeNode
 
 
 @Composable

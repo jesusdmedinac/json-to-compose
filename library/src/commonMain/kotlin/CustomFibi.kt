@@ -1,4 +1,4 @@
-package io.github.kotlin.fibonacci
+package com.jesusdmedinac.jsontocompose
 
 fun generateFibi() = sequence {
     var a = firstElement
