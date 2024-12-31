@@ -23,6 +23,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +52,7 @@ fun ComposeNodeEditor(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF1E1E1E))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         item {
             Row(
@@ -71,7 +72,7 @@ fun ComposeNodeEditor(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
-                        tint = Color.White
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 TextButton(
@@ -80,7 +81,7 @@ fun ComposeNodeEditor(
                         editNodeBehavior.onSaveNodeClick(editingComposeNode!!)
                     },
                     colors = ButtonDefaults.textButtonColors(
-                        contentColor = Color.White,
+                        contentColor = MaterialTheme.colorScheme.onBackground,
                         disabledContentColor = Color.Gray,
                     ),
                     enabled = selectedComposeNode != editingComposeNode,
@@ -115,12 +116,12 @@ fun NoComposeNodeSelected() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF1E1E1E)),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = "No compose node selected",
-            color = Color.White
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -147,19 +148,19 @@ fun ComposeTypeDropdownMenu(
                 readOnly = true,
                 value = editingComposeNode?.type?.name ?: "",
                 onValueChange = {},
-                label = { Text("Compose type", color = Color.White) },
+                label = { Text("Compose type", color = MaterialTheme.colorScheme.onBackground) },
                 trailingIcon = {
                     Icon(
                         Icons.Filled.ArrowDropDown,
                         "Trailing icon for exposed dropdown menu",
                         Modifier.rotate(if (isComposeTypeMenuExpanded) 180f else 360f),
-                        tint = Color.White
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    textColor = Color.White
+                    focusedBorderColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onBackground,
+                    textColor = MaterialTheme.colorScheme.onBackground
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -204,11 +205,11 @@ fun ComposeTextTextField(
                 onValueChange = {
                     editNodeBehavior.onComposeNodeTextChange(it)
                 },
-                label = { Text("Text", color = Color.White) },
+                label = { Text("Text", color = MaterialTheme.colorScheme.onBackground) },
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    textColor = Color.White
+                    focusedBorderColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onBackground,
+                    textColor = MaterialTheme.colorScheme.onBackground
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
