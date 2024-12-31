@@ -140,64 +140,6 @@ fun ComposeNode.ComposeTreeItem(
             },
         )
         Spacer(modifier = Modifier.width(64.dp))
-        if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box || type == ComposeType.Button) {
-            var expanded by remember { mutableStateOf(false) }
-            Box {
-                IconButton(
-                    onClick = {
-                        expanded = true
-                    },
-                    modifier = Modifier
-                        .pointerHoverIcon(
-                            icon = PointerIcon.Hand
-                        )
-                ) {
-                    Icon(
-                        Icons.Filled.ArrowDropDown,
-                        contentDescription = "Trailing icon for exposed dropdown menu",
-                        modifier = Modifier.rotate(if (expanded) 180f else 360f),
-                        tint = when {
-                            isHovered -> MaterialTheme.colorScheme.background
-                            state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
-                            else -> MaterialTheme.colorScheme.onBackground
-                        },
-                    )
-                }
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = {
-                        expanded = false
-                    },
-                ) {
-                    ComposeType.entries.forEach {
-                        DropdownMenuItem(
-                            onClick = {
-                                if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box) {
-                                    behavior.onAddNewNodeToChildren(
-                                        ComposeNode(
-                                            type = it,
-                                            parent = this@ComposeTreeItem,
-                                        )
-                                    )
-                                }
-                                if (type == ComposeType.Button) {
-                                    behavior.onAddNewNodeAsChild(
-                                        ComposeNode(
-                                            type = it,
-                                            parent = this@ComposeTreeItem,
-                                        )
-                                    )
-                                }
-                                expanded = false
-                            },
-                            text = {
-                                Text(text = it.name)
-                            }
-                        )
-                    }
-                }
-            }
-        }
         // TODO Display when hide children implemented
         if (false) {
             IconButton(
