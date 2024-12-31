@@ -85,9 +85,8 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         return updatedNode
     }
 
-    private fun updateNode(updatedNode: ComposeNode): ComposeNode {
-        return updateNodeRecursive(_state.value.composeNodeRoot, updatedNode)
-    }
+    private fun updateNode(updatedNode: ComposeNode): ComposeNode =
+        updateNodeRecursive(_state.value.composeNodeRoot, updatedNode)
 
     private fun updateNodeRecursive(
         currentNode: ComposeNode,

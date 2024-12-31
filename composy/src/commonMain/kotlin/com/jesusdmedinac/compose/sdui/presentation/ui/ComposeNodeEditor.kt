@@ -78,7 +78,7 @@ fun ComposeNodeEditor(
                 TextButton(
                     onClick = {
                         editNodeBehavior.onComposeNodeSelected(null)
-                        editNodeBehavior.onSaveNodeClick(editingComposeNode!!)
+                        editingComposeNode?.let { editNodeBehavior.onSaveNodeClick(it) }
                     },
                     colors = ButtonDefaults.textButtonColors(
                         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -205,7 +205,12 @@ fun ComposeTextTextField(
                 onValueChange = {
                     editNodeBehavior.onComposeNodeTextChange(it)
                 },
-                label = { Text("Text", color = MaterialTheme.colorScheme.onBackground) },
+                label = {
+                    Text(
+                        text = "Text",
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                },
                 colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
                     focusedBorderColor = MaterialTheme.colorScheme.onBackground,
                     unfocusedBorderColor = MaterialTheme.colorScheme.onBackground,

@@ -48,7 +48,6 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
                 editingComposeNode = editingComposeNode
             )
         }
-        println(type)
     }
 
     override fun onComposeNodeSelected(composeNode: ComposeNode?) {

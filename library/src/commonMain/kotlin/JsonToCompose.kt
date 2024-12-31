@@ -111,7 +111,7 @@ data class ComposeNode(
     val children: List<ComposeNode>? = null,
 ) {
     val id: String = when {
-        parent == null -> type.name
+        parent == null -> "${countLevels()}"
         else -> parent.id + "_" + type.name + "_" + ((parent.children ?: emptyList()).size + 1)
     }
 
@@ -145,10 +145,12 @@ enum class ComposeType {
     Box,
     Text,
     Button;
+
     fun isLayout(): Boolean = when (this) {
         Column, Row, Box -> true
         else -> false
     }
+
     fun hasChild(): Boolean = when (this) {
         Button -> true
         else -> false
