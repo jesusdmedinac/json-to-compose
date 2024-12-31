@@ -1,7 +1,6 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.ui.ComposeTreeBehavior
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +45,19 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
             val updatedRoot = updateNode(composeNode)
             state.copy(
                 composeNodeRoot = updatedRoot
+            )
+        }
+    }
+
+    override fun onNodeExpanded(composeNode: ComposeNode) {
+        _state.update { state ->
+            val updatedCollapsedNodes = if (state.collapsedNodes.contains(composeNode)) {
+                state.collapsedNodes.filter { it.id != composeNode.id }
+            } else {
+                state.collapsedNodes.plus(composeNode)
+            }
+            state.copy(
+                collapsedNodes = updatedCollapsedNodes
             )
         }
     }
@@ -96,4 +108,42 @@ data class ComposeTreeState(
         ComposeType.Column,
     ),
     val selectedComposeNode: ComposeNode? = null,
-)
+    val collapsedNodes: List<ComposeNode> = emptyList(),
+) {
+    fun isParentExpanded(composeNode: ComposeNode): Boolean {
+        val parents = composeNode.parents()
+        return parents.none { parent -> collapsedNodes.any { it.id == parent.id } }
+    }
+}
+
+interface ComposeTreeBehavior {
+    fun onAddNewNodeToChildren(composeNode: ComposeNode)
+    fun onAddNewNodeAsChild(composeNode: ComposeNode)
+    fun onComposeNodeSelected(composeNode: ComposeNode?)
+    fun saveNode(composeNode: ComposeNode)
+    fun onNodeExpanded(composeNode: ComposeNode)
+
+    companion object {
+        val Default = object : ComposeTreeBehavior {
+            override fun onAddNewNodeToChildren(composeNode: ComposeNode) {
+                TODO("onAddNewNodeToChildren is not implemented")
+            }
+
+            override fun onAddNewNodeAsChild(composeNode: ComposeNode) {
+                TODO("onAddNewNodeAsChild is not implemented")
+            }
+
+            override fun onComposeNodeSelected(composeNode: ComposeNode?) {
+                TODO("onComposeNodeSelected is not implemented")
+            }
+
+            override fun saveNode(composeNode: ComposeNode) {
+                TODO("saveNode is not yet implemented")
+            }
+
+            override fun onNodeExpanded(composeNode: ComposeNode) {
+                TODO("onNodeExpanded is not implemented")
+            }
+        }
+    }
+}

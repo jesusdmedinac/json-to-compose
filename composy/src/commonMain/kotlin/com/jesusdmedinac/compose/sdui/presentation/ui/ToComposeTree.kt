@@ -1,5 +1,8 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -27,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +47,7 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
 import io.github.kotlin.fibonacci.ComposeNode
 import io.github.kotlin.fibonacci.ComposeType
@@ -78,111 +83,96 @@ fun ComposeNode.ComposeTreeItem(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var isHovered by remember { mutableStateOf(false) }
-    Row(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .clickable {
-                behavior.onComposeNodeSelected(this@ComposeTreeItem)
-            }
-            .hoverable(
-                interactionSource = interactionSource,
-                enabled = true,
-            )
-            .pointerHoverIcon(
-                icon = PointerIcon.Hand
-            )
-            .onPointerEvent(
-                PointerEventType.Enter,
-                onEvent = {
-                    isHovered = true
-                }
-            )
-            .onPointerEvent(
-                PointerEventType.Exit,
-                onEvent = {
-                    isHovered = false
-                }
-            )
-            .then(
-                when {
-                    isHovered -> {
-                        Modifier
-                            .background(MaterialTheme.colorScheme.onBackground)
-                    }
-                    state.selectedComposeNode == this@ComposeTreeItem -> {
-                        Modifier
-                            .background(MaterialTheme.colorScheme.primary)
-                    }
-                    else -> {
-                        Modifier
-                    }
-                }
-            )
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
+    val isParentExpanded = state.isParentExpanded(this)
+    AnimatedVisibility(
+        isParentExpanded,
+        enter = expandVertically(),
+        exit = shrinkVertically(),
     ) {
-        if (parent != null) {
-            Divider(
-                modifier = Modifier
-                    //.padding(horizontal = (16 * countLevels()).dp)
-                    .fillMaxHeight()
-                    .width(1.dp)
-                    .background(Color.White)
-            )
-        }
-        Text(
-            text = type.name,
-            color = when {
-                isHovered -> MaterialTheme.colorScheme.background
-                state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
-                else -> MaterialTheme.colorScheme.onBackground
-            },
-        )
-        Spacer(modifier = Modifier.width(64.dp))
-        // TODO Display when hide children implemented
-        if (false) {
-            IconButton(
-                onClick = {},
-                modifier = Modifier
-                    .pointerHoverIcon(
-                        icon = PointerIcon.Hand
-                    )
-            ) {
-                val expanded = true
-                Icon(
-                    Icons.Filled.ArrowDropDown,
-                    contentDescription = "Trailing icon for exposed dropdown menu",
-                    modifier = Modifier.rotate(if (expanded) 180f else 360f),
-                    tint = Color.White
+        Row(
+            modifier = modifier
+                .clip(RoundedCornerShape(8.dp))
+                .clickable {
+                    behavior.onComposeNodeSelected(this@ComposeTreeItem)
+                }
+                .hoverable(
+                    interactionSource = interactionSource,
+                    enabled = true,
+                )
+                .pointerHoverIcon(
+                    icon = PointerIcon.Hand
+                )
+                .onPointerEvent(
+                    PointerEventType.Enter,
+                    onEvent = {
+                        isHovered = true
+                    }
+                )
+                .onPointerEvent(
+                    PointerEventType.Exit,
+                    onEvent = {
+                        isHovered = false
+                    }
+                )
+                .then(
+                    when {
+                        isHovered -> {
+                            Modifier
+                                .background(MaterialTheme.colorScheme.onBackground)
+                        }
+
+                        state.selectedComposeNode == this@ComposeTreeItem -> {
+                            Modifier
+                                .background(MaterialTheme.colorScheme.primary)
+                        }
+
+                        else -> {
+                            Modifier
+                        }
+                    }
+                )
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            if (parent != null) {
+                VerticalDivider(
+                    modifier = Modifier
+                        .padding(horizontal = (16 * countLevels()).dp)
+                        .background(Color.White)
                 )
             }
-        }
-    }
-}
-
-interface ComposeTreeBehavior {
-    fun onAddNewNodeToChildren(composeNode: ComposeNode)
-    fun onAddNewNodeAsChild(composeNode: ComposeNode)
-    fun onComposeNodeSelected(composeNode: ComposeNode?)
-    fun saveNode(composeNode: ComposeNode)
-
-    companion object {
-        val Default = object : ComposeTreeBehavior {
-            override fun onAddNewNodeToChildren(composeNode: ComposeNode) {
-                TODO("onAddNewNodeToChildren is not implemented")
-            }
-
-            override fun onAddNewNodeAsChild(composeNode: ComposeNode) {
-                TODO("onAddNewNodeAsChild is not implemented")
-            }
-
-            override fun onComposeNodeSelected(composeNode: ComposeNode?) {
-                TODO("onComposeNodeSelected is not implemented")
-            }
-
-            override fun saveNode(composeNode: ComposeNode) {
-                TODO("Not yet implemented")
+            Text(
+                text = type.name,
+                color = when {
+                    isHovered -> MaterialTheme.colorScheme.background
+                    state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
+                    else -> MaterialTheme.colorScheme.onBackground
+                },
+            )
+            Spacer(modifier = Modifier.width(64.dp))
+            if (type.isLayout() || type.hasChild()) {
+                IconButton(
+                    onClick = {
+                        behavior.onNodeExpanded(this@ComposeTreeItem)
+                    },
+                    modifier = Modifier
+                        .pointerHoverIcon(
+                            icon = PointerIcon.Hand
+                        )
+                ) {
+                    val expanded = state.collapsedNodes.contains(this@ComposeTreeItem)
+                    Icon(
+                        Icons.Filled.ArrowDropDown,
+                        contentDescription = "Trailing icon for exposed dropdown menu",
+                        modifier = Modifier.rotate(if (expanded) 180f else 360f),
+                        tint = when {
+                            isHovered -> MaterialTheme.colorScheme.background
+                            state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
+                            else -> MaterialTheme.colorScheme.onBackground
+                        }
+                    )
+                }
             }
         }
     }

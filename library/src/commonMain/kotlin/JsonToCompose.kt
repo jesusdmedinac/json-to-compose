@@ -118,6 +118,15 @@ data class ComposeNode(
     fun countLevels(count: Int = 0): Int =
         parent?.countLevels(count + 1) ?: count
 
+    fun parents(): List<ComposeNode> {
+        val list = mutableListOf<ComposeNode>()
+        parent?.let {
+            list.add(it)
+            list.addAll(it.parents())
+        }
+        return list
+    }
+
     fun asList(): List<ComposeNode> {
         val list = mutableListOf<ComposeNode>()
         list.add(this)
@@ -135,7 +144,15 @@ enum class ComposeType {
     Row,
     Box,
     Text,
-    Button
+    Button;
+    fun isLayout(): Boolean = when (this) {
+        Column, Row, Box -> true
+        else -> false
+    }
+    fun hasChild(): Boolean = when (this) {
+        Button -> true
+        else -> false
+    }
 }
 
 interface Behavior {
