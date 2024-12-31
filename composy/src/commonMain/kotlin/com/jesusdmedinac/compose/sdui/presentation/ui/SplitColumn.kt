@@ -1,6 +1,8 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -17,6 +19,9 @@ fun SplitColumn(
             modifier = modifier
                 .weight(1f),
             content = top,
+        )
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.onBackground
         )
         Bottom(
             modifier = modifier

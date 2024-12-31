@@ -1,18 +1,21 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,6 +45,7 @@ import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 import org.jetbrains.compose.resources.painterResource
 
 data object MainScreen : Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val screenModel = koinScreenModel<MainScreenModel>()
@@ -170,8 +174,10 @@ data object MainScreen : Screen {
                         )
                     }
                 },
-                backgroundColor = Color(0xFF1E1E1E),
-                contentColor = Color.White
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1E1E1E),
+                    titleContentColor = Color.White
+                )
             )
             WindowWithPanels(
                 isLeftPanelDisplayed,
@@ -192,7 +198,7 @@ data object MainScreen : Screen {
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .weight(1f)
-                                    .background(MaterialTheme.colors.background)
+                                    .background(MaterialTheme.colorScheme.background)
                                     .padding(8.dp)
                             )
                         },
@@ -203,7 +209,7 @@ data object MainScreen : Screen {
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .weight(1f)
-                                    .background(MaterialTheme.colors.background)
+                                    .background(MaterialTheme.colorScheme.background)
                                     .padding(8.dp)
                             )
                         }
