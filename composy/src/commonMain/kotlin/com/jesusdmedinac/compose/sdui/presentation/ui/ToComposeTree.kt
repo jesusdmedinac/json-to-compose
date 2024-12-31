@@ -18,14 +18,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -104,23 +104,21 @@ fun ComposeNode.ComposeTreeItem(
                 }
             )
             .then(
-                if (isHovered) {
-                    Modifier
-                        .background(Color(0xFF383838))
-                } else {
-                    Modifier
+                when {
+                    isHovered -> {
+                        Modifier
+                            .background(MaterialTheme.colorScheme.onBackground)
+                    }
+                    state.selectedComposeNode == this@ComposeTreeItem -> {
+                        Modifier
+                            .background(MaterialTheme.colorScheme.primary)
+                    }
+                    else -> {
+                        Modifier
+                    }
                 }
             )
-            .then(
-                if (state.selectedComposeNode == this@ComposeTreeItem) {
-                    Modifier
-                        .background(Color(0xFF4A5878))
-                } else {
-                    Modifier
-                }
-            )
-            .padding(horizontal = 16.dp)
-        ,
+            .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
@@ -135,7 +133,11 @@ fun ComposeNode.ComposeTreeItem(
         }
         Text(
             text = type.name,
-            color = Color.White,
+            color = when {
+                isHovered -> MaterialTheme.colorScheme.background
+                state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
+                else -> MaterialTheme.colorScheme.onBackground
+            },
         )
         Spacer(modifier = Modifier.width(64.dp))
         if (type == ComposeType.Column || type == ComposeType.Row || type == ComposeType.Box || type == ComposeType.Button) {
@@ -151,9 +153,14 @@ fun ComposeNode.ComposeTreeItem(
                         )
                 ) {
                     Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Add child",
-                        tint = Color.White
+                        Icons.Filled.ArrowDropDown,
+                        contentDescription = "Trailing icon for exposed dropdown menu",
+                        modifier = Modifier.rotate(if (expanded) 180f else 360f),
+                        tint = when {
+                            isHovered -> MaterialTheme.colorScheme.background
+                            state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
+                            else -> MaterialTheme.colorScheme.onBackground
+                        },
                     )
                 }
                 DropdownMenu(
@@ -182,10 +189,11 @@ fun ComposeNode.ComposeTreeItem(
                                     )
                                 }
                                 expanded = false
+                            },
+                            text = {
+                                Text(text = it.name)
                             }
-                        ) {
-                            Text(text = it.name)
-                        }
+                        )
                     }
                 }
             }

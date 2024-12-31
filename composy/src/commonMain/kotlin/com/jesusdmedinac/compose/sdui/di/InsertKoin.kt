@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.di
 
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
@@ -27,6 +28,7 @@ fun dataModule() = module {
 
 fun appModule() = module {
     single { MainScreenModel() }
+    single { ComposeComponentsScreenModel() }
     single { ComposeTreeScreenModel() }
     single { EditNodeScreenModel() }
     single { AuthScreenModel(get()) }

@@ -1,12 +1,16 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
@@ -18,10 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import com.jesusdmedinac.compose.sdui.Platform
 import com.jesusdmedinac.compose.sdui.getPlatform
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeSideEffect
@@ -57,6 +63,8 @@ data object MainScreen : Screen {
                 }
             }
         }
+
+        val composeComponentsScreenModel = koinScreenModel<ComposeComponentsScreenModel>()
 
         val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
         val composeEditorState by composeTreeScreenModel.state.collectAsState()
@@ -144,12 +152,30 @@ data object MainScreen : Screen {
                     screenModel.onDisplayRightPanelChange(false)
                 },
                 leftPanelContent = {
-                    ComposeNodeTree(
-                        composeNodeRoot,
-                        composeTreeScreenModel,
+                    SplitColumn(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color(0xFF2C2C2C))
+                            .fillMaxSize(),
+                        top = { modifier ->
+                            ComposeComponents(
+                                screenModel = composeComponentsScreenModel,
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .background(MaterialTheme.colors.background)
+                                    .padding(8.dp)
+                            )
+                        },
+                        bottom = { modifier ->
+                            ComposeNodeTree(
+                                composeNodeRoot,
+                                composeTreeScreenModel,
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .background(MaterialTheme.colors.background)
+                                    .padding(8.dp)
+                            )
+                        }
                     )
                 },
                 rightPanelContent = {
