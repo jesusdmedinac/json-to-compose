@@ -1,7 +1,6 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +27,7 @@ import cafe.adriel.voyager.koin.koinScreenModel
 import com.jesusdmedinac.compose.sdui.Platform
 import com.jesusdmedinac.compose.sdui.getPlatform
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsSideEffect
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeSideEffect
@@ -36,6 +36,7 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEff
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
 import io.github.kotlin.fibonacci.ComposeNode
+import io.github.kotlin.fibonacci.ComposeType
 import io.github.kotlin.fibonacci.ToCompose
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 import org.jetbrains.compose.resources.painterResource
@@ -65,6 +66,7 @@ data object MainScreen : Screen {
         }
 
         val composeComponentsScreenModel = koinScreenModel<ComposeComponentsScreenModel>()
+        val composeComponentsSideEffect by composeComponentsScreenModel.sideEffect.collectAsState()
 
         val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
         val composeEditorState by composeTreeScreenModel.state.collectAsState()
@@ -91,6 +93,35 @@ data object MainScreen : Screen {
                 EditNodeSideEffect.Idle -> Unit
                 is EditNodeSideEffect.SaveNode -> {
                     composeTreeScreenModel.saveNode(sideEffect.composeNode)
+                }
+            }
+        }
+
+        LaunchedEffect(composeComponentsSideEffect) {
+            when (val sideEffect = composeComponentsSideEffect) {
+                ComposeComponentsSideEffect.Idle -> Unit
+                is ComposeComponentsSideEffect.ComposeTypeClicked -> {
+                    when (selectedComposeNode?.type) {
+                        ComposeType.Column, ComposeType.Row, ComposeType.Box -> {
+                            composeTreeScreenModel.onAddNewNodeToChildren(
+                                ComposeNode(
+                                    type = sideEffect.type,
+                                    parent = selectedComposeNode,
+                                )
+                            )
+                        }
+
+                        ComposeType.Button -> {
+                            composeTreeScreenModel.onAddNewNodeAsChild(
+                                ComposeNode(
+                                    type = sideEffect.type,
+                                    parent = selectedComposeNode,
+                                )
+                            )
+                        }
+
+                        else -> Unit
+                    }
                 }
             }
         }
