@@ -2,23 +2,21 @@ package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
+import com.jesusdmedinac.compose.sdui.auth.presentation.ui.AuthScreen
 import com.jesusdmedinac.compose.sdui.di.appModule
-import com.jesusdmedinac.compose.sdui.presentation.ui.initializer.SupabaseClientInitializer
+import com.jesusdmedinac.compose.sdui.di.dataModule
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 
 @Composable
 @Preview
 fun App() {
-    ComposyTheme(
-        useDarkTheme = true
-    ) {
-        SupabaseClientInitializer {
-            KoinApplication(application = {
-                modules(appModule())
-            }) {
-                Navigator(AuthScreen)
-            }
-        }
+    KoinApplication(application = {
+        modules(
+            dataModule(),
+            appModule()
+        )
+    }) {
+        Navigator(AuthScreen)
     }
 }

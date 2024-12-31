@@ -11,6 +11,7 @@ compose-multiplatform = "1.7.0"
 kotlinx-coroutines = "1.9.0"
 kotlinxSerializationJson = "1.7.3"
 ktorClientCio = "3.0.2"
+materialKolor = "2.0.0"
 voyager = "1.1.0-beta03"
 conveyor = "1.12"
 koin-bom = "4.1.0-Beta1"
@@ -19,6 +20,7 @@ ktor = "3.0.2"
 
 [libraries]
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }
 supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt" }
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
