@@ -116,7 +116,7 @@ private fun RightPanel(
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .width(rightSideWidth.dp)
+                .width((rightSideWidth - draggableWidth).dp)
                 .align(Alignment.CenterEnd),
         ) {
             rightPanelContent()

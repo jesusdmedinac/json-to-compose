@@ -37,6 +37,7 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
+import com.jesusdmedinac.jsontocompose.ComposeModifier
 import com.jesusdmedinac.jsontocompose.ComposeNode
 import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.ToCompose
@@ -82,7 +83,7 @@ data object MainScreen : Screen {
         val editNodeSideEffect by editNodeScreenModel.sideEffect.collectAsState()
 
         LaunchedEffect(selectedComposeNode) {
-            screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
+             screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
             editNodeScreenModel.onComposeNodeSelected(selectedComposeNode)
         }
 
@@ -284,9 +285,9 @@ fun ComposePreview(
             }
         }
         composeNodeRoot.ToCompose(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+            composeModifier = ComposeModifier()
+                .then(ComposeModifier.Operation.FillMaxSize)
+                .then(ComposeModifier.Operation.BackgroundColor(MaterialTheme.colorScheme.background.value.toInt()))
         )
     }
 }

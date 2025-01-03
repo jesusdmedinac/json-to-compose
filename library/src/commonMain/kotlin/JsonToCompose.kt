@@ -4,6 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -165,28 +168,61 @@ enum class ComposeType {
 
 @Serializable
 data class ComposeModifier(
-    val operations: List<Operation> = emptyList()
+    val operations: List<Operation> = emptyList(),
 ) {
     fun then(operation: Operation): ComposeModifier =
         copy(operations = operations + operation)
 
     @Serializable
-    sealed class Operation {
+    sealed class Operation(
+        @Transient
+        val modifierOperation: ModifierOperation? = null,
+    ) {
         @Serializable
-        data class Padding(val value: Int) : Operation()
+        data class Padding(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.Padding
+        )
 
         @Serializable
-        data class Margin(val value: Int) : Operation()
+        data object FillMaxSize : Operation(
+            modifierOperation = ModifierOperation.FillMaxSize
+        )
 
         @Serializable
-        data class Width(val value: Int) : Operation()
+        data object FillMaxWidth : Operation(
+            modifierOperation = ModifierOperation.FillMaxWidth
+        )
 
         @Serializable
-        data class Height(val value: Int) : Operation()
+        data object FillMaxHeight : Operation(
+            modifierOperation = ModifierOperation.FillMaxHeight
+        )
 
         @Serializable
-        data class BackgroundColor(val color: Int) : Operation()
+        data class Width(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.Width
+        )
+
+        @Serializable
+        data class Height(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.Height
+        )
+
+        @Serializable
+        data class BackgroundColor(val color: Int) : Operation(
+            modifierOperation = ModifierOperation.BackgroundColor
+        )
     }
+}
+
+enum class ModifierOperation {
+    Padding,
+    FillMaxSize,
+    FillMaxWidth,
+    FillMaxHeight,
+    Width,
+    Height,
+    BackgroundColor;
 }
 
 infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
@@ -194,7 +230,9 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
     composeModifier.operations.forEach { operation ->
         result = when (operation) {
             is ComposeModifier.Operation.Padding -> result.padding(operation.value.dp)
-            is ComposeModifier.Operation.Margin -> result.padding(operation.value.dp) // Usar padding como margen
+            is ComposeModifier.Operation.FillMaxSize -> result.fillMaxSize()
+            is ComposeModifier.Operation.FillMaxWidth -> result.fillMaxWidth()
+            is ComposeModifier.Operation.FillMaxHeight -> result.fillMaxHeight()
             is ComposeModifier.Operation.Width -> result.width(operation.value.dp)
             is ComposeModifier.Operation.Height -> result.height(operation.value.dp)
             is ComposeModifier.Operation.BackgroundColor -> result.background(Color(operation.color))
