@@ -109,6 +109,9 @@ data class ComposeTreeState(
     val selectedComposeNode: ComposeNode? = null,
     val collapsedNodes: List<ComposeNode> = emptyList(),
 ) {
+    fun isSelected(composeNode: ComposeNode): Boolean {
+        return selectedComposeNode?.id == composeNode.id
+    }
     fun isParentExpanded(composeNode: ComposeNode): Boolean {
         val parents = composeNode.parents()
         return parents.none { parent -> collapsedNodes.any { it.id == parent.id } }

@@ -6,37 +6,20 @@ import com.jesusdmedinac.jsontocompose.ComposeModifier
 import com.jesusdmedinac.jsontocompose.ComposeNode
 import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.ModifierOperation
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
     private val _state = MutableStateFlow(EditNodeScreenState())
     val state: StateFlow<EditNodeScreenState> = _state.asStateFlow()
-
-    private val _sideEffect = MutableStateFlow<EditNodeSideEffect>(EditNodeSideEffect.Idle)
-    val sideEffect: StateFlow<EditNodeSideEffect> = _sideEffect.asStateFlow()
 
     override fun onComposeTypeMenuExpandedChange(expanded: Boolean) {
         _state.update { state ->
             state.copy(
                 isComposeTypeMenuExpanded = expanded
             )
-        }
-    }
-
-    override fun onSaveNodeClick(composeNode: ComposeNode) {
-        screenModelScope.launch {
-            _sideEffect.update {
-                EditNodeSideEffect.SaveNode(composeNode)
-            }
-            delay(100)
-            _sideEffect.update {
-                EditNodeSideEffect.Idle
-            }
         }
     }
 
@@ -89,7 +72,7 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
                 ModifierOperation.FillMaxHeight -> ComposeModifier.Operation.FillMaxHeight
                 ModifierOperation.Width -> ComposeModifier.Operation.Width(0)
                 ModifierOperation.Height -> ComposeModifier.Operation.Height(0)
-                ModifierOperation.BackgroundColor -> ComposeModifier.Operation.BackgroundColor(0)
+                ModifierOperation.BackgroundColor -> ComposeModifier.Operation.BackgroundColor("#FFFFFFFF")
             }
             val editingComposeNode = state.editingComposeNode?.copy(
                 composeModifier = state.editingComposeNode.composeModifier.copy(
@@ -130,7 +113,7 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
                             )
 
                             is ComposeModifier.Operation.BackgroundColor -> ComposeModifier.Operation.BackgroundColor(
-                                operationValue.toIntOrNull() ?: 0
+                                operationValue
                             )
 
                             else -> operation
@@ -164,14 +147,8 @@ data class EditNodeScreenState(
     val isModifierMenuExpanded: Boolean = false,
 )
 
-sealed class EditNodeSideEffect {
-    data object Idle : EditNodeSideEffect()
-    data class SaveNode(val composeNode: ComposeNode) : EditNodeSideEffect()
-}
-
 interface EditNodeBehavior {
     fun onComposeTypeMenuExpandedChange(expanded: Boolean)
-    fun onSaveNodeClick(composeNode: ComposeNode)
     fun onComposeTypeSelected(type: ComposeType)
     fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun onComposeNodeTextChange(text: String)

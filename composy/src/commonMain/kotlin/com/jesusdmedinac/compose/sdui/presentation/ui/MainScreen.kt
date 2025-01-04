@@ -32,7 +32,6 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponents
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsSideEffect
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeSideEffect
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
 import com.jesusdmedinac.composy.composy.generated.resources.Res
@@ -80,7 +79,6 @@ data object MainScreen : Screen {
         val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
         val editNodeState by editNodeScreenModel.state.collectAsState()
         val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
-        val editNodeSideEffect by editNodeScreenModel.sideEffect.collectAsState()
 
         LaunchedEffect(selectedComposeNode) {
              screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
@@ -92,13 +90,11 @@ data object MainScreen : Screen {
             composeTreeScreenModel.onComposeNodeSelected(selectedComposeNodeOnEditor)
         }
 
-        LaunchedEffect(editNodeSideEffect) {
-            when (val sideEffect = editNodeSideEffect) {
-                EditNodeSideEffect.Idle -> Unit
-                is EditNodeSideEffect.SaveNode -> {
-                    composeTreeScreenModel.saveNode(sideEffect.composeNode)
-                }
-            }
+        LaunchedEffect(editNodeState) {
+            editNodeState.editingComposeNode?.let { composeTreeScreenModel.saveNode(it) }
+        }
+
+        LaunchedEffect(composeNodeRoot) {
         }
 
         LaunchedEffect(composeComponentsSideEffect) {
@@ -234,7 +230,7 @@ data object MainScreen : Screen {
                     },
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.onBackground)
+                        .background(MaterialTheme.colorScheme.background)
                 )
             }
         }
@@ -284,10 +280,6 @@ fun ComposePreview(
                 )
             }
         }
-        composeNodeRoot.ToCompose(
-            composeModifier = ComposeModifier()
-                .then(ComposeModifier.Operation.FillMaxSize)
-                .then(ComposeModifier.Operation.BackgroundColor(MaterialTheme.colorScheme.background.value.toInt()))
-        )
+        composeNodeRoot.ToCompose()
     }
 }

@@ -121,7 +121,7 @@ fun ComposeNode.ComposeTreeItem(
                                 .background(MaterialTheme.colorScheme.onBackground)
                         }
 
-                        state.selectedComposeNode == this@ComposeTreeItem -> {
+                        state.isSelected(this@ComposeTreeItem) -> {
                             Modifier
                                 .background(MaterialTheme.colorScheme.primary)
                         }
@@ -146,7 +146,7 @@ fun ComposeNode.ComposeTreeItem(
                 text = type.name,
                 color = when {
                     isHovered -> MaterialTheme.colorScheme.background
-                    state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
+                    state.isSelected(this@ComposeTreeItem) -> MaterialTheme.colorScheme.onPrimary
                     else -> MaterialTheme.colorScheme.onBackground
                 },
             )
@@ -168,7 +168,7 @@ fun ComposeNode.ComposeTreeItem(
                         modifier = Modifier.rotate(if (expanded) 180f else 360f),
                         tint = when {
                             isHovered -> MaterialTheme.colorScheme.background
-                            state.selectedComposeNode == this@ComposeTreeItem -> MaterialTheme.colorScheme.onPrimary
+                            state.isSelected(this@ComposeTreeItem) -> MaterialTheme.colorScheme.onPrimary
                             else -> MaterialTheme.colorScheme.onBackground
                         }
                     )

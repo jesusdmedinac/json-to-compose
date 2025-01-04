@@ -22,32 +22,28 @@ import kotlinx.serialization.json.Json
 
 @Composable
 fun String.ToCompose(
-    composeModifier: ComposeModifier = ComposeModifier(),
     behavior: Behavior? = null,
 ) {
     Json.decodeFromString<ComposeNode>(this).ToCompose(
-        composeModifier,
         behavior
     )
 }
 
 @Composable
 fun ComposeNode.ToCompose(
-    composeModifier: ComposeModifier = ComposeModifier(),
     behavior: Behavior? = null
 ) {
     when (type) {
-        ComposeType.Column -> ToColumn(composeModifier)
-        ComposeType.Row -> ToRow(composeModifier)
-        ComposeType.Box -> ToBox(composeModifier)
-        ComposeType.Text -> ToText(composeModifier)
-        ComposeType.Button -> ToButton(composeModifier, behavior)
+        ComposeType.Column -> ToColumn()
+        ComposeType.Row -> ToRow()
+        ComposeType.Box -> ToBox()
+        ComposeType.Text -> ToText()
+        ComposeType.Button -> ToButton(behavior)
     }
 }
 
 @Composable
 fun ComposeNode.ToColumn(
-    composeModifier: ComposeModifier = ComposeModifier(),
 ) {
     Column(
         modifier = Modifier from composeModifier,
@@ -60,7 +56,6 @@ fun ComposeNode.ToColumn(
 
 @Composable
 fun ComposeNode.ToRow(
-    composeModifier: ComposeModifier = ComposeModifier(),
 ) {
     Row(
         modifier = Modifier from composeModifier,
@@ -73,7 +68,6 @@ fun ComposeNode.ToRow(
 
 @Composable
 fun ComposeNode.ToBox(
-    composeModifier: ComposeModifier = ComposeModifier(),
 ) {
     Box(
         modifier = Modifier from composeModifier,
@@ -86,7 +80,6 @@ fun ComposeNode.ToBox(
 
 @Composable
 fun ComposeNode.ToText(
-    composeModifier: ComposeModifier = ComposeModifier(),
 ) {
     Text(
         text = text ?: "",
@@ -96,7 +89,6 @@ fun ComposeNode.ToText(
 
 @Composable
 fun ComposeNode.ToButton(
-    composeModifier: ComposeModifier = ComposeModifier(),
     behavior: Behavior? = null,
 ) {
     Button(
@@ -209,7 +201,7 @@ data class ComposeModifier(
         )
 
         @Serializable
-        data class BackgroundColor(val color: Int) : Operation(
+        data class BackgroundColor(val hexColor: String) : Operation(
             modifierOperation = ModifierOperation.BackgroundColor
         )
     }
@@ -235,10 +227,30 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
             is ComposeModifier.Operation.FillMaxHeight -> result.fillMaxHeight()
             is ComposeModifier.Operation.Width -> result.width(operation.value.dp)
             is ComposeModifier.Operation.Height -> result.height(operation.value.dp)
-            is ComposeModifier.Operation.BackgroundColor -> result.background(Color(operation.color))
+            is ComposeModifier.Operation.BackgroundColor -> result.background(operation.hexColor.toColorInt())
         }
     }
     return result
+}
+
+fun String.toColorInt(): Color {
+    println("hex $this")
+    if (!startsWith("#") || length != 9) {
+        return Color.White
+    }
+
+    val colorLong = removePrefix("#").toLong(16)
+
+    val alpha = (colorLong shr 24 and 0xFF).toInt()
+    println("alpha: $alpha")
+    val red = (colorLong shr 16 and 0xFF).toInt()
+    println("red: $red")
+    val green = (colorLong shr 8 and 0xFF).toInt()
+    println("green: $green")
+    val blue = (colorLong and 0xFF).toInt()
+    println("blue: $blue")
+
+    return Color(red, green, blue, alpha)
 }
 
 interface Behavior {

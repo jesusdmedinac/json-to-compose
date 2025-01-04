@@ -72,7 +72,7 @@ fun ComposeNodeEditor(
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(
@@ -88,25 +88,6 @@ fun ComposeNodeEditor(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-                TextButton(
-                    onClick = {
-                        editNodeBehavior.onComposeNodeSelected(null)
-                        editingComposeNode?.let { editNodeBehavior.onSaveNodeClick(it) }
-                    },
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onBackground,
-                        disabledContentColor = Color.Gray,
-                    ),
-                    enabled = selectedComposeNode != editingComposeNode,
-                    modifier = Modifier
-                        .pointerHoverIcon(
-                            icon = PointerIcon.Hand
-                        )
-                ) {
-                    Text(
-                        "Save",
                     )
                 }
             }
@@ -325,7 +306,7 @@ fun ComposeModifier.Operation.ToComposeModifierOperation(
     editNodeBehavior: EditNodeBehavior,
 ) {
     val value = when (this) {
-        is ComposeModifier.Operation.BackgroundColor -> this.color
+        is ComposeModifier.Operation.BackgroundColor -> this.hexColor
         is ComposeModifier.Operation.Height -> this.value
         is ComposeModifier.Operation.Padding -> this.value
         is ComposeModifier.Operation.Width -> this.value
