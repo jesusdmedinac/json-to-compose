@@ -48,6 +48,14 @@ class AuthScreenModel(
         }
     }
 
+    override fun onPasswordVisibilityChange() {
+        _state.update { state ->
+            state.copy(
+                passwordVisible = !state.passwordVisible
+            )
+        }
+    }
+
     override fun authenticate() {
         screenModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -105,12 +113,14 @@ data class AuthState(
     val haveAccount: Boolean = true,
     val user: User? = null,
     val error: String? = null,
+    val passwordVisible: Boolean = false
 )
 
 interface AuthBehavior {
     fun onLoad()
     fun onEmailChange(email: String)
     fun onPasswordChange(password: String)
+    fun onPasswordVisibilityChange()
     fun authenticate()
     fun onSwitchClick()
 
@@ -126,6 +136,10 @@ interface AuthBehavior {
 
             override fun onPasswordChange(password: String) {
                 TODO("onPasswordChange is not yet implemented")
+            }
+
+            override fun onPasswordVisibilityChange() {
+                TODO("onPasswordVisibilityChange is not yet implemented")
             }
 
             override fun authenticate() {

@@ -5,6 +5,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -20,11 +25,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.composables.icons.lucide.Eye
+import com.composables.icons.lucide.EyeOff
+import com.composables.icons.lucide.Lucide
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthState
@@ -105,7 +116,25 @@ object AuthScreen : Screen {
                             Text(
                                 text = "Password"
                             )
-                        }
+                        },
+                        trailingIcon = {
+                            IconButton(
+                                onClick = {
+                                    authBehavior.onPasswordVisibilityChange()
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = if (authState.passwordVisible) Lucide.Eye
+                                    else Lucide.EyeOff,
+                                    contentDescription = "Password visibility",
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        },
+                        visualTransformation = if (authState.passwordVisible) VisualTransformation.None
+                        else PasswordVisualTransformation(),
+                        keyboardOptions = if (authState.passwordVisible) KeyboardOptions.Default
+                        else KeyboardOptions(keyboardType = KeyboardType.Password),
                     )
                     OutlinedButton(
                         onClick = {

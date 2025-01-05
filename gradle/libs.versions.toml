@@ -4,6 +4,7 @@ android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
 filekitCompose = "0.8.7"
+iconsLucide = "1.1.0"
 kotlin = "2.1.0"
 androidx-activityCompose = "1.9.3"
 androidx-lifecycle = "2.8.3"
@@ -19,6 +20,7 @@ supabase-bom = "3.0.3"
 ktor = "3.0.2"
 
 [libraries]
+icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }
