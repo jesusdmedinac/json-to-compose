@@ -215,7 +215,11 @@ data object MainScreen : Screen {
                 rightPanelContent = {
                     ComposeNodeEditor(
                         editNodeState,
-                        editNodeScreenModel
+                        editNodeScreenModel,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surfaceContainer)
+                            .padding(8.dp)
                     )
                 },
                 modifier = Modifier

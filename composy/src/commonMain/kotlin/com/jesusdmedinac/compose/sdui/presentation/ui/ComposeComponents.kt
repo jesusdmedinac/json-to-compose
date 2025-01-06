@@ -125,7 +125,7 @@ fun ComposeComponent(
             .then(
                 if (isHovered) {
                     Modifier
-                        .background(Color(0xFF383838))
+                        .background(MaterialTheme.colorScheme.background)
                 } else {
                     Modifier
                 }

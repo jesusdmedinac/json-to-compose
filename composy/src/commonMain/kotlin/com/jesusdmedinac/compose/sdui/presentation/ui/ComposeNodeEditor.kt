@@ -56,18 +56,19 @@ import com.jesusdmedinac.jsontocompose.ModifierOperation
 fun ComposeNodeEditor(
     editNodeState: EditNodeScreenState,
     editNodeBehavior: EditNodeBehavior,
+    modifier: Modifier = Modifier
 ) {
     val selectedComposeNode = editNodeState.selectedComposeNode
     val editingComposeNode = editNodeState.editingComposeNode
 
     if (selectedComposeNode == null) {
-        NoComposeNodeSelected()
+        NoComposeNodeSelected(
+            modifier = modifier
+        )
         return
     }
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+        modifier = modifier
     ) {
         item {
             Row(
@@ -87,7 +88,6 @@ fun ComposeNodeEditor(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -108,11 +108,11 @@ fun ComposeNodeEditor(
 }
 
 @Composable
-fun NoComposeNodeSelected() {
+fun NoComposeNodeSelected(
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         Text(
