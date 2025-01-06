@@ -11,26 +11,26 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class MainScreenModel : ScreenModel {
+class MainScreenModel : ScreenModel, MainScreenBehavior {
     private val _state = MutableStateFlow(MainScreenState())
     val state: StateFlow<MainScreenState> = _state
 
     private val _sideEffect = MutableStateFlow<MainScreenSideEffect>(MainScreenSideEffect.Idle)
     val sideEffect: StateFlow<MainScreenSideEffect> = _sideEffect
 
-    fun onDisplayLeftPanelChange(isLeftPanelDisplayed: Boolean) {
+    override fun onDisplayLeftPanelChange(isLeftPanelDisplayed: Boolean) {
         _state.update { state ->
             state.copy(isLeftPanelDisplayed = isLeftPanelDisplayed)
         }
     }
 
-    fun onDisplayRightPanelChange(isRightPanelDisplayed: Boolean) {
+    override fun onDisplayRightPanelChange(isRightPanelDisplayed: Boolean) {
         _state.update { state ->
             state.copy(isRightPanelDisplayed = isRightPanelDisplayed)
         }
     }
 
-    fun exportAsJSONClick(composeTree: ComposeNode) {
+    override fun exportAsJSONClick(composeTree: ComposeNode) {
         screenModelScope.launch {
             _sideEffect.emit(MainScreenSideEffect.ExportAsJSON(
                 baseName = "composeAsJSON",
@@ -43,15 +43,58 @@ class MainScreenModel : ScreenModel {
         }
     }
 
-    fun onDownloadDesktopClick() {
+    override fun onDownloadDesktopClick() {
         TODO("Not yet implemented")
+    }
+
+    override fun onPortraitClick() {
+        _state.update { state ->
+            state.copy(orientation = Orientation.Portrait)
+        }
+    }
+
+    override fun onLandscapeClick() {
+        _state.update { state ->
+            state.copy(orientation = Orientation.Landscape)
+        }
+    }
+
+    override fun onSmartphoneClick() {
+        _state.update { state ->
+            state.copy(deviceType = DeviceType.Smartphone)
+        }
+    }
+
+    override fun onTabletClick() {
+        _state.update { state ->
+            state.copy(deviceType = DeviceType.Tablet)
+        }
+    }
+
+    override fun onDesktopClick() {
+        _state.update { state ->
+            state.copy(deviceType = DeviceType.Desktop)
+        }
     }
 }
 
 data class MainScreenState(
     val isLeftPanelDisplayed: Boolean = true,
     val isRightPanelDisplayed: Boolean = false,
+    val deviceType: DeviceType = DeviceType.Smartphone,
+    val orientation: Orientation = Orientation.Portrait,
 )
+
+enum class Orientation {
+    Portrait,
+    Landscape,
+}
+
+enum class DeviceType {
+    Smartphone,
+    Tablet,
+    Desktop,
+}
 
 sealed class MainScreenSideEffect {
     data object Idle : MainScreenSideEffect()
@@ -68,6 +111,11 @@ interface MainScreenBehavior {
     fun onDisplayRightPanelChange(isRightPanelDisplayed: Boolean)
     fun exportAsJSONClick(composeTree: ComposeNode)
     fun onDownloadDesktopClick()
+    fun onPortraitClick()
+    fun onLandscapeClick()
+    fun onSmartphoneClick()
+    fun onTabletClick()
+    fun onDesktopClick()
 
     companion object {
         val Default = object : MainScreenBehavior {
@@ -85,6 +133,26 @@ interface MainScreenBehavior {
 
             override fun onDownloadDesktopClick() {
                 TODO("onDownloadDesktopClick is not implemented")
+            }
+
+            override fun onPortraitClick() {
+                TODO("onPortraitClick is not implemented")
+            }
+
+            override fun onLandscapeClick() {
+                TODO("onLandscapeClick is not implemented")
+            }
+
+            override fun onSmartphoneClick() {
+                TODO("onSmartphoneClick is not implemented")
+            }
+
+            override fun onTabletClick() {
+                TODO("onTabletClick is not implemented")
+            }
+
+            override fun onDesktopClick() {
+                TODO("onDesktopClick is not implemented")
             }
         }
     }
