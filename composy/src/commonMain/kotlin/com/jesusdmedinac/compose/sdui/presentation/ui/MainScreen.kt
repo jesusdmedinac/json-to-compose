@@ -54,9 +54,9 @@ data object MainScreen : Screen {
     @Composable
     override fun Content() {
         val screenModel = koinScreenModel<MainScreenModel>()
-        val state by screenModel.state.collectAsState()
-        val isLeftPanelDisplayed = state.isLeftPanelDisplayed
-        val isRightPanelDisplayed = state.isRightPanelDisplayed
+        val mainScreenState by screenModel.state.collectAsState()
+        val isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed
+        val isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed
         val mainScreenSideEffect by screenModel.sideEffect.collectAsState()
 
         val launcher = rememberFileSaverLauncher { file -> }
@@ -138,7 +138,7 @@ data object MainScreen : Screen {
         ) {
             MainScreenTopAppBar(
                 composeTreeState,
-                state,
+                mainScreenState,
                 screenModel
             )
             WindowWithPanels(
@@ -191,7 +191,8 @@ data object MainScreen : Screen {
                     .fillMaxSize()
             ) {
                 ComposePreview(
-                    composeNodeRoot,
+                    composeTreeState,
+                    mainScreenState,
                     onLeftPanelButtonClick = {
                         screenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
                     },
