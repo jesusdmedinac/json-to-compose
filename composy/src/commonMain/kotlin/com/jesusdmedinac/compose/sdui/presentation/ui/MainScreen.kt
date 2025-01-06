@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -230,7 +231,6 @@ data object MainScreen : Screen {
                     },
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.background)
                 )
             }
         }
@@ -250,7 +250,8 @@ fun ComposePreview(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.secondary)
+                .clip(MaterialTheme.shapes.extraLarge.copy(bottomStart = CornerSize(0.0.dp), bottomEnd = CornerSize(0.0.dp)))
+                .background(MaterialTheme.colorScheme.background)
                 .padding(8.dp)
         ) {
             IconButton(
@@ -265,7 +266,6 @@ fun ComposePreview(
                 Icon(
                     painterResource(Res.drawable.ic_menu),
                     contentDescription = "Open left panel",
-                    tint = Color.White
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -281,13 +281,13 @@ fun ComposePreview(
                 Icon(
                     painterResource(Res.drawable.ic_menu),
                     contentDescription = "Open right panel",
-                    tint = Color.White
                 )
             }
         }
         Box(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.tertiary)
+                .clip(MaterialTheme.shapes.extraLarge.copy(topStart = CornerSize(0.0.dp), topEnd = CornerSize(0.0.dp)))
+                .background(MaterialTheme.colorScheme.background)
                 .padding(8.dp)
                 .fillMaxSize()
         ) {
