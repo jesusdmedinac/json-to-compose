@@ -111,6 +111,8 @@ data class ComposeNode(
     val onClickEventName: String? = null,
     val children: List<ComposeNode>? = null,
     val composeModifier: ComposeModifier = ComposeModifier(),
+    @Transient
+    val editMode: Boolean = true,
 ) {
     val id: String = when {
         parent == null -> "${countLevels()}"

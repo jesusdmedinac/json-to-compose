@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -134,7 +136,6 @@ data object MainScreen : Screen {
                 title = {
                     Text(
                         text = "Composy",
-                        color = Color.White
                     )
                 },
                 actions = {
@@ -151,7 +152,6 @@ data object MainScreen : Screen {
                         ) {
                             Text(
                                 text = "Download Desktop App",
-                                color = Color.White
                             )
                         }
                     }
@@ -166,13 +166,13 @@ data object MainScreen : Screen {
                     ) {
                         Text(
                             text = "Export as JSON",
-                            color = Color.White
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1E1E1E),
-                    titleContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    actionIconContentColor = MaterialTheme.colorScheme.onSurface,
                 )
             )
             WindowWithPanels(
@@ -194,7 +194,7 @@ data object MainScreen : Screen {
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .weight(1f)
-                                    .background(MaterialTheme.colorScheme.background)
+                                    .background(MaterialTheme.colorScheme.surfaceContainer)
                                     .padding(8.dp)
                             )
                         },
@@ -205,7 +205,7 @@ data object MainScreen : Screen {
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .weight(1f)
-                                    .background(MaterialTheme.colorScheme.background)
+                                    .background(MaterialTheme.colorScheme.surfaceContainer)
                                     .padding(8.dp)
                             )
                         }
@@ -247,7 +247,12 @@ fun ComposePreview(
     Column(
         modifier = modifier
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.secondary)
+                .padding(8.dp)
+        ) {
             IconButton(
                 onClick = {
                     onLeftPanelButtonClick()
@@ -280,6 +285,13 @@ fun ComposePreview(
                 )
             }
         }
-        composeNodeRoot.ToCompose()
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.tertiary)
+                .padding(8.dp)
+                .fillMaxSize()
+        ) {
+            composeNodeRoot.ToCompose()
+        }
     }
 }

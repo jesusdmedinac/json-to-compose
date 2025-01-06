@@ -21,7 +21,7 @@ fun SplitColumn(
             content = top,
         )
         HorizontalDivider(
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onSurface
         )
         Bottom(
             modifier = modifier
