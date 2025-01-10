@@ -2,14 +2,11 @@ package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,35 +17,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Monitor
-import com.composables.icons.lucide.Smartphone
-import com.composables.icons.lucide.Tablet
 import com.jesusdmedinac.compose.sdui.Platform
 import com.jesusdmedinac.compose.sdui.getPlatform
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsSideEffect
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.Orientation
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeComponents
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeEditor
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeTree
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposePreview
-import com.jesusdmedinac.compose.sdui.presentation.ui.composable.IconTabBar
-import com.jesusdmedinac.compose.sdui.presentation.ui.composable.SelectionOption
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.SplitColumn
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.WindowWithPanels
 import com.jesusdmedinac.jsontocompose.ComposeNode
@@ -59,11 +47,11 @@ data object MainScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val screenModel = koinScreenModel<MainScreenModel>()
-        val mainScreenState by screenModel.state.collectAsState()
+        val mainScreenModel = koinScreenModel<MainScreenModel>()
+        val mainScreenState by mainScreenModel.state.collectAsState()
         val isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed
         val isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed
-        val mainScreenSideEffect by screenModel.sideEffect.collectAsState()
+        val mainScreenSideEffect by mainScreenModel.sideEffect.collectAsState()
 
         val launcher = rememberFileSaverLauncher { file -> }
         LaunchedEffect(mainScreenSideEffect) {
@@ -93,12 +81,12 @@ data object MainScreen : Screen {
         val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
 
         LaunchedEffect(selectedComposeNode) {
-            screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
+            mainScreenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
             editNodeScreenModel.onComposeNodeSelected(selectedComposeNode)
         }
 
         LaunchedEffect(selectedComposeNodeOnEditor) {
-            screenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNodeOnEditor != null)
+            mainScreenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNodeOnEditor != null)
             composeTreeScreenModel.onComposeNodeSelected(selectedComposeNodeOnEditor)
         }
 
@@ -145,16 +133,16 @@ data object MainScreen : Screen {
             MainScreenTopAppBar(
                 composeTreeState,
                 mainScreenState,
-                screenModel
+                mainScreenModel
             )
             WindowWithPanels(
                 isLeftPanelDisplayed,
                 onLeftPanelClosed = {
-                    screenModel.onDisplayLeftPanelChange(false)
+                    mainScreenModel.onDisplayLeftPanelChange(false)
                 },
                 isRightPanelDisplayed,
                 onRightPanelClosed = {
-                    screenModel.onDisplayRightPanelChange(false)
+                    mainScreenModel.onDisplayRightPanelChange(false)
                 },
                 leftPanelContent = {
                     SplitColumn(
@@ -199,11 +187,12 @@ data object MainScreen : Screen {
                 ComposePreview(
                     composeTreeState,
                     mainScreenState,
+                    mainScreenModel,
                     onLeftPanelButtonClick = {
-                        screenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
+                        mainScreenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
                     },
                     onRightPanelButtonClick = {
-                        screenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
+                        mainScreenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -243,80 +232,6 @@ private fun MainScreenTopAppBar(
                     )
                 }
             }
-            IconTabBar(
-                selectedIndex = when (mainScreenState.orientation) {
-                    Orientation.Portrait -> 0
-                    Orientation.Landscape -> 1
-                },
-                options = listOf(
-                    SelectionOption(
-                        onClick = {
-                            mainScreenBehavior.onPortraitClick()
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Lucide.Smartphone,
-                                contentDescription = "Portrait",
-                            )
-                        }
-                    ),
-                    SelectionOption(
-                        onClick = {
-                            mainScreenBehavior.onLandscapeClick()
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Lucide.Smartphone,
-                                contentDescription = "Horizontal",
-                                modifier = Modifier.rotate(90f),
-                            )
-                        }
-                    )
-                )
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            IconTabBar(
-                selectedIndex = when (mainScreenState.deviceType) {
-                    DeviceType.Smartphone -> 0
-                    DeviceType.Tablet -> 1
-                    DeviceType.Desktop -> 2
-                },
-                options = listOf(
-                    SelectionOption(
-                        onClick = {
-                            mainScreenBehavior.onSmartphoneClick()
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Lucide.Smartphone,
-                                contentDescription = "Smartphone",
-                            )
-                        }
-                    ),
-                    SelectionOption(
-                        onClick = {
-                            mainScreenBehavior.onTabletClick()
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Lucide.Tablet,
-                                contentDescription = "Tablet",
-                            )
-                        }
-                    ),
-                    SelectionOption(
-                        onClick = {
-                            mainScreenBehavior.onDesktopClick()
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Lucide.Monitor,
-                                contentDescription = "Desktop",
-                            )
-                        }
-                    )
-                )
-            )
             Button(
                 onClick = {
                     mainScreenBehavior.exportAsJSONClick(composeTreeState.composeNodeRoot)
