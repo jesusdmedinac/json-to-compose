@@ -47,6 +47,7 @@ fun ComposePreview(
 ) {
     Column(
         modifier = modifier
+            .background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
         Row(
             modifier = Modifier
@@ -57,7 +58,7 @@ fun ComposePreview(
                         bottomEnd = CornerSize(0.0.dp)
                     )
                 )
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(8.dp)
         ) {
             IconButton(
