@@ -116,11 +116,8 @@ fun ComposePreview(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .background(MaterialTheme.colorScheme.surfaceContainer),
         ) {
-            var isAbleToScrollOnY by remember { mutableStateOf(true) }
-            var isAbleToScrollOnX by remember { mutableStateOf(true) }
-
             var xOffset by remember { mutableStateOf(0f) }
             var yOffset by remember { mutableStateOf(0f) }
             var layoutSize by remember { mutableStateOf(IntSize.Zero) }

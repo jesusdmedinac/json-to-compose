@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
 import com.jesusdmedinac.jsontocompose.ToCompose
@@ -40,6 +42,7 @@ fun DeviceLayer(
     mainScreenState: MainScreenState,
     modifier: Modifier = Modifier
 ) {
+    val deviceType = mainScreenState.deviceType
     val deviceSize = mainScreenState.deviceSize
     Box(
         modifier = modifier,
@@ -57,5 +60,12 @@ fun DeviceLayer(
         ) {
             composeTreeState.composeNodeRoot.ToCompose()
         }
+        Text(
+            text = with(deviceSize) { "$deviceType: $width x $height" },
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .offset(y = -with(deviceSize) { (height / 2).dp } - with(LocalDensity.current) { MaterialTheme.typography.bodyLarge.fontSize.toDp() }),
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
