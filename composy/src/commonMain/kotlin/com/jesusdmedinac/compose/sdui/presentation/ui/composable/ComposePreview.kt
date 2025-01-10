@@ -12,17 +12,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,9 +30,18 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasurePolicy
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.MeasureScope
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEachIndexed
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Monitor
 import com.composables.icons.lucide.Smartphone
@@ -45,6 +54,7 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
 import org.jetbrains.compose.resources.painterResource
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 @Composable
@@ -56,6 +66,9 @@ fun ComposePreview(
     onRightPanelButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val deviceSize = mainScreenState.deviceSize
+    val deviceType = mainScreenState.deviceType
+    val deviceOrientation = mainScreenState.deviceOrientation
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.surfaceContainer)
@@ -106,9 +119,22 @@ fun ComposePreview(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            val xOffset = remember { mutableStateOf(0f) }
-            val yOffset = remember { mutableStateOf(0f) }
+            var xOffset by remember { mutableStateOf(0f) }
+            var yOffset by remember { mutableStateOf(0f) }
+
             Box(
+                content = {
+                    DeviceLayer(
+                        composeTreeState,
+                        mainScreenState,
+                        modifier = modifier
+                            .fillMaxSize()
+                            .offset(
+                                x = xOffset.roundToInt().dp,
+                                y = yOffset.roundToInt().dp,
+                            )
+                    )
+                },
                 modifier = Modifier
                     .clip(
                         MaterialTheme.shapes.extraLarge.copy(
@@ -121,29 +147,25 @@ fun ComposePreview(
                     .scrollable(
                         orientation = Orientation.Vertical,
                         state = rememberScrollableState { delta ->
-                            yOffset.value += delta
+                            val newYOffset = yOffset + delta
+                            val halfOfDeviceHeight = deviceSize.height / 2
+                            if (newYOffset >= -halfOfDeviceHeight && newYOffset <= halfOfDeviceHeight)
+                                yOffset = newYOffset
                             delta
                         }
                     )
                     .scrollable(
                         orientation = Orientation.Horizontal,
                         state = rememberScrollableState { delta ->
-                            xOffset.value += delta
+                            val newXOffset = xOffset + delta
+                            val halfOfDeviceWidth = deviceSize.width / 2
+                            if (newXOffset >= -halfOfDeviceWidth && newXOffset <= halfOfDeviceWidth)
+                                xOffset = newXOffset
                             delta
                         }
                     ),
-            ) {
-                DeviceLayer(
-                    composeTreeState,
-                    mainScreenState,
-                    modifier = modifier
-                        .fillMaxSize()
-                        .offset(
-                            x = xOffset.value.roundToInt().dp,
-                            y = yOffset.value.roundToInt().dp
-                        )
-                )
-            }
+                contentAlignment = Alignment.Center
+            )
             Row(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -152,12 +174,12 @@ fun ComposePreview(
                     .background(MaterialTheme.colorScheme.surfaceContainer)
                     .padding(2.dp)
             ) {
-                Text(xOffset.value.toString())
+                Text(xOffset.toString())
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(yOffset.value.toString())
+                Text(yOffset.toString())
                 Spacer(modifier = Modifier.width(4.dp))
                 IconTabBar(
-                    selectedIndex = when (mainScreenState.deviceOrientation) {
+                    selectedIndex = when (deviceOrientation) {
                         DeviceOrientation.Portrait -> 0
                         DeviceOrientation.Landscape -> 1
                     },
@@ -189,7 +211,7 @@ fun ComposePreview(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 IconTabBar(
-                    selectedIndex = when (mainScreenState.deviceType) {
+                    selectedIndex = when (deviceType) {
                         DeviceType.Smartphone -> 0
                         DeviceType.Tablet -> 1
                         DeviceType.Desktop -> 2

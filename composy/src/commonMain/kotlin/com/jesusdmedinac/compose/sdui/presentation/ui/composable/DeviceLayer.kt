@@ -12,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
 import com.jesusdmedinac.jsontocompose.ToCompose
 
 @Composable
