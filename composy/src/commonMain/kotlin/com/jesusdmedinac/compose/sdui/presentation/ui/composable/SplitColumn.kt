@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui.presentation.ui
+package com.jesusdmedinac.compose.sdui.presentation.ui.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.HorizontalDivider

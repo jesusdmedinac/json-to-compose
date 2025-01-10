@@ -1,7 +1,6 @@
-package com.jesusdmedinac.compose.sdui.presentation.ui
+package com.jesusdmedinac.compose.sdui.presentation.ui.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,32 +8,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.Orientation
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
-import com.jesusdmedinac.jsontocompose.ComposeNode
-import com.jesusdmedinac.jsontocompose.ToCompose
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -106,44 +97,11 @@ fun ComposePreview(
                 .verticalScroll(stateVertical)
                 .horizontalScroll(stateHorizontal)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(1048.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.small)
-                        .padding(8.dp)
-                        .run {
-                            when (mainScreenState.deviceType to mainScreenState.orientation) {
-                                DeviceType.Smartphone to Orientation.Portrait -> this
-                                    .width(412.dp)
-                                    .height(917.dp)
-                                DeviceType.Smartphone to Orientation.Landscape -> this
-                                    .width(917.dp)
-                                    .height(412.dp)
-                                DeviceType.Tablet to Orientation.Portrait -> this
-                                    .width(800.dp)
-                                    .height(1280.dp)
-                                DeviceType.Tablet to Orientation.Landscape -> this
-                                    .width(1280.dp)
-                                    .height(800.dp)
-                                DeviceType.Desktop to Orientation.Portrait -> this
-                                    .width(1024.dp)
-                                    .height(1440.dp)
-                                DeviceType.Desktop to Orientation.Landscape -> this
-                                    .width(1440.dp)
-                                    .height(1024.dp)
-
-                                else -> this
-                            }
-                        }
-                        .background(MaterialTheme.colorScheme.background),
-                ) {
-                    composeTreeState.composeNodeRoot.ToCompose()
-                }
-            }
+            DeviceLayer(
+                composeTreeState,
+                mainScreenState,
+                modifier = modifier.size(1048.dp)
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui.presentation.ui
+package com.jesusdmedinac.compose.sdui.presentation.ui.composable
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
