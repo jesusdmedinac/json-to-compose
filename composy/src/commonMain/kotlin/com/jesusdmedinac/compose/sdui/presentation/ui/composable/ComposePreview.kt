@@ -6,13 +6,18 @@ import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.Text
 import androidx.compose.material3.Icon
@@ -30,18 +35,9 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.MeasurePolicy
-import androidx.compose.ui.layout.MeasureResult
-import androidx.compose.ui.layout.MeasureScope
-import androidx.compose.ui.layout.Placeable
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.fastForEachIndexed
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Monitor
 import com.composables.icons.lucide.Smartphone
@@ -54,7 +50,6 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
 import org.jetbrains.compose.resources.painterResource
-import kotlin.math.max
 import kotlin.math.roundToInt
 
 @Composable
@@ -67,6 +62,9 @@ fun ComposePreview(
     modifier: Modifier = Modifier
 ) {
     val deviceSize = mainScreenState.deviceSize
+    val density = LocalDensity.current
+    val halfOfDeviceHeight = (with(density) { deviceSize.height.dp.toPx() / 2 }).roundToInt()
+    val halfOfDeviceWidth = (with(density) { deviceSize.width.dp.toPx() / 2 }).roundToInt()
     val deviceType = mainScreenState.deviceType
     val deviceOrientation = mainScreenState.deviceOrientation
     Column(
@@ -118,24 +116,38 @@ fun ComposePreview(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
+            var isAbleToScrollOnY by remember { mutableStateOf(true) }
+            var isAbleToScrollOnX by remember { mutableStateOf(true) }
+
             var xOffset by remember { mutableStateOf(0f) }
             var yOffset by remember { mutableStateOf(0f) }
+            var layoutSize by remember { mutableStateOf(IntSize.Zero) }
+            val halfOfLayoutHeight = layoutSize.height / 2
+            val halfOfLayoutWidth = layoutSize.width / 2
+            val yOffsetLimit = if (deviceSize.height > layoutSize.height) halfOfLayoutHeight
+            else halfOfDeviceHeight
+            val xOffsetLimit = if (deviceSize.width > layoutSize.width) halfOfLayoutWidth
+            else halfOfDeviceWidth
 
-            Box(
+            BoxWithSizeListener(
                 content = {
                     DeviceLayer(
                         composeTreeState,
                         mainScreenState,
-                        modifier = modifier
-                            .fillMaxSize()
+                        modifier = Modifier
                             .offset(
                                 x = xOffset.roundToInt().dp,
                                 y = yOffset.roundToInt().dp,
                             )
                     )
                 },
+                onSizeChanged = { size ->
+                    layoutSize = size
+                },
                 modifier = Modifier
+                    .fillMaxSize()
                     .clip(
                         MaterialTheme.shapes.extraLarge.copy(
                             topStart = CornerSize(0.0.dp),
@@ -143,14 +155,22 @@ fun ComposePreview(
                         )
                     )
                     .background(MaterialTheme.colorScheme.surfaceDim)
-                    .fillMaxSize()
                     .scrollable(
                         orientation = Orientation.Vertical,
                         state = rememberScrollableState { delta ->
                             val newYOffset = yOffset + delta
-                            val halfOfDeviceHeight = deviceSize.height / 2
-                            if (newYOffset >= -halfOfDeviceHeight && newYOffset <= halfOfDeviceHeight)
-                                yOffset = newYOffset
+                            when {
+                                newYOffset >= -yOffsetLimit && newYOffset <= yOffsetLimit -> {
+                                    yOffset = newYOffset
+                                }
+                                delta > 0 -> {
+                                    yOffset = yOffsetLimit.toFloat()
+                                }
+                                delta < 0 -> {
+                                    yOffset = -yOffsetLimit.toFloat()
+                                }
+                            }
+
                             delta
                         }
                     )
@@ -158,9 +178,17 @@ fun ComposePreview(
                         orientation = Orientation.Horizontal,
                         state = rememberScrollableState { delta ->
                             val newXOffset = xOffset + delta
-                            val halfOfDeviceWidth = deviceSize.width / 2
-                            if (newXOffset >= -halfOfDeviceWidth && newXOffset <= halfOfDeviceWidth)
-                                xOffset = newXOffset
+                            when {
+                                newXOffset >= -xOffsetLimit && newXOffset <= xOffsetLimit -> {
+                                    xOffset = newXOffset
+                                }
+                                delta > 0 -> {
+                                    xOffset = xOffsetLimit.toFloat()
+                                }
+                                delta < 0 -> {
+                                    xOffset = -xOffsetLimit.toFloat()
+                                }
+                            }
                             delta
                         }
                     ),
@@ -174,10 +202,6 @@ fun ComposePreview(
                     .background(MaterialTheme.colorScheme.surfaceContainer)
                     .padding(2.dp)
             ) {
-                Text(xOffset.toString())
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(yOffset.toString())
-                Spacer(modifier = Modifier.width(4.dp))
                 IconTabBar(
                     selectedIndex = when (deviceOrientation) {
                         DeviceOrientation.Portrait -> 0

@@ -31,7 +31,6 @@ fun main() {
             state = WindowState(
                 placement = WindowPlacement.Maximized,
             ),
-            resizable = false,
             icon = appIcon
         ) {
             App()
