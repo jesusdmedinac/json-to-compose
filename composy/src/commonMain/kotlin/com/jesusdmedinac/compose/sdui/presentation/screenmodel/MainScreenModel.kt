@@ -1,5 +1,8 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.jesusdmedinac.jsontocompose.ComposeNode
@@ -49,13 +52,13 @@ class MainScreenModel : ScreenModel, MainScreenBehavior {
 
     override fun onPortraitClick() {
         _state.update { state ->
-            state.copy(orientation = Orientation.Portrait)
+            state.copy(deviceOrientation = DeviceOrientation.Portrait)
         }
     }
 
     override fun onLandscapeClick() {
         _state.update { state ->
-            state.copy(orientation = Orientation.Landscape)
+            state.copy(deviceOrientation = DeviceOrientation.Landscape)
         }
     }
 
@@ -82,10 +85,26 @@ data class MainScreenState(
     val isLeftPanelDisplayed: Boolean = true,
     val isRightPanelDisplayed: Boolean = false,
     val deviceType: DeviceType = DeviceType.Smartphone,
-    val orientation: Orientation = Orientation.Portrait,
+    val deviceOrientation: DeviceOrientation = DeviceOrientation.Portrait,
+) {
+    val deviceSize: DeviceSize = when (deviceType to deviceOrientation) {
+        DeviceType.Smartphone to DeviceOrientation.Portrait -> DeviceSize(412, 917)
+        DeviceType.Smartphone to DeviceOrientation.Landscape -> DeviceSize(917, 412)
+        DeviceType.Tablet to DeviceOrientation.Portrait -> DeviceSize(800, 1280)
+        DeviceType.Tablet to DeviceOrientation.Landscape -> DeviceSize(1280, 800)
+        DeviceType.Desktop to DeviceOrientation.Portrait -> DeviceSize(1024, 1440)
+        DeviceType.Desktop to DeviceOrientation.Landscape -> DeviceSize(1440, 1024)
+
+        else -> DeviceSize()
+    }
+}
+
+data class DeviceSize(
+    val width: Int = 0,
+    val height: Int = 0,
 )
 
-enum class Orientation {
+enum class DeviceOrientation {
     Portrait,
     Landscape,
 }

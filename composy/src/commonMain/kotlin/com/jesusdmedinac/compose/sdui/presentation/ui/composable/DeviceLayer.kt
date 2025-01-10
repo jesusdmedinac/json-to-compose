@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.Orientation
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
 import com.jesusdmedinac.jsontocompose.ToCompose
 
 @Composable
@@ -32,27 +32,10 @@ fun DeviceLayer(
                 .clip(MaterialTheme.shapes.small)
                 .padding(8.dp)
                 .run {
-                    when (mainScreenState.deviceType to mainScreenState.orientation) {
-                        DeviceType.Smartphone to Orientation.Portrait -> this
-                            .width(412.dp)
-                            .height(917.dp)
-                        DeviceType.Smartphone to Orientation.Landscape -> this
-                            .width(917.dp)
-                            .height(412.dp)
-                        DeviceType.Tablet to Orientation.Portrait -> this
-                            .width(800.dp)
-                            .height(1280.dp)
-                        DeviceType.Tablet to Orientation.Landscape -> this
-                            .width(1280.dp)
-                            .height(800.dp)
-                        DeviceType.Desktop to Orientation.Portrait -> this
-                            .width(1024.dp)
-                            .height(1440.dp)
-                        DeviceType.Desktop to Orientation.Landscape -> this
-                            .width(1440.dp)
-                            .height(1024.dp)
-
-                        else -> this
+                    with(mainScreenState.deviceSize) {
+                        this@run
+                            .width(width.dp)
+                            .height(height.dp)
                     }
                 }
                 .background(MaterialTheme.colorScheme.background),

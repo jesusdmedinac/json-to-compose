@@ -1,30 +1,38 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Monitor
 import com.composables.icons.lucide.Smartphone
@@ -33,10 +41,11 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.Orientation
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
 import org.jetbrains.compose.resources.painterResource
+import kotlin.math.roundToInt
 
 @Composable
 fun ComposePreview(
@@ -97,8 +106,8 @@ fun ComposePreview(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            val stateHorizontal = rememberScrollState()
-            val stateVertical = rememberScrollState()
+            val xOffset = remember { mutableStateOf(0f) }
+            val yOffset = remember { mutableStateOf(0f) }
             Box(
                 modifier = Modifier
                     .clip(
@@ -109,14 +118,30 @@ fun ComposePreview(
                     )
                     .background(MaterialTheme.colorScheme.surfaceDim)
                     .fillMaxSize()
-                    .verticalScroll(stateVertical)
-                    .horizontalScroll(stateHorizontal),
-                contentAlignment = Alignment.Center,
+                    .scrollable(
+                        orientation = Orientation.Vertical,
+                        state = rememberScrollableState { delta ->
+                            yOffset.value += delta
+                            delta
+                        }
+                    )
+                    .scrollable(
+                        orientation = Orientation.Horizontal,
+                        state = rememberScrollableState { delta ->
+                            xOffset.value += delta
+                            delta
+                        }
+                    ),
             ) {
                 DeviceLayer(
                     composeTreeState,
                     mainScreenState,
-                    modifier = modifier.size(1048.dp)
+                    modifier = modifier
+                        .fillMaxSize()
+                        .offset(
+                            x = xOffset.value.roundToInt().dp,
+                            y = yOffset.value.roundToInt().dp
+                        )
                 )
             }
             Row(
@@ -127,10 +152,14 @@ fun ComposePreview(
                     .background(MaterialTheme.colorScheme.surfaceContainer)
                     .padding(2.dp)
             ) {
+                Text(xOffset.value.toString())
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(yOffset.value.toString())
+                Spacer(modifier = Modifier.width(4.dp))
                 IconTabBar(
-                    selectedIndex = when (mainScreenState.orientation) {
-                        Orientation.Portrait -> 0
-                        Orientation.Landscape -> 1
+                    selectedIndex = when (mainScreenState.deviceOrientation) {
+                        DeviceOrientation.Portrait -> 0
+                        DeviceOrientation.Landscape -> 1
                     },
                     options = listOf(
                         SelectionOption(
