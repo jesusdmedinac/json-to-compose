@@ -36,6 +36,9 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.koin.koinNavigatorScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.Columns3
 import com.composables.icons.lucide.Lucide
@@ -48,10 +51,12 @@ import com.jesusdmedinac.jsontocompose.ComposeType
 
 @Composable
 fun ComposeComponents(
-    screenModel: ComposeComponentsScreenModel,
     modifier: Modifier = Modifier
 ) {
-    val state by screenModel.state.collectAsState()
+    val navigator = LocalNavigator.currentOrThrow
+    val composeComponentsScreenModel: ComposeComponentsScreenModel =
+        navigator.koinNavigatorScreenModel()
+    val state by composeComponentsScreenModel.state.collectAsState()
     var keyword by remember { mutableStateOf(TextFieldValue("")) }
     Column(
         modifier = modifier
@@ -60,7 +65,7 @@ fun ComposeComponents(
             value = keyword,
             onValueChange = {
                 keyword = it
-                screenModel.onKeywordChanged(it.text)
+                composeComponentsScreenModel.onKeywordChanged(it.text)
             },
             label = {
                 Text("Find a component")
@@ -87,7 +92,7 @@ fun ComposeComponents(
                 ComposeComponent(
                     type,
                     onClick = {
-                        screenModel.onComposeTypeClick(type)
+                        composeComponentsScreenModel.onComposeTypeClick(type)
                     }
                 )
             }

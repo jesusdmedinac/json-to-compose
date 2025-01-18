@@ -187,7 +187,6 @@ data object MainScreen : Screen {
                             .fillMaxSize(),
                         top = { modifier ->
                             ComposeComponents(
-                                screenModel = composeComponentsScreenModel,
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .weight(1f)
