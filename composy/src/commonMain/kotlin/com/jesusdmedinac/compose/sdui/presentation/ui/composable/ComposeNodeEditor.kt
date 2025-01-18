@@ -28,6 +28,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,19 +40,24 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.koin.koinNavigatorScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
 import com.jesusdmedinac.jsontocompose.ComposeModifier
 import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.ModifierOperation
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ComposeNodeEditor(
-    editNodeState: EditNodeScreenState,
-    editNodeBehavior: EditNodeBehavior,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
+    val editNodeScreenModel: EditNodeScreenModel = navigator.koinNavigatorScreenModel()
+    val editNodeState by editNodeScreenModel.state.collectAsState()
+
     val selectedComposeNode = editNodeState.selectedComposeNode
     val editingComposeNode = editNodeState.editingComposeNode
 
@@ -72,7 +78,7 @@ fun ComposeNodeEditor(
             ) {
                 IconButton(
                     onClick = {
-                        editNodeBehavior.onComposeNodeSelected(null)
+                        editNodeScreenModel.onComposeNodeSelected(null)
                     },
                     modifier = Modifier
                         .pointerHoverIcon(
@@ -88,21 +94,21 @@ fun ComposeNodeEditor(
         }
         composeTypeDropdownMenu(
             editNodeState = editNodeState,
-            editNodeBehavior = editNodeBehavior
+            editNodeBehavior = editNodeScreenModel
         )
         composeTextTextField(
             editNodeState = editNodeState,
-            editNodeBehavior = editNodeBehavior
+            editNodeBehavior = editNodeScreenModel
         )
         composeModifierFields(
             editNodeState = editNodeState,
-            editNodeBehavior = editNodeBehavior
+            editNodeBehavior = editNodeScreenModel
         )
     }
 }
 
 @Composable
-fun NoComposeNodeSelected(
+private fun NoComposeNodeSelected(
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -117,7 +123,7 @@ fun NoComposeNodeSelected(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-fun LazyListScope.composeTypeDropdownMenu(
+private fun LazyListScope.composeTypeDropdownMenu(
     editNodeState: EditNodeScreenState,
     editNodeBehavior: EditNodeBehavior,
 ) {
@@ -185,7 +191,7 @@ fun LazyListScope.composeTypeDropdownMenu(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-fun LazyListScope.composeTextTextField(
+private fun LazyListScope.composeTextTextField(
     editNodeState: EditNodeScreenState,
     editNodeBehavior: EditNodeBehavior,
 ) {
@@ -223,7 +229,7 @@ fun LazyListScope.composeTextTextField(
 }
 
 @OptIn(ExperimentalMaterialApi::class)
-fun LazyListScope.composeModifierFields(
+private fun LazyListScope.composeModifierFields(
     editNodeState: EditNodeScreenState,
     editNodeBehavior: EditNodeBehavior,
 ) {
@@ -296,7 +302,7 @@ fun LazyListScope.composeModifierFields(
 }
 
 @Composable
-fun ComposeModifier.Operation.ToComposeModifierOperation(
+private fun ComposeModifier.Operation.ToComposeModifierOperation(
     operationIndex: Int,
     modifier: Modifier = Modifier,
     editNodeBehavior: EditNodeBehavior,
