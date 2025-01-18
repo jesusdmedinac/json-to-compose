@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -16,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -27,11 +30,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -290,25 +296,33 @@ private fun MainScreenTopAppBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SessionAction(
+private fun SessionAction(
     authState: AuthState,
     authBehavior: AuthBehavior,
 ) {
-    val navigator = LocalNavigator.currentOrThrow
     var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
     ) {
-        IconButton(
+        OutlinedIconButton(
             onClick = {
                 expanded = true
-            }
+            },
         ) {
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "Session"
+            Text(
+                text = when (authState) {
+                    is AuthState.Authenticated -> authState.user?.email?.firstOrNull().toString()
+                        .uppercase()
+
+                    else -> "?"
+                },
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .padding(8.dp),
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
             )
         }
         DropdownMenu(
