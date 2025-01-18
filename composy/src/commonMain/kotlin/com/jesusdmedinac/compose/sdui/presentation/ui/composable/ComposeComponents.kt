@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +36,13 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Box
+import com.composables.icons.lucide.Columns3
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.MousePointerClick
+import com.composables.icons.lucide.Rows2
+import com.composables.icons.lucide.Rows3
+import com.composables.icons.lucide.Text
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.jsontocompose.ComposeType
 
@@ -132,11 +140,24 @@ fun ComposeComponent(
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Icon(
+            imageVector = when (type) {
+                ComposeType.Column -> Lucide.Rows3
+                ComposeType.Row -> Lucide.Columns3
+                ComposeType.Box -> Lucide.Box
+                ComposeType.Text -> Lucide.Text
+                ComposeType.Button -> Lucide.MousePointerClick
+            },
+            contentDescription = type.name
+        )
+        Spacer(
+            modifier = Modifier.width(8.dp)
+        )
         Text(
             text = type.name,
             color = when {
-                isHovered -> MaterialTheme.colorScheme.background
-                else -> MaterialTheme.colorScheme.onBackground
+                isHovered -> MaterialTheme.colorScheme.onBackground
+                else -> MaterialTheme.colorScheme.onSurface
             },
         )
     }
