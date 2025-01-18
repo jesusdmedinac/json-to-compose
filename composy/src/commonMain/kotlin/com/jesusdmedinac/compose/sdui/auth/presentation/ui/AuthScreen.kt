@@ -48,16 +48,20 @@ object AuthScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val authScreenModel = koinScreenModel<AuthScreenModel>()
         val state by authScreenModel.state.collectAsState()
-        val isLoggedIn = state.user != null
         val isLoading = state.isLoading
 
         LaunchedEffect(Unit) {
             authScreenModel.onLoad()
         }
 
-        LaunchedEffect(isLoggedIn) {
-            if (isLoggedIn) {
-                navigator.replace(MainScreen)
+        LaunchedEffect(state) {
+            when (state) {
+                is AuthState.Authenticated -> {
+                    navigator.replace(MainScreen)
+                }
+
+                is AuthState.Idle,
+                is AuthState.UnAuthenticated -> Unit
             }
         }
 
@@ -73,11 +77,21 @@ object AuthScreen : Screen {
 
     @Composable
     private fun SignInOrSignUp(
-        authState: AuthState = AuthState(),
+        authState: AuthState = AuthState.Idle(),
         authBehavior: AuthBehavior = AuthBehavior.Default
     ) {
         var emailTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
         var passwordTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
+
+        val unAuthenticated = when (authState) {
+            is AuthState.UnAuthenticated -> authState
+            else -> AuthState.UnAuthenticated()
+        }
+        val haveAccount = unAuthenticated.haveAccount
+        val error = unAuthenticated.error
+        val isValidEmail = unAuthenticated.isValidEmail
+        val isValidPassword = unAuthenticated.isValidPassword
+        val passwordVisible = unAuthenticated.passwordVisible
 
         ComposyTheme {
             Box(
@@ -90,7 +104,7 @@ object AuthScreen : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = if (authState.haveAccount) "Sign in"
+                        text = if (haveAccount) "Sign in"
                         else "Sign up",
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -124,26 +138,26 @@ object AuthScreen : Screen {
                                 },
                             ) {
                                 Icon(
-                                    imageVector = if (authState.passwordVisible) Lucide.Eye
+                                    imageVector = if (passwordVisible) Lucide.Eye
                                     else Lucide.EyeOff,
                                     contentDescription = "Password visibility",
                                     tint = MaterialTheme.colorScheme.onBackground
                                 )
                             }
                         },
-                        visualTransformation = if (authState.passwordVisible) VisualTransformation.None
+                        visualTransformation = if (passwordVisible) VisualTransformation.None
                         else PasswordVisualTransformation(),
-                        keyboardOptions = if (authState.passwordVisible) KeyboardOptions.Default
+                        keyboardOptions = if (passwordVisible) KeyboardOptions.Default
                         else KeyboardOptions(keyboardType = KeyboardType.Password),
                     )
                     OutlinedButton(
                         onClick = {
                             authBehavior.authenticate()
                         },
-                        enabled = authState.isValidEmail && authState.isValidPassword
+                        enabled = isValidEmail && isValidPassword
                     ) {
                         Text(
-                            text = if (authState.haveAccount) "Sign in"
+                            text = if (haveAccount) "Sign in"
                             else "Sign up"
                         )
                     }
@@ -151,7 +165,7 @@ object AuthScreen : Screen {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = if (authState.haveAccount) "Don't have an account?"
+                            text = if (haveAccount) "Don't have an account?"
                             else "Already have an account?",
                             color = MaterialTheme.colorScheme.onBackground
                         )
@@ -161,7 +175,7 @@ object AuthScreen : Screen {
                             }
                         ) {
                             Text(
-                                text = if (authState.haveAccount) "Sign up"
+                                text = if (haveAccount) "Sign up"
                                 else "Login"
                             )
                         }
@@ -171,7 +185,7 @@ object AuthScreen : Screen {
                         )
                     }
                     Text(
-                        text = authState.error ?: "",
+                        text = error ?: "",
                         color = MaterialTheme.colorScheme.error
                     )
                 }

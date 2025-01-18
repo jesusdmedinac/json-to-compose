@@ -1,12 +1,20 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -16,13 +24,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.jesusdmedinac.compose.sdui.Platform
+import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
+import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
+import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthState
+import com.jesusdmedinac.compose.sdui.auth.presentation.ui.AuthScreen
 import com.jesusdmedinac.compose.sdui.getPlatform
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsSideEffect
@@ -47,6 +66,7 @@ data object MainScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val mainScreenModel = koinScreenModel<MainScreenModel>()
         val mainScreenState by mainScreenModel.state.collectAsState()
         val isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed
@@ -80,6 +100,9 @@ data object MainScreen : Screen {
         val editNodeState by editNodeScreenModel.state.collectAsState()
         val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
 
+        val authScreenModel = koinScreenModel<AuthScreenModel>()
+        val authState by authScreenModel.state.collectAsState()
+
         LaunchedEffect(selectedComposeNode) {
             mainScreenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
             editNodeScreenModel.onComposeNodeSelected(selectedComposeNode)
@@ -95,6 +118,13 @@ data object MainScreen : Screen {
         }
 
         LaunchedEffect(composeNodeRoot) {
+        }
+
+        LaunchedEffect(authState) {
+            when (authState) {
+                is AuthState.Idle -> navigator.replace(AuthScreen)
+                else -> Unit
+            }
         }
 
         LaunchedEffect(composeComponentsSideEffect) {
@@ -132,8 +162,9 @@ data object MainScreen : Screen {
         ) {
             MainScreenTopAppBar(
                 composeTreeState,
-                mainScreenState,
-                mainScreenModel
+                authState,
+                mainScreenModel,
+                authScreenModel
             )
             WindowWithPanels(
                 isLeftPanelDisplayed,
@@ -206,8 +237,9 @@ data object MainScreen : Screen {
 @Composable
 private fun MainScreenTopAppBar(
     composeTreeState: ComposeTreeState,
-    mainScreenState: MainScreenState,
+    authState: AuthState,
     mainScreenBehavior: MainScreenBehavior,
+    authBehavior: AuthBehavior
 ) {
     TopAppBar(
         title = {
@@ -245,6 +277,10 @@ private fun MainScreenTopAppBar(
                     text = "Export as JSON",
                 )
             }
+            SessionAction(
+                authState = authState,
+                authBehavior = authBehavior
+            )
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -252,4 +288,44 @@ private fun MainScreenTopAppBar(
             actionIconContentColor = MaterialTheme.colorScheme.onSurface,
         )
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SessionAction(
+    authState: AuthState,
+    authBehavior: AuthBehavior,
+) {
+    val navigator = LocalNavigator.currentOrThrow
+    var expanded by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier
+    ) {
+        IconButton(
+            onClick = {
+                expanded = true
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Person,
+                contentDescription = "Session"
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = false
+            }
+        ) {
+            DropdownMenuItem(
+                onClick = {
+                    authBehavior.logout()
+                }
+            ) {
+                Text(
+                    text = "Logout"
+                )
+            }
+        }
+    }
 }

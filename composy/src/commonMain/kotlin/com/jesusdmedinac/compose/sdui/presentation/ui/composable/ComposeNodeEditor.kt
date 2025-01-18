@@ -132,7 +132,9 @@ fun LazyListScope.composeTypeDropdownMenu(
         ) {
             ExposedDropdownMenuBox(
                 expanded = isComposeTypeMenuExpanded,
-                onExpandedChange = { editNodeBehavior.onComposeTypeMenuExpandedChange(true) },
+                onExpandedChange = { isExpanded ->
+                    editNodeBehavior.onComposeTypeMenuExpandedChange(isExpanded)
+                },
             ) {
                 OutlinedTextField(
                     readOnly = true,
