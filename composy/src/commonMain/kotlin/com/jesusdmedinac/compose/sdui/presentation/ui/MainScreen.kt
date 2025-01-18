@@ -196,8 +196,6 @@ data object MainScreen : Screen {
                         },
                         bottom = { modifier ->
                             ComposeNodeTree(
-                                composeNodeRoot,
-                                composeTreeScreenModel,
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .weight(1f)

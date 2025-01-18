@@ -140,8 +140,6 @@ fun ComposePreview(
             BoxWithSizeListener(
                 content = {
                     DeviceLayer(
-                        composeTreeState,
-                        mainScreenState,
                         modifier = Modifier
                             .offset(
                                 x = xOffset.roundToInt().dp,

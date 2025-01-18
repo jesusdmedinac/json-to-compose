@@ -21,6 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,16 +33,25 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.koin.koinNavigatorScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
 import com.jesusdmedinac.jsontocompose.ToCompose
 
 @Composable
 fun DeviceLayer(
-    composeTreeState: ComposeTreeState,
-    mainScreenState: MainScreenState,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
+    val mainScreenModel: MainScreenModel = navigator.koinNavigatorScreenModel()
+    val mainScreenState by mainScreenModel.state.collectAsState()
+    val composeTreeScreenModel: ComposeTreeScreenModel = navigator.koinNavigatorScreenModel()
+    val composeTreeState by composeTreeScreenModel.state.collectAsState()
+
     val deviceType = mainScreenState.deviceType
     val deviceSize = mainScreenState.deviceSize
     Box(
