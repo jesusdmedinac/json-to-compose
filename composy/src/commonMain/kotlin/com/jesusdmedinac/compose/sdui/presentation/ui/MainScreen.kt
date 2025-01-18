@@ -222,15 +222,6 @@ data object MainScreen : Screen {
                     .fillMaxSize()
             ) {
                 ComposePreview(
-                    composeTreeState,
-                    mainScreenState,
-                    mainScreenModel,
-                    onLeftPanelButtonClick = {
-                        mainScreenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
-                    },
-                    onRightPanelButtonClick = {
-                        mainScreenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
-                    },
                     modifier = Modifier
                         .fillMaxSize()
                 )

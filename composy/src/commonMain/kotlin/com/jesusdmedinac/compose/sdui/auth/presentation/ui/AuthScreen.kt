@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -36,7 +34,6 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Eye
 import com.composables.icons.lucide.EyeOff
 import com.composables.icons.lucide.Lucide
-import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthState
 import com.jesusdmedinac.compose.sdui.presentation.ui.MainScreen
@@ -68,18 +65,16 @@ object AuthScreen : Screen {
         if (isLoading) {
             Loading()
         } else {
-            SignInOrSignUp(
-                authState = state,
-                authBehavior = authScreenModel
-            )
+            SignInOrSignUp()
         }
     }
 
     @Composable
     private fun SignInOrSignUp(
-        authState: AuthState = AuthState.Idle(),
-        authBehavior: AuthBehavior = AuthBehavior.Default
+        authScreenModel: AuthScreenModel = koinScreenModel(),
     ) {
+        val state by authScreenModel.state.collectAsState()
+        val authState = state
         var emailTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
         var passwordTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -112,7 +107,7 @@ object AuthScreen : Screen {
                         value = emailTextFieldValue,
                         onValueChange = {
                             emailTextFieldValue = it
-                            authBehavior.onEmailChange(it.text)
+                            authScreenModel.onEmailChange(it.text)
                         },
                         label = {
                             Text(
@@ -124,7 +119,7 @@ object AuthScreen : Screen {
                         value = passwordTextFieldValue,
                         onValueChange = {
                             passwordTextFieldValue = it
-                            authBehavior.onPasswordChange(it.text)
+                            authScreenModel.onPasswordChange(it.text)
                         },
                         label = {
                             Text(
@@ -134,7 +129,7 @@ object AuthScreen : Screen {
                         trailingIcon = {
                             IconButton(
                                 onClick = {
-                                    authBehavior.onPasswordVisibilityChange()
+                                    authScreenModel.onPasswordVisibilityChange()
                                 },
                             ) {
                                 Icon(
@@ -152,7 +147,7 @@ object AuthScreen : Screen {
                     )
                     OutlinedButton(
                         onClick = {
-                            authBehavior.authenticate()
+                            authScreenModel.authenticate()
                         },
                         enabled = isValidEmail && isValidPassword
                     ) {
@@ -171,7 +166,7 @@ object AuthScreen : Screen {
                         )
                         TextButton(
                             onClick = {
-                                authBehavior.onSwitchClick()
+                                authScreenModel.onSwitchClick()
                             }
                         ) {
                             Text(

@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,15 +39,20 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.koin.koinNavigatorScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Monitor
 import com.composables.icons.lucide.Smartphone
 import com.composables.icons.lucide.Tablet
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenState
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.composy.composy.generated.resources.Res
 import com.jesusdmedinac.composy.composy.generated.resources.ic_menu
 import org.jetbrains.compose.resources.painterResource
@@ -54,19 +60,22 @@ import kotlin.math.roundToInt
 
 @Composable
 fun ComposePreview(
-    composeTreeState: ComposeTreeState,
-    mainScreenState: MainScreenState,
-    mainScreenBehavior: MainScreenBehavior,
-    onLeftPanelButtonClick: () -> Unit,
-    onRightPanelButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
+    val mainScreenModel: MainScreenModel = navigator.koinNavigatorScreenModel()
+    val mainScreenState by mainScreenModel.state.collectAsState()
     val deviceSize = mainScreenState.deviceSize
     val density = LocalDensity.current
     val halfOfDeviceHeight = (with(density) { deviceSize.height.dp.toPx() / 2 }).roundToInt()
     val halfOfDeviceWidth = (with(density) { deviceSize.width.dp.toPx() / 2 }).roundToInt()
     val deviceType = mainScreenState.deviceType
     val deviceOrientation = mainScreenState.deviceOrientation
+    val isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed
+    val isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed
+
+    val composeTreeScreenModel: ComposeTreeScreenModel = navigator.koinNavigatorScreenModel()
+    val composeTreeState by composeTreeScreenModel.state.collectAsState()
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.surfaceContainer)
@@ -85,7 +94,7 @@ fun ComposePreview(
         ) {
             IconButton(
                 onClick = {
-                    onLeftPanelButtonClick()
+                    mainScreenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
                 },
                 modifier = Modifier
                     .pointerHoverIcon(
@@ -100,7 +109,7 @@ fun ComposePreview(
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-                    onRightPanelButtonClick()
+                    mainScreenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
                 },
                 modifier = Modifier
                     .pointerHoverIcon(
@@ -160,9 +169,11 @@ fun ComposePreview(
                                 newYOffset >= -yOffsetLimit && newYOffset <= yOffsetLimit -> {
                                     yOffset = newYOffset
                                 }
+
                                 delta > 0 -> {
                                     yOffset = yOffsetLimit.toFloat()
                                 }
+
                                 delta < 0 -> {
                                     yOffset = -yOffsetLimit.toFloat()
                                 }
@@ -179,9 +190,11 @@ fun ComposePreview(
                                 newXOffset >= -xOffsetLimit && newXOffset <= xOffsetLimit -> {
                                     xOffset = newXOffset
                                 }
+
                                 delta > 0 -> {
                                     xOffset = xOffsetLimit.toFloat()
                                 }
+
                                 delta < 0 -> {
                                     xOffset = -xOffsetLimit.toFloat()
                                 }
@@ -207,7 +220,7 @@ fun ComposePreview(
                     options = listOf(
                         SelectionOption(
                             onClick = {
-                                mainScreenBehavior.onPortraitClick()
+                                mainScreenModel.onPortraitClick()
                             },
                             icon = {
                                 Icon(
@@ -218,7 +231,7 @@ fun ComposePreview(
                         ),
                         SelectionOption(
                             onClick = {
-                                mainScreenBehavior.onLandscapeClick()
+                                mainScreenModel.onLandscapeClick()
                             },
                             icon = {
                                 Icon(
@@ -240,7 +253,7 @@ fun ComposePreview(
                     options = listOf(
                         SelectionOption(
                             onClick = {
-                                mainScreenBehavior.onSmartphoneClick()
+                                mainScreenModel.onSmartphoneClick()
                             },
                             icon = {
                                 Icon(
@@ -251,7 +264,7 @@ fun ComposePreview(
                         ),
                         SelectionOption(
                             onClick = {
-                                mainScreenBehavior.onTabletClick()
+                                mainScreenModel.onTabletClick()
                             },
                             icon = {
                                 Icon(
@@ -262,7 +275,7 @@ fun ComposePreview(
                         ),
                         SelectionOption(
                             onClick = {
-                                mainScreenBehavior.onDesktopClick()
+                                mainScreenModel.onDesktopClick()
                             },
                             icon = {
                                 Icon(
