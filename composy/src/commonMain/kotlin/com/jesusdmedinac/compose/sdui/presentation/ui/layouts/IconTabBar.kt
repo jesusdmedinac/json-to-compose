@@ -1,4 +1,4 @@
-package com.jesusdmedinac.compose.sdui.presentation.ui.composable
+package com.jesusdmedinac.compose.sdui.presentation.ui.layouts
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
