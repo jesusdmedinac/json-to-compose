@@ -119,7 +119,7 @@ data object MainScreen : Screen {
 
         LaunchedEffect(authState) {
             when (authState) {
-                is AuthState.Idle -> navigator.replace(AuthScreen)
+                // is AuthState.Idle -> navigator.replace(AuthScreen)
                 else -> Unit
             }
         }
