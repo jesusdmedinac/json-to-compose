@@ -19,6 +19,8 @@ koin-bom = "4.1.0"
 supabase-bom = "3.2.1"
 ktor = "3.2.2"
 logback = "1.5.18"
+coilCompose = "3.3.0"
+coilNetworkOkhttp = "3.3.0"
 
 [libraries]
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -47,6 +49,8 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

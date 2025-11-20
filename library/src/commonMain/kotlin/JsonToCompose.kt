@@ -39,6 +39,11 @@ fun ComposeNode.ToCompose(
         ComposeType.Box -> ToBox()
         ComposeType.Text -> ToText()
         ComposeType.Button -> ToButton(behavior)
+        ComposeType.Image -> ToImage()
+        ComposeType.TextField -> ToTextField()
+        ComposeType.LazyColumn -> ToLazyColumn()
+        ComposeType.LazyRow -> ToLazyRow()
+        ComposeType.Scaffold -> ToScaffold()
     }
 }
 
@@ -101,14 +106,65 @@ fun ComposeNode.ToButton(
     }
 }
 
+@Composable
+fun ComposeNode.ToImage() {
+    val props = properties as? NodeProperties.ImageProps ?: return
+    val modifier = Modifier from composeModifier
+    
+    // Manejo de prioridades: 1. URL, 2. Recurso Local
+    when {
+        props.url != null -> {
+            // TODO: Integrar con Coil o similar: AsyncImage(model = props.url, ...)
+            Box(modifier = modifier.background(Color.LightGray)) {
+                Text("URL: ${props.url}")
+            }
+        }
+        props.resourceName != null -> {
+            // TODO: Integrar con painterResource
+            Box(modifier = modifier.background(Color.Gray)) {
+                Text("RES: ${props.resourceName}")
+            }
+        }
+        else -> {
+            // Fallback si no hay fuente definida
+            Box(modifier = modifier.background(Color.Magenta))
+        }
+    }
+}
+
+@Composable
+fun ComposeNode.ToTextField() {
+    // TODO: Implement TextField support
+}
+
+@Composable
+fun ComposeNode.ToLazyColumn() {
+    // TODO: Implement LazyColumn support
+}
+
+@Composable
+fun ComposeNode.ToLazyRow() {
+    // TODO: Implement LazyRow support
+}
+
+@Composable
+fun ComposeNode.ToScaffold() {
+    // TODO: Implement Scaffold support
+}
+
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
+    // Propiedades legacy (se mantendrán por compatibilidad hasta migrar todo)
     val text: String? = null,
+    val onClickEventName: String? = null,
+    
+    // Nueva arquitectura de propiedades polimórficas
+    val properties: NodeProperties? = null,
+
     @Transient
     val parent: ComposeNode? = null,
     val child: ComposeNode? = null,
-    val onClickEventName: String? = null,
     val children: List<ComposeNode>? = null,
     val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
@@ -142,12 +198,29 @@ data class ComposeNode(
     }
 }
 
+// Nueva jerarquía para propiedades específicas de componentes
+@Serializable
+sealed interface NodeProperties {
+    @Serializable
+    data class ImageProps(
+        val url: String? = null,
+        val resourceName: String? = null,
+        val contentDescription: String? = null,
+        val contentScale: String = "Fit" // Ejemplo de propiedad extra específica de imagen
+    ) : NodeProperties
+}
+
 enum class ComposeType {
     Column,
     Row,
     Box,
     Text,
-    Button;
+    Button,
+    Image,
+    TextField,
+    LazyColumn,
+    LazyRow,
+    Scaffold;
 
     fun isLayout(): Boolean = when (this) {
         Column, Row, Box -> true
@@ -164,9 +237,6 @@ enum class ComposeType {
 data class ComposeModifier(
     val operations: List<Operation> = emptyList(),
 ) {
-    fun then(operation: Operation): ComposeModifier =
-        copy(operations = operations + operation)
-
     @Serializable
     sealed class Operation(
         @Transient
