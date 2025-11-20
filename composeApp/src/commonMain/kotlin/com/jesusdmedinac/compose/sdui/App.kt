@@ -5,12 +5,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import com.jesusdmedinac.jsontocompose.Behavior
 import com.jesusdmedinac.jsontocompose.LocalBehavior
+import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.ToCompose
+import json_to_compose.composeapp.generated.resources.Res
+import json_to_compose.composeapp.generated.resources.compose_multiplatform
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
+    val drawableResources = mapOf(
+        "compose-multiplatform" to Res.drawable.compose_multiplatform
+    )
+
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
             override fun onClick(eventName: String) {
@@ -19,10 +27,36 @@ fun App() {
         }
     )
 
-    BehaviorComposition(behaviors = behaviors) {
+    CompositionProviders(
+        drawableResources = drawableResources,
+        behaviors = behaviors
+    ) {
         MaterialTheme {
             JSON_AS_STRING.ToCompose()
         }
+    }
+}
+
+@Composable
+fun CompositionProviders(
+    drawableResources: Map<String, DrawableResource>,
+    behaviors: Map<String, Behavior>,
+    content: @Composable () -> Unit
+) {
+    DrawableResourcesComposition(drawableResources = drawableResources) {
+        BehaviorComposition(behaviors = behaviors) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun DrawableResourcesComposition(
+    drawableResources: Map<String, DrawableResource>,
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(LocalDrawableResources provides drawableResources) {
+        content()
     }
 }
 
