@@ -2,21 +2,37 @@ package com.jesusdmedinac.compose.sdui
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import com.jesusdmedinac.jsontocompose.Behavior
+import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.ToCompose
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-        JSON_AS_STRING.ToCompose(
-            behavior = object : Behavior {
-                override fun onClick(eventName: String) {
-                    println("Event: $eventName")
-                }
-            },
-        )
+    val behaviors = mapOf(
+        "button_clicked" to object : Behavior {
+            override fun onClick(eventName: String) {
+                println("Button clicked: $eventName")
+            }
+        }
+    )
+
+    BehaviorComposition(behaviors = behaviors) {
+        MaterialTheme {
+            JSON_AS_STRING.ToCompose()
+        }
+    }
+}
+
+@Composable
+fun BehaviorComposition(
+    behaviors: Map<String, Behavior>,
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(LocalBehavior provides behaviors) {
+        content()
     }
 }
 

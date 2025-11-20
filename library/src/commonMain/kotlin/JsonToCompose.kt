@@ -25,28 +25,23 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
-// 1. Definimos un CompositionLocal para proveer el mapa de recursos
 val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 
+val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
+
 @Composable
-fun String.ToCompose(
-    behavior: Behavior? = null,
-) {
-    Json.decodeFromString<ComposeNode>(this).ToCompose(
-        behavior
-    )
+fun String.ToCompose() {
+    Json.decodeFromString<ComposeNode>(this).ToCompose()
 }
 
 @Composable
-fun ComposeNode.ToCompose(
-    behavior: Behavior? = null
-) {
+fun ComposeNode.ToCompose() {
     when (type) {
         ComposeType.Column -> ToColumn()
         ComposeType.Row -> ToRow()
         ComposeType.Box -> ToBox()
         ComposeType.Text -> ToText()
-        ComposeType.Button -> ToButton(behavior)
+        ComposeType.Button -> ToButton()
         ComposeType.Image -> ToImage()
         ComposeType.TextField -> ToTextField()
         ComposeType.LazyColumn -> ToLazyColumn()
@@ -101,9 +96,9 @@ fun ComposeNode.ToText(
 }
 
 @Composable
-fun ComposeNode.ToButton(
-    behavior: Behavior? = null,
-) {
+fun ComposeNode.ToButton() {
+    val currentBehavior = LocalBehavior.current
+    val behavior = currentBehavior[onClickEventName]
     Button(
         onClick = {
             behavior?.onClick(onClickEventName ?: "")
@@ -119,7 +114,6 @@ fun ComposeNode.ToImage() {
     val props = properties as? NodeProperties.ImageProps ?: return
     val modifier = Modifier from composeModifier
     
-    // 2. Obtenemos el mapa de recursos del entorno actual
     val drawableResources = LocalDrawableResources.current
     
     when {
@@ -131,7 +125,6 @@ fun ComposeNode.ToImage() {
             )
         }
         props.resourceName != null -> {
-            // 3. Buscamos el recurso compilado usando el nombre (String)
             val resource = drawableResources[props.resourceName]
             
             if (resource != null) {
@@ -141,7 +134,6 @@ fun ComposeNode.ToImage() {
                     modifier = modifier
                 )
             } else {
-                // Fallback visual si el recurso no se encuentra en el mapa
                 Box(modifier = modifier.background(Color.LightGray)) {
                     Text("Res not found: ${props.resourceName}", modifier = Modifier.padding(4.dp))
                 }
