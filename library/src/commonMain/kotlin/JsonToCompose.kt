@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,11 @@ import coil3.compose.AsyncImage
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+
+// 1. Definimos un CompositionLocal para proveer el mapa de recursos
+val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 
 @Composable
 fun String.ToCompose(
@@ -114,10 +119,11 @@ fun ComposeNode.ToImage() {
     val props = properties as? NodeProperties.ImageProps ?: return
     val modifier = Modifier from composeModifier
     
-    // Manejo de prioridades: 1. URL, 2. Recurso Local
+    // 2. Obtenemos el mapa de recursos del entorno actual
+    val drawableResources = LocalDrawableResources.current
+    
     when {
         props.url != null -> {
-            // TODO: Integrar con Coil o similar: AsyncImage(model = props.url, ...)
             AsyncImage(
                 model = props.url,
                 contentDescription = props.contentDescription,
@@ -125,15 +131,23 @@ fun ComposeNode.ToImage() {
             )
         }
         props.resourceName != null -> {
-            // TODO: Integrar con painterResource
-            Image(
-                painter = painterResource(props.resourceName),
-                contentDescription = props.contentDescription,
-                modifier = modifier
-            )
+            // 3. Buscamos el recurso compilado usando el nombre (String)
+            val resource = drawableResources[props.resourceName]
+            
+            if (resource != null) {
+                Image(
+                    painter = painterResource(resource),
+                    contentDescription = props.contentDescription,
+                    modifier = modifier
+                )
+            } else {
+                // Fallback visual si el recurso no se encuentra en el mapa
+                Box(modifier = modifier.background(Color.LightGray)) {
+                    Text("Res not found: ${props.resourceName}", modifier = Modifier.padding(4.dp))
+                }
+            }
         }
         else -> {
-            // Fallback si no hay fuente definida
             Box(modifier = modifier.background(Color.Magenta))
         }
     }
@@ -162,11 +176,8 @@ fun ComposeNode.ToScaffold() {
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
-    // Propiedades legacy (se mantendrán por compatibilidad hasta migrar todo)
     val text: String? = null,
     val onClickEventName: String? = null,
-    
-    // Nueva arquitectura de propiedades polimórficas
     val properties: NodeProperties? = null,
 
     @Transient
@@ -205,7 +216,6 @@ data class ComposeNode(
     }
 }
 
-// Nueva jerarquía para propiedades específicas de componentes
 @Serializable
 sealed interface NodeProperties {
     @Serializable
@@ -213,7 +223,7 @@ sealed interface NodeProperties {
         val url: String? = null,
         val resourceName: String? = null,
         val contentDescription: String? = null,
-        val contentScale: String = "Fit" // Ejemplo de propiedad extra específica de imagen
+        val contentScale: String = "Fit"
     ) : NodeProperties
 }
 
@@ -313,21 +323,15 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
 }
 
 fun String.toColorInt(): Color {
-    println("hex $this")
     if (!startsWith("#") || length != 9) {
         return Color.White
     }
 
     val colorLong = removePrefix("#").toLong(16)
-
     val alpha = (colorLong shr 24 and 0xFF).toInt()
-    println("alpha: $alpha")
     val red = (colorLong shr 16 and 0xFF).toInt()
-    println("red: $red")
     val green = (colorLong shr 8 and 0xFF).toInt()
-    println("green: $green")
     val blue = (colorLong and 0xFF).toInt()
-    println("blue: $blue")
 
     return Color(red, green, blue, alpha)
 }
