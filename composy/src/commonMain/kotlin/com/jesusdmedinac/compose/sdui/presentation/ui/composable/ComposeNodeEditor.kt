@@ -19,11 +19,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -43,6 +38,11 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.composables.icons.lucide.ArrowDown
+import com.composables.icons.lucide.ArrowLeft
+import com.composables.icons.lucide.Delete
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Plus
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
@@ -86,7 +86,7 @@ fun ComposeNodeEditor(
                         )
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        imageVector = Lucide.ArrowLeft,
                         contentDescription = null,
                     )
                 }
@@ -154,7 +154,7 @@ private fun LazyListScope.composeTypeDropdownMenu(
                     },
                     trailingIcon = {
                         Icon(
-                            Icons.Filled.ArrowDropDown,
+                            Lucide.ArrowDown,
                             "Trailing icon for exposed dropdown menu",
                             Modifier.rotate(if (isComposeTypeMenuExpanded) 180f else 360f),
                             tint = MaterialTheme.colorScheme.onBackground
@@ -274,7 +274,7 @@ private fun LazyListScope.composeModifierFields(
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Add,
+                            imageVector = Lucide.Plus,
                             contentDescription = "Add modifier",
                             Modifier.rotate(if (isModifierMenuExpanded) 45f else 360f),
                         )
@@ -345,7 +345,7 @@ private fun ComposeModifier.Operation.ToComposeModifierOperation(
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.error)
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Delete,
+                    imageVector = Lucide.Delete,
                     contentDescription = "Delete modifier",
                     tint = MaterialTheme.colorScheme.error
                 )

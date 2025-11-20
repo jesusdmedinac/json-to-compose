@@ -17,8 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -43,8 +41,8 @@ import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.Columns3
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MousePointerClick
-import com.composables.icons.lucide.Rows2
 import com.composables.icons.lucide.Rows3
+import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.Text
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.jsontocompose.ComposeType
@@ -73,7 +71,7 @@ fun ComposeComponents(
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Search,
+                    imageVector = Lucide.Search,
                     contentDescription = "Find a component"
                 )
             }

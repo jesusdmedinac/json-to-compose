@@ -19,8 +19,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,6 +44,8 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.composables.icons.lucide.ArrowDown
+import com.composables.icons.lucide.Lucide
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
@@ -178,7 +178,7 @@ private fun ComposeNode.ComposeTreeItem(
                 ) {
                     val expanded = state.collapsedNodes.contains(this@ComposeTreeItem)
                     Icon(
-                        Icons.Filled.ArrowDropDown,
+                        Lucide.ArrowDown,
                         contentDescription = "Trailing icon for exposed dropdown menu",
                         modifier = Modifier.rotate(if (expanded) 180f else 360f),
                         tint = when {
