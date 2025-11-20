@@ -53,8 +53,11 @@ fun ComposeNode.ToCompose() {
 @Composable
 fun ComposeNode.ToColumn(
 ) {
+    val props = properties as? NodeProperties.LayoutProps ?: return
+    val children = props.children
+    val modifier = Modifier from composeModifier
     Column(
-        modifier = Modifier from composeModifier,
+        modifier = modifier,
     ) {
         children?.forEach {
             it.ToCompose()
@@ -65,8 +68,11 @@ fun ComposeNode.ToColumn(
 @Composable
 fun ComposeNode.ToRow(
 ) {
+    val props = properties as? NodeProperties.LayoutProps ?: return
+    val children = props.children
+    val modifier = Modifier from composeModifier
     Row(
-        modifier = Modifier from composeModifier,
+        modifier = modifier,
     ) {
         children?.forEach {
             it.ToCompose()
@@ -77,8 +83,11 @@ fun ComposeNode.ToRow(
 @Composable
 fun ComposeNode.ToBox(
 ) {
+    val props = properties as? NodeProperties.LayoutProps ?: return
+    val children = props.children
+    val modifier = Modifier from composeModifier
     Box(
-        modifier = Modifier from composeModifier,
+        modifier = modifier,
     ) {
         children?.forEach {
             it.ToCompose()
@@ -89,14 +98,20 @@ fun ComposeNode.ToBox(
 @Composable
 fun ComposeNode.ToText(
 ) {
+    val props = properties as? NodeProperties.TextProps ?: return
+    val text = props.text
+    val modifier = Modifier from composeModifier
     Text(
         text = text ?: "",
-        modifier = Modifier from composeModifier,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun ComposeNode.ToButton() {
+    val props = properties as? NodeProperties.ButtonProps ?: return
+    val child = props.child
+    val onClickEventName = props.onClickEventName
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onClickEventName]
     Button(
@@ -168,21 +183,22 @@ fun ComposeNode.ToScaffold() {
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
-    val text: String? = null,
-    val onClickEventName: String? = null,
     val properties: NodeProperties? = null,
 
     @Transient
     val parent: ComposeNode? = null,
-    val child: ComposeNode? = null,
-    val children: List<ComposeNode>? = null,
     val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
     val editMode: Boolean = true,
 ) {
     val id: String = when {
         parent == null -> "${countLevels()}"
-        else -> parent.id + "_" + type.name + "_" + ((parent.children ?: emptyList()).size + 1)
+        else -> {
+            val parentProps = parent.properties as? NodeProperties.LayoutProps
+            val children = parentProps?.children ?: emptyList()
+
+            parent.id + "_" + type.name + "_" + (children.size + 1)
+        }
     }
 
     fun countLevels(count: Int = 0): Int =
@@ -200,7 +216,11 @@ data class ComposeNode(
     fun asList(): List<ComposeNode> {
         val list = mutableListOf<ComposeNode>()
         list.add(this)
+        val singleChildProps = properties as? NodeProperties.ButtonProps
+        val child = singleChildProps?.child
         child?.let { list.add(it) }
+        val layoutProps = properties as? NodeProperties.LayoutProps
+        val children = layoutProps?.children
         children?.forEach {
             list.addAll(it.asList())
         }
@@ -210,6 +230,22 @@ data class ComposeNode(
 
 @Serializable
 sealed interface NodeProperties {
+    @Serializable
+    data class TextProps(
+        val text: String? = null,
+    ) : NodeProperties
+
+    @Serializable
+    data class ButtonProps(
+        val onClickEventName: String? = null,
+        val child: ComposeNode? = null,
+    ) : NodeProperties
+
+    @Serializable
+    data class LayoutProps(
+        val children: List<ComposeNode>? = null,
+    ) : NodeProperties
+
     @Serializable
     data class ImageProps(
         val url: String? = null,

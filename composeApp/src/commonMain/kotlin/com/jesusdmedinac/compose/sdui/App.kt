@@ -1,14 +1,22 @@
 package com.jesusdmedinac.compose.sdui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import com.jesusdmedinac.jsontocompose.Behavior
+import com.jesusdmedinac.jsontocompose.ComposeNode
+import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
+import com.jesusdmedinac.jsontocompose.NodeProperties
 import com.jesusdmedinac.jsontocompose.ToCompose
 import json_to_compose.composeapp.generated.resources.Res
 import json_to_compose.composeapp.generated.resources.compose_multiplatform
+import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -32,7 +40,129 @@ fun App() {
         behaviors = behaviors
     ) {
         MaterialTheme {
-            JSON_AS_STRING.ToCompose()
+            val composeNode = ComposeNode(
+                type = ComposeType.Column,
+                properties = NodeProperties.LayoutProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(
+                                text = "Text Node"
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                onClickEventName = "button_clicked",
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Button Node"
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Image,
+                            properties = NodeProperties.ImageProps(
+                                url = "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
+                                contentDescription = "Image Node from url",
+                                contentScale = "Fit"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Image,
+                            properties = NodeProperties.ImageProps(
+                                resourceName = "compose-multiplatform",
+                                contentDescription = "Image Node from resource",
+                                contentScale = "Fit"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Column,
+                            properties = NodeProperties.LayoutProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "First text"
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Second text"
+                                        )
+                                    ),
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Row,
+                            properties = NodeProperties.LayoutProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "First text"
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Second text"
+                                        )
+                                    ),
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            properties = NodeProperties.LayoutProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "First text"
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Second text"
+                                        )
+                                    ),
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+            val composeAsString = Json.encodeToString(composeNode)
+            println(composeAsString)
+            LazyColumn {
+                item {
+                    composeAsString.ToCompose()
+                }
+
+                item {
+                    Divider()
+                }
+
+                item {
+                    Text(text = composeAsString)
+                }
+
+                item {
+                    Divider()
+                }
+
+                item {
+                    Column {
+                        JSON_AS_STRING.ToCompose()
+                    }
+                }
+            }
         }
     }
 }
@@ -72,99 +202,114 @@ fun BehaviorComposition(
 
 val JSON_AS_STRING = """
     {
-        "type": "Column",
+      "type": "Column",
+      "properties": {
+        "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
         "children": [
-            {
-                "type": "Text",
-                "text": "String to Text"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Text\",\"text\": \"String to Text\"}"
-            },
-            {
-                "type": "Text",
-                "text": "String to Text"
-            },
-            {
-                "type": "Text",
-                "text": "String to Button"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Button\",\"onClickEventName\": \"button_clicked\",\"child\": {\"type\": \"Text\",\"text\": \"Click me!\"}}"
-            },
-            {
-                "type": "Button",
-                "onClickEventName": "button_clicked",
-                "child": {
-                    "type": "Text",
-                    "text": "Click me!"
-                }
-            },
-            {
-                "type": "Text",
-                "text": "String to Column"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Column\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
-            },
-            {
-                "type": "Column",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "First text"
-                    },
-                    {
-                        "type": "Text",
-                        "text": "Second text"
-                    }
-                ]
-            },
-            {
-                "type": "Text",
-                "text": "String to Row"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Row\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
-            },
-            {
-                "type": "Row",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "First text"
-                    },
-                    {
-                        "type": "Text",
-                        "text": "Second text"
-                    }
-                ]
-            },
-            {
-                "type": "Text",
-                "text": "String to Box"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Box\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
-            },
-            {
-                "type": "Box",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "First text"
-                    },
-                    {
-                        "type": "Text",
-                        "text": "Second text"
-                    }
-                ]
+          {
+            "type": "Text",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+              "text": "Text Node"
             }
+          },
+          {
+            "type": "Button",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.ButtonProps",
+              "onClickEventName": "button_clicked",
+              "child": {
+                "type": "Text",
+                "properties": {
+                  "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                  "text": "Button Node"
+                }
+              }
+            }
+          },
+          {
+            "type": "Image",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.ImageProps",
+              "url": "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
+              "contentDescription": "Image Node from url"
+            }
+          },
+          {
+            "type": "Image",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.ImageProps",
+              "resourceName": "compose-multiplatform",
+              "contentDescription": "Image Node from resource"
+            }
+          },
+          {
+            "type": "Column",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+              "children": [
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "text": "First text"
+                  }
+                },
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "text": "Second text"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "Row",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+              "children": [
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "text": "First text"
+                  }
+                },
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "text": "Second text"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "Box",
+            "properties": {
+              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+              "children": [
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "text": "First text"
+                  }
+                },
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "text": "Second text"
+                  }
+                }
+              ]
+            }
+          }
         ]
+      }
     }
 """.trimIndent()
