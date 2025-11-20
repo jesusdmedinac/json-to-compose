@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun String.ToCompose(
@@ -115,15 +118,19 @@ fun ComposeNode.ToImage() {
     when {
         props.url != null -> {
             // TODO: Integrar con Coil o similar: AsyncImage(model = props.url, ...)
-            Box(modifier = modifier.background(Color.LightGray)) {
-                Text("URL: ${props.url}")
-            }
+            AsyncImage(
+                model = props.url,
+                contentDescription = props.contentDescription,
+                modifier = modifier
+            )
         }
         props.resourceName != null -> {
             // TODO: Integrar con painterResource
-            Box(modifier = modifier.background(Color.Gray)) {
-                Text("RES: ${props.resourceName}")
-            }
+            Image(
+                painter = painterResource(props.resourceName),
+                contentDescription = props.contentDescription,
+                modifier = modifier
+            )
         }
         else -> {
             // Fallback si no hay fuente definida

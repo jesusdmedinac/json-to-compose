@@ -74,8 +74,6 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.material.kolor)
             implementation(libs.icons.lucide)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.okhttp)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

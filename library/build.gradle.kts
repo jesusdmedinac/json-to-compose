@@ -64,6 +64,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            api(libs.coil.network.okhttp)
         }
         androidInstrumentedTest.dependencies {
             implementation("androidx.test.ext:junit:1.1.5")
@@ -80,6 +81,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             api(libs.kotlinx.serialization.json)
+            api(libs.coil.compose)
         }
         val commonTest by getting {
             dependencies {
