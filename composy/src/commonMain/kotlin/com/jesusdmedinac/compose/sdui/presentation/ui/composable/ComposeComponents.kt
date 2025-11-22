@@ -39,11 +39,17 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.Columns3
+import com.composables.icons.lucide.Columns4
+import com.composables.icons.lucide.Image
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MousePointerClick
+import com.composables.icons.lucide.Pencil
 import com.composables.icons.lucide.Rows3
+import com.composables.icons.lucide.Rows4
 import com.composables.icons.lucide.Search
+import com.composables.icons.lucide.Square
 import com.composables.icons.lucide.Text
+import com.composables.icons.lucide.TextCursor
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.jsontocompose.ComposeType
 
@@ -150,6 +156,11 @@ fun ComposeComponent(
                 ComposeType.Box -> Lucide.Box
                 ComposeType.Text -> Lucide.Text
                 ComposeType.Button -> Lucide.MousePointerClick
+                ComposeType.Image -> Lucide.Image
+                ComposeType.TextField -> Lucide.TextCursor
+                ComposeType.LazyColumn -> Lucide.Rows4
+                ComposeType.LazyRow -> Lucide.Columns4
+                ComposeType.Scaffold -> Lucide.Square
             },
             contentDescription = type.name
         )

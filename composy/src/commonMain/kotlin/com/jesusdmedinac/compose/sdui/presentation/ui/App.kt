@@ -18,6 +18,6 @@ fun App() {
             appModule()
         )
     }) {
-        Navigator(ChatScreen)
+        Navigator(MainScreen)
     }
 }

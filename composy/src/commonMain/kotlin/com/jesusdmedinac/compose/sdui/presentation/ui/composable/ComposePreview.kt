@@ -2,6 +2,7 @@ package com.jesusdmedinac.compose.sdui.presentation.ui.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
@@ -27,8 +28,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -134,10 +137,10 @@ fun ComposePreview(
                 content = {
                     DeviceLayer(
                         modifier = Modifier
-                            .offset(
-                                x = xOffset.roundToInt().dp,
-                                y = yOffset.roundToInt().dp,
-                            )
+                            .graphicsLayer {
+                                translationX = xOffset
+                                translationY = yOffset
+                            }
                     )
                 },
                 onSizeChanged = { size ->
@@ -152,47 +155,22 @@ fun ComposePreview(
                         )
                     )
                     .background(MaterialTheme.colorScheme.surfaceDim)
-                    .scrollable(
-                        orientation = Orientation.Vertical,
-                        state = rememberScrollableState { delta ->
-                            val newYOffset = yOffset + delta
-                            when {
-                                newYOffset >= -yOffsetLimit && newYOffset <= yOffsetLimit -> {
-                                    yOffset = newYOffset
-                                }
+                    .pointerInput(Unit) {
+                        detectTransformGestures { _, pan, _, _ ->
+                            val currentYLimit = yOffsetLimit.toFloat()
+                            val currentXLimit = xOffsetLimit.toFloat()
 
-                                delta > 0 -> {
-                                    yOffset = yOffsetLimit.toFloat()
-                                }
+                            xOffset = (xOffset + pan.x).coerceIn(
+                                minimumValue = -currentXLimit,
+                                maximumValue = currentXLimit
+                            )
 
-                                delta < 0 -> {
-                                    yOffset = -yOffsetLimit.toFloat()
-                                }
-                            }
-
-                            delta
+                            yOffset = (yOffset + pan.y).coerceIn(
+                                minimumValue = -currentYLimit,
+                                maximumValue = currentYLimit
+                            )
                         }
-                    )
-                    .scrollable(
-                        orientation = Orientation.Horizontal,
-                        state = rememberScrollableState { delta ->
-                            val newXOffset = xOffset + delta
-                            when {
-                                newXOffset >= -xOffsetLimit && newXOffset <= xOffsetLimit -> {
-                                    xOffset = newXOffset
-                                }
-
-                                delta > 0 -> {
-                                    xOffset = xOffsetLimit.toFloat()
-                                }
-
-                                delta < 0 -> {
-                                    xOffset = -xOffsetLimit.toFloat()
-                                }
-                            }
-                            delta
-                        }
-                    ),
+                    },
                 contentAlignment = Alignment.Center
             )
             Row(

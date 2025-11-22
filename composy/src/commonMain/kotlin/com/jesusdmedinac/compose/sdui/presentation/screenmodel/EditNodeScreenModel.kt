@@ -6,6 +6,7 @@ import com.jesusdmedinac.jsontocompose.ComposeModifier
 import com.jesusdmedinac.jsontocompose.ComposeNode
 import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.ModifierOperation
+import com.jesusdmedinac.jsontocompose.NodeProperties
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,12 +47,13 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
 
     override fun onComposeNodeTextChange(text: String) {
         _state.update { state ->
-            val editingComposeNode = state.editingComposeNode?.copy(
-                text = text
-            )
-            state.copy(
-                editingComposeNode = editingComposeNode
-            )
+            val editingComposeNode = state.editingComposeNode
+            val props = editingComposeNode?.properties as? NodeProperties.TextProps
+                ?: return
+            val updatedProps = props.copy(text = text)
+            val updatedEditingComposeNode = state.editingComposeNode
+                .copy(properties = updatedProps)
+            state.copy(editingComposeNode = updatedEditingComposeNode)
         }
     }
 

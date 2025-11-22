@@ -3,6 +3,7 @@ package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.jesusdmedinac.jsontocompose.ComposeNode
 import com.jesusdmedinac.jsontocompose.ComposeType
+import com.jesusdmedinac.jsontocompose.NodeProperties
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -64,24 +65,31 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
 
     private fun addNodeToChildren(composeNode: ComposeNode): ComposeNode {
         val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
-        val parentNode = updatedNode.parent ?: return updatedNode
-        val updatedChildren = parentNode.children?.plus(updatedNode) ?: listOf(updatedNode)
-        return parentNode.copy(children = updatedChildren)
+        val parentNode = updatedNode.parent
+            ?: return updatedNode
+        val props = parentNode.properties as? NodeProperties.LayoutProps
+            ?: return updatedNode
+        val updatedChildren = props.children
+            ?.plus(updatedNode)
+            ?: listOf(updatedNode)
+        val updatedProperties = props.copy(children = updatedChildren)
+        return parentNode.copy(properties = updatedProperties)
     }
 
     private fun addNodeToChild(composeNode: ComposeNode): ComposeNode {
         val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
         val parentNode = updatedNode.parent ?: return updatedNode
-        return parentNode.copy(child = updatedNode)
+        val props = parentNode.properties as? NodeProperties.ButtonProps
+            ?: return updatedNode
+        val updatedProperties = props.copy(child = updatedNode)
+        return parentNode.copy(properties = updatedProperties)
     }
 
     private fun ComposeNode.applyDefaultTextIfComposeTypeIsText(): ComposeNode {
-        val updatedNode = copy(
-            text = when (type) {
-                ComposeType.Text -> "New Text Node"
-                else -> null
-            },
-        )
+        val props = properties as? NodeProperties.TextProps
+        val text = props?.text ?: "New Text Node"
+        val updatedProps = props?.copy(text = text)
+        val updatedNode = copy(properties = updatedProps)
         return updatedNode
     }
 
@@ -95,10 +103,12 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         if (currentNode.id == updatedNode.id) {
             return updatedNode
         }
-        val updatedChildren = currentNode.children?.map { child ->
+        val props = currentNode.properties as? NodeProperties.LayoutProps ?: return currentNode
+        val updatedChildren = props.children?.map { child ->
             updateNodeRecursive(child, updatedNode)
         } ?: emptyList()
-        return currentNode.copy(children = updatedChildren)
+        val updatedProps = props.copy(children = updatedChildren)
+        return currentNode.copy(properties = updatedProps)
     }
 }
 

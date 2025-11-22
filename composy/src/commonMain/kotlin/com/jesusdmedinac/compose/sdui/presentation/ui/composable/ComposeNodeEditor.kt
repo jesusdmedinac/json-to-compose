@@ -49,6 +49,7 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenSta
 import com.jesusdmedinac.jsontocompose.ComposeModifier
 import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.ModifierOperation
+import com.jesusdmedinac.jsontocompose.NodeProperties
 
 @Composable
 fun ComposeNodeEditor(
@@ -197,7 +198,9 @@ private fun LazyListScope.composeTextTextField(
 ) {
     item {
         val editingComposeNode = editNodeState.editingComposeNode
-        if (editingComposeNode?.text != null) {
+        val props = editingComposeNode?.properties as? NodeProperties.TextProps
+            ?: return@item
+        if (props.text != null) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -205,7 +208,7 @@ private fun LazyListScope.composeTextTextField(
                     .padding(16.dp)
             ) {
                 OutlinedTextField(
-                    value = editingComposeNode.text ?: "",
+                    value = props.text ?: "",
                     onValueChange = {
                         editNodeBehavior.onComposeNodeTextChange(it)
                     },
