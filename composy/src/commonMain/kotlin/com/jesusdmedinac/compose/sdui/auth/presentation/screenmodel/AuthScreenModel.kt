@@ -2,26 +2,26 @@ package com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import io.github.jan.supabase.auth.Auth
-import io.github.jan.supabase.auth.providers.builtin.Email
+import com.jesusdmedinac.compose.sdui.auth.domain.AuthRepository
+import com.jesusdmedinac.compose.sdui.auth.domain.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AuthScreenModel(
-    private val auth: Auth
+    private val authRepository: AuthRepository
 ) : ScreenModel, AuthBehavior {
     private val _state: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Idle())
     val state = _state.asStateFlow()
     override fun onLoad() {
         screenModelScope.launch {
-            auth.currentUserOrNull()?.let { userInfo ->
+            authRepository.getCurrentUser()?.let { userInfo ->
                 _state.update {
                     AuthState.Authenticated(
                         user = User(
                             id = userInfo.id,
-                            email = userInfo.email ?: "",
+                            email = userInfo.email,
                         )
                     )
                 }
@@ -84,15 +84,9 @@ class AuthScreenModel(
                 when (val state = state.value) {
                     is AuthState.UnAuthenticated -> {
                         if (state.haveAccount) {
-                            auth.signInWith(Email) {
-                                email = state.email
-                                password = state.password
-                            }
+                            authRepository.signIn(state.email, state.password)
                         } else {
-                            auth.signUpWith(Email) {
-                                email = state.email
-                                password = state.password
-                            }
+                            authRepository.signUp(state.email, state.password)
                         }
                     }
 
@@ -100,13 +94,13 @@ class AuthScreenModel(
                 }
             }
                 .onSuccess {
-                    auth.currentUserOrNull()?.let { userInfo ->
+                    authRepository.getCurrentUser()?.let { userInfo ->
                         _state.update {
                             AuthState.Authenticated(
                                 isLoading = false,
                                 user = User(
                                     id = userInfo.id,
-                                    email = userInfo.email ?: "",
+                                    email = userInfo.email,
                                 )
                             )
                         }
@@ -145,7 +139,7 @@ class AuthScreenModel(
                 }
             }
             runCatching {
-                auth.signOut()
+                authRepository.signOut()
             }
                 .onSuccess {
                     _state.update {
@@ -241,8 +235,3 @@ interface AuthBehavior {
         }
     }
 }
-
-data class User(
-    val id: String,
-    val email: String,
-)

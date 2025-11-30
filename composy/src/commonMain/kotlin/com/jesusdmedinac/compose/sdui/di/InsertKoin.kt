@@ -1,5 +1,7 @@
 package com.jesusdmedinac.compose.sdui.di
 
+import com.jesusdmedinac.compose.sdui.auth.data.AuthRepositoryImpl
+import com.jesusdmedinac.compose.sdui.auth.domain.AuthRepository
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
@@ -24,6 +26,7 @@ fun dataModule() = module {
         }
     }
     single { get<io.github.jan.supabase.SupabaseClient>().auth }
+    single<AuthRepository>{ AuthRepositoryImpl(get()) }
 }
 
 fun appModule() = module {
