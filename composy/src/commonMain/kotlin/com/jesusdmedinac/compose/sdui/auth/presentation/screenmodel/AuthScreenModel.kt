@@ -74,6 +74,7 @@ class AuthScreenModel(
 
     override fun authenticate() {
         screenModelScope.launch {
+            val currentState = state.value
             _state.update { state ->
                 when (state) {
                     is AuthState.UnAuthenticated -> state.copy(isLoading = true)
@@ -94,15 +95,19 @@ class AuthScreenModel(
                 }
             }
                 .onSuccess {
-                    authRepository.getCurrentUser()?.let { userInfo ->
-                        _state.update {
-                            AuthState.Authenticated(
-                                isLoading = false,
-                                user = User(
-                                    id = userInfo.id,
-                                    email = userInfo.email,
+                    if (currentState is AuthState.UnAuthenticated && !currentState.haveAccount) {
+                        _state.update { AuthState.CheckEmail() }
+                    } else {
+                        authRepository.getCurrentUser()?.let { userInfo ->
+                            _state.update {
+                                AuthState.Authenticated(
+                                    isLoading = false,
+                                    user = User(
+                                        id = userInfo.id,
+                                        email = userInfo.email,
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 }
@@ -126,6 +131,14 @@ class AuthScreenModel(
 
                 else -> state
             }
+        }
+    }
+
+    override fun navigateToLogin() {
+        _state.update {
+            AuthState.UnAuthenticated(
+                haveAccount = true
+            )
         }
     }
 
@@ -192,6 +205,11 @@ sealed class AuthState(
         val isValidPassword: Boolean = false,
         val passwordVisible: Boolean = false
     ) : AuthState()
+
+    data class CheckEmail(
+        override val isLoading: Boolean = false,
+        override val error: String? = null,
+    ) : AuthState()
 }
 
 interface AuthBehavior {
@@ -201,6 +219,7 @@ interface AuthBehavior {
     fun onPasswordVisibilityChange()
     fun authenticate()
     fun onSwitchClick()
+    fun navigateToLogin()
     fun logout()
 
     companion object {
@@ -227,6 +246,10 @@ interface AuthBehavior {
 
             override fun onSwitchClick() {
                 TODO("onSwitchClick is not yet implemented")
+            }
+
+            override fun navigateToLogin() {
+                TODO("navigateToLogin is not yet implemented")
             }
 
             override fun logout() {

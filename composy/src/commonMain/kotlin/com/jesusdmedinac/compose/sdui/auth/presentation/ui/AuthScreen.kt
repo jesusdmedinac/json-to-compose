@@ -34,6 +34,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Eye
 import com.composables.icons.lucide.EyeOff
 import com.composables.icons.lucide.Lucide
+import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthState
 import com.jesusdmedinac.compose.sdui.presentation.ui.MainScreen
@@ -45,27 +46,56 @@ object AuthScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val authScreenModel = koinScreenModel<AuthScreenModel>()
         val state by authScreenModel.state.collectAsState()
-        val isLoading = state.isLoading
 
         LaunchedEffect(Unit) {
             authScreenModel.onLoad()
         }
 
-        LaunchedEffect(state) {
-            when (state) {
-                is AuthState.Authenticated -> {
-                    navigator.replace(MainScreen)
-                }
+        when (val currentState = state) {
+            is AuthState.Authenticated -> navigator.replace(MainScreen)
+            is AuthState.CheckEmail -> CheckEmailScreen(
+                authBehavior = authScreenModel
+            )
 
-                is AuthState.Idle,
-                is AuthState.UnAuthenticated -> Unit
+            is AuthState.Idle, is AuthState.UnAuthenticated -> if (currentState.isLoading) {
+                Loading()
+            } else {
+                SignInOrSignUp(
+                    authScreenModel = authScreenModel
+                )
             }
         }
+    }
 
-        if (isLoading) {
-            Loading()
-        } else {
-            SignInOrSignUp()
+    @Composable
+    private fun CheckEmailScreen(authBehavior: AuthBehavior) {
+        ComposyTheme {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Sign up successful!",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Text(
+                        text = "Please check your email to confirm your account.",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    OutlinedButton(
+                        onClick = { authBehavior.navigateToLogin() }
+                    ) {
+                        Text("Go to Login")
+                    }
+                }
+            }
         }
     }
 
