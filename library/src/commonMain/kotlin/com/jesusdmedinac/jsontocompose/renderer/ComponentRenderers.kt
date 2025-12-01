@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -109,6 +112,7 @@ fun ComposeNode.ToImage() {
                 modifier = modifier
             )
         }
+
         props.resourceName != null -> {
             val resource = drawableResources[props.resourceName]
 
@@ -124,6 +128,7 @@ fun ComposeNode.ToImage() {
                 }
             }
         }
+
         else -> {
             Box(modifier = modifier.background(Color.Magenta))
         }
@@ -150,12 +155,28 @@ fun ComposeNode.ToTextField() {
 
 @Composable
 fun ComposeNode.ToLazyColumn() {
-    // TODO: Implement LazyColumn support
+    val props = properties as? NodeProperties.LayoutProps ?: return
+    val children = props.children
+    val modifier = Modifier from composeModifier
+
+    LazyColumn(
+        modifier = modifier,
+    ) {
+        children?.let { items(it) { child -> child.ToCompose() } }
+    }
 }
 
 @Composable
 fun ComposeNode.ToLazyRow() {
-    // TODO: Implement LazyRow support
+    val props = properties as? NodeProperties.LayoutProps ?: return
+    val children = props.children
+    val modifier = Modifier from composeModifier
+
+    LazyRow(
+        modifier = modifier,
+    ) {
+        children?.let { items(it) { child -> child.ToCompose() } }
+    }
 }
 
 @Composable

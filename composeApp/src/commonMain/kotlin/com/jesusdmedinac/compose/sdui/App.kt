@@ -17,6 +17,7 @@ import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
+import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -158,7 +159,81 @@ fun App() {
                             properties = NodeProperties.TextFieldProps(
                                 onTextChangeEventName = "text_field_value"
                             )
-                        )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.LazyColumn,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxWidth,
+                                    ComposeModifier.Operation.Height(64),
+                                )
+                            ),
+                            properties = NodeProperties.LayoutProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "First text on lazy column"
+                                        ),
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Second text on lazy column"
+                                        ),
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Third text on lazy column"
+                                        ),
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Fourth text on lazy column"
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.LazyRow,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxWidth,
+                                    ComposeModifier.Operation.Width(64),
+                                )
+                            ),
+                            properties = NodeProperties.LayoutProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "First text on lazy row"
+                                        ),
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Second text on lazy row"
+                                        ),
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Third text on lazy row"
+                                        ),
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Fourth text on lazy row"
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     )
                 )
             )
@@ -238,115 +313,216 @@ fun StateHostComposition(
 }
 
 val JSON_AS_STRING = """
-    {
-      "type": "Column",
-      "properties": {
-        "type": "LayoutProps",
-        "children": [
-          {
+{
+  "type": "Column",
+  "properties": {
+    "type": "LayoutProps",
+    "children": [
+      {
+        "type": "Text",
+        "properties": {
+          "type": "TextProps",
+          "text": "Text Node"
+        }
+      },
+      {
+        "type": "Button",
+        "properties": {
+          "type": "ButtonProps",
+          "onClickEventName": "button_clicked",
+          "child": {
             "type": "Text",
             "properties": {
               "type": "TextProps",
-              "text": "Text Node"
-            }
-          },
-          {
-            "type": "Button",
-            "properties": {
-              "type": "ButtonProps",
-              "onClickEventName": "button_clicked",
-              "child": {
-                "type": "Text",
-                "properties": {
-                  "type": "TextProps",
-                  "text": "Button Node"
-                }
-              }
-            }
-          },
-          {
-            "type": "Image",
-            "properties": {
-              "type": "ImageProps",
-              "url": "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
-              "contentDescription": "Image Node from url"
-            }
-          },
-          {
-            "type": "Image",
-            "properties": {
-              "type": "ImageProps",
-              "resourceName": "compose-multiplatform",
-              "contentDescription": "Image Node from resource"
-            }
-          },
-          {
-            "type": "Column",
-            "properties": {
-              "type": "LayoutProps",
-              "children": [
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "First text"
-                  }
-                },
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "Second text"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "Row",
-            "properties": {
-              "type": "LayoutProps",
-              "children": [
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "First text"
-                  }
-                },
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "Second text"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "type": "Box",
-            "properties": {
-              "type": "LayoutProps",
-              "children": [
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "First text"
-                  }
-                },
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "Second text"
-                  }
-                }
-              ]
+              "text": "Button Node"
             }
           }
-        ]
+        }
+      },
+      {
+        "type": "Image",
+        "properties": {
+          "type": "ImageProps",
+          "url": "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
+          "contentDescription": "Image Node from url"
+        }
+      },
+      {
+        "type": "Image",
+        "properties": {
+          "type": "ImageProps",
+          "resourceName": "compose-multiplatform",
+          "contentDescription": "Image Node from resource"
+        }
+      },
+      {
+        "type": "Column",
+        "properties": {
+          "type": "LayoutProps",
+          "children": [
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "First text"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Second text"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Row",
+        "properties": {
+          "type": "LayoutProps",
+          "children": [
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "First text"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Second text"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Box",
+        "properties": {
+          "type": "LayoutProps",
+          "children": [
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "First text"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Second text"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TextField",
+        "properties": {
+          "type": "TextFieldProps",
+          "onTextChangeEventName": "text_field_value"
+        }
+      },
+      {
+        "type": "LazyColumn",
+        "properties": {
+          "type": "LayoutProps",
+          "children": [
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "First text on lazy column"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Second text on lazy column"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Third text on lazy column"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Fourth text on lazy column"
+              }
+            }
+          ]
+        },
+        "composeModifier": {
+          "operations": [
+            {
+              "type": "FillMaxWidth"
+            },
+            {
+              "type": "Height",
+              "value": 64
+            }
+          ]
+        }
+      },
+      {
+        "type": "LazyRow",
+        "properties": {
+          "type": "LayoutProps",
+          "children": [
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "First text on lazy row"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Second text on lazy row"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Third text on lazy row"
+              }
+            },
+            {
+              "type": "Text",
+              "properties": {
+                "type": "TextProps",
+                "text": "Fourth text on lazy row"
+              }
+            }
+          ]
+        },
+        "composeModifier": {
+          "operations": [
+            {
+              "type": "FillMaxWidth"
+            },
+            {
+              "type": "Width",
+              "value": 64
+            }
+          ]
+        }
       }
-    }
+    ]
+  }
+}
 """.trimIndent()
