@@ -7,16 +7,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
+import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import json_to_compose.composeapp.generated.resources.Res
 import json_to_compose.composeapp.generated.resources.compose_multiplatform
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -29,15 +34,28 @@ fun App() {
 
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
-            override fun onClick(eventName: String) {
-                println("Button clicked: $eventName")
+            override fun onClick() {
+                println("Button clicked: button_clicked")
+            }
+        }
+    )
+
+    var textFieldValue by remember { mutableStateOf("") }
+    val stateHosts = mapOf(
+        "text_field_value" to object : StateHost<String> {
+            override val state: String
+                get() = textFieldValue
+
+            override fun onStateChange(state: String) {
+                textFieldValue = state
             }
         }
     )
 
     CompositionProviders(
         drawableResources = drawableResources,
-        behaviors = behaviors
+        behaviors = behaviors,
+        stateHosts = stateHosts,
     ) {
         MaterialTheme {
             val composeNode = ComposeNode(
@@ -134,6 +152,12 @@ fun App() {
                                     ),
                                 )
                             )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.TextField,
+                            properties = NodeProperties.TextFieldProps(
+                                onTextChangeEventName = "text_field_value"
+                            )
                         )
                     )
                 )
@@ -171,11 +195,14 @@ fun App() {
 fun CompositionProviders(
     drawableResources: Map<String, DrawableResource>,
     behaviors: Map<String, Behavior>,
+    stateHosts: Map<String, StateHost<*>>,
     content: @Composable () -> Unit
 ) {
     DrawableResourcesComposition(drawableResources = drawableResources) {
         BehaviorComposition(behaviors = behaviors) {
-            content()
+            StateHostComposition(stateHosts = stateHosts) {
+                content()
+            }
         }
     }
 }
@@ -196,6 +223,16 @@ fun BehaviorComposition(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalBehavior provides behaviors) {
+        content()
+    }
+}
+
+@Composable
+fun StateHostComposition(
+    stateHosts: Map<String, StateHost<*>>,
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(LocalStateHost provides stateHosts) {
         content()
     }
 }

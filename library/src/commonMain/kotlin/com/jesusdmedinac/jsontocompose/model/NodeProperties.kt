@@ -33,4 +33,10 @@ sealed interface NodeProperties {
         val contentDescription: String? = null,
         val contentScale: String = "Fit"
     ) : NodeProperties
+
+    @Serializable
+    @SerialName("TextFieldProps")
+    data class TextFieldProps(
+        val onTextChangeEventName: String? = null,
+    ) : NodeProperties
 }

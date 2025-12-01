@@ -3,6 +3,7 @@ package com.jesusdmedinac.jsontocompose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
@@ -21,6 +22,8 @@ import org.jetbrains.compose.resources.DrawableResource
 val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 
 val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
+
+val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
 
 @Composable
 fun String.ToCompose() {

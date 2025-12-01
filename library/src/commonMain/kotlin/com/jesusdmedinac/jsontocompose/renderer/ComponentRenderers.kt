@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,15 +16,16 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
+import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun ComposeNode.ToColumn(
-) {
+fun ComposeNode.ToColumn() {
     val props = properties as? NodeProperties.LayoutProps ?: return
     val children = props.children
     val modifier = Modifier from composeModifier
@@ -37,8 +39,7 @@ fun ComposeNode.ToColumn(
 }
 
 @Composable
-fun ComposeNode.ToRow(
-) {
+fun ComposeNode.ToRow() {
     val props = properties as? NodeProperties.LayoutProps ?: return
     val children = props.children
     val modifier = Modifier from composeModifier
@@ -52,8 +53,7 @@ fun ComposeNode.ToRow(
 }
 
 @Composable
-fun ComposeNode.ToBox(
-) {
+fun ComposeNode.ToBox() {
     val props = properties as? NodeProperties.LayoutProps ?: return
     val children = props.children
     val modifier = Modifier from composeModifier
@@ -67,8 +67,7 @@ fun ComposeNode.ToBox(
 }
 
 @Composable
-fun ComposeNode.ToText(
-) {
+fun ComposeNode.ToText() {
     val props = properties as? NodeProperties.TextProps ?: return
     val text = props.text
     val modifier = Modifier from composeModifier
@@ -87,7 +86,7 @@ fun ComposeNode.ToButton() {
     val behavior = currentBehavior[onClickEventName]
     Button(
         onClick = {
-            behavior?.onClick(onClickEventName ?: "")
+            behavior?.onClick()
         },
         modifier = Modifier from composeModifier,
     ) {
@@ -133,7 +132,20 @@ fun ComposeNode.ToImage() {
 
 @Composable
 fun ComposeNode.ToTextField() {
-    // TODO: Implement TextField support
+    val props = properties as? NodeProperties.TextFieldProps ?: return
+    val onTextChangeEventName = props.onTextChangeEventName
+    val modifier = Modifier from composeModifier
+
+    val currentStateHost = LocalStateHost.current
+    val stateHost = currentStateHost[onTextChangeEventName] as? StateHost<String> ?: return
+    val value = stateHost.state as? String ?: return
+    TextField(
+        value = value,
+        onValueChange = { newValue ->
+            stateHost.onStateChange(newValue)
+        },
+        modifier = modifier
+    )
 }
 
 @Composable
