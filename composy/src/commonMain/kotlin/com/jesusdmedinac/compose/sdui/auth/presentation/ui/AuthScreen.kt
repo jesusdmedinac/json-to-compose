@@ -29,6 +29,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -149,7 +150,11 @@ object AuthScreen : Screen {
                         if (event.type == KeyEventType.KeyDown) {
                             when (event.key) {
                                 Key.Tab -> {
-                                    focusManager.moveFocus(FocusDirection.Next)
+                                    if (event.isShiftPressed) {
+                                        focusManager.moveFocus(FocusDirection.Previous)
+                                    } else {
+                                        focusManager.moveFocus(FocusDirection.Next)
+                                    }
                                     return@onPreviewKeyEvent true
                                 }
                                 Key.Enter -> {
