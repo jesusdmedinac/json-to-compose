@@ -38,7 +38,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.jesusdmedinac.compose.sdui.Platform
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
-import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthState
+import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenState
 import com.jesusdmedinac.compose.sdui.auth.presentation.ui.AuthScreen
 import com.jesusdmedinac.compose.sdui.getPlatform
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
@@ -119,7 +119,7 @@ data object MainScreen : Screen {
 
         LaunchedEffect(authState) {
             when (authState) {
-                is AuthState.Idle -> navigator.replace(AuthScreen)
+                is AuthScreenState.Idle -> navigator.replace(AuthScreen)
                 else -> Unit
             }
         }
@@ -220,7 +220,7 @@ data object MainScreen : Screen {
 @Composable
 private fun MainScreenTopAppBar(
     composeTreeState: ComposeTreeState,
-    authState: AuthState,
+    authScreenState: AuthScreenState,
     mainScreenBehavior: MainScreenBehavior,
     authBehavior: AuthBehavior
 ) {
@@ -261,7 +261,7 @@ private fun MainScreenTopAppBar(
                 )
             }
             SessionAction(
-                authState = authState,
+                authScreenState = authScreenState,
                 authBehavior = authBehavior
             )
         },
@@ -275,7 +275,7 @@ private fun MainScreenTopAppBar(
 
 @Composable
 private fun SessionAction(
-    authState: AuthState,
+    authScreenState: AuthScreenState,
     authBehavior: AuthBehavior,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -288,8 +288,8 @@ private fun SessionAction(
             },
         ) {
             Text(
-                text = when (authState) {
-                    is AuthState.Authenticated -> authState.user?.email?.firstOrNull().toString()
+                text = when (authScreenState) {
+                    is AuthScreenState.Authenticated -> authScreenState.user?.email?.firstOrNull().toString()
                         .uppercase()
 
                     else -> "?"

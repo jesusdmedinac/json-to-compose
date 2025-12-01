@@ -3,6 +3,7 @@ package com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.jesusdmedinac.compose.sdui.auth.domain.AuthRepository
+import com.jesusdmedinac.compose.sdui.auth.domain.exception.AuthException
 import com.jesusdmedinac.compose.sdui.auth.domain.model.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,13 +13,13 @@ import kotlinx.coroutines.launch
 class AuthScreenModel(
     private val authRepository: AuthRepository
 ) : ScreenModel, AuthBehavior {
-    private val _state: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.Idle())
+    private val _state: MutableStateFlow<AuthScreenState> = MutableStateFlow(AuthScreenState.Idle())
     val state = _state.asStateFlow()
     override fun onLoad() {
         screenModelScope.launch {
             authRepository.getCurrentUser()?.let { userInfo ->
                 _state.update {
-                    AuthState.Authenticated(
+                    AuthScreenState.Authenticated(
                         user = User(
                             id = userInfo.id,
                             email = userInfo.email,
@@ -28,7 +29,7 @@ class AuthScreenModel(
             }
                 ?: run {
                     _state.update {
-                        AuthState.UnAuthenticated()
+                        AuthScreenState.UnAuthenticated()
                     }
                 }
         }
@@ -37,7 +38,7 @@ class AuthScreenModel(
     override fun onEmailChange(email: String) {
         _state.update { state ->
             when (state) {
-                is AuthState.UnAuthenticated -> state.copy(
+                is AuthScreenState.UnAuthenticated -> state.copy(
                     email = email,
                     isValidEmail = email.matches(Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")),
                 )
@@ -50,7 +51,7 @@ class AuthScreenModel(
     override fun onPasswordChange(password: String) {
         _state.update { state ->
             when (state) {
-                is AuthState.UnAuthenticated -> state.copy(
+                is AuthScreenState.UnAuthenticated -> state.copy(
                     password = password,
                     isValidPassword = password.length >= 8,
                 )
@@ -63,7 +64,7 @@ class AuthScreenModel(
     override fun onPasswordVisibilityChange() {
         _state.update { state ->
             when (state) {
-                is AuthState.UnAuthenticated -> state.copy(
+                is AuthScreenState.UnAuthenticated -> state.copy(
                     passwordVisible = !state.passwordVisible
                 )
 
@@ -77,30 +78,29 @@ class AuthScreenModel(
             val currentState = state.value
             _state.update { state ->
                 when (state) {
-                    is AuthState.UnAuthenticated -> state.copy(isLoading = true)
+                    is AuthScreenState.UnAuthenticated -> state.copy(isLoading = true)
                     else -> state
                 }
             }
-            runCatching {
-                when (val state = state.value) {
-                    is AuthState.UnAuthenticated -> {
-                        if (state.haveAccount) {
-                            authRepository.signIn(state.email, state.password)
-                        } else {
-                            authRepository.signUp(state.email, state.password)
-                        }
-                    }
 
-                    else -> return@launch
+            when (val state = state.value) {
+                is AuthScreenState.UnAuthenticated -> {
+                    if (state.haveAccount) {
+                        authRepository.signIn(state.email, state.password)
+                    } else {
+                        authRepository.signUp(state.email, state.password)
+                    }
                 }
+
+                else -> return@launch
             }
                 .onSuccess {
-                    if (currentState is AuthState.UnAuthenticated && !currentState.haveAccount) {
-                        _state.update { AuthState.CheckEmail() }
+                    if (currentState is AuthScreenState.UnAuthenticated && !currentState.haveAccount) {
+                        _state.update { AuthScreenState.SignupCheckEmail() }
                     } else {
                         authRepository.getCurrentUser()?.let { userInfo ->
                             _state.update {
-                                AuthState.Authenticated(
+                                AuthScreenState.Authenticated(
                                     isLoading = false,
                                     user = User(
                                         id = userInfo.id,
@@ -111,13 +111,8 @@ class AuthScreenModel(
                         }
                     }
                 }
-                .onFailure { exception ->
-                    _state.update {
-                        AuthState.Idle(
-                            isLoading = false,
-                            error = exception.message
-                        )
-                    }
+                .onFailure { throwable ->
+                    catchThrowable(throwable)
                 }
         }
     }
@@ -125,7 +120,7 @@ class AuthScreenModel(
     override fun onSwitchClick() {
         _state.update { state ->
             when (state) {
-                is AuthState.UnAuthenticated -> state.copy(
+                is AuthScreenState.UnAuthenticated -> state.copy(
                     haveAccount = !state.haveAccount
                 )
 
@@ -136,7 +131,7 @@ class AuthScreenModel(
 
     override fun navigateToLogin() {
         _state.update {
-            AuthState.UnAuthenticated(
+            AuthScreenState.UnAuthenticated(
                 haveAccount = true
             )
         }
@@ -146,8 +141,8 @@ class AuthScreenModel(
         screenModelScope.launch {
             _state.update { state ->
                 when (state) {
-                    is AuthState.Authenticated -> state.copy(isLoading = true)
-                    is AuthState.UnAuthenticated -> state.copy(isLoading = true)
+                    is AuthScreenState.Authenticated -> state.copy(isLoading = true)
+                    is AuthScreenState.UnAuthenticated -> state.copy(isLoading = true)
                     else -> state
                 }
             }
@@ -156,20 +151,20 @@ class AuthScreenModel(
             }
                 .onSuccess {
                     _state.update {
-                        AuthState.Idle()
+                        AuthScreenState.Idle()
                     }
                 }
-                .onFailure {
+                .onFailure { throwable ->
                     _state.update { state ->
                         when (state) {
-                            is AuthState.Authenticated -> state.copy(
+                            is AuthScreenState.Authenticated -> state.copy(
                                 isLoading = false,
-                                error = it.message
+                                error = throwable.message
                             )
 
-                            is AuthState.UnAuthenticated -> state.copy(
+                            is AuthScreenState.UnAuthenticated -> state.copy(
                                 isLoading = false,
-                                error = it.message
+                                error = throwable.message
                             )
 
                             else -> state
@@ -178,22 +173,35 @@ class AuthScreenModel(
                 }
         }
     }
+
+    private fun catchThrowable(throwable: Throwable) {
+        when {
+            throwable is AuthException -> {
+                _state.update {
+                    AuthScreenState.LoginCheckEmail(
+                        isLoading = false,
+                        error = throwable.message
+                    )
+                }
+            }
+        }
+    }
 }
 
-sealed class AuthState(
+sealed class AuthScreenState(
     open val isLoading: Boolean = false,
     open val error: String? = null
 ) {
     data class Idle(
         override val isLoading: Boolean = false,
         override val error: String? = null
-    ) : AuthState()
+    ) : AuthScreenState()
 
     data class Authenticated(
         override val isLoading: Boolean = false,
         override val error: String? = null,
         val user: User? = null,
-    ) : AuthState()
+    ) : AuthScreenState()
 
     data class UnAuthenticated(
         override val isLoading: Boolean = false,
@@ -204,12 +212,17 @@ sealed class AuthState(
         val isValidEmail: Boolean = false,
         val isValidPassword: Boolean = false,
         val passwordVisible: Boolean = false
-    ) : AuthState()
+    ) : AuthScreenState()
 
-    data class CheckEmail(
+    data class SignupCheckEmail(
         override val isLoading: Boolean = false,
         override val error: String? = null,
-    ) : AuthState()
+    ) : AuthScreenState()
+
+    data class LoginCheckEmail(
+        override val isLoading: Boolean = false,
+        override val error: String? = null,
+    ) : AuthScreenState()
 }
 
 interface AuthBehavior {

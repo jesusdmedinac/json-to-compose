@@ -36,7 +36,7 @@ import com.composables.icons.lucide.EyeOff
 import com.composables.icons.lucide.Lucide
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
-import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthState
+import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenState
 import com.jesusdmedinac.compose.sdui.presentation.ui.MainScreen
 import com.jesusdmedinac.compose.sdui.presentation.ui.theme.ComposyTheme
 
@@ -52,12 +52,17 @@ object AuthScreen : Screen {
         }
 
         when (val currentState = state) {
-            is AuthState.Authenticated -> navigator.replace(MainScreen)
-            is AuthState.CheckEmail -> CheckEmailScreen(
+            is AuthScreenState.Authenticated -> navigator.replace(MainScreen)
+            is AuthScreenState.SignupCheckEmail -> CheckEmailScreen(
+                authScreenState = currentState,
+                authBehavior = authScreenModel
+            )
+            is AuthScreenState.LoginCheckEmail -> CheckEmailScreen(
+                authScreenState = currentState,
                 authBehavior = authScreenModel
             )
 
-            is AuthState.Idle, is AuthState.UnAuthenticated -> if (currentState.isLoading) {
+            is AuthScreenState.Idle, is AuthScreenState.UnAuthenticated -> if (currentState.isLoading) {
                 Loading()
             } else {
                 SignInOrSignUp(
@@ -68,7 +73,10 @@ object AuthScreen : Screen {
     }
 
     @Composable
-    private fun CheckEmailScreen(authBehavior: AuthBehavior) {
+    private fun CheckEmailScreen(
+        authScreenState: AuthScreenState = AuthScreenState.Idle(),
+        authBehavior: AuthBehavior
+    ) {
         ComposyTheme {
             Box(
                 modifier = Modifier
@@ -80,7 +88,10 @@ object AuthScreen : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Sign up successful!",
+                        text = when (authScreenState) {
+                            is AuthScreenState.LoginCheckEmail -> "We have sent you an email!"
+                            else -> "Sign up successful!"
+                        },
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleLarge
                     )
@@ -109,8 +120,8 @@ object AuthScreen : Screen {
         var passwordTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
 
         val unAuthenticated = when (authState) {
-            is AuthState.UnAuthenticated -> authState
-            else -> AuthState.UnAuthenticated()
+            is AuthScreenState.UnAuthenticated -> authState
+            else -> AuthScreenState.UnAuthenticated()
         }
         val haveAccount = unAuthenticated.haveAccount
         val error = unAuthenticated.error
