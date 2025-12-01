@@ -23,6 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -128,6 +135,7 @@ object AuthScreen : Screen {
         val isValidEmail = unAuthenticated.isValidEmail
         val isValidPassword = unAuthenticated.isValidPassword
         val passwordVisible = unAuthenticated.passwordVisible
+        val focusManager = LocalFocusManager.current
 
         ComposyTheme {
             Box(
@@ -137,6 +145,23 @@ object AuthScreen : Screen {
                 contentAlignment = Alignment.Center
             ) {
                 Column(
+                    modifier = Modifier.onPreviewKeyEvent { event ->
+                        if (event.type == KeyEventType.KeyDown) {
+                            when (event.key) {
+                                Key.Tab -> {
+                                    focusManager.moveFocus(FocusDirection.Next)
+                                    return@onPreviewKeyEvent true
+                                }
+                                Key.Enter -> {
+                                    if (isValidEmail && isValidPassword) {
+                                        authScreenModel.authenticate()
+                                        return@onPreviewKeyEvent true
+                                    }
+                                }
+                            }
+                        }
+                        false
+                    },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
