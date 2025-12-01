@@ -2,6 +2,7 @@ package com.jesusdmedinac.jsontocompose.model
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class ComposeNode(
@@ -49,4 +50,6 @@ data class ComposeNode(
         }
         return list
     }
+
+    override fun toString(): String = Json.encodeToString(this)
 }

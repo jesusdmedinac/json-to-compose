@@ -138,7 +138,7 @@ fun App() {
                     )
                 )
             )
-            val composeAsString = Json.encodeToString(composeNode)
+            val composeAsString = composeNode.toString()
             println(composeAsString)
             LazyColumn {
                 item {
