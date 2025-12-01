@@ -46,10 +46,10 @@ import com.composables.icons.lucide.Plus
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
-import com.jesusdmedinac.jsontocompose.ComposeModifier
-import com.jesusdmedinac.jsontocompose.ComposeType
-import com.jesusdmedinac.jsontocompose.ModifierOperation
-import com.jesusdmedinac.jsontocompose.NodeProperties
+import com.jesusdmedinac.jsontocompose.model.ComposeModifier
+import com.jesusdmedinac.jsontocompose.model.ComposeType
+import com.jesusdmedinac.jsontocompose.model.NodeProperties
+import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
 
 @Composable
 fun ComposeNodeEditor(

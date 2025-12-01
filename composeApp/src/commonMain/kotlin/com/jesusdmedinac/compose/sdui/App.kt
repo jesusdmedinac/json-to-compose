@@ -7,13 +7,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.jesusdmedinac.jsontocompose.Behavior
-import com.jesusdmedinac.jsontocompose.ComposeNode
-import com.jesusdmedinac.jsontocompose.ComposeType
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
-import com.jesusdmedinac.jsontocompose.NodeProperties
 import com.jesusdmedinac.jsontocompose.ToCompose
+import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
+import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import json_to_compose.composeapp.generated.resources.Res
 import json_to_compose.composeapp.generated.resources.compose_multiplatform
 import kotlinx.serialization.json.Json
@@ -204,24 +204,24 @@ val JSON_AS_STRING = """
     {
       "type": "Column",
       "properties": {
-        "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+        "type": "LayoutProps",
         "children": [
           {
             "type": "Text",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+              "type": "TextProps",
               "text": "Text Node"
             }
           },
           {
             "type": "Button",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.ButtonProps",
+              "type": "ButtonProps",
               "onClickEventName": "button_clicked",
               "child": {
                 "type": "Text",
                 "properties": {
-                  "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                  "type": "TextProps",
                   "text": "Button Node"
                 }
               }
@@ -230,7 +230,7 @@ val JSON_AS_STRING = """
           {
             "type": "Image",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.ImageProps",
+              "type": "ImageProps",
               "url": "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
               "contentDescription": "Image Node from url"
             }
@@ -238,7 +238,7 @@ val JSON_AS_STRING = """
           {
             "type": "Image",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.ImageProps",
+              "type": "ImageProps",
               "resourceName": "compose-multiplatform",
               "contentDescription": "Image Node from resource"
             }
@@ -246,19 +246,19 @@ val JSON_AS_STRING = """
           {
             "type": "Column",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+              "type": "LayoutProps",
               "children": [
                 {
                   "type": "Text",
                   "properties": {
-                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "type": "TextProps",
                     "text": "First text"
                   }
                 },
                 {
                   "type": "Text",
                   "properties": {
-                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "type": "TextProps",
                     "text": "Second text"
                   }
                 }
@@ -268,19 +268,19 @@ val JSON_AS_STRING = """
           {
             "type": "Row",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+              "type": "LayoutProps",
               "children": [
                 {
                   "type": "Text",
                   "properties": {
-                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "type": "TextProps",
                     "text": "First text"
                   }
                 },
                 {
                   "type": "Text",
                   "properties": {
-                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "type": "TextProps",
                     "text": "Second text"
                   }
                 }
@@ -290,19 +290,19 @@ val JSON_AS_STRING = """
           {
             "type": "Box",
             "properties": {
-              "type": "com.jesusdmedinac.jsontocompose.NodeProperties.LayoutProps",
+              "type": "LayoutProps",
               "children": [
                 {
                   "type": "Text",
                   "properties": {
-                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "type": "TextProps",
                     "text": "First text"
                   }
                 },
                 {
                   "type": "Text",
                   "properties": {
-                    "type": "com.jesusdmedinac.jsontocompose.NodeProperties.TextProps",
+                    "type": "TextProps",
                     "text": "Second text"
                   }
                 }

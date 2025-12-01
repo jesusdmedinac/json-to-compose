@@ -1,17 +1,13 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.jesusdmedinac.jsontocompose.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class MainScreenModel : ScreenModel, MainScreenBehavior {

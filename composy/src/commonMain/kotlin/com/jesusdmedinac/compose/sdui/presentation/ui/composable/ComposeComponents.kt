@@ -15,9 +15,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -43,7 +43,6 @@ import com.composables.icons.lucide.Columns4
 import com.composables.icons.lucide.Image
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MousePointerClick
-import com.composables.icons.lucide.Pencil
 import com.composables.icons.lucide.Rows3
 import com.composables.icons.lucide.Rows4
 import com.composables.icons.lucide.Search
@@ -51,7 +50,7 @@ import com.composables.icons.lucide.Square
 import com.composables.icons.lucide.Text
 import com.composables.icons.lucide.TextCursor
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
-import com.jesusdmedinac.jsontocompose.ComposeType
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 @Composable
 fun ComposeComponents(

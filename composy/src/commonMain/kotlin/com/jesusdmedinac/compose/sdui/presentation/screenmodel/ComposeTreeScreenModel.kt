@@ -1,9 +1,9 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.jesusdmedinac.jsontocompose.ComposeNode
-import com.jesusdmedinac.jsontocompose.ComposeType
-import com.jesusdmedinac.jsontocompose.NodeProperties
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
+import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

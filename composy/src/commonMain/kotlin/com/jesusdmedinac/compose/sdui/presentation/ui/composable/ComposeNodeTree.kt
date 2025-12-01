@@ -49,7 +49,7 @@ import com.composables.icons.lucide.Lucide
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
-import com.jesusdmedinac.jsontocompose.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
 
 
 @Composable

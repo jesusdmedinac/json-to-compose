@@ -2,7 +2,7 @@ package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.jesusdmedinac.jsontocompose.ComposeType
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -55,8 +55,8 @@ import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeTree
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposePreview
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.SplitColumn
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.WindowWithPanels
-import com.jesusdmedinac.jsontocompose.ComposeNode
-import com.jesusdmedinac.jsontocompose.ComposeType
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 
 data object MainScreen : Screen {
