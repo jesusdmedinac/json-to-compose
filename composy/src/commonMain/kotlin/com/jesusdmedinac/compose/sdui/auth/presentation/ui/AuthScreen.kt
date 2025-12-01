@@ -4,7 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -18,23 +22,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -61,15 +62,10 @@ object AuthScreen : Screen {
 
         when (val currentState = state) {
             is AuthScreenState.Authenticated -> navigator.replace(MainScreen)
-            is AuthScreenState.SignupCheckEmail -> CheckEmailScreen(
-                authScreenState = currentState,
-                authBehavior = authScreenModel
+            is AuthScreenState.SignupCheckEmail, is AuthScreenState.LoginCheckEmail -> CheckEmailScreen(
+                authBehavior = authScreenModel,
+                isLogin = currentState is AuthScreenState.LoginCheckEmail
             )
-            is AuthScreenState.LoginCheckEmail -> CheckEmailScreen(
-                authScreenState = currentState,
-                authBehavior = authScreenModel
-            )
-
             is AuthScreenState.Idle, is AuthScreenState.UnAuthenticated -> if (currentState.isLoading) {
                 Loading()
             } else {
@@ -82,8 +78,8 @@ object AuthScreen : Screen {
 
     @Composable
     private fun CheckEmailScreen(
-        authScreenState: AuthScreenState = AuthScreenState.Idle(),
-        authBehavior: AuthBehavior
+        authBehavior: AuthBehavior,
+        isLogin: Boolean
     ) {
         ComposyTheme {
             Box(
@@ -96,10 +92,7 @@ object AuthScreen : Screen {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = when (authScreenState) {
-                            is AuthScreenState.LoginCheckEmail -> "We have sent you an email!"
-                            else -> "Sign up successful!"
-                        },
+                        text = if (isLogin) "We have sent you an email!" else "Sign up successful!",
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleLarge
                     )
@@ -123,19 +116,11 @@ object AuthScreen : Screen {
         authScreenModel: AuthScreenModel = koinScreenModel(),
     ) {
         val state by authScreenModel.state.collectAsState()
-        val authState = state
-        var emailTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
-        var passwordTextFieldValue by remember { mutableStateOf(TextFieldValue("")) }
-
-        val unAuthenticated = when (authState) {
+        val unAuthenticated = when (val authState = state) {
             is AuthScreenState.UnAuthenticated -> authState
-            else -> AuthScreenState.UnAuthenticated()
+            else -> return // Should not happen in this branch
         }
-        val haveAccount = unAuthenticated.haveAccount
-        val error = unAuthenticated.error
-        val isValidEmail = unAuthenticated.isValidEmail
-        val isValidPassword = unAuthenticated.isValidPassword
-        val passwordVisible = unAuthenticated.passwordVisible
+
         val focusManager = LocalFocusManager.current
 
         ComposyTheme {
@@ -146,118 +131,147 @@ object AuthScreen : Screen {
                 contentAlignment = Alignment.Center
             ) {
                 Column(
-                    modifier = Modifier.onPreviewKeyEvent { event ->
-                        if (event.type == KeyEventType.KeyDown) {
-                            when (event.key) {
-                                Key.Tab -> {
-                                    if (event.isShiftPressed) {
-                                        focusManager.moveFocus(FocusDirection.Previous)
-                                    } else {
-                                        focusManager.moveFocus(FocusDirection.Next)
-                                    }
-                                    return@onPreviewKeyEvent true
-                                }
-                                Key.Enter -> {
-                                    if (isValidEmail && isValidPassword) {
-                                        authScreenModel.authenticate()
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .onPreviewKeyEvent { event ->
+                            if (event.type == KeyEventType.KeyDown) {
+                                when (event.key) {
+                                    Key.Tab -> {
+                                        focusManager.moveFocus(if (event.isShiftPressed) FocusDirection.Previous else FocusDirection.Next)
                                         return@onPreviewKeyEvent true
                                     }
+                                    Key.Enter -> {
+                                        if (unAuthenticated.isValidEmail && unAuthenticated.isValidPassword) {
+                                            authScreenModel.authenticate()
+                                            return@onPreviewKeyEvent true
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        false
-                    },
+                            false
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = if (haveAccount) "Sign in"
-                        else "Sign up",
-                        color = MaterialTheme.colorScheme.onBackground
+                    AuthHeader(isSignIn = unAuthenticated.haveAccount)
+                    Spacer(Modifier.height(16.dp))
+                    EmailField(
+                        email = unAuthenticated.email,
+                        onEmailChange = authScreenModel::onEmailChange
                     )
-                    OutlinedTextField(
-                        value = emailTextFieldValue,
-                        onValueChange = {
-                            emailTextFieldValue = it
-                            authScreenModel.onEmailChange(it.text)
-                        },
-                        label = {
-                            Text(
-                                text = "Email"
-                            )
-                        }
+                    Spacer(Modifier.height(8.dp))
+                    PasswordField(
+                        password = unAuthenticated.password,
+                        onPasswordChange = authScreenModel::onPasswordChange,
+                        isPasswordVisible = unAuthenticated.passwordVisible,
+                        onVisibilityChange = authScreenModel::onPasswordVisibilityChange
                     )
-                    OutlinedTextField(
-                        value = passwordTextFieldValue,
-                        onValueChange = {
-                            passwordTextFieldValue = it
-                            authScreenModel.onPasswordChange(it.text)
-                        },
-                        label = {
-                            Text(
-                                text = "Password"
-                            )
-                        },
-                        trailingIcon = {
-                            IconButton(
-                                onClick = {
-                                    authScreenModel.onPasswordVisibilityChange()
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = if (passwordVisible) Lucide.Eye
-                                    else Lucide.EyeOff,
-                                    contentDescription = "Password visibility",
-                                    tint = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
-                        },
-                        visualTransformation = if (passwordVisible) VisualTransformation.None
-                        else PasswordVisualTransformation(),
-                        keyboardOptions = if (passwordVisible) KeyboardOptions.Default
-                        else KeyboardOptions(keyboardType = KeyboardType.Password),
+                    Spacer(Modifier.height(16.dp))
+                    SubmitButton(
+                        isSignIn = unAuthenticated.haveAccount,
+                        isEnabled = unAuthenticated.isValidEmail && unAuthenticated.isValidPassword,
+                        onClick = authScreenModel::authenticate
                     )
-                    OutlinedButton(
-                        onClick = {
-                            authScreenModel.authenticate()
-                        },
-                        enabled = isValidEmail && isValidPassword
-                    ) {
-                        Text(
-                            text = if (haveAccount) "Sign in"
-                            else "Sign up"
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = if (haveAccount) "Don't have an account?"
-                            else "Already have an account?",
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        TextButton(
-                            onClick = {
-                                authScreenModel.onSwitchClick()
-                            }
-                        ) {
-                            Text(
-                                text = if (haveAccount) "Sign up"
-                                else "Login"
-                            )
-                        }
-                        Text(
-                            text = "free",
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                    Text(
-                        text = error ?: "",
-                        color = MaterialTheme.colorScheme.error
+                    Spacer(Modifier.height(8.dp))
+                    SwitchAuthModeRow(
+                        isSignIn = unAuthenticated.haveAccount,
+                        onSwitchClick = authScreenModel::onSwitchClick
                     )
+                    ErrorText(error = unAuthenticated.error)
                 }
             }
         }
     }
+
+    @Composable
+    private fun AuthHeader(isSignIn: Boolean) {
+        Text(
+            text = if (isSignIn) "Sign in" else "Sign up",
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }
+
+    @Composable
+    private fun EmailField(email: String, onEmailChange: (String) -> Unit) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = email,
+            onValueChange = onEmailChange,
+            label = { Text(text = "Email") },
+            singleLine = true
+        )
+    }
+
+    @Composable
+    private fun PasswordField(
+        password: String,
+        onPasswordChange: (String) -> Unit,
+        isPasswordVisible: Boolean,
+        onVisibilityChange: () -> Unit
+    ) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = password,
+            onValueChange = onPasswordChange,
+            label = { Text(text = "Password") },
+            trailingIcon = {
+                IconButton(onClick = onVisibilityChange) {
+                    Icon(
+                        imageVector = if (isPasswordVisible) Lucide.Eye else Lucide.EyeOff,
+                        contentDescription = "Password visibility",
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+            },
+            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = if (isPasswordVisible) KeyboardType.Text else KeyboardType.Password),
+            singleLine = true
+        )
+    }
+
+    @Composable
+    private fun SubmitButton(isSignIn: Boolean, isEnabled: Boolean, onClick: () -> Unit) {
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onClick,
+
+            enabled = isEnabled
+        ) {
+            Text(text = if (isSignIn) "Sign in" else "Sign up")
+        }
+    }
+
+    @Composable
+    private fun SwitchAuthModeRow(isSignIn: Boolean, onSwitchClick: () -> Unit) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = if (isSignIn) "Don't have an account?" else "Already have an account?",
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            TextButton(onClick = onSwitchClick) {
+                Text(text = if (isSignIn) "Sign up" else "Login")
+            }
+            Text(
+                text = "free",
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+    }
+
+    @Composable
+    private fun ErrorText(error: String?) {
+        if (!error.isNullOrBlank()) {
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+    }
+
+
 
     @Composable
     private fun Loading() {

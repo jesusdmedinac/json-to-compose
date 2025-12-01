@@ -60,16 +60,30 @@ import com.jesusdmedinac.jsontocompose.ComposeType
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
 
 data object MainScreen : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+
+        // State & Behavior holders
         val mainScreenModel = koinScreenModel<MainScreenModel>()
         val mainScreenState by mainScreenModel.state.collectAsState()
-        val isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed
-        val isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed
         val mainScreenSideEffect by mainScreenModel.sideEffect.collectAsState()
 
+        val composeComponentsScreenModel = koinScreenModel<ComposeComponentsScreenModel>()
+        val composeComponentsSideEffect by composeComponentsScreenModel.sideEffect.collectAsState()
+
+        val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
+        val composeTreeState by composeTreeScreenModel.state.collectAsState()
+        val selectedComposeNode = composeTreeState.selectedComposeNode
+
+        val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
+        val editNodeState by editNodeScreenModel.state.collectAsState()
+        val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
+
+        val authScreenModel = koinScreenModel<AuthScreenModel>()
+        val authState by authScreenModel.state.collectAsState()
+
+        // Side Effects
         val launcher = rememberFileSaverLauncher { file -> }
         LaunchedEffect(mainScreenSideEffect) {
             when (val sideEffect = mainScreenSideEffect) {
@@ -85,21 +99,6 @@ data object MainScreen : Screen {
             }
         }
 
-        val composeComponentsScreenModel = koinScreenModel<ComposeComponentsScreenModel>()
-        val composeComponentsSideEffect by composeComponentsScreenModel.sideEffect.collectAsState()
-
-        val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
-        val composeTreeState by composeTreeScreenModel.state.collectAsState()
-        val composeNodeRoot = composeTreeState.composeNodeRoot
-        val selectedComposeNode = composeTreeState.selectedComposeNode
-
-        val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
-        val editNodeState by editNodeScreenModel.state.collectAsState()
-        val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
-
-        val authScreenModel = koinScreenModel<AuthScreenModel>()
-        val authState by authScreenModel.state.collectAsState()
-
         LaunchedEffect(selectedComposeNode) {
             mainScreenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
             editNodeScreenModel.onComposeNodeSelected(selectedComposeNode)
@@ -114,13 +113,9 @@ data object MainScreen : Screen {
             editNodeState.editingComposeNode?.let { composeTreeScreenModel.saveNode(it) }
         }
 
-        LaunchedEffect(composeNodeRoot) {
-        }
-
         LaunchedEffect(authState) {
-            when (authState) {
-                is AuthScreenState.Idle -> navigator.replace(AuthScreen)
-                else -> Unit
+            if (authState is AuthScreenState.Idle) {
+                navigator.replace(AuthScreen)
             }
         }
 
@@ -137,7 +132,6 @@ data object MainScreen : Screen {
                                 )
                             )
                         }
-
                         ComposeType.Button -> {
                             composeTreeScreenModel.onAddNewNodeAsChild(
                                 ComposeNode(
@@ -146,74 +140,98 @@ data object MainScreen : Screen {
                                 )
                             )
                         }
-
                         else -> Unit
                     }
                 }
             }
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
+        // UI Layer
+        MainScreenLayout(
+            composeTreeState = composeTreeState,
+            authState = authState,
+            mainScreenBehavior = mainScreenModel,
+            authBehavior = authScreenModel,
+            isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed,
+            isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed,
+            onLeftPanelClosed = { mainScreenModel.onDisplayLeftPanelChange(false) },
+            onRightPanelClosed = { mainScreenModel.onDisplayRightPanelChange(false) }
+        )
+    }
+}
+
+@Composable
+private fun MainScreenLayout(
+    composeTreeState: ComposeTreeState,
+    authState: AuthScreenState,
+    mainScreenBehavior: MainScreenBehavior,
+    authBehavior: AuthBehavior,
+    isLeftPanelDisplayed: Boolean,
+    isRightPanelDisplayed: Boolean,
+    onLeftPanelClosed: () -> Unit,
+    onRightPanelClosed: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        MainScreenTopAppBar(
+            composeTreeState = composeTreeState,
+            authScreenState = authState,
+            mainScreenBehavior = mainScreenBehavior,
+            authBehavior = authBehavior
+        )
+        WindowWithPanels(
+            isLeftPanelDisplayed = isLeftPanelDisplayed,
+            onLeftPanelClosed = onLeftPanelClosed,
+            isRightPanelDisplayed = isRightPanelDisplayed,
+            onRightPanelClosed = onRightPanelClosed,
+            leftPanelContent = { LeftPanelContent() },
+            rightPanelContent = { RightPanelContent() },
+            modifier = Modifier.fillMaxSize()
         ) {
-            MainScreenTopAppBar(
-                composeTreeState,
-                authState,
-                mainScreenModel,
-                authScreenModel
-            )
-            WindowWithPanels(
-                isLeftPanelDisplayed,
-                onLeftPanelClosed = {
-                    mainScreenModel.onDisplayLeftPanelChange(false)
-                },
-                isRightPanelDisplayed,
-                onRightPanelClosed = {
-                    mainScreenModel.onDisplayRightPanelChange(false)
-                },
-                leftPanelContent = {
-                    SplitColumn(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        top = { modifier ->
-                            ComposeComponents(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                                    .background(MaterialTheme.colorScheme.surfaceContainer)
-                                    .padding(8.dp)
-                            )
-                        },
-                        bottom = { modifier ->
-                            ComposeNodeTree(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                                    .background(MaterialTheme.colorScheme.surfaceContainer)
-                                    .padding(8.dp)
-                            )
-                        }
-                    )
-                },
-                rightPanelContent = {
-                    ComposeNodeEditor(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceContainer)
-                            .padding(8.dp)
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                ComposePreview(
-                    modifier = Modifier
-                        .fillMaxSize()
-                )
-            }
+            MainPanelContent()
         }
     }
+}
+
+@Composable
+private fun LeftPanelContent() {
+    SplitColumn(
+        modifier = Modifier.fillMaxSize(),
+        top = { modifier ->
+            ComposeComponents(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .padding(8.dp)
+            )
+        },
+        bottom = { modifier ->
+            ComposeNodeTree(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .padding(8.dp)
+            )
+        }
+    )
+}
+
+@Composable
+private fun RightPanelContent() {
+    ComposeNodeEditor(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .padding(8.dp)
+    )
+}
+
+@Composable
+private fun MainPanelContent() {
+    ComposePreview(
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -225,40 +243,22 @@ private fun MainScreenTopAppBar(
     authBehavior: AuthBehavior
 ) {
     TopAppBar(
-        title = {
-            Text(
-                text = "Composy",
-            )
-        },
+        title = { Text(text = "Composy") },
         actions = {
             // TODO Ignore until desktop app is deployed
             if (false && getPlatform() == Platform.Wasm) {
                 TextButton(
-                    onClick = {
-                        mainScreenBehavior.onDownloadDesktopClick()
-                    },
-                    modifier = Modifier
-                        .pointerHoverIcon(
-                            icon = PointerIcon.Hand
-                        )
+                    onClick = { mainScreenBehavior.onDownloadDesktopClick() },
+                    modifier = Modifier.pointerHoverIcon(icon = PointerIcon.Hand)
                 ) {
-                    Text(
-                        text = "Download Desktop App",
-                    )
+                    Text(text = "Download Desktop App")
                 }
             }
             Button(
-                onClick = {
-                    mainScreenBehavior.exportAsJSONClick(composeTreeState.composeNodeRoot)
-                },
-                modifier = Modifier
-                    .pointerHoverIcon(
-                        icon = PointerIcon.Hand
-                    )
+                onClick = { mainScreenBehavior.exportAsJSONClick(composeTreeState.composeNodeRoot) },
+                modifier = Modifier.pointerHoverIcon(icon = PointerIcon.Hand)
             ) {
-                Text(
-                    text = "Export as JSON",
-                )
+                Text(text = "Export as JSON")
             }
             SessionAction(
                 authScreenState = authScreenState,
@@ -279,19 +279,12 @@ private fun SessionAction(
     authBehavior: AuthBehavior,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier
-    ) {
-        OutlinedIconButton(
-            onClick = {
-                expanded = true
-            },
-        ) {
+    Box(modifier = Modifier) {
+        OutlinedIconButton(onClick = { expanded = true }) {
             Text(
                 text = when (authScreenState) {
                     is AuthScreenState.Authenticated -> authScreenState.user?.email?.firstOrNull().toString()
                         .uppercase()
-
                     else -> "?"
                 },
                 modifier = Modifier
@@ -304,18 +297,10 @@ private fun SessionAction(
         }
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = {
-                expanded = false
-            }
+            onDismissRequest = { expanded = false }
         ) {
-            DropdownMenuItem(
-                onClick = {
-                    authBehavior.logout()
-                }
-            ) {
-                Text(
-                    text = "Logout"
-                )
+            DropdownMenuItem(onClick = { authBehavior.logout() }) {
+                Text(text = "Logout")
             }
         }
     }

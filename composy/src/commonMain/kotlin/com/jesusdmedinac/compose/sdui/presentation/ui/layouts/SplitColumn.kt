@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui.layouts
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -9,8 +10,8 @@ import androidx.compose.ui.Modifier
 @Composable
 fun SplitColumn(
     modifier: Modifier = Modifier,
-    top: @Composable (Modifier) -> Unit,
-    bottom: @Composable (Modifier) -> Unit
+    top: @Composable ColumnScope.(Modifier) -> Unit,
+    bottom: @Composable ColumnScope.(Modifier) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -32,17 +33,17 @@ fun SplitColumn(
 }
 
 @Composable
-private fun Top(
+private fun ColumnScope.Top(
     modifier: Modifier = Modifier,
-    content: @Composable (Modifier) -> Unit
+    content: @Composable ColumnScope.(Modifier) -> Unit
 ) {
     content(modifier)
 }
 
 @Composable
-private fun Bottom(
+private fun ColumnScope.Bottom(
     modifier: Modifier = Modifier,
-    content: @Composable (Modifier) -> Unit
+    content: @Composable ColumnScope.(Modifier) -> Unit
 ) {
     content(modifier)
 }

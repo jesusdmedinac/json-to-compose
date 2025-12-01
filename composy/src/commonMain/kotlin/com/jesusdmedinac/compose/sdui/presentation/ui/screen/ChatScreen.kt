@@ -40,108 +40,120 @@ object ChatScreen : Screen {
         var isLeftPanelDisplayed by remember { mutableStateOf(false) }
         var isRightPanelDisplayed by remember { mutableStateOf(false) }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            ChatScreenTopAppBar()
-            WindowWithPanels(
-                isLeftPanelDisplayed,
-                onLeftPanelClosed = {
-                },
-                isRightPanelDisplayed,
-                onRightPanelClosed = {
-                },
-                leftPanelContent = {
-                    ProjectGeneratorPanel(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceContainer)
-                            .padding(16.dp)
-                    )
-                },
-                rightPanelContent = {
-                    PreviewPanel(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceContainer)
-                            .padding(16.dp)
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.surfaceContainer)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(
-                                MaterialTheme.shapes.extraLarge.copy(
-                                    bottomStart = CornerSize(0.0.dp),
-                                    bottomEnd = CornerSize(0.0.dp)
-                                )
-                            )
-                            .background(MaterialTheme.colorScheme.primaryContainer)
-                            .padding(8.dp)
-                    ) {
-                        IconButton(
-                            onClick = {
-                                isLeftPanelDisplayed = !isLeftPanelDisplayed
-                            },
-                            modifier = Modifier
-                                .pointerHoverIcon(
-                                    icon = PointerIcon.Hand
-                                )
-                        ) {
-                            Icon(
-                                painterResource(Res.drawable.ic_menu),
-                                contentDescription = "Open left panel",
-                            )
-                        }
-                        Spacer(modifier = Modifier.weight(1f))
-                        IconButton(
-                            onClick = {
-                                isRightPanelDisplayed = !isRightPanelDisplayed
-                            },
-                            modifier = Modifier
-                                .pointerHoverIcon(
-                                    icon = PointerIcon.Hand
-                                )
-                        ) {
-                            Icon(
-                                painterResource(Res.drawable.ic_menu),
-                                contentDescription = "Open right panel",
-                            )
-                        }
-                    }
-                    ChatPanel(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
-                }
-            }
-        }
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    private fun ChatScreenTopAppBar() {
-        TopAppBar(
-            title = {
-                Text(
-                    text = "Composy",
-                )
-            },
-            actions = {
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                titleContentColor = MaterialTheme.colorScheme.onSurface,
-                actionIconContentColor = MaterialTheme.colorScheme.onSurface,
-            )
+        ChatScreenLayout(
+            isLeftPanelDisplayed = isLeftPanelDisplayed,
+            onLeftPanelToggle = { isLeftPanelDisplayed = !isLeftPanelDisplayed },
+            isRightPanelDisplayed = isRightPanelDisplayed,
+            onRightPanelToggle = { isRightPanelDisplayed = !isRightPanelDisplayed }
         )
     }
+}
+
+@Composable
+private fun ChatScreenLayout(
+    isLeftPanelDisplayed: Boolean,
+    onLeftPanelToggle: () -> Unit,
+    isRightPanelDisplayed: Boolean,
+    onRightPanelToggle: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        ChatScreenTopAppBar()
+        WindowWithPanels(
+            isLeftPanelDisplayed = isLeftPanelDisplayed,
+            onLeftPanelClosed = onLeftPanelToggle,
+            isRightPanelDisplayed = isRightPanelDisplayed,
+            onRightPanelClosed = onRightPanelToggle,
+            leftPanelContent = {
+                ProjectGeneratorPanel(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
+                        .padding(16.dp)
+                )
+            },
+            rightPanelContent = {
+                PreviewPanel(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
+                        .padding(16.dp)
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+        ) {
+            ChatScreenMainContent(
+                onLeftPanelToggle = onLeftPanelToggle,
+                onRightPanelToggle = onRightPanelToggle
+            )
+        }
+    }
+}
+
+@Composable
+private fun ChatScreenMainContent(
+    onLeftPanelToggle: () -> Unit,
+    onRightPanelToggle: () -> Unit
+) {
+    Column(modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer)) {
+        PanelControlHeader(
+            onLeftPanelToggle = onLeftPanelToggle,
+            onRightPanelToggle = onRightPanelToggle
+        )
+        ChatPanel(modifier = Modifier.fillMaxSize())
+    }
+}
+
+@Composable
+private fun PanelControlHeader(
+    onLeftPanelToggle: () -> Unit,
+    onRightPanelToggle: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(
+                MaterialTheme.shapes.extraLarge.copy(
+                    bottomStart = CornerSize(0.0.dp),
+                    bottomEnd = CornerSize(0.0.dp)
+                )
+            )
+            .background(MaterialTheme.colorScheme.primaryContainer)
+            .padding(8.dp)
+    ) {
+        IconButton(
+            onClick = onLeftPanelToggle,
+            modifier = Modifier.pointerHoverIcon(icon = PointerIcon.Hand)
+        ) {
+            Icon(
+                painterResource(Res.drawable.ic_menu),
+                contentDescription = "Open left panel",
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(
+            onClick = onRightPanelToggle,
+            modifier = Modifier.pointerHoverIcon(icon = PointerIcon.Hand)
+        ) {
+            Icon(
+                painterResource(Res.drawable.ic_menu),
+                contentDescription = "Open right panel",
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ChatScreenTopAppBar() {
+    TopAppBar(
+        title = {
+            Text(text = "Composy")
+        },
+        actions = {},
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            actionIconContentColor = MaterialTheme.colorScheme.onSurface,
+        )
+    )
 }
