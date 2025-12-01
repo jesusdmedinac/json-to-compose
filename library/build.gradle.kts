@@ -64,7 +64,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            api(libs.coil.network.okhttp)
+            implementation(libs.ktor.client.android)
         }
         androidInstrumentedTest.dependencies {
             implementation("androidx.test.ext:junit:1.1.5")
@@ -82,6 +82,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             api(libs.kotlinx.serialization.json)
             api(libs.coil.compose)
+            api(libs.coil.network.ktor3)
         }
         val commonTest by getting {
             dependencies {
@@ -92,6 +93,11 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.java)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

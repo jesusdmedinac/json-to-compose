@@ -11,7 +11,6 @@ androidx-lifecycle = "2.9.1"
 compose-multiplatform = "1.9.3"
 kotlinx-coroutines = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
-ktorClientCio = "3.2.2"
 materialKolor = "3.0.0"
 voyager = "1.1.0-beta03"
 conveyor = "1.12"
@@ -24,7 +23,6 @@ coil = "3.3.0"
 [libraries]
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientCio" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }
 supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt" }
@@ -48,8 +46,11 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
-coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "ktor" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
