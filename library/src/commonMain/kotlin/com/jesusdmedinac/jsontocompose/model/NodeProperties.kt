@@ -39,4 +39,10 @@ sealed interface NodeProperties {
     data class TextFieldProps(
         val onTextChangeEventName: String? = null,
     ) : NodeProperties
+
+    @Serializable
+    @SerialName("ScaffoldProps")
+    data class ScaffoldProps(
+        val child: ComposeNode? = null,
+    ) : NodeProperties
 }

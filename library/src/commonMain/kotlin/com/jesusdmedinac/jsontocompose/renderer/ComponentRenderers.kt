@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -181,5 +182,12 @@ fun ComposeNode.ToLazyRow() {
 
 @Composable
 fun ComposeNode.ToScaffold() {
-    // TODO: Implement Scaffold support
+    val props = properties as? NodeProperties.ScaffoldProps ?: return
+    val child = props.child
+    val modifier = Modifier from composeModifier
+    Scaffold(
+        modifier = modifier,
+    ) {
+        child?.ToCompose()
+    }
 }
