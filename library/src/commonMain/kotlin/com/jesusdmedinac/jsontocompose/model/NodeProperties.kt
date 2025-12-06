@@ -21,8 +21,25 @@ sealed interface NodeProperties {
 
     @Serializable
     @SerialName("LayoutProps")
-    data class LayoutProps(
+    data class ColumnProps(
         val children: List<ComposeNode>? = null,
+        val verticalArrangement: String? = null,
+        val horizontalAlignment: String? = null,
+    ) : NodeProperties
+
+    @Serializable
+    @SerialName("LayoutProps")
+    data class RowProps(
+        val children: List<ComposeNode>? = null,
+        val verticalAlignment: String? = null,
+        val horizontalArrangement: String? = null,
+    ) : NodeProperties
+
+    @Serializable
+    @SerialName("LayoutProps")
+    data class BoxProps(
+        val children: List<ComposeNode>? = null,
+        val contentAlignment: String? = null,
     ) : NodeProperties
 
     @Serializable

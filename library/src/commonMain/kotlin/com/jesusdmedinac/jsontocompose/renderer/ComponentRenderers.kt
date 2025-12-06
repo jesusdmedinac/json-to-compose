@@ -2,6 +2,7 @@ package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -22,6 +24,11 @@ import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toAlignment
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toHorizontalArrangement
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toHorizontalsAlignment
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toVerticalAlignment
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toVerticalArrangement
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -30,11 +37,19 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ComposeNode.ToColumn() {
-    val props = properties as? NodeProperties.LayoutProps ?: return
+    val props = properties as? NodeProperties.ColumnProps ?: return
     val children = props.children
+    val verticalArrangement = props.verticalArrangement
+        ?.toVerticalArrangement()
+        ?: Arrangement.Top
+    val horizontalAlignment = props.horizontalAlignment
+        ?.toHorizontalsAlignment()
+        ?: Alignment.Start
     val modifier = Modifier from composeModifier
     Column(
         modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment,
     ) {
         children?.forEach {
             it.ToCompose()
@@ -44,11 +59,19 @@ fun ComposeNode.ToColumn() {
 
 @Composable
 fun ComposeNode.ToRow() {
-    val props = properties as? NodeProperties.LayoutProps ?: return
+    val props = properties as? NodeProperties.RowProps ?: return
     val children = props.children
+    val horizontalArrangement = props.horizontalArrangement
+        ?.toHorizontalArrangement()
+        ?: Arrangement.Start
+    val verticalAlignment = props.verticalAlignment
+        ?.toVerticalAlignment()
+        ?: Alignment.Top
     val modifier = Modifier from composeModifier
     Row(
         modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         children?.forEach {
             it.ToCompose()
@@ -58,11 +81,16 @@ fun ComposeNode.ToRow() {
 
 @Composable
 fun ComposeNode.ToBox() {
-    val props = properties as? NodeProperties.LayoutProps ?: return
+    val props = properties as? NodeProperties.BoxProps ?: return
     val children = props.children
+    val contentAlignment = props.contentAlignment
+        ?.toAlignment()
+        ?: Alignment.TopStart
     val modifier = Modifier from composeModifier
+
     Box(
         modifier = modifier,
+        contentAlignment = contentAlignment,
     ) {
         children?.forEach {
             it.ToCompose()
@@ -156,12 +184,19 @@ fun ComposeNode.ToTextField() {
 
 @Composable
 fun ComposeNode.ToLazyColumn() {
-    val props = properties as? NodeProperties.LayoutProps ?: return
+    val props = properties as? NodeProperties.ColumnProps ?: return
     val children = props.children
+    val verticalArrangement = props.verticalArrangement
+        ?.toVerticalArrangement()
+        ?: Arrangement.Top
+    val horizontalAlignment = props.horizontalAlignment
+        ?.toHorizontalsAlignment()
+        ?: Alignment.Start
     val modifier = Modifier from composeModifier
-
     LazyColumn(
         modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment,
     ) {
         children?.let { items(it) { child -> child.ToCompose() } }
     }
@@ -169,12 +204,19 @@ fun ComposeNode.ToLazyColumn() {
 
 @Composable
 fun ComposeNode.ToLazyRow() {
-    val props = properties as? NodeProperties.LayoutProps ?: return
+    val props = properties as? NodeProperties.RowProps ?: return
     val children = props.children
+    val horizontalArrangement = props.horizontalArrangement
+        ?.toHorizontalArrangement()
+        ?: Arrangement.Start
+    val verticalAlignment = props.verticalAlignment
+        ?.toVerticalAlignment()
+        ?: Alignment.Top
     val modifier = Modifier from composeModifier
-
     LazyRow(
         modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         children?.let { items(it) { child -> child.ToCompose() } }
     }
