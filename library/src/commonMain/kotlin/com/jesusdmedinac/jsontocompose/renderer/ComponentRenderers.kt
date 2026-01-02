@@ -86,11 +86,12 @@ fun ComposeNode.ToBox() {
     val contentAlignment = props.contentAlignment
         ?.toAlignment()
         ?: Alignment.TopStart
+    val propagateMinConstraints = props.propagateMinConstraints ?: false
     val modifier = Modifier from composeModifier
-
     Box(
         modifier = modifier,
         contentAlignment = contentAlignment,
+        propagateMinConstraints = propagateMinConstraints,
     ) {
         children?.forEach {
             it.ToCompose()

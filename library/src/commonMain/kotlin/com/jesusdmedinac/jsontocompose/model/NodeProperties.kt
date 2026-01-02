@@ -40,6 +40,7 @@ sealed interface NodeProperties {
     data class BoxProps(
         val children: List<ComposeNode>? = null,
         val contentAlignment: String? = null,
+        val propagateMinConstraints: Boolean? = false,
     ) : NodeProperties
 
     @Serializable
