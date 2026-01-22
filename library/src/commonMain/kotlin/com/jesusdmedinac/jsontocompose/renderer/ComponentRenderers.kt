@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.jesusdmedinac.jsontocompose.LocalBehavior
+import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
@@ -232,5 +233,14 @@ fun ComposeNode.ToScaffold() {
         modifier = modifier,
     ) {
         child?.ToCompose()
+    }
+}
+
+@Composable
+fun ComposeNode.ToCustom() {
+    val customRenderers = LocalCustomRenderers.current
+    val customProps = properties as? NodeProperties.CustomProps
+    customProps?.customType?.let { customType ->
+        customRenderers[customType]?.invoke(this)
     }
 }

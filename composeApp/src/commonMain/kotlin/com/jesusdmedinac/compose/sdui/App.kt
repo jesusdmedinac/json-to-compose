@@ -12,9 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.jesusdmedinac.jsontocompose.LocalBehavior
+import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
@@ -53,10 +57,24 @@ fun App() {
         }
     )
 
+    val customRenderers: Map<String, @Composable (ComposeNode) -> Unit> = mapOf(
+        "ProductCard" to { node ->
+            val customProps = node.properties as? NodeProperties.CustomProps
+            val customData = customProps?.customData
+            val title = customData?.get("title")?.jsonPrimitive?.content ?: "No title"
+            val price = customData?.get("price")?.jsonPrimitive?.content ?: "0.00"
+            Column {
+                Text(text = "🛒 $title")
+                Text(text = "Price: $$price")
+            }
+        }
+    )
+
     CompositionProviders(
         drawableResources = drawableResources,
         behaviors = behaviors,
         stateHosts = stateHosts,
+        customRenderers = customRenderers,
     ) {
         MaterialTheme {
             val composeNode = ComposeNode(
@@ -234,6 +252,16 @@ fun App() {
                                 ),
                             ),
                         ),
+                        ComposeNode(
+                            type = ComposeType.Custom,
+                            properties = NodeProperties.CustomProps(
+                                customType = "ProductCard",
+                                customData = buildJsonObject {
+                                    put("title", JsonPrimitive("Custom Product"))
+                                    put("price", JsonPrimitive("99.99"))
+                                }
+                            )
+                        ),
                     )
                 )
             )
@@ -271,12 +299,15 @@ fun CompositionProviders(
     drawableResources: Map<String, DrawableResource>,
     behaviors: Map<String, Behavior>,
     stateHosts: Map<String, StateHost<*>>,
+    customRenderers: Map<String, @Composable (ComposeNode) -> Unit>,
     content: @Composable () -> Unit
 ) {
     DrawableResourcesComposition(drawableResources = drawableResources) {
         BehaviorComposition(behaviors = behaviors) {
             StateHostComposition(stateHosts = stateHosts) {
-                content()
+                CustomRenderersComposition(customRenderers = customRenderers) {
+                    content()
+                }
             }
         }
     }
@@ -308,6 +339,16 @@ fun StateHostComposition(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalStateHost provides stateHosts) {
+        content()
+    }
+}
+
+@Composable
+fun CustomRenderersComposition(
+    customRenderers: Map<String, @Composable (ComposeNode) -> Unit>,
+    content: @Composable () -> Unit,
+) {
+    CompositionLocalProvider(LocalCustomRenderers provides customRenderers) {
         content()
     }
 }
@@ -520,6 +561,17 @@ val JSON_AS_STRING = """
               "value": 64
             }
           ]
+        }
+      },
+      {
+        "type": "Custom",
+        "properties": {
+          "type": "CustomProps",
+          "customType": "ProductCard",
+          "customData": {
+            "title": "JSON Product",
+            "price": "149.99"
+          }
         }
       }
     ]

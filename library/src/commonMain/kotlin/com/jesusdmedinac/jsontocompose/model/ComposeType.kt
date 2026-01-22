@@ -10,7 +10,8 @@ enum class ComposeType {
     TextField,
     LazyColumn,
     LazyRow,
-    Scaffold;
+    Scaffold,
+    Custom;
 
     fun isLayout(): Boolean = when (this) {
         Column, Row, Box -> true

@@ -9,6 +9,7 @@ import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
 import com.jesusdmedinac.jsontocompose.renderer.ToButton
 import com.jesusdmedinac.jsontocompose.renderer.ToColumn
+import com.jesusdmedinac.jsontocompose.renderer.ToCustom
 import com.jesusdmedinac.jsontocompose.renderer.ToImage
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyRow
@@ -24,6 +25,8 @@ val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResour
 val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
 
 val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
+
+val LocalCustomRenderers = staticCompositionLocalOf<Map<String, @Composable (ComposeNode) -> Unit>> { emptyMap() }
 
 @Composable
 fun String.ToCompose() {
@@ -43,5 +46,6 @@ fun ComposeNode.ToCompose() {
         ComposeType.LazyColumn -> ToLazyColumn()
         ComposeType.LazyRow -> ToLazyRow()
         ComposeType.Scaffold -> ToScaffold()
+        ComposeType.Custom -> ToCustom()
     }
 }

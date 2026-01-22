@@ -2,6 +2,7 @@ package com.jesusdmedinac.jsontocompose.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 
 @Serializable
 @SerialName("NodeProperties")
@@ -62,5 +63,12 @@ sealed interface NodeProperties {
     @SerialName("ScaffoldProps")
     data class ScaffoldProps(
         val child: ComposeNode? = null,
+    ) : NodeProperties
+
+    @Serializable
+    @SerialName("CustomProps")
+    data class CustomProps(
+        val customType: String,
+        val customData: JsonObject? = null,
     ) : NodeProperties
 }
