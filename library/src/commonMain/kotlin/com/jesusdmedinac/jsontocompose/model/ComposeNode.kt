@@ -18,12 +18,16 @@ data class ComposeNode(
     val id: String = when {
         parent == null -> "${countLevels()}"
         else -> {
-            val parentProps = parent.properties as? NodeProperties.LayoutProps
-            val children = parentProps?.children ?: emptyList()
-
-            parent.id + "_" + type.name + "_" + (children.size + 1)
+            parent.id + "_" + type.name + "_" + (properties.children().size + 1)
         }
     }
+
+    private fun NodeProperties?.children(): List<ComposeNode> = when(this) {
+        is NodeProperties.ColumnProps -> children
+        is NodeProperties.RowProps -> children
+        is NodeProperties.BoxProps -> children
+        else -> null
+    } ?: emptyList()
 
     fun countLevels(count: Int = 0): Int =
         parent?.countLevels(count + 1) ?: count
@@ -43,9 +47,8 @@ data class ComposeNode(
         val singleChildProps = properties as? NodeProperties.ButtonProps
         val child = singleChildProps?.child
         child?.let { list.add(it) }
-        val layoutProps = properties as? NodeProperties.LayoutProps
-        val children = layoutProps?.children
-        children?.forEach {
+        val children = properties.children()
+        children.forEach {
             list.addAll(it.asList())
         }
         return list

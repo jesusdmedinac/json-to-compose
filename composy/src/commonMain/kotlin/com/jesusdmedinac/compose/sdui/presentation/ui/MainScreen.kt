@@ -80,9 +80,6 @@ data object MainScreen : Screen {
         val editNodeState by editNodeScreenModel.state.collectAsState()
         val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
 
-        val authScreenModel = koinScreenModel<AuthScreenModel>()
-        val authState by authScreenModel.state.collectAsState()
-
         // Side Effects
         val launcher = rememberFileSaverLauncher { file -> }
         LaunchedEffect(mainScreenSideEffect) {
@@ -111,12 +108,6 @@ data object MainScreen : Screen {
 
         LaunchedEffect(editNodeState) {
             editNodeState.editingComposeNode?.let { composeTreeScreenModel.saveNode(it) }
-        }
-
-        LaunchedEffect(authState) {
-            if (authState is AuthScreenState.Idle) {
-                navigator.replace(AuthScreen)
-            }
         }
 
         LaunchedEffect(composeComponentsSideEffect) {
@@ -149,9 +140,7 @@ data object MainScreen : Screen {
         // UI Layer
         MainScreenLayout(
             composeTreeState = composeTreeState,
-            authState = authState,
             mainScreenBehavior = mainScreenModel,
-            authBehavior = authScreenModel,
             isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed,
             isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed,
             onLeftPanelClosed = { mainScreenModel.onDisplayLeftPanelChange(false) },
@@ -163,9 +152,7 @@ data object MainScreen : Screen {
 @Composable
 private fun MainScreenLayout(
     composeTreeState: ComposeTreeState,
-    authState: AuthScreenState,
     mainScreenBehavior: MainScreenBehavior,
-    authBehavior: AuthBehavior,
     isLeftPanelDisplayed: Boolean,
     isRightPanelDisplayed: Boolean,
     onLeftPanelClosed: () -> Unit,
@@ -174,9 +161,7 @@ private fun MainScreenLayout(
     Column(modifier = Modifier.fillMaxSize()) {
         MainScreenTopAppBar(
             composeTreeState = composeTreeState,
-            authScreenState = authState,
             mainScreenBehavior = mainScreenBehavior,
-            authBehavior = authBehavior
         )
         WindowWithPanels(
             isLeftPanelDisplayed = isLeftPanelDisplayed,
@@ -238,9 +223,7 @@ private fun MainPanelContent() {
 @Composable
 private fun MainScreenTopAppBar(
     composeTreeState: ComposeTreeState,
-    authScreenState: AuthScreenState,
     mainScreenBehavior: MainScreenBehavior,
-    authBehavior: AuthBehavior
 ) {
     TopAppBar(
         title = { Text(text = "Composy") },
@@ -260,10 +243,6 @@ private fun MainScreenTopAppBar(
             ) {
                 Text(text = "Export as JSON")
             }
-            SessionAction(
-                authScreenState = authScreenState,
-                authBehavior = authBehavior
-            )
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer,

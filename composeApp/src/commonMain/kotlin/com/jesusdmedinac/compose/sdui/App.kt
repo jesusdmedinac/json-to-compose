@@ -61,7 +61,7 @@ fun App() {
         MaterialTheme {
             val composeNode = ComposeNode(
                 type = ComposeType.Column,
-                properties = NodeProperties.LayoutProps(
+                properties = NodeProperties.ColumnProps(
                     children = listOf(
                         ComposeNode(
                             type = ComposeType.Text,
@@ -99,7 +99,7 @@ fun App() {
                         ),
                         ComposeNode(
                             type = ComposeType.Column,
-                            properties = NodeProperties.LayoutProps(
+                            properties = NodeProperties.ColumnProps(
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.Text,
@@ -118,7 +118,7 @@ fun App() {
                         ),
                         ComposeNode(
                             type = ComposeType.Row,
-                            properties = NodeProperties.LayoutProps(
+                            properties = NodeProperties.RowProps(
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.Text,
@@ -137,7 +137,7 @@ fun App() {
                         ),
                         ComposeNode(
                             type = ComposeType.Box,
-                            properties = NodeProperties.LayoutProps(
+                            properties = NodeProperties.BoxProps(
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.Text,
@@ -168,7 +168,7 @@ fun App() {
                                     ComposeModifier.Operation.Height(64),
                                 )
                             ),
-                            properties = NodeProperties.LayoutProps(
+                            properties = NodeProperties.ColumnProps(
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.Text,
@@ -205,7 +205,7 @@ fun App() {
                                     ComposeModifier.Operation.Width(64),
                                 )
                             ),
-                            properties = NodeProperties.LayoutProps(
+                            properties = NodeProperties.RowProps(
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.Text,
@@ -316,7 +316,7 @@ val JSON_AS_STRING = """
 {
   "type": "Column",
   "properties": {
-    "type": "LayoutProps",
+    "type": "ColumnProps",
     "children": [
       {
         "type": "Text",
@@ -358,7 +358,7 @@ val JSON_AS_STRING = """
       {
         "type": "Column",
         "properties": {
-          "type": "LayoutProps",
+          "type": "ColumnProps",
           "children": [
             {
               "type": "Text",
@@ -380,7 +380,7 @@ val JSON_AS_STRING = """
       {
         "type": "Row",
         "properties": {
-          "type": "LayoutProps",
+          "type": "RowProps",
           "children": [
             {
               "type": "Text",
@@ -402,7 +402,7 @@ val JSON_AS_STRING = """
       {
         "type": "Box",
         "properties": {
-          "type": "LayoutProps",
+          "type": "BoxProps",
           "children": [
             {
               "type": "Text",
@@ -431,7 +431,7 @@ val JSON_AS_STRING = """
       {
         "type": "LazyColumn",
         "properties": {
-          "type": "LayoutProps",
+          "type": "ColumnProps",
           "children": [
             {
               "type": "Text",
@@ -478,7 +478,7 @@ val JSON_AS_STRING = """
       {
         "type": "LazyRow",
         "properties": {
-          "type": "LayoutProps",
+          "type": "RowProps",
           "children": [
             {
               "type": "Text",
