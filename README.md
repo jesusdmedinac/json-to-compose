@@ -51,134 +51,235 @@ Add the following dependency to your `build.gradle.kts` file:
 
 ```kotlin
 dependencies {
-  implementation("com.jesusdmedinac:json-to-compose:1.0.1")
+  implementation("com.jesusdmedinac:json-to-compose:1.1.0")
 }
 ```
 
 ## 🚀 Usage
 
+### Basic Usage
+
 ```kotlin
 @Composable
-@Preview
 fun App() {
     MaterialTheme {
-        JSON_AS_STRING.ToCompose(object : Behavior {
-            override fun onClick(eventName: String) {
-                println("Event: $eventName")
-            }
-        })
+        JSON_AS_STRING.ToCompose()
     }
 }
 
 val JSON_AS_STRING = """
-    {
-        "type": "Column",
-        "children": [
-            {
-                "type": "Text",
-                "text": "String to Text"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Text\",\"text\": \"String to Text\"}"
-            },
-            {
-                "type": "Text",
-                "text": "String to Text"
-            },
-            {
-                "type": "Text",
-                "text": "String to Button"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Button\",\"onClickEventName\": \"button_clicked\",\"child\": {\"type\": \"Text\",\"text\": \"Click me!\"}}"
-            },
-            {
-                "type": "Button",
-                "onClickEventName": "button_clicked",
-                "child": {
-                    "type": "Text",
-                    "text": "Click me!"
-                }
-            },
-            {
-                "type": "Text",
-                "text": "String to Column"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Column\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
-            },
-            {
-                "type": "Column",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "First text"
-                    },
-                    {
-                        "type": "Text",
-                        "text": "Second text"
-                    }
-                ]
-            },
-            {
-                "type": "Text",
-                "text": "String to Row"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Row\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
-            },
-            {
-                "type": "Row",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "First text"
-                    },
-                    {
-                        "type": "Text",
-                        "text": "Second text"
-                    }
-                ]
-            },
-            {
-                "type": "Text",
-                "text": "String to Box"
-            },
-            {
-                "type": "Text",
-                "text": "{\"type\": \"Box\",\"children\": [{\"type\": \"Text\",\"text\": \"First text\"}, {\"type\": \"Text\",\"text\": \"Second text\"}]}"
-            },
-            {
-                "type": "Box",
-                "children": [
-                    {
-                        "type": "Text",
-                        "text": "First text"
-                    },
-                    {
-                        "type": "Text",
-                        "text": "Second text"
-                    }
-                ]
-            }
-        ]
-    }
+{
+  "type": "Column",
+  "properties": {
+    "type": "ColumnProps",
+    "children": [
+      {
+        "type": "Text",
+        "properties": {
+          "type": "TextProps",
+          "text": "Hello World"
+        }
+      }
+    ]
+  }
+}
 """.trimIndent()
 ```
 
+### With Behaviors (Click Events)
+
+```kotlin
+@Composable
+fun App() {
+    val behaviors = mapOf(
+        "button_clicked" to object : Behavior {
+            override fun onClick() {
+                println("Button was clicked!")
+            }
+        }
+    )
+
+    CompositionLocalProvider(LocalBehavior provides behaviors) {
+        MaterialTheme {
+            JSON_AS_STRING.ToCompose()
+        }
+    }
+}
+```
+
+### With State (TextField)
+
+```kotlin
+@Composable
+fun App() {
+    var textValue by remember { mutableStateOf("") }
+
+    val stateHosts = mapOf(
+        "my_text_field" to object : StateHost<String> {
+            override val state: String get() = textValue
+            override fun onStateChange(state: String) {
+                textValue = state
+            }
+        }
+    )
+
+    CompositionLocalProvider(LocalStateHost provides stateHosts) {
+        JSON_AS_STRING.ToCompose()
+    }
+}
+```
+
+### With Drawable Resources
+
+```kotlin
+@Composable
+fun App() {
+    val drawableResources = mapOf(
+        "my_icon" to Res.drawable.my_icon
+    )
+
+    CompositionLocalProvider(LocalDrawableResources provides drawableResources) {
+        JSON_AS_STRING.ToCompose()
+    }
+}
+```
 
 ## 🔧 Supported Components
 
-- Text
-- Column
-- Row
-- Box
-- Button
-- Much more comming soon...
+| Component | Description |
+|-----------|-------------|
+| Text | Display text |
+| Button | Clickable button with child content |
+| Column | Vertical layout container |
+| Row | Horizontal layout container |
+| Box | Stacking layout container |
+| Image | Display images from URL or local resources |
+| TextField | Text input field |
+| LazyColumn | Lazy vertical scrolling list |
+| LazyRow | Lazy horizontal scrolling list |
+| Scaffold | Material Design scaffold layout |
+| **Custom** | User-defined custom components |
+
+## 🧩 Custom Components
+
+Extend the library with your own components without forking:
+
+```kotlin
+// 1. Define your custom renderer
+val customRenderers = mapOf(
+    "ProductCard" to { node: ComposeNode ->
+        val props = node.properties as? NodeProperties.CustomProps
+        val data = props?.customData
+        val title = data?.get("title")?.jsonPrimitive?.content ?: ""
+        val price = data?.get("price")?.jsonPrimitive?.content ?: ""
+
+        Card {
+            Column {
+                Text(text = title)
+                Text(text = "$$price")
+            }
+        }
+    }
+)
+
+// 2. Provide it to the composition
+CompositionLocalProvider(LocalCustomRenderers provides customRenderers) {
+    JSON_AS_STRING.ToCompose()
+}
+```
+
+**JSON for custom component:**
+```json
+{
+  "type": "Custom",
+  "properties": {
+    "type": "CustomProps",
+    "customType": "ProductCard",
+    "customData": {
+      "title": "My Product",
+      "price": "99.99"
+    }
+  }
+}
+```
+
+## 🎨 Modifiers
+
+Apply modifiers to any component using `composeModifier`:
+
+```json
+{
+  "type": "Box",
+  "properties": { "type": "BoxProps" },
+  "composeModifier": {
+    "operations": [
+      { "type": "FillMaxWidth" },
+      { "type": "Height", "value": 200 },
+      { "type": "Padding", "value": 16 },
+      { "type": "BackgroundColor", "color": "#FF5722" }
+    ]
+  }
+}
+```
+
+**Available operations:**
+- `Padding` - Add padding (value in dp)
+- `FillMaxSize` - Fill maximum available size
+- `FillMaxWidth` - Fill maximum width
+- `FillMaxHeight` - Fill maximum height
+- `Width` - Set specific width (value in dp)
+- `Height` - Set specific height (value in dp)
+- `BackgroundColor` - Set background color (hex color)
+
+## 📐 Alignment & Arrangement
+
+### Box Alignment
+
+```json
+{
+  "type": "Box",
+  "properties": {
+    "type": "BoxProps",
+    "contentAlignment": "Center"
+  }
+}
+```
+
+**Values:** `TopStart`, `TopCenter`, `TopEnd`, `CenterStart`, `Center`, `CenterEnd`, `BottomStart`, `BottomCenter`, `BottomEnd`
+
+### Column Arrangement
+
+```json
+{
+  "type": "Column",
+  "properties": {
+    "type": "ColumnProps",
+    "verticalArrangement": "SpaceBetween",
+    "horizontalAlignment": "CenterHorizontally"
+  }
+}
+```
+
+**Vertical Arrangement:** `Top`, `Bottom`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
+
+**Horizontal Alignment:** `Start`, `CenterHorizontally`, `End`
+
+### Row Arrangement
+
+```json
+{
+  "type": "Row",
+  "properties": {
+    "type": "RowProps",
+    "horizontalArrangement": "SpaceEvenly",
+    "verticalAlignment": "CenterVertically"
+  }
+}
+```
+
+**Horizontal Arrangement:** `Start`, `End`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
+
+**Vertical Alignment:** `Top`, `CenterVertically`, `Bottom`
 
 ## 🧩 Composy
 
