@@ -67,12 +67,21 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
         val parentNode = updatedNode.parent
             ?: return updatedNode
-        val props = parentNode.properties as? NodeProperties.LayoutProps
-            ?: return updatedNode
-        val updatedChildren = props.children
-            ?.plus(updatedNode)
-            ?: listOf(updatedNode)
-        val updatedProperties = props.copy(children = updatedChildren)
+        val updatedProperties = when (val props = parentNode.properties) {
+            is NodeProperties.ColumnProps -> {
+                val updatedChildren = props.children?.plus(updatedNode) ?: listOf(updatedNode)
+                props.copy(children = updatedChildren)
+            }
+            is NodeProperties.RowProps -> {
+                val updatedChildren = props.children?.plus(updatedNode) ?: listOf(updatedNode)
+                props.copy(children = updatedChildren)
+            }
+            is NodeProperties.BoxProps -> {
+                val updatedChildren = props.children?.plus(updatedNode) ?: listOf(updatedNode)
+                props.copy(children = updatedChildren)
+            }
+            else -> return updatedNode
+        }
         return parentNode.copy(properties = updatedProperties)
     }
 
@@ -103,11 +112,27 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         if (currentNode.id == updatedNode.id) {
             return updatedNode
         }
-        val props = currentNode.properties as? NodeProperties.LayoutProps ?: return currentNode
-        val updatedChildren = props.children?.map { child ->
-            updateNodeRecursive(child, updatedNode)
-        } ?: emptyList()
-        val updatedProps = props.copy(children = updatedChildren)
+        val updatedProps = when (val props = currentNode.properties) {
+            is NodeProperties.ColumnProps -> {
+                val updatedChildren = props.children?.map { child ->
+                    updateNodeRecursive(child, updatedNode)
+                } ?: emptyList()
+                props.copy(children = updatedChildren)
+            }
+            is NodeProperties.RowProps -> {
+                val updatedChildren = props.children?.map { child ->
+                    updateNodeRecursive(child, updatedNode)
+                } ?: emptyList()
+                props.copy(children = updatedChildren)
+            }
+            is NodeProperties.BoxProps -> {
+                val updatedChildren = props.children?.map { child ->
+                    updateNodeRecursive(child, updatedNode)
+                } ?: emptyList()
+                props.copy(children = updatedChildren)
+            }
+            else -> return currentNode
+        }
         return currentNode.copy(properties = updatedProps)
     }
 }
