@@ -188,13 +188,20 @@ fun ComposeNode.ToTextField() {
         return
     }
 
+    @Suppress("UNCHECKED_CAST")
     val stateHost = rawStateHost as? StateHost<String>
     if (stateHost == null) {
         println("Warning: StateHost \"$valueStateHostName\" is not of type StateHost<String>. Check the registered type.")
         return
     }
 
-    val value = stateHost.state
+    val value = try {
+        stateHost.state as? String
+    } catch (e: ClassCastException) {
+        println("Warning: StateHost \"$valueStateHostName\" is not of type StateHost<String>. Check the registered type.")
+        null
+    } ?: return
+
     TextField(
         value = value,
         onValueChange = { newValue ->
@@ -284,13 +291,24 @@ fun ComposeNode.ToDialog() {
         val rawStateHost = currentStateHost[name]
         if (rawStateHost == null) {
             println("Warning: No StateHost registered with name \"$name\". Expected StateHost<Boolean>. Dialog will default to visible.")
-            null
-        } else {
-            val typed = rawStateHost as? StateHost<Boolean>
-            if (typed == null) {
+            return@let null
+        }
+        @Suppress("UNCHECKED_CAST")
+        val typed = rawStateHost as? StateHost<Boolean>
+        if (typed == null) {
+            println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
+            return@let null
+        }
+        // Verify actual type at runtime (type erasure makes the cast above always succeed)
+        try {
+            typed.state as? Boolean ?: run {
                 println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
+                return@let null
             }
             typed
+        } catch (e: ClassCastException) {
+            println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
+            null
         }
     }
 

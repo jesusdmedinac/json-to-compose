@@ -96,37 +96,37 @@
 - [x] Scenario: toString produces valid JSON
 
 ## Feature: Unit tests for Alignment mappers
-- [ ] Scenario: toAlignment maps all 9 two-dimensional alignments
-- [ ] Scenario: toAlignment throws AlignmentException for invalid value
-- [ ] Scenario: toVerticalAlignment maps all 3 vertical alignments
-- [ ] Scenario: toVerticalAlignment throws AlignmentException for invalid value
-- [ ] Scenario: toHorizontalsAlignment maps all 3 horizontal alignments
-- [ ] Scenario: toHorizontalsAlignment throws AlignmentException for invalid value
+- [x] Scenario: toAlignment maps all 9 two-dimensional alignments
+- [x] Scenario: toAlignment throws AlignmentException for invalid value
+- [x] Scenario: toVerticalAlignment maps all 3 vertical alignments
+- [x] Scenario: toVerticalAlignment throws AlignmentException for invalid value
+- [x] Scenario: toHorizontalsAlignment maps all 3 horizontal alignments
+- [x] Scenario: toHorizontalsAlignment throws AlignmentException for invalid value
 
 ## Feature: Unit tests for Arrangement mappers
-- [ ] Scenario: toArrangement maps all 4 generic arrangements
-- [ ] Scenario: toArrangement throws ArrangementException for invalid value
-- [ ] Scenario: toHorizontalArrangement maps all 6 standard arrangements
-- [ ] Scenario: toHorizontalArrangement maps all 6 absolute arrangements
-- [ ] Scenario: toHorizontalArrangement throws ArrangementException for invalid value
-- [ ] Scenario: toVerticalArrangement maps all 6 vertical arrangements
-- [ ] Scenario: toVerticalArrangement throws ArrangementException for invalid value
+- [x] Scenario: toArrangement maps all 4 generic arrangements
+- [x] Scenario: toArrangement throws ArrangementException for invalid value
+- [x] Scenario: toHorizontalArrangement maps all 6 standard arrangements
+- [x] Scenario: toHorizontalArrangement maps all 6 absolute arrangements
+- [x] Scenario: toHorizontalArrangement throws ArrangementException for invalid value
+- [x] Scenario: toVerticalArrangement maps all 6 vertical arrangements
+- [x] Scenario: toVerticalArrangement throws ArrangementException for invalid value
 
 ## Feature: Unit tests for ComposeType helpers
-- [ ] Scenario: isLayout returns true for layout types
-- [ ] Scenario: isLayout returns false for non-layout types
-- [ ] Scenario: hasChild returns true for single-child types
-- [ ] Scenario: hasChild returns false for non-single-child types
+- [x] Scenario: isLayout returns true for layout types
+- [x] Scenario: isLayout returns false for non-layout types
+- [x] Scenario: hasChild returns true for single-child types
+- [x] Scenario: hasChild returns false for non-single-child types
 
 ## Feature: Unit tests for renderer error paths
-- [ ] Scenario: Renderer returns early when props type is wrong
-- [ ] Scenario: TextField renders nothing when valueStateHostName is null
-- [ ] Scenario: TextField renders nothing when StateHost is not registered
-- [ ] Scenario: TextField renders nothing when StateHost has wrong type
-- [ ] Scenario: Dialog defaults to visible when visibilityStateHostName is not registered
-- [ ] Scenario: Dialog defaults to visible when StateHost has wrong type
-- [ ] Scenario: Button renders without crash when no Behavior is registered
-- [ ] Scenario: Image renders fallback when resource is not found
+- [x] Scenario: Renderer returns early when props type is wrong
+- [x] Scenario: TextField renders nothing when valueStateHostName is null
+- [x] Scenario: TextField renders nothing when StateHost is not registered
+- [x] Scenario: TextField renders nothing when StateHost has wrong type
+- [x] Scenario: Dialog defaults to visible when visibilityStateHostName is not registered
+- [x] Scenario: Dialog defaults to visible when StateHost has wrong type
+- [x] Scenario: Button renders without crash when no Behavior is registered
+- [x] Scenario: Image renders fallback when resource is not found
 
 ## Feature: TopAppBar Component rendered from JSON
 - [ ] Scenario: Render a TopAppBar with title
