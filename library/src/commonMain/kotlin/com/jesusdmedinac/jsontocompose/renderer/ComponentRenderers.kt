@@ -14,15 +14,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import coil3.compose.AsyncImage
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
@@ -317,6 +320,11 @@ fun ComposeNode.ToAlertDialog() {
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onClickEventName]
 
+    val backgroundColor = props.backgroundColor?.let { Color(it) }
+        ?: MaterialTheme.colors.surface
+    val contentColor = props.contentColor?.let { Color(it) }
+        ?: contentColorFor(backgroundColor)
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = {
@@ -335,6 +343,12 @@ fun ComposeNode.ToAlertDialog() {
         dismissButton = {
             props.dismissButton?.ToCompose()
         },
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        // TODO: Support DialogProperties
+        properties = DialogProperties(),
+        // TODO: Support Shape
+        shape = MaterialTheme.shapes.medium,
     )
 }
 
