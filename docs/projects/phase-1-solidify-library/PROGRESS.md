@@ -68,19 +68,19 @@
 - [x] Scenario: Serialize and deserialize a Dialog from JSON
 
 ## Feature: Unit tests for NodeProperties serialization
-- [ ] Scenario: TextProps serialization with all fields
-- [ ] Scenario: TextProps default values
-- [ ] Scenario: ButtonProps serialization with child
-- [ ] Scenario: ColumnProps serialization with children and layout options
-- [ ] Scenario: RowProps serialization with children and layout options
-- [ ] Scenario: BoxProps serialization with all fields
-- [ ] Scenario: ImageProps serialization with URL
-- [ ] Scenario: TextFieldProps serialization with valueStateHostName
-- [ ] Scenario: ScaffoldProps serialization with child
-- [ ] Scenario: CardProps serialization with all fields
-- [ ] Scenario: DialogProps serialization with all fields
-- [ ] Scenario: CustomProps serialization with customData
-- [ ] Scenario: NodeProperties polymorphic deserialization
+- [x] Scenario: TextProps serialization with all fields
+- [x] Scenario: TextProps default values
+- [x] Scenario: ButtonProps serialization with child
+- [x] Scenario: ColumnProps serialization with children and layout options
+- [x] Scenario: RowProps serialization with children and layout options
+- [x] Scenario: BoxProps serialization with all fields
+- [x] Scenario: ImageProps serialization with URL
+- [x] Scenario: TextFieldProps serialization with valueStateHostName
+- [x] Scenario: ScaffoldProps serialization with child
+- [x] Scenario: CardProps serialization with all fields
+- [x] Scenario: DialogProps serialization with all fields
+- [x] Scenario: CustomProps serialization with customData
+- [x] Scenario: NodeProperties polymorphic deserialization
 
 ## Feature: Unit tests for ComposeNode tree functions
 - [ ] Scenario: countLevels for root node
