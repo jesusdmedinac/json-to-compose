@@ -1,4 +1,4 @@
-# PROGRESS - Phase 1: Solidify the Library
+`# PROGRESS - Phase 1: Solidify the Library
 
 ## Feature: Unit tests for existing components
 - [x] Scenario: Unit test for Text renderer
@@ -66,6 +66,67 @@
 - [x] Scenario: Dialog emits event on cancel
 - [x] Scenario: Dialog with custom content
 - [x] Scenario: Serialize and deserialize a Dialog from JSON
+
+## Feature: Unit tests for NodeProperties serialization
+- [ ] Scenario: TextProps serialization with all fields
+- [ ] Scenario: TextProps default values
+- [ ] Scenario: ButtonProps serialization with child
+- [ ] Scenario: ColumnProps serialization with children and layout options
+- [ ] Scenario: RowProps serialization with children and layout options
+- [ ] Scenario: BoxProps serialization with all fields
+- [ ] Scenario: ImageProps serialization with URL
+- [ ] Scenario: TextFieldProps serialization with valueStateHostName
+- [ ] Scenario: ScaffoldProps serialization with child
+- [ ] Scenario: CardProps serialization with all fields
+- [ ] Scenario: DialogProps serialization with all fields
+- [ ] Scenario: CustomProps serialization with customData
+- [ ] Scenario: NodeProperties polymorphic deserialization
+
+## Feature: Unit tests for ComposeNode tree functions
+- [ ] Scenario: countLevels for root node
+- [ ] Scenario: countLevels for nested node
+- [ ] Scenario: parents for root node
+- [ ] Scenario: parents for nested node
+- [ ] Scenario: asList for leaf node
+- [ ] Scenario: asList for container with children
+- [ ] Scenario: asList for node with single child
+- [ ] Scenario: asList for deep nested tree
+- [ ] Scenario: id generation for root node
+- [ ] Scenario: id generation for child node
+- [ ] Scenario: toString produces valid JSON
+
+## Feature: Unit tests for Alignment mappers
+- [ ] Scenario: toAlignment maps all 9 two-dimensional alignments
+- [ ] Scenario: toAlignment throws AlignmentException for invalid value
+- [ ] Scenario: toVerticalAlignment maps all 3 vertical alignments
+- [ ] Scenario: toVerticalAlignment throws AlignmentException for invalid value
+- [ ] Scenario: toHorizontalsAlignment maps all 3 horizontal alignments
+- [ ] Scenario: toHorizontalsAlignment throws AlignmentException for invalid value
+
+## Feature: Unit tests for Arrangement mappers
+- [ ] Scenario: toArrangement maps all 4 generic arrangements
+- [ ] Scenario: toArrangement throws ArrangementException for invalid value
+- [ ] Scenario: toHorizontalArrangement maps all 6 standard arrangements
+- [ ] Scenario: toHorizontalArrangement maps all 6 absolute arrangements
+- [ ] Scenario: toHorizontalArrangement throws ArrangementException for invalid value
+- [ ] Scenario: toVerticalArrangement maps all 6 vertical arrangements
+- [ ] Scenario: toVerticalArrangement throws ArrangementException for invalid value
+
+## Feature: Unit tests for ComposeType helpers
+- [ ] Scenario: isLayout returns true for layout types
+- [ ] Scenario: isLayout returns false for non-layout types
+- [ ] Scenario: hasChild returns true for single-child types
+- [ ] Scenario: hasChild returns false for non-single-child types
+
+## Feature: Unit tests for renderer error paths
+- [ ] Scenario: Renderer returns early when props type is wrong
+- [ ] Scenario: TextField renders nothing when valueStateHostName is null
+- [ ] Scenario: TextField renders nothing when StateHost is not registered
+- [ ] Scenario: TextField renders nothing when StateHost has wrong type
+- [ ] Scenario: Dialog defaults to visible when visibilityStateHostName is not registered
+- [ ] Scenario: Dialog defaults to visible when StateHost has wrong type
+- [ ] Scenario: Button renders without crash when no Behavior is registered
+- [ ] Scenario: Image renders fallback when resource is not found
 
 ## Feature: TopAppBar Component rendered from JSON
 - [ ] Scenario: Render a TopAppBar with title
@@ -168,4 +229,4 @@
 - [ ] Scenario: Lazy lists section shows LazyColumn and LazyRow
 - [ ] Scenario: Modifiers showcase demonstrates all modifier operations
 - [ ] Scenario: Demo app is built entirely with json-to-compose
-- [ ] Scenario: Demo app compiles and runs on all platforms
+- [ ] Scenario: Demo app compiles and runs on all platforms`
