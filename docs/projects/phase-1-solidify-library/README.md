@@ -6,15 +6,16 @@ The json-to-compose library is already published on Maven Central (v1.1.0) and w
 
 The goal of this phase is to take the library from "functional" to "reliable and complete":
 
-- **Exhaustive tests** that validate every component, every modifier, and the full JSON to Compose UI pipeline. Including unit tests, integration tests, and snapshot tests.
-- **Expand components** with those missing from Material 3: Card, Dialog, TopAppBar, BottomBar, Switch, and Checkbox.
+- **Exhaustive tests** that validate every component, every modifier, and the full JSON to Compose UI pipeline. Including unit tests, integration tests, and semantic structure tests (see ADR-001).
+- **Expand components** with those missing from Material: Card, Dialog, TopAppBar, BottomBar, Switch, and Checkbox.
 - **Expand modifiers** with operations that any real app needs: border, shadow, clip, shape, alpha, and rotation.
 - **JSON Schema validation** so developers receive clear errors when their JSON has problems, instead of silent crashes.
 - **KDoc on the entire public API** so that IDE autocompletion shows useful documentation and automatic documentation can be generated.
+- **Demo app showcase** that presents all components and modifiers in an organized catalog, so developers evaluating the library can quickly see what it can do.
 
 ## Scope
 
-This project focuses exclusively on the `library/` module. It does not touch the editor (`composy/`), the server (`server/`), nor the demo app (`composeApp/`).
+This project focuses primarily on the `library/` module and also includes the demo app (`composeApp/`) for the showcase feature. It does not touch the editor (`composy/`) nor the server (`server/`).
 
 ## Success Criteria
 
@@ -23,3 +24,4 @@ This project focuses exclusively on the `library/` module. It does not touch the
 - The 6 new modifiers apply correctly and are serializable
 - Invalid JSON produces descriptive error messages, not cryptic exceptions
 - Every public class, function, and property has KDoc
+- The demo app presents a categorized component catalog built with json-to-compose and compiles on all 4 platforms

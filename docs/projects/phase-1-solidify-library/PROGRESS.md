@@ -156,3 +156,16 @@
 - [ ] Scenario: KDoc on CompositionLocals
 - [ ] Scenario: KDoc on extension functions
 - [ ] Scenario: Documentation generation with Dokka
+
+## Feature: Demo app showcase (composeApp/)
+- [ ] Scenario: App has a main screen with categorized sections
+- [ ] Scenario: Each section has a title and visual separator
+- [ ] Scenario: Layout components section shows Column, Row, and Box
+- [ ] Scenario: Content components section shows Text and Image
+- [ ] Scenario: Input components section shows interactive elements
+- [ ] Scenario: Containers section shows Card, Scaffold, and Dialog
+- [ ] Scenario: Navigation section shows TopAppBar and BottomBar
+- [ ] Scenario: Lazy lists section shows LazyColumn and LazyRow
+- [ ] Scenario: Modifiers showcase demonstrates all modifier operations
+- [ ] Scenario: Demo app is built entirely with json-to-compose
+- [ ] Scenario: Demo app compiles and runs on all platforms
