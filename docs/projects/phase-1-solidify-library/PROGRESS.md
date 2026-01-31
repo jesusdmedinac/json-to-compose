@@ -20,15 +20,15 @@
 - [x] Scenario: Unit test for Custom renderer
 
 ## Feature: Unit tests for existing modifiers
-- [ ] Scenario: Unit test for Padding modifier
-- [ ] Scenario: Unit test for FillMaxSize modifier
-- [ ] Scenario: Unit test for FillMaxWidth modifier
-- [ ] Scenario: Unit test for FillMaxHeight modifier
-- [ ] Scenario: Unit test for Width modifier
-- [ ] Scenario: Unit test for Height modifier
-- [ ] Scenario: Unit test for BackgroundColor modifier
-- [ ] Scenario: Unit test for BackgroundColor with invalid color
-- [ ] Scenario: Unit test for multiple modifiers combined
+- [x] Scenario: Unit test for Padding modifier
+- [x] Scenario: Unit test for FillMaxSize modifier
+- [x] Scenario: Unit test for FillMaxWidth modifier
+- [x] Scenario: Unit test for FillMaxHeight modifier
+- [x] Scenario: Unit test for Width modifier
+- [x] Scenario: Unit test for Height modifier
+- [x] Scenario: Unit test for BackgroundColor modifier
+- [x] Scenario: Unit test for BackgroundColor with invalid color
+- [x] Scenario: Unit test for multiple modifiers combined
 
 ## Feature: Integration tests of JSON to Compose pipeline
 - [ ] Scenario: Full pipeline for simple Text
