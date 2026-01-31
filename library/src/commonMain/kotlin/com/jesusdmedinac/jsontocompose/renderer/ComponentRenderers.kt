@@ -175,9 +175,26 @@ fun ComposeNode.ToTextField() {
     val valueStateHostName = props.valueStateHostName
     val modifier = (Modifier from composeModifier).testTag(type.name)
 
+    if (valueStateHostName == null) {
+        println("Warning: TextField node has no valueStateHostName. The component will not render.")
+        return
+    }
+
     val currentStateHost = LocalStateHost.current
-    val stateHost = currentStateHost[valueStateHostName] as? StateHost<String> ?: return
-    val value = stateHost.state as? String ?: return
+    val rawStateHost = currentStateHost[valueStateHostName]
+
+    if (rawStateHost == null) {
+        println("Warning: No StateHost registered with name \"$valueStateHostName\". Expected StateHost<String>.")
+        return
+    }
+
+    val stateHost = rawStateHost as? StateHost<String>
+    if (stateHost == null) {
+        println("Warning: StateHost \"$valueStateHostName\" is not of type StateHost<String>. Check the registered type.")
+        return
+    }
+
+    val value = stateHost.state
     TextField(
         value = value,
         onValueChange = { newValue ->
@@ -263,8 +280,18 @@ fun ComposeNode.ToDialog() {
     val dismissBehavior = currentBehavior[props.onDismissEventName]
 
     val currentStateHost = LocalStateHost.current
-    val visibilityStateHost = props.visibilityStateHostName?.let {
-        currentStateHost[it] as? StateHost<Boolean>
+    val visibilityStateHost = props.visibilityStateHostName?.let { name ->
+        val rawStateHost = currentStateHost[name]
+        if (rawStateHost == null) {
+            println("Warning: No StateHost registered with name \"$name\". Expected StateHost<Boolean>. Dialog will default to visible.")
+            null
+        } else {
+            val typed = rawStateHost as? StateHost<Boolean>
+            if (typed == null) {
+                println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
+            }
+            typed
+        }
     }
 
     val isVisible = visibilityStateHost?.state ?: true

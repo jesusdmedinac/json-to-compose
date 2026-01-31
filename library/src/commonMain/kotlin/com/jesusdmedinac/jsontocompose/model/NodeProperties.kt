@@ -56,6 +56,10 @@ sealed interface NodeProperties {
     @Serializable
     @SerialName("TextFieldProps")
     data class TextFieldProps(
+        /**
+         * Name of the [StateHost]<[String]> that provides and receives the text field's current value.
+         * The host app must register a `StateHost<String>` with this name in [LocalStateHost].
+         */
         val valueStateHostName: String? = null,
     ) : NodeProperties
 
@@ -83,6 +87,12 @@ sealed interface NodeProperties {
         val dismissButtonText: String? = null,
         val onConfirmEventName: String? = null,
         val onDismissEventName: String? = null,
+        /**
+         * Name of the [StateHost]<[Boolean]> that controls whether the dialog is visible.
+         * When `state == false`, the dialog is not rendered. On confirm or dismiss,
+         * the renderer sets the state to `false` automatically.
+         * The host app must register a `StateHost<Boolean>` with this name in [LocalStateHost].
+         */
         val visibilityStateHostName: String? = null,
     ) : NodeProperties
 
