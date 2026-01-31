@@ -1,23 +1,23 @@
 # PROGRESS - Phase 1: Solidify the Library
 
 ## Feature: Unit tests for existing components
-- [ ] Scenario: Unit test for Text renderer
-- [ ] Scenario: Unit test for Text renderer without text
-- [ ] Scenario: Unit test for Column renderer
-- [ ] Scenario: Unit test for Column renderer with arrangement
-- [ ] Scenario: Unit test for Row renderer
-- [ ] Scenario: Unit test for Row renderer with alignment
-- [ ] Scenario: Unit test for Box renderer
-- [ ] Scenario: Unit test for Box renderer with contentAlignment
-- [ ] Scenario: Unit test for Button renderer
-- [ ] Scenario: Unit test for Button renderer with click event
-- [ ] Scenario: Unit test for Image renderer with URL
-- [ ] Scenario: Unit test for Image renderer with local resource
-- [ ] Scenario: Unit test for TextField renderer
-- [ ] Scenario: Unit test for Scaffold renderer
-- [ ] Scenario: Unit test for LazyColumn renderer
-- [ ] Scenario: Unit test for LazyRow renderer
-- [ ] Scenario: Unit test for Custom renderer
+- [x] Scenario: Unit test for Text renderer
+- [x] Scenario: Unit test for Text renderer without text
+- [x] Scenario: Unit test for Column renderer
+- [x] Scenario: Unit test for Column renderer with arrangement
+- [x] Scenario: Unit test for Row renderer
+- [x] Scenario: Unit test for Row renderer with alignment
+- [x] Scenario: Unit test for Box renderer
+- [x] Scenario: Unit test for Box renderer with contentAlignment
+- [x] Scenario: Unit test for Button renderer
+- [x] Scenario: Unit test for Button renderer with click event
+- [x] Scenario: Unit test for Image renderer with URL
+- [x] Scenario: Unit test for Image renderer with local resource
+- [x] Scenario: Unit test for TextField renderer
+- [x] Scenario: Unit test for Scaffold renderer
+- [x] Scenario: Unit test for LazyColumn renderer
+- [x] Scenario: Unit test for LazyRow renderer
+- [x] Scenario: Unit test for Custom renderer
 
 ## Feature: Unit tests for existing modifiers
 - [ ] Scenario: Unit test for Padding modifier
