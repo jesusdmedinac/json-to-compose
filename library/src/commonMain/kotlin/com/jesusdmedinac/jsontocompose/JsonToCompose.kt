@@ -9,6 +9,7 @@ import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
 import com.jesusdmedinac.jsontocompose.renderer.ToButton
 import com.jesusdmedinac.jsontocompose.renderer.ToColumn
+import com.jesusdmedinac.jsontocompose.renderer.ToCard
 import com.jesusdmedinac.jsontocompose.renderer.ToCustom
 import com.jesusdmedinac.jsontocompose.renderer.ToImage
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyColumn
@@ -46,6 +47,7 @@ fun ComposeNode.ToCompose() {
         ComposeType.LazyColumn -> ToLazyColumn()
         ComposeType.LazyRow -> ToLazyRow()
         ComposeType.Scaffold -> ToScaffold()
+        ComposeType.Card -> ToCard()
         ComposeType.Custom -> ToCustom()
     }
 }

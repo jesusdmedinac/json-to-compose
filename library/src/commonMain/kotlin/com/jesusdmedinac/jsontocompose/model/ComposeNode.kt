@@ -44,8 +44,11 @@ data class ComposeNode(
     fun asList(): List<ComposeNode> {
         val list = mutableListOf<ComposeNode>()
         list.add(this)
-        val singleChildProps = properties as? NodeProperties.ButtonProps
-        val child = singleChildProps?.child
+        val child = when (properties) {
+            is NodeProperties.ButtonProps -> properties.child
+            is NodeProperties.CardProps -> properties.child
+            else -> null
+        }
         child?.let { list.add(it) }
         val children = properties.children()
         children.forEach {

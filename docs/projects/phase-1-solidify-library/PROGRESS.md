@@ -53,11 +53,11 @@
 - [x] Scenario: Structure of LazyColumn with items
 
 ## Feature: Card Component rendered from JSON
-- [ ] Scenario: Render a basic Card with Text child
-- [ ] Scenario: Render a Card with custom elevation
-- [ ] Scenario: Render a Card with rounded shape
-- [ ] Scenario: Render a Card with multiple children in Column
-- [ ] Scenario: Serialize and deserialize a Card from JSON
+- [x] Scenario: Render a basic Card with Text child
+- [x] Scenario: Render a Card with custom elevation
+- [x] Scenario: Render a Card with rounded shape
+- [x] Scenario: Render a Card with multiple children in Column
+- [x] Scenario: Serialize and deserialize a Card from JSON
 
 ## Feature: Dialog Component rendered from JSON
 - [ ] Scenario: Render a basic Dialog with title and content

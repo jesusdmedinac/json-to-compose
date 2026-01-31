@@ -253,6 +253,48 @@ fun App() {
                             ),
                         ),
                         ComposeNode(
+                            type = ComposeType.Card,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxWidth,
+                                    ComposeModifier.Operation.Padding(8),
+                                )
+                            ),
+                            properties = NodeProperties.CardProps(
+                                elevation = 4,
+                                cornerRadius = 12,
+                                child = ComposeNode(
+                                    type = ComposeType.Column,
+                                    properties = NodeProperties.ColumnProps(
+                                        children = listOf(
+                                            ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(
+                                                    text = "Card Title"
+                                                ),
+                                                composeModifier = ComposeModifier(
+                                                    operations = listOf(
+                                                        ComposeModifier.Operation.Padding(16),
+                                                    )
+                                                ),
+                                            ),
+                                            ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(
+                                                    text = "Card body with elevation 4dp and 12dp rounded corners"
+                                                ),
+                                                composeModifier = ComposeModifier(
+                                                    operations = listOf(
+                                                        ComposeModifier.Operation.Padding(16),
+                                                    )
+                                                ),
+                                            ),
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
                             type = ComposeType.Custom,
                             properties = NodeProperties.CustomProps(
                                 customType = "ProductCard",
@@ -560,6 +602,48 @@ val JSON_AS_STRING = """
               "type": "Width",
               "value": 64
             }
+          ]
+        }
+      },
+      {
+        "type": "Card",
+        "properties": {
+          "type": "CardProps",
+          "elevation": 4,
+          "cornerRadius": 12,
+          "child": {
+            "type": "Column",
+            "properties": {
+              "type": "ColumnProps",
+              "children": [
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "TextProps",
+                    "text": "Card from JSON"
+                  },
+                  "composeModifier": {
+                    "operations": [{"type": "Padding", "value": 16}]
+                  }
+                },
+                {
+                  "type": "Text",
+                  "properties": {
+                    "type": "TextProps",
+                    "text": "Elevation 4dp, corners 12dp"
+                  },
+                  "composeModifier": {
+                    "operations": [{"type": "Padding", "value": 16}]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "composeModifier": {
+          "operations": [
+            {"type": "FillMaxWidth"},
+            {"type": "Padding", "value": 8}
           ]
         }
       },

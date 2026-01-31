@@ -11,6 +11,7 @@ enum class ComposeType {
     LazyColumn,
     LazyRow,
     Scaffold,
+    Card,
     Custom;
 
     fun isLayout(): Boolean = when (this) {
@@ -19,7 +20,7 @@ enum class ComposeType {
     }
 
     fun hasChild(): Boolean = when (this) {
-        Button -> true
+        Button, Card -> true
         else -> false
     }
 }

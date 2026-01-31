@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -234,6 +236,21 @@ fun ComposeNode.ToScaffold() {
         modifier = modifier,
     ) {
         child?.ToCompose()
+    }
+}
+
+@Composable
+fun ComposeNode.ToCard() {
+    val props = properties as? NodeProperties.CardProps ?: return
+    val modifier = (Modifier from composeModifier).testTag(type.name)
+    val elevation = (props.elevation ?: 1).dp
+    val shape = RoundedCornerShape((props.cornerRadius ?: 0).dp)
+    Card(
+        modifier = modifier,
+        elevation = elevation,
+        shape = shape,
+    ) {
+        props.child?.ToCompose()
     }
 }
 

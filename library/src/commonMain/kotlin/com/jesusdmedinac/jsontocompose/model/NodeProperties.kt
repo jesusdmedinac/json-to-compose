@@ -66,6 +66,14 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
+    @SerialName("CardProps")
+    data class CardProps(
+        val child: ComposeNode? = null,
+        val elevation: Int? = null,
+        val cornerRadius: Int? = null,
+    ) : NodeProperties
+
+    @Serializable
     @SerialName("CustomProps")
     data class CustomProps(
         val customType: String,
