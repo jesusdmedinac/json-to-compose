@@ -33,7 +33,7 @@ class TextFieldRendererTest {
         val node = ComposeNode(
             type = ComposeType.TextField,
             properties = NodeProperties.TextFieldProps(
-                onTextChangeEventName = "search"
+                valueStateHostName = "search"
             )
         )
 

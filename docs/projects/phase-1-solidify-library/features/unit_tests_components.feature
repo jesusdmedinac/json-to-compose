@@ -65,7 +65,7 @@ Feature: Unit tests for existing components
     Then a Compose Image using the drawable resource "logo" is rendered
 
   Scenario: Unit test for TextField renderer
-    Given a ComposeNode of type "TextField" with TextFieldProps(onTextChangeEventName = "search")
+    Given a ComposeNode of type "TextField" with TextFieldProps(valueStateHostName = "search")
     When the user writes "kotlin" in the TextField
     Then StateHost.onTextChanged is invoked with eventName "search" and value "kotlin"
 

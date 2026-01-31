@@ -182,7 +182,7 @@ class JsonToComposePipelineTest {
           "type": "TextField",
           "properties": {
             "type": "TextFieldProps",
-            "onTextChangeEventName": "input_field"
+            "valueStateHostName": "input_field"
           }
         }
         """.trimIndent()

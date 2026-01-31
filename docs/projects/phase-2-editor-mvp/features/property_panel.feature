@@ -48,7 +48,7 @@ Feature: Full Property Panel per Component
   Scenario: Edit TextField properties
     Given a selected TextField node
     When the property panel is shown
-    Then I see editable field for: onTextChangeEventName
+    Then I see editable field for: valueStateHostName
 
   Scenario: Edit Scaffold properties
     Given a selected Scaffold node

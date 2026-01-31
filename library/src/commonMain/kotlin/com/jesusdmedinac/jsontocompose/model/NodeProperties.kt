@@ -56,7 +56,7 @@ sealed interface NodeProperties {
     @Serializable
     @SerialName("TextFieldProps")
     data class TextFieldProps(
-        val onTextChangeEventName: String? = null,
+        val valueStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable
@@ -83,6 +83,7 @@ sealed interface NodeProperties {
         val dismissButtonText: String? = null,
         val onConfirmEventName: String? = null,
         val onDismissEventName: String? = null,
+        val visibilityStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable

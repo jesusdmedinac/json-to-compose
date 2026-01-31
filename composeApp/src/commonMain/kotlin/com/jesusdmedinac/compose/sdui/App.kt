@@ -37,6 +37,7 @@ fun App() {
         "compose-multiplatform" to Res.drawable.compose_multiplatform
     )
 
+    var textFieldValue by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
 
     val behaviors = mapOf(
@@ -53,18 +54,14 @@ fun App() {
         "dialog_confirm" to object : Behavior {
             override fun onClick() {
                 println("Dialog confirmed")
-                showDialog = false
             }
         },
         "dialog_dismiss" to object : Behavior {
             override fun onClick() {
                 println("Dialog dismissed")
-                showDialog = false
             }
         }
     )
-
-    var textFieldValue by remember { mutableStateOf("") }
     val stateHosts = mapOf(
         "text_field_value" to object : StateHost<String> {
             override val state: String
@@ -72,6 +69,14 @@ fun App() {
 
             override fun onStateChange(state: String) {
                 textFieldValue = state
+            }
+        },
+        "dialog_visibility" to object : StateHost<Boolean> {
+            override val state: Boolean
+                get() = showDialog
+
+            override fun onStateChange(state: Boolean) {
+                showDialog = state
             }
         }
     )
@@ -194,7 +199,7 @@ fun App() {
                         ComposeNode(
                             type = ComposeType.TextField,
                             properties = NodeProperties.TextFieldProps(
-                                onTextChangeEventName = "text_field_value"
+                                valueStateHostName = "text_field_value"
                             )
                         ),
                         ComposeNode(
@@ -326,6 +331,18 @@ fun App() {
                             )
                         ),
                         ComposeNode(
+                            type = ComposeType.Dialog,
+                            properties = NodeProperties.DialogProps(
+                                title = "Confirm Action",
+                                content = "Do you want to proceed with this action?",
+                                confirmButtonText = "Confirm",
+                                dismissButtonText = "Cancel",
+                                onConfirmEventName = "dialog_confirm",
+                                onDismissEventName = "dialog_dismiss",
+                                visibilityStateHostName = "dialog_visibility",
+                            )
+                        ),
+                        ComposeNode(
                             type = ComposeType.Custom,
                             properties = NodeProperties.CustomProps(
                                 customType = "ProductCard",
@@ -335,23 +352,13 @@ fun App() {
                                 }
                             )
                         ),
-                    ) + (if (showDialog) listOf(
-                        ComposeNode(
-                            type = ComposeType.Dialog,
-                            properties = NodeProperties.DialogProps(
-                                title = "Confirm Action",
-                                content = "Do you want to proceed with this action?",
-                                confirmButtonText = "Confirm",
-                                dismissButtonText = "Cancel",
-                                onConfirmEventName = "dialog_confirm",
-                                onDismissEventName = "dialog_dismiss",
-                            )
-                        ),
-                    ) else emptyList())
+                    )
                 )
             )
+            // The ComposeNode tree can also be serialized to JSON with composeNode.toString()
+            // and deserialized back with jsonString.ToCompose().
+            // See the project documentation for the full JSON schema reference.
             val composeAsString = composeNode.toString()
-            println(composeAsString)
             LazyColumn {
                 item {
                     composeAsString.ToCompose()
@@ -363,16 +370,6 @@ fun App() {
 
                 item {
                     Text(text = composeAsString)
-                }
-
-                item {
-                    Divider()
-                }
-
-                item {
-                    Column {
-                        JSON_AS_STRING.ToCompose()
-                    }
                 }
             }
         }
@@ -438,270 +435,3 @@ fun CustomRenderersComposition(
     }
 }
 
-val JSON_AS_STRING = """
-{
-  "type": "Column",
-  "properties": {
-    "type": "ColumnProps",
-    "children": [
-      {
-        "type": "Text",
-        "properties": {
-          "type": "TextProps",
-          "text": "Text Node"
-        }
-      },
-      {
-        "type": "Button",
-        "properties": {
-          "type": "ButtonProps",
-          "onClickEventName": "button_clicked",
-          "child": {
-            "type": "Text",
-            "properties": {
-              "type": "TextProps",
-              "text": "Button Node"
-            }
-          }
-        }
-      },
-      {
-        "type": "Image",
-        "properties": {
-          "type": "ImageProps",
-          "url": "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
-          "contentDescription": "Image Node from url"
-        }
-      },
-      {
-        "type": "Image",
-        "properties": {
-          "type": "ImageProps",
-          "resourceName": "compose-multiplatform",
-          "contentDescription": "Image Node from resource"
-        }
-      },
-      {
-        "type": "Column",
-        "properties": {
-          "type": "ColumnProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "Row",
-        "properties": {
-          "type": "RowProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "Box",
-        "properties": {
-          "type": "BoxProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "TextField",
-        "properties": {
-          "type": "TextFieldProps",
-          "onTextChangeEventName": "text_field_value"
-        }
-      },
-      {
-        "type": "LazyColumn",
-        "properties": {
-          "type": "ColumnProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text on lazy column"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text on lazy column"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Third text on lazy column"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Fourth text on lazy column"
-              }
-            }
-          ]
-        },
-        "composeModifier": {
-          "operations": [
-            {
-              "type": "FillMaxWidth"
-            },
-            {
-              "type": "Height",
-              "value": 64
-            }
-          ]
-        }
-      },
-      {
-        "type": "LazyRow",
-        "properties": {
-          "type": "RowProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text on lazy row"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text on lazy row"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Third text on lazy row"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Fourth text on lazy row"
-              }
-            }
-          ]
-        },
-        "composeModifier": {
-          "operations": [
-            {
-              "type": "FillMaxWidth"
-            },
-            {
-              "type": "Width",
-              "value": 64
-            }
-          ]
-        }
-      },
-      {
-        "type": "Card",
-        "properties": {
-          "type": "CardProps",
-          "elevation": 4,
-          "cornerRadius": 12,
-          "child": {
-            "type": "Column",
-            "properties": {
-              "type": "ColumnProps",
-              "children": [
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "Card from JSON"
-                  },
-                  "composeModifier": {
-                    "operations": [{"type": "Padding", "value": 16}]
-                  }
-                },
-                {
-                  "type": "Text",
-                  "properties": {
-                    "type": "TextProps",
-                    "text": "Elevation 4dp, corners 12dp"
-                  },
-                  "composeModifier": {
-                    "operations": [{"type": "Padding", "value": 16}]
-                  }
-                }
-              ]
-            }
-          }
-        },
-        "composeModifier": {
-          "operations": [
-            {"type": "FillMaxWidth"},
-            {"type": "Padding", "value": 8}
-          ]
-        }
-      },
-      {
-        "type": "Custom",
-        "properties": {
-          "type": "CustomProps",
-          "customType": "ProductCard",
-          "customData": {
-            "title": "JSON Product",
-            "price": "149.99"
-          }
-        }
-      }
-    ]
-  }
-}
-""".trimIndent()

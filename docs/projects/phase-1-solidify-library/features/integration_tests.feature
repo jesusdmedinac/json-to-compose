@@ -30,7 +30,7 @@ Feature: Integration tests of JSON to Compose pipeline
     Then the Behavior receives the event "click_action"
 
   Scenario: Full pipeline with TextField and StateHost
-    Given a JSON string with a TextField(onTextChangeEventName = "input_field")
+    Given a JSON string with a TextField(valueStateHostName = "input_field")
     And a StateHost registered via CompositionLocal
     When String.ToCompose() is invoked and user types text
     Then the StateHost receives the update for field "input_field"

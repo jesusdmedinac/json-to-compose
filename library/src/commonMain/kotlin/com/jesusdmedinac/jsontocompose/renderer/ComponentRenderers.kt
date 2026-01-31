@@ -172,11 +172,11 @@ fun ComposeNode.ToImage() {
 @Composable
 fun ComposeNode.ToTextField() {
     val props = properties as? NodeProperties.TextFieldProps ?: return
-    val onTextChangeEventName = props.onTextChangeEventName
+    val valueStateHostName = props.valueStateHostName
     val modifier = (Modifier from composeModifier).testTag(type.name)
 
     val currentStateHost = LocalStateHost.current
-    val stateHost = currentStateHost[onTextChangeEventName] as? StateHost<String> ?: return
+    val stateHost = currentStateHost[valueStateHostName] as? StateHost<String> ?: return
     val value = stateHost.state as? String ?: return
     TextField(
         value = value,
@@ -262,9 +262,20 @@ fun ComposeNode.ToDialog() {
     val confirmBehavior = currentBehavior[props.onConfirmEventName]
     val dismissBehavior = currentBehavior[props.onDismissEventName]
 
+    val currentStateHost = LocalStateHost.current
+    val visibilityStateHost = props.visibilityStateHostName?.let {
+        currentStateHost[it] as? StateHost<Boolean>
+    }
+
+    val isVisible = visibilityStateHost?.state ?: true
+    if (!isVisible) return
+
     androidx.compose.material.AlertDialog(
         modifier = modifier,
-        onDismissRequest = { dismissBehavior?.onClick() },
+        onDismissRequest = {
+            visibilityStateHost?.onStateChange(false)
+            dismissBehavior?.onClick()
+        },
         title = props.title?.let { title ->
             { Text(text = title) }
         },
@@ -280,7 +291,10 @@ fun ComposeNode.ToDialog() {
         confirmButton = {
             if (props.confirmButtonText != null) {
                 Button(
-                    onClick = { confirmBehavior?.onClick() },
+                    onClick = {
+                        visibilityStateHost?.onStateChange(false)
+                        confirmBehavior?.onClick()
+                    },
                     modifier = Modifier.testTag("DialogConfirmButton"),
                 ) {
                     Text(props.confirmButtonText)
@@ -290,7 +304,10 @@ fun ComposeNode.ToDialog() {
         dismissButton = if (props.dismissButtonText != null) {
             {
                 Button(
-                    onClick = { dismissBehavior?.onClick() },
+                    onClick = {
+                        visibilityStateHost?.onStateChange(false)
+                        dismissBehavior?.onClick()
+                    },
                     modifier = Modifier.testTag("DialogDismissButton"),
                 ) {
                     Text(props.dismissButtonText)
