@@ -42,15 +42,15 @@
 - [x] Scenario: Full pipeline with LazyColumn with many items
 - [x] Scenario: Roundtrip serialization: ComposeNode to JSON and back
 
-## Feature: Snapshot tests for rendered components
-- [ ] Scenario: Snapshot of basic Text
-- [ ] Scenario: Snapshot of Column with multiple children
-- [ ] Scenario: Snapshot of Row with SpaceEvenly arrangement
-- [ ] Scenario: Snapshot of Box with contentAlignment Center
-- [ ] Scenario: Snapshot of Button with Text child
-- [ ] Scenario: Snapshot of component with modifiers applied
-- [ ] Scenario: Snapshot of complex nested layout
-- [ ] Scenario: Snapshot of LazyColumn with items
+## Feature: Semantic structure tests for rendered components (see ADR-001)
+- [x] Scenario: Structure of basic Text
+- [x] Scenario: Structure of Column with multiple children
+- [x] Scenario: Structure of Row with SpaceEvenly arrangement
+- [x] Scenario: Structure of Box with contentAlignment Center
+- [x] Scenario: Structure of Button with Text child
+- [x] Scenario: Structure of component with modifiers applied
+- [x] Scenario: Structure of complex nested layout
+- [x] Scenario: Structure of LazyColumn with items
 
 ## Feature: Card Component rendered from JSON
 - [ ] Scenario: Render a basic Card with Text child

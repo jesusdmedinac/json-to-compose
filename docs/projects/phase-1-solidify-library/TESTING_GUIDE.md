@@ -394,7 +394,90 @@ invalidJson_producesDescriptiveError
 1. **Start with serialization tests** — They are pure unit tests, don't require UI, and run fastest.
 2. **Then component renderer tests** — Use `runComposeUiTest` to verify each component renders from a `ComposeNode`.
 3. **Then integration/pipeline tests** — Test the full JSON string → `ComposeNode` → rendered UI flow.
-4. **Snapshot tests last** — These require additional setup and platform-specific configuration.
+4. **Semantic structure tests** instead of pixel-based snapshots — See [ADR-001](../../adr/ADR-001-snapshot-testing-approach.md) for the rationale. Use `testTag` and structural assertions to verify hierarchy.
 5. **Run desktop tests first** during development — They are the fastest to execute and provide quick feedback.
 6. **All tests should be in `commonTest`** — This ensures they run on all platforms automatically.
 7. **Use `@OptIn(ExperimentalTestApi::class)`** — The Compose test API is still experimental.
+
+## Semantic Structure Tests (replaces Snapshot Tests)
+
+Since there is no stable cross-platform snapshot testing API for Compose Multiplatform (see [ADR-001](../../adr/ADR-001-snapshot-testing-approach.md)), we verify rendered component **structure** instead of pixel output.
+
+### How it works
+
+Every renderer in `ComponentRenderers.kt` applies `Modifier.testTag(type.name)` to its root composable. This means:
+
+- A `Text` renderer produces a node with `testTag = "Text"`
+- A `Column` renderer produces a node with `testTag = "Column"`
+- A `Button` renderer produces a node with `testTag = "Button"`
+- And so on for all 10 renderers with modifiers (Custom delegates to the consumer's renderer)
+
+### Finding nodes by tag
+
+```kotlin
+// Single node
+onNodeWithTag("Column").assertExists()
+onNodeWithTag("Button").assertHasClickAction()
+
+// Multiple nodes of the same type
+onAllNodesWithTag("Text").assertCountEquals(3)
+onAllNodesWithTag("Text")[0].assertTextEquals("First")
+```
+
+### Example: Verifying a complex layout structure
+
+```kotlin
+@OptIn(ExperimentalTestApi::class)
+@Test
+fun complexLayoutStructure() = runComposeUiTest {
+    val node = ComposeNode(
+        type = ComposeType.Column,
+        properties = NodeProperties.ColumnProps(
+            children = listOf(
+                ComposeNode(
+                    type = ComposeType.Row,
+                    properties = NodeProperties.RowProps(
+                        children = listOf(
+                            ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Title")),
+                            ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Subtitle")),
+                        )
+                    )
+                ),
+                ComposeNode(
+                    type = ComposeType.Button,
+                    properties = NodeProperties.ButtonProps(
+                        child = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Action"))
+                    )
+                ),
+            )
+        )
+    )
+
+    setContent { node.ToCompose() }
+
+    // Verify structure
+    onNodeWithTag("Column").assertExists()
+    onNodeWithTag("Row").assertExists()
+    onNodeWithTag("Button").assertExists()
+    onNodeWithTag("Button").assertHasClickAction()
+
+    // Verify content
+    onNodeWithText("Title").assertExists()
+    onNodeWithText("Subtitle").assertExists()
+    onNodeWithText("Action").assertExists()
+
+    // Verify count
+    onAllNodesWithTag("Text").assertCountEquals(3)
+}
+```
+
+### What these tests verify vs. what they don't
+
+| Verified | Not verified |
+|----------|-------------|
+| Node existence and hierarchy | Exact pixel rendering |
+| Text content correctness | Font size, color, weight |
+| Node count (children) | Spacing, padding visual output |
+| Visibility (`assertIsDisplayed`) | Background color visual output |
+| Interactivity (`assertHasClickAction`) | Shadow, border, elevation visuals |
+| Modifiers don't crash rendering | Exact modifier visual effect |

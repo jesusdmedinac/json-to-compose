@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.jesusdmedinac.jsontocompose.LocalBehavior
@@ -46,7 +47,7 @@ fun ComposeNode.ToColumn() {
     val horizontalAlignment = props.horizontalAlignment
         ?.toHorizontalsAlignment()
         ?: Alignment.Start
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     Column(
         modifier = modifier,
         verticalArrangement = verticalArrangement,
@@ -68,7 +69,7 @@ fun ComposeNode.ToRow() {
     val verticalAlignment = props.verticalAlignment
         ?.toVerticalAlignment()
         ?: Alignment.Top
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     Row(
         modifier = modifier,
         horizontalArrangement = horizontalArrangement,
@@ -88,7 +89,7 @@ fun ComposeNode.ToBox() {
         ?.toAlignment()
         ?: Alignment.TopStart
     val propagateMinConstraints = props.propagateMinConstraints ?: false
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     Box(
         modifier = modifier,
         contentAlignment = contentAlignment,
@@ -104,7 +105,7 @@ fun ComposeNode.ToBox() {
 fun ComposeNode.ToText() {
     val props = properties as? NodeProperties.TextProps ?: return
     val text = props.text
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     Text(
         text = text ?: "",
         modifier = modifier,
@@ -122,7 +123,7 @@ fun ComposeNode.ToButton() {
         onClick = {
             behavior?.onClick()
         },
-        modifier = Modifier from composeModifier,
+        modifier = (Modifier from composeModifier).testTag(type.name),
     ) {
         child?.ToCompose()
     }
@@ -131,7 +132,7 @@ fun ComposeNode.ToButton() {
 @Composable
 fun ComposeNode.ToImage() {
     val props = properties as? NodeProperties.ImageProps ?: return
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
 
     val drawableResources = LocalDrawableResources.current
 
@@ -170,7 +171,7 @@ fun ComposeNode.ToImage() {
 fun ComposeNode.ToTextField() {
     val props = properties as? NodeProperties.TextFieldProps ?: return
     val onTextChangeEventName = props.onTextChangeEventName
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
 
     val currentStateHost = LocalStateHost.current
     val stateHost = currentStateHost[onTextChangeEventName] as? StateHost<String> ?: return
@@ -194,7 +195,7 @@ fun ComposeNode.ToLazyColumn() {
     val horizontalAlignment = props.horizontalAlignment
         ?.toHorizontalsAlignment()
         ?: Alignment.Start
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     LazyColumn(
         modifier = modifier,
         verticalArrangement = verticalArrangement,
@@ -214,7 +215,7 @@ fun ComposeNode.ToLazyRow() {
     val verticalAlignment = props.verticalAlignment
         ?.toVerticalAlignment()
         ?: Alignment.Top
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     LazyRow(
         modifier = modifier,
         horizontalArrangement = horizontalArrangement,
@@ -228,7 +229,7 @@ fun ComposeNode.ToLazyRow() {
 fun ComposeNode.ToScaffold() {
     val props = properties as? NodeProperties.ScaffoldProps ?: return
     val child = props.child
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
     Scaffold(
         modifier = modifier,
     ) {
