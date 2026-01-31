@@ -83,17 +83,17 @@
 - [x] Scenario: NodeProperties polymorphic deserialization
 
 ## Feature: Unit tests for ComposeNode tree functions
-- [ ] Scenario: countLevels for root node
-- [ ] Scenario: countLevels for nested node
-- [ ] Scenario: parents for root node
-- [ ] Scenario: parents for nested node
-- [ ] Scenario: asList for leaf node
-- [ ] Scenario: asList for container with children
-- [ ] Scenario: asList for node with single child
-- [ ] Scenario: asList for deep nested tree
-- [ ] Scenario: id generation for root node
-- [ ] Scenario: id generation for child node
-- [ ] Scenario: toString produces valid JSON
+- [x] Scenario: countLevels for root node
+- [x] Scenario: countLevels for nested node
+- [x] Scenario: parents for root node
+- [x] Scenario: parents for nested node
+- [x] Scenario: asList for leaf node
+- [x] Scenario: asList for container with children
+- [x] Scenario: asList for node with single child
+- [x] Scenario: asList for deep nested tree
+- [x] Scenario: id generation for root node
+- [x] Scenario: id generation for child node
+- [x] Scenario: toString produces valid JSON
 
 ## Feature: Unit tests for Alignment mappers
 - [ ] Scenario: toAlignment maps all 9 two-dimensional alignments
