@@ -74,6 +74,18 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
+    @SerialName("DialogProps")
+    data class DialogProps(
+        val title: String? = null,
+        val content: String? = null,
+        val child: ComposeNode? = null,
+        val confirmButtonText: String? = null,
+        val dismissButtonText: String? = null,
+        val onConfirmEventName: String? = null,
+        val onDismissEventName: String? = null,
+    ) : NodeProperties
+
+    @Serializable
     @SerialName("CustomProps")
     data class CustomProps(
         val customType: String,

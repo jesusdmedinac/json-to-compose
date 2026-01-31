@@ -60,12 +60,12 @@
 - [x] Scenario: Serialize and deserialize a Card from JSON
 
 ## Feature: Dialog Component rendered from JSON
-- [ ] Scenario: Render a basic Dialog with title and content
-- [ ] Scenario: Render a Dialog with action buttons
-- [ ] Scenario: Dialog emits event on confirm
-- [ ] Scenario: Dialog emits event on cancel
-- [ ] Scenario: Dialog with custom content
-- [ ] Scenario: Serialize and deserialize a Dialog from JSON
+- [x] Scenario: Render a basic Dialog with title and content
+- [x] Scenario: Render a Dialog with action buttons
+- [x] Scenario: Dialog emits event on confirm
+- [x] Scenario: Dialog emits event on cancel
+- [x] Scenario: Dialog with custom content
+- [x] Scenario: Serialize and deserialize a Dialog from JSON
 
 ## Feature: TopAppBar Component rendered from JSON
 - [ ] Scenario: Render a TopAppBar with title

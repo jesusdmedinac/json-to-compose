@@ -47,6 +47,7 @@ data class ComposeNode(
         val child = when (properties) {
             is NodeProperties.ButtonProps -> properties.child
             is NodeProperties.CardProps -> properties.child
+            is NodeProperties.DialogProps -> properties.child
             else -> null
         }
         child?.let { list.add(it) }

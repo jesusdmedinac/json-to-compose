@@ -133,7 +133,7 @@ File: `renderer/ComponentRenderers.kt`
 @Composable
 fun ComposeNode.ToNewComponent() {
     val props = properties as? NodeProperties.NewComponentProps ?: return
-    val modifier = Modifier from composeModifier
+    val modifier = (Modifier from composeModifier).testTag(type.name)
 
     // Implement the composable
     NewComponent(
@@ -146,6 +146,8 @@ fun ComposeNode.ToNewComponent() {
     }
 }
 ```
+
+**Important:** Always apply `.testTag(type.name)` to the modifier so the component can be found in tests via `onNodeWithTag("NewComponent")`.
 
 ### Step 4: Add to Router
 
@@ -174,6 +176,27 @@ private fun NodeProperties?.children(): List<ComposeNode> = when(this) {
     else -> null
 } ?: emptyList()
 ```
+
+### Step 6: Add example to demo app
+
+File: `composeApp/src/commonMain/kotlin/.../App.kt`
+
+Add a `ComposeNode` using the new component to the demo catalog in `App.kt`. The example should demonstrate the component's key properties so developers evaluating the library can see it in action.
+
+```kotlin
+ComposeNode(
+    type = ComposeType.NewComponent,
+    properties = NodeProperties.NewComponentProps(
+        property1 = "Example value",
+        child = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Inside NewComponent")
+        )
+    )
+),
+```
+
+**Important:** Every new component must be visible in the demo app. This ensures the component is validated visually in a real app, not just in headless tests.
 
 ## Modifiers System
 
@@ -403,8 +426,9 @@ json-to-compose/
 
 - [ ] Add type to `ComposeType` enum
 - [ ] Create `{Name}Props` in `NodeProperties` sealed interface
-- [ ] Implement `To{Name}()` renderer
+- [ ] Implement `To{Name}()` renderer (with `.testTag(type.name)`)
 - [ ] Add case to router in `ComposeNode.ToCompose()`
-- [ ] Update `children()` if it is a container
+- [ ] Update `children()` / `asList()` if it has children or a single child
 - [ ] Add tests
+- [ ] Add example to demo app (`composeApp/` `App.kt`)
 - [ ] Update this document if there are new patterns

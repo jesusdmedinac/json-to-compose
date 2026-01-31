@@ -255,6 +255,52 @@ fun ComposeNode.ToCard() {
 }
 
 @Composable
+fun ComposeNode.ToDialog() {
+    val props = properties as? NodeProperties.DialogProps ?: return
+    val modifier = (Modifier from composeModifier).testTag(type.name)
+    val currentBehavior = LocalBehavior.current
+    val confirmBehavior = currentBehavior[props.onConfirmEventName]
+    val dismissBehavior = currentBehavior[props.onDismissEventName]
+
+    androidx.compose.material.AlertDialog(
+        modifier = modifier,
+        onDismissRequest = { dismissBehavior?.onClick() },
+        title = props.title?.let { title ->
+            { Text(text = title) }
+        },
+        text = when {
+            props.child != null -> {
+                { props.child.ToCompose() }
+            }
+            props.content != null -> {
+                { Text(text = props.content) }
+            }
+            else -> null
+        },
+        confirmButton = {
+            if (props.confirmButtonText != null) {
+                Button(
+                    onClick = { confirmBehavior?.onClick() },
+                    modifier = Modifier.testTag("DialogConfirmButton"),
+                ) {
+                    Text(props.confirmButtonText)
+                }
+            }
+        },
+        dismissButton = if (props.dismissButtonText != null) {
+            {
+                Button(
+                    onClick = { dismissBehavior?.onClick() },
+                    modifier = Modifier.testTag("DialogDismissButton"),
+                ) {
+                    Text(props.dismissButtonText)
+                }
+            }
+        } else null,
+    )
+}
+
+@Composable
 fun ComposeNode.ToCustom() {
     val customRenderers = LocalCustomRenderers.current
     val customProps = properties as? NodeProperties.CustomProps

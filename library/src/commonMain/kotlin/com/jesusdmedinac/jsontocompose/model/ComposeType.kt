@@ -12,6 +12,7 @@ enum class ComposeType {
     LazyRow,
     Scaffold,
     Card,
+    Dialog,
     Custom;
 
     fun isLayout(): Boolean = when (this) {

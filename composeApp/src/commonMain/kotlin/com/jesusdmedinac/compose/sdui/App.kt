@@ -37,10 +37,29 @@ fun App() {
         "compose-multiplatform" to Res.drawable.compose_multiplatform
     )
 
+    var showDialog by remember { mutableStateOf(false) }
+
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
             override fun onClick() {
                 println("Button clicked: button_clicked")
+            }
+        },
+        "show_dialog" to object : Behavior {
+            override fun onClick() {
+                showDialog = true
+            }
+        },
+        "dialog_confirm" to object : Behavior {
+            override fun onClick() {
+                println("Dialog confirmed")
+                showDialog = false
+            }
+        },
+        "dialog_dismiss" to object : Behavior {
+            override fun onClick() {
+                println("Dialog dismissed")
+                showDialog = false
             }
         }
     )
@@ -295,6 +314,18 @@ fun App() {
                             )
                         ),
                         ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                onClickEventName = "show_dialog",
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Show Dialog"
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
                             type = ComposeType.Custom,
                             properties = NodeProperties.CustomProps(
                                 customType = "ProductCard",
@@ -304,7 +335,19 @@ fun App() {
                                 }
                             )
                         ),
-                    )
+                    ) + (if (showDialog) listOf(
+                        ComposeNode(
+                            type = ComposeType.Dialog,
+                            properties = NodeProperties.DialogProps(
+                                title = "Confirm Action",
+                                content = "Do you want to proceed with this action?",
+                                confirmButtonText = "Confirm",
+                                dismissButtonText = "Cancel",
+                                onConfirmEventName = "dialog_confirm",
+                                onDismissEventName = "dialog_dismiss",
+                            )
+                        ),
+                    ) else emptyList())
                 )
             )
             val composeAsString = composeNode.toString()
