@@ -31,16 +31,16 @@
 - [x] Scenario: Unit test for multiple modifiers combined
 
 ## Feature: Integration tests of JSON to Compose pipeline
-- [ ] Scenario: Full pipeline for simple Text
-- [ ] Scenario: Full pipeline for Column with children
-- [ ] Scenario: Full pipeline for deep nested tree
-- [ ] Scenario: Full pipeline with modifiers
-- [ ] Scenario: Full pipeline with Button and Behavior
-- [ ] Scenario: Full pipeline with TextField and StateHost
-- [ ] Scenario: Full pipeline with Image from URL
-- [ ] Scenario: Full pipeline with Custom component
-- [ ] Scenario: Full pipeline with LazyColumn with many items
-- [ ] Scenario: Roundtrip serialization: ComposeNode to JSON and back
+- [x] Scenario: Full pipeline for simple Text
+- [x] Scenario: Full pipeline for Column with children
+- [x] Scenario: Full pipeline for deep nested tree
+- [x] Scenario: Full pipeline with modifiers
+- [x] Scenario: Full pipeline with Button and Behavior
+- [x] Scenario: Full pipeline with TextField and StateHost
+- [x] Scenario: Full pipeline with Image from URL
+- [x] Scenario: Full pipeline with Custom component
+- [x] Scenario: Full pipeline with LazyColumn with many items
+- [x] Scenario: Roundtrip serialization: ComposeNode to JSON and back
 
 ## Feature: Snapshot tests for rendered components
 - [ ] Scenario: Snapshot of basic Text
