@@ -13,7 +13,6 @@ import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -28,7 +27,7 @@ class DialogRendererTest {
     @Test
     fun dialogRendersWithTitleAndContent() = runComposeUiTest {
         val node = ComposeNode(
-            type = ComposeType.Dialog,
+            type = ComposeType.AlertDialog,
             properties = NodeProperties.DialogProps(
                 title = "Confirm",
                 content = "Do you want to continue?",
@@ -49,7 +48,7 @@ class DialogRendererTest {
     @Test
     fun dialogRendersWithActionButtons() = runComposeUiTest {
         val node = ComposeNode(
-            type = ComposeType.Dialog,
+            type = ComposeType.AlertDialog,
             properties = NodeProperties.DialogProps(
                 title = "Action",
                 content = "Choose an option",
@@ -72,13 +71,13 @@ class DialogRendererTest {
     fun dialogEmitsConfirmEvent() = runComposeUiTest {
         var confirmed = false
         val mockBehavior = object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 confirmed = true
             }
         }
 
         val node = ComposeNode(
-            type = ComposeType.Dialog,
+            type = ComposeType.AlertDialog,
             properties = NodeProperties.DialogProps(
                 title = "Delete",
                 content = "Are you sure?",
@@ -105,13 +104,13 @@ class DialogRendererTest {
     fun dialogEmitsDismissEvent() = runComposeUiTest {
         var dismissed = false
         val mockBehavior = object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 dismissed = true
             }
         }
 
         val node = ComposeNode(
-            type = ComposeType.Dialog,
+            type = ComposeType.AlertDialog,
             properties = NodeProperties.DialogProps(
                 title = "Delete",
                 content = "Are you sure?",
@@ -138,7 +137,7 @@ class DialogRendererTest {
     @Test
     fun dialogRendersWithCustomContent() = runComposeUiTest {
         val node = ComposeNode(
-            type = ComposeType.Dialog,
+            type = ComposeType.AlertDialog,
             properties = NodeProperties.DialogProps(
                 title = "Custom Dialog",
                 confirmButtonText = "OK",
@@ -174,7 +173,7 @@ class DialogRendererTest {
     @Test
     fun dialogSerializationRoundtrip() {
         val original = ComposeNode(
-            type = ComposeType.Dialog,
+            type = ComposeType.AlertDialog,
             properties = NodeProperties.DialogProps(
                 title = "Confirm",
                 content = "Continue?",
@@ -192,7 +191,7 @@ class DialogRendererTest {
         val json = Json.encodeToString(original)
         val decoded = Json.decodeFromString<ComposeNode>(json)
 
-        assertEquals(ComposeType.Dialog, decoded.type)
+        assertEquals(ComposeType.AlertDialog, decoded.type)
         val props = decoded.properties as? NodeProperties.DialogProps
         assertNotNull(props)
         assertEquals("Confirm", props.title)

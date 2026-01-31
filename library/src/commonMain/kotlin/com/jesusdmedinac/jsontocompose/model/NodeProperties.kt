@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose.model
 
+import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -80,13 +81,12 @@ sealed interface NodeProperties {
     @Serializable
     @SerialName("DialogProps")
     data class DialogProps(
-        val title: String? = null,
-        val content: String? = null,
-        val child: ComposeNode? = null,
-        val confirmButtonText: String? = null,
-        val dismissButtonText: String? = null,
-        val onConfirmEventName: String? = null,
-        val onDismissEventName: String? = null,
+        val confirmButton: ComposeNode? = null,
+        val dismissButton: ComposeNode? = null,
+        val title: ComposeNode? = null,
+        val text: ComposeNode? = null,
+        val backgroundColor: Int? = null,
+        val contentColor: Int? = null,
         /**
          * Name of the [StateHost]<[Boolean]> that controls whether the dialog is visible.
          * When `state == false`, the dialog is not rendered. On confirm or dismiss,
@@ -94,6 +94,11 @@ sealed interface NodeProperties {
          * The host app must register a `StateHost<Boolean>` with this name in [LocalStateHost].
          */
         val visibilityStateHostName: String? = null,
+        /**
+         * Name of the [Behavior] that is invoked when the dialog is dismissed.
+         * The host app must register a `Behavior` with this name in [LocalBehavior].
+         */
+        val onDismissRequestEventName: String? = null,
     ) : NodeProperties
 
     @Serializable

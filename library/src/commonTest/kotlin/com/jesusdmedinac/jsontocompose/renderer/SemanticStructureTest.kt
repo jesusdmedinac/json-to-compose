@@ -185,7 +185,7 @@ class SemanticStructureTest {
     @Test
     fun structureOfComplexNestedLayout() = runComposeUiTest {
         val mockBehavior = object : Behavior {
-            override fun onClick() {}
+            override fun invoke() {}
         }
 
         val node = ComposeNode(

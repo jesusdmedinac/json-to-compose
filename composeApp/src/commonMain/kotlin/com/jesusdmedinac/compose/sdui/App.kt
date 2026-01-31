@@ -42,22 +42,22 @@ fun App() {
 
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 println("Button clicked: button_clicked")
             }
         },
         "show_dialog" to object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 showDialog = true
             }
         },
         "dialog_confirm" to object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 println("Dialog confirmed")
             }
         },
         "dialog_dismiss" to object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 println("Dialog dismissed")
             }
         }
@@ -331,7 +331,7 @@ fun App() {
                             )
                         ),
                         ComposeNode(
-                            type = ComposeType.Dialog,
+                            type = ComposeType.AlertDialog,
                             properties = NodeProperties.DialogProps(
                                 title = "Confirm Action",
                                 content = "Do you want to proceed with this action?",

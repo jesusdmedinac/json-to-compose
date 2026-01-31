@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
@@ -38,6 +39,7 @@ import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 import org.jetbrains.compose.resources.painterResource
+import kotlin.collections.get
 
 @Composable
 fun ComposeNode.ToColumn() {
@@ -123,7 +125,7 @@ fun ComposeNode.ToButton() {
     val behavior = currentBehavior[onClickEventName]
     Button(
         onClick = {
-            behavior?.onClick()
+            behavior?.invoke()
         },
         modifier = (Modifier from composeModifier).testTag(type.name),
     ) {
@@ -279,13 +281,9 @@ fun ComposeNode.ToCard() {
 }
 
 @Composable
-fun ComposeNode.ToDialog() {
+fun ComposeNode.ToAlertDialog() {
     val props = properties as? NodeProperties.DialogProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val currentBehavior = LocalBehavior.current
-    val confirmBehavior = currentBehavior[props.onConfirmEventName]
-    val dismissBehavior = currentBehavior[props.onDismissEventName]
-
     val currentStateHost = LocalStateHost.current
     val visibilityStateHost = props.visibilityStateHostName?.let { name ->
         val rawStateHost = currentStateHost[name]
@@ -315,50 +313,28 @@ fun ComposeNode.ToDialog() {
     val isVisible = visibilityStateHost?.state ?: true
     if (!isVisible) return
 
-    androidx.compose.material.AlertDialog(
+    val onClickEventName = props.onDismissRequestEventName
+    val currentBehavior = LocalBehavior.current
+    val behavior = currentBehavior[onClickEventName]
+
+    AlertDialog(
         modifier = modifier,
         onDismissRequest = {
             visibilityStateHost?.onStateChange(false)
-            dismissBehavior?.onClick()
+            behavior?.invoke()
         },
-        title = props.title?.let { title ->
-            { Text(text = title) }
+        title = {
+            props.title?.ToCompose()
         },
-        text = when {
-            props.child != null -> {
-                { props.child.ToCompose() }
-            }
-            props.content != null -> {
-                { Text(text = props.content) }
-            }
-            else -> null
+        text = {
+            props.text?.ToCompose()
         },
         confirmButton = {
-            if (props.confirmButtonText != null) {
-                Button(
-                    onClick = {
-                        visibilityStateHost?.onStateChange(false)
-                        confirmBehavior?.onClick()
-                    },
-                    modifier = Modifier.testTag("DialogConfirmButton"),
-                ) {
-                    Text(props.confirmButtonText)
-                }
-            }
+            props.confirmButton?.ToCompose()
         },
-        dismissButton = if (props.dismissButtonText != null) {
-            {
-                Button(
-                    onClick = {
-                        visibilityStateHost?.onStateChange(false)
-                        dismissBehavior?.onClick()
-                    },
-                    modifier = Modifier.testTag("DialogDismissButton"),
-                ) {
-                    Text(props.dismissButtonText)
-                }
-            }
-        } else null,
+        dismissButton = {
+            props.dismissButton?.ToCompose()
+        },
     )
 }
 

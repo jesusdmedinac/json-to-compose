@@ -28,7 +28,7 @@ class ComposeTypeTest {
             ComposeType.LazyRow,
             ComposeType.Scaffold,
             ComposeType.Card,
-            ComposeType.Dialog,
+            ComposeType.AlertDialog,
             ComposeType.Custom,
         )
         nonLayout.forEach { type ->
@@ -58,7 +58,7 @@ class ComposeTypeTest {
             ComposeType.LazyColumn,
             ComposeType.LazyRow,
             ComposeType.Scaffold,
-            ComposeType.Dialog,
+            ComposeType.AlertDialog,
             ComposeType.Custom,
         )
         noChild.forEach { type ->

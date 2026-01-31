@@ -39,7 +39,7 @@ class ButtonRendererTest {
     fun buttonEmitsClickEvent() = runComposeUiTest {
         var clicked = false
         val mockBehavior = object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 clicked = true
             }
         }
