@@ -97,7 +97,23 @@ class RendererErrorPathsTest {
         onAllNodesWithTag("TextField").assertCountEquals(0)
     }
 
-    // --- Scenario 5: Dialog defaults to visible when visibilityStateHostName is not registered ---
+    // --- Scenario 5: TopAppBar returns early when props type is wrong ---
+
+    @Test
+    fun topAppBarRendererReturnsEarlyWithWrongProps() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.TopAppBar,
+            properties = NodeProperties.TextProps(text = "wrong")
+        )
+
+        setContent {
+            node.ToCompose()
+        }
+
+        onAllNodesWithTag("TopAppBar").assertCountEquals(0)
+    }
+
+    // --- Scenario 6: Dialog defaults to visible when visibilityStateHostName is not registered ---
 
     @Test
     fun dialogDefaultsToVisibleWhenStateHostNotRegistered() = runComposeUiTest {

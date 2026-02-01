@@ -102,6 +102,16 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
+    @SerialName("TopAppBarProps")
+    data class TopAppBarProps(
+        val title: ComposeNode? = null,
+        val navigationIcon: ComposeNode? = null,
+        val actions: List<ComposeNode>? = null,
+        val backgroundColor: Int? = null,
+        val contentColor: Int? = null,
+    ) : NodeProperties
+
+    @Serializable
     @SerialName("CustomProps")
     data class CustomProps(
         val customType: String,

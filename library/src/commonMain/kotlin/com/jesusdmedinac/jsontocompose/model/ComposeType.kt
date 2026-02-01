@@ -13,6 +13,7 @@ enum class ComposeType {
     Scaffold,
     Card,
     AlertDialog,
+    TopAppBar,
     Custom;
 
     fun isLayout(): Boolean = when (this) {

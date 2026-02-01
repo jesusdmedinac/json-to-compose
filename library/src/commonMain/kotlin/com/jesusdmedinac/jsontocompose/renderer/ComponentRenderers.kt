@@ -12,13 +12,16 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.contentColorFor
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -349,6 +352,28 @@ fun ComposeNode.ToAlertDialog() {
         properties = DialogProperties(),
         // TODO: Support Shape
         shape = MaterialTheme.shapes.medium,
+    )
+}
+
+@Composable
+fun ComposeNode.ToTopAppBar() {
+    val props = properties as? NodeProperties.TopAppBarProps ?: return
+    val modifier = (Modifier from composeModifier).testTag(type.name)
+    val backgroundColor = props.backgroundColor?.let { Color(it) }
+        ?: MaterialTheme.colors.primarySurface
+    val contentColor = props.contentColor?.let { Color(it) }
+        ?: contentColorFor(backgroundColor)
+    TopAppBar(
+        modifier = modifier,
+        title = { props.title?.ToCompose() },
+        navigationIcon = props.navigationIcon?.let { nav -> { nav.ToCompose() } },
+        actions = {
+            props.actions?.forEach { action -> action.ToCompose() }
+        },
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        // TODO: Support elevation
+        elevation = AppBarDefaults.TopAppBarElevation
     )
 }
 
