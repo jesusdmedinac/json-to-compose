@@ -144,11 +144,11 @@
 - [x] Scenario: Serialize and deserialize a BottomBar from JSON
 
 ## Feature: Switch Component rendered from JSON
-- [ ] Scenario: Render a Switch in off state
-- [ ] Scenario: Render a Switch in on state
-- [ ] Scenario: Switch emits event when state changes
-- [ ] Scenario: Switch reflects state from StateHost
-- [ ] Scenario: Serialize and deserialize a Switch from JSON
+- [x] Scenario: Render a Switch in off state
+- [x] Scenario: Render a Switch in on state
+- [x] Scenario: Switch emits event when state changes
+- [x] Scenario: Switch reflects state from StateHost
+- [x] Scenario: Serialize and deserialize a Switch from JSON
 
 ## Feature: Checkbox Component rendered from JSON
 - [ ] Scenario: Render an unchecked Checkbox

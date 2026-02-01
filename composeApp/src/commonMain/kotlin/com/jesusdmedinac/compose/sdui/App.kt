@@ -39,6 +39,8 @@ fun App() {
 
     var textFieldValue by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
+    var switchChecked by remember { mutableStateOf(false) }
+    var switchEnabled by remember { mutableStateOf(true) }
 
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
@@ -62,6 +64,11 @@ fun App() {
                 println("Dialog dismissed")
                 showDialog = false
             }
+        },
+        "switch_toggled" to object : Behavior {
+            override fun invoke() {
+                println("Switch toggled: $switchChecked")
+            }
         }
     )
     val stateHosts = mapOf(
@@ -79,6 +86,22 @@ fun App() {
 
             override fun onStateChange(state: Boolean) {
                 showDialog = state
+            }
+        },
+        "switch_state" to object : StateHost<Boolean> {
+            override val state: Boolean
+                get() = switchChecked
+
+            override fun onStateChange(state: Boolean) {
+                switchChecked = state
+            }
+        },
+        "switch_enabled" to object : StateHost<Boolean> {
+            override val state: Boolean
+                get() = switchEnabled
+
+            override fun onStateChange(state: Boolean) {
+                switchEnabled = state
             }
         }
     )
@@ -202,6 +225,14 @@ fun App() {
                             type = ComposeType.TextField,
                             properties = NodeProperties.TextFieldProps(
                                 valueStateHostName = "text_field_value"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Switch,
+                            properties = NodeProperties.SwitchProps(
+                                checkedStateHostName = "switch_state",
+                                onCheckedChangeEventName = "switch_toggled",
+                                enabledStateHostName = "switch_enabled",
                             )
                         ),
                         ComposeNode(

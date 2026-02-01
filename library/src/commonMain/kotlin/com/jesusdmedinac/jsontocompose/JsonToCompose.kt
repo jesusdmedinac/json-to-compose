@@ -20,6 +20,7 @@ import com.jesusdmedinac.jsontocompose.renderer.ToScaffold
 import com.jesusdmedinac.jsontocompose.renderer.ToText
 import com.jesusdmedinac.jsontocompose.renderer.ToTextField
 import com.jesusdmedinac.jsontocompose.renderer.ToBottomBar
+import com.jesusdmedinac.jsontocompose.renderer.ToSwitch
 import com.jesusdmedinac.jsontocompose.renderer.ToTopAppBar
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
@@ -54,6 +55,7 @@ fun ComposeNode.ToCompose() {
         ComposeType.AlertDialog -> ToAlertDialog()
         ComposeType.TopAppBar -> ToTopAppBar()
         ComposeType.BottomBar -> ToBottomBar()
+        ComposeType.Switch -> ToSwitch()
         ComposeType.Custom -> ToCustom()
     }
 }

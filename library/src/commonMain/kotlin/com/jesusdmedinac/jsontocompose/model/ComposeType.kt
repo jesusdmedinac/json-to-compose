@@ -15,6 +15,7 @@ enum class ComposeType {
     AlertDialog,
     TopAppBar,
     BottomBar,
+    Switch,
     Custom;
 
     fun isLayout(): Boolean = when (this) {
