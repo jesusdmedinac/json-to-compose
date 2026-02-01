@@ -68,6 +68,7 @@ sealed interface NodeProperties {
     @SerialName("ScaffoldProps")
     data class ScaffoldProps(
         val topBar: ComposeNode? = null,
+        val bottomBar: ComposeNode? = null,
         val child: ComposeNode? = null,
     ) : NodeProperties
 
@@ -108,6 +109,23 @@ sealed interface NodeProperties {
         val title: ComposeNode? = null,
         val navigationIcon: ComposeNode? = null,
         val actions: List<ComposeNode>? = null,
+        val backgroundColor: Int? = null,
+        val contentColor: Int? = null,
+    ) : NodeProperties
+
+    @Serializable
+    @SerialName("BottomBarItem")
+    data class BottomBarItem(
+        val label: String? = null,
+        val iconName: String? = null,
+        val eventName: String? = null,
+    )
+
+    @Serializable
+    @SerialName("BottomBarProps")
+    data class BottomBarProps(
+        val items: List<BottomBarItem>? = null,
+        val selectedIndex: Int? = null,
         val backgroundColor: Int? = null,
         val contentColor: Int? = null,
     ) : NodeProperties

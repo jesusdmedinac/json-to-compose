@@ -19,6 +19,9 @@ fun ComposeNode.ToScaffold() {
         topBar = {
             props.topBar?.ToCompose()
         },
+        bottomBar = {
+            props.bottomBar?.ToCompose()
+        },
     ) {
         child?.ToCompose()
     }
