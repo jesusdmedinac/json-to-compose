@@ -285,7 +285,7 @@ fun ComposeNode.ToCard() {
 
 @Composable
 fun ComposeNode.ToAlertDialog() {
-    val props = properties as? NodeProperties.DialogProps ?: return
+    val props = properties as? NodeProperties.AlertDialogProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
     val currentStateHost = LocalStateHost.current
     val visibilityStateHost = props.visibilityStateHostName?.let { name ->

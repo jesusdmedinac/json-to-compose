@@ -79,8 +79,8 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
-    @SerialName("DialogProps")
-    data class DialogProps(
+    @SerialName("AlertDialogProps")
+    data class AlertDialogProps(
         val confirmButton: ComposeNode? = null,
         val dismissButton: ComposeNode? = null,
         val title: ComposeNode? = null,

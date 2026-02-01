@@ -160,6 +160,8 @@ fun ComposeComponent(
                 ComposeType.LazyColumn -> Lucide.Rows4
                 ComposeType.LazyRow -> Lucide.Columns4
                 ComposeType.Scaffold -> Lucide.Square
+                ComposeType.Card -> Lucide.Square
+                ComposeType.AlertDialog -> Lucide.Box
                 ComposeType.Custom -> Lucide.Box
             },
             contentDescription = type.name

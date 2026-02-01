@@ -1,6 +1,5 @@
 package com.jesusdmedinac.jsontocompose.model
 
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -216,31 +215,48 @@ class NodePropertiesSerializationTest {
 
     @Test
     fun dialogPropsSerializationWithAllFields() {
-        val original = NodeProperties.DialogProps(
-            title = "Delete",
-            content = "Are you sure?",
-            child = ComposeNode(
+        val original = NodeProperties.AlertDialogProps(
+            title = ComposeNode(
                 type = ComposeType.Text,
-                properties = NodeProperties.TextProps(text = "Extra")
+                properties = NodeProperties.TextProps(text = "Delete")
             ),
-            confirmButtonText = "Yes",
-            dismissButtonText = "No",
-            onConfirmEventName = "evt_confirm",
-            onDismissEventName = "evt_dismiss",
+            text = ComposeNode(
+                type = ComposeType.Text,
+                properties = NodeProperties.TextProps(text = "Are you sure?")
+            ),
+            confirmButton = ComposeNode(
+                type = ComposeType.Button,
+                properties = NodeProperties.ButtonProps(
+                    onClickEventName = "evt_confirm",
+                    child = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Yes")
+                    )
+                )
+            ),
+            dismissButton = ComposeNode(
+                type = ComposeType.Button,
+                properties = NodeProperties.ButtonProps(
+                    onClickEventName = "evt_dismiss",
+                    child = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "No")
+                    )
+                )
+            ),
             visibilityStateHostName = "dlg_visible",
+            onDismissRequestEventName = "evt_dismiss_request",
         )
         val encoded = json.encodeToString<NodeProperties>(original)
         val decoded = json.decodeFromString<NodeProperties>(encoded)
 
-        assertIs<NodeProperties.DialogProps>(decoded)
-        assertEquals("Delete", decoded.title)
-        assertEquals("Are you sure?", decoded.content)
-        assertNotNull(decoded.child)
-        assertEquals("Yes", decoded.confirmButtonText)
-        assertEquals("No", decoded.dismissButtonText)
-        assertEquals("evt_confirm", decoded.onConfirmEventName)
-        assertEquals("evt_dismiss", decoded.onDismissEventName)
+        assertIs<NodeProperties.AlertDialogProps>(decoded)
+        assertNotNull(decoded.title)
+        assertNotNull(decoded.text)
+        assertNotNull(decoded.confirmButton)
+        assertNotNull(decoded.dismissButton)
         assertEquals("dlg_visible", decoded.visibilityStateHostName)
+        assertEquals("evt_dismiss_request", decoded.onDismissRequestEventName)
     }
 
     // --- Scenario 12: CustomProps serialization with customData ---

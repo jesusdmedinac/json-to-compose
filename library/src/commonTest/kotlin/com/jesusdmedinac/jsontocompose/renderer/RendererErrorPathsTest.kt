@@ -103,9 +103,20 @@ class RendererErrorPathsTest {
     fun dialogDefaultsToVisibleWhenStateHostNotRegistered() = runComposeUiTest {
         val node = ComposeNode(
             type = ComposeType.AlertDialog,
-            properties = NodeProperties.DialogProps(
-                title = "Visible Dialog",
-                confirmButtonText = "OK",
+            properties = NodeProperties.AlertDialogProps(
+                title = ComposeNode(
+                    type = ComposeType.Text,
+                    properties = NodeProperties.TextProps(text = "Visible Dialog")
+                ),
+                confirmButton = ComposeNode(
+                    type = ComposeType.Button,
+                    properties = NodeProperties.ButtonProps(
+                        child = ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "OK")
+                        )
+                    )
+                ),
                 visibilityStateHostName = "missing_key",
             )
         )
@@ -132,9 +143,20 @@ class RendererErrorPathsTest {
 
         val node = ComposeNode(
             type = ComposeType.AlertDialog,
-            properties = NodeProperties.DialogProps(
-                title = "Wrong Type Dialog",
-                confirmButtonText = "OK",
+            properties = NodeProperties.AlertDialogProps(
+                title = ComposeNode(
+                    type = ComposeType.Text,
+                    properties = NodeProperties.TextProps(text = "Wrong Type Dialog")
+                ),
+                confirmButton = ComposeNode(
+                    type = ComposeType.Button,
+                    properties = NodeProperties.ButtonProps(
+                        child = ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "OK")
+                        )
+                    )
+                ),
                 visibilityStateHostName = "string_state",
             )
         )

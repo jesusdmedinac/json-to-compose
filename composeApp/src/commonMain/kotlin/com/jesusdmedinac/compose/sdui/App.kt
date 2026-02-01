@@ -54,11 +54,13 @@ fun App() {
         "dialog_confirm" to object : Behavior {
             override fun invoke() {
                 println("Dialog confirmed")
+                showDialog = false
             }
         },
         "dialog_dismiss" to object : Behavior {
             override fun invoke() {
                 println("Dialog dismissed")
+                showDialog = false
             }
         }
     )
@@ -332,13 +334,43 @@ fun App() {
                         ),
                         ComposeNode(
                             type = ComposeType.AlertDialog,
-                            properties = NodeProperties.DialogProps(
-                                title = "Confirm Action",
-                                content = "Do you want to proceed with this action?",
-                                confirmButtonText = "Confirm",
-                                dismissButtonText = "Cancel",
-                                onConfirmEventName = "dialog_confirm",
-                                onDismissEventName = "dialog_dismiss",
+                            properties = NodeProperties.AlertDialogProps(
+                                title = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Confirm Action"
+                                    )
+                                ),
+                                text = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Do you want to proceed with this action?"
+                                    )
+                                ),
+                                confirmButton = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        onClickEventName = "dialog_confirm",
+                                        child = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "Confirm"
+                                            )
+                                        )
+                                    )
+                                ),
+                                dismissButton = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        onClickEventName = "dialog_dismiss",
+                                        child = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "Cancel"
+                                            )
+                                        )
+                                    )
+                                ),
                                 visibilityStateHostName = "dialog_visibility",
                             )
                         ),
