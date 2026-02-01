@@ -16,6 +16,9 @@ fun ComposeNode.ToScaffold() {
     val modifier = (Modifier from composeModifier).testTag(type.name)
     Scaffold(
         modifier = modifier,
+        topBar = {
+            props.topBar?.ToCompose()
+        },
     ) {
         child?.ToCompose()
     }

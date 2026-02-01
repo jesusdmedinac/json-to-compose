@@ -67,6 +67,7 @@ sealed interface NodeProperties {
     @Serializable
     @SerialName("ScaffoldProps")
     data class ScaffoldProps(
+        val topBar: ComposeNode? = null,
         val child: ComposeNode? = null,
     ) : NodeProperties
 

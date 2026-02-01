@@ -4,7 +4,11 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.test.performClick
+import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.ToCompose
+import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -12,6 +16,7 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalTestApi::class)
 class TopAppBarRendererTest {
@@ -111,6 +116,49 @@ class TopAppBarRendererTest {
         onNodeWithText("Settings").assertIsDisplayed()
     }
 
+    // --- Scenario 3: TopAppBar emits event when navigation icon is pressed ---
+
+    @Test
+    fun topAppBarEmitsEventWhenNavigationIconPressed() = runComposeUiTest {
+        var invoked = false
+        val mockBehavior = object : Behavior {
+            override fun invoke() {
+                invoked = true
+            }
+        }
+
+        val node = ComposeNode(
+            type = ComposeType.TopAppBar,
+            properties = NodeProperties.TopAppBarProps(
+                title = ComposeNode(
+                    type = ComposeType.Text,
+                    properties = NodeProperties.TextProps(text = "Title")
+                ),
+                navigationIcon = ComposeNode(
+                    type = ComposeType.Button,
+                    properties = NodeProperties.ButtonProps(
+                        onClickEventName = "nav_back",
+                        child = ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Back")
+                        )
+                    )
+                )
+            )
+        )
+
+        setContent {
+            CompositionLocalProvider(
+                LocalBehavior provides mapOf("nav_back" to mockBehavior)
+            ) {
+                node.ToCompose()
+            }
+        }
+
+        onNodeWithText("Back").performClick()
+        assertTrue(invoked, "Behavior for nav_back should have been invoked")
+    }
+
     // --- Scenario 4: Serialization round-trip ---
 
     @Test
@@ -158,5 +206,36 @@ class TopAppBarRendererTest {
         assertNotNull(props.actions)
         assertEquals(1, props.actions?.size)
         assertEquals(ComposeType.Button, props.actions?.first()?.type)
+    }
+
+    // --- Scenario 5: TopAppBar integrated with Scaffold ---
+
+    @Test
+    fun topAppBarIntegratedWithScaffold() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Scaffold,
+            properties = NodeProperties.ScaffoldProps(
+                topBar = ComposeNode(
+                    type = ComposeType.TopAppBar,
+                    properties = NodeProperties.TopAppBarProps(
+                        title = ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "App Title")
+                        )
+                    )
+                ),
+                child = ComposeNode(
+                    type = ComposeType.Text,
+                    properties = NodeProperties.TextProps(text = "Body")
+                )
+            )
+        )
+
+        setContent {
+            node.ToCompose()
+        }
+
+        onNodeWithText("App Title").assertIsDisplayed()
+        onNodeWithText("Body").assertIsDisplayed()
     }
 }

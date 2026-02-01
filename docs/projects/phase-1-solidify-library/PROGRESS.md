@@ -129,12 +129,12 @@
 - [x] Scenario: Image renders fallback when resource is not found
 
 ## Feature: TopAppBar Component rendered from JSON
-- [ ] Scenario: Render a TopAppBar with title
-- [ ] Scenario: Render a TopAppBar with navigation icon
-- [ ] Scenario: TopAppBar emits event when navigation icon is pressed
-- [ ] Scenario: Render a TopAppBar with actions
-- [ ] Scenario: TopAppBar integrated with Scaffold
-- [ ] Scenario: Serialize and deserialize a TopAppBar from JSON
+- [x] Scenario: Render a TopAppBar with title
+- [x] Scenario: Render a TopAppBar with navigation icon
+- [x] Scenario: TopAppBar emits event when navigation icon is pressed
+- [x] Scenario: Render a TopAppBar with actions
+- [x] Scenario: TopAppBar integrated with Scaffold
+- [x] Scenario: Serialize and deserialize a TopAppBar from JSON
 
 ## Feature: BottomBar Component rendered from JSON
 - [ ] Scenario: Render a BottomBar with navigation items

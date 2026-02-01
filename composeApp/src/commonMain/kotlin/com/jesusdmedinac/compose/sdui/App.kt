@@ -420,6 +420,17 @@ fun App() {
                                 )
                             ),
                             properties = NodeProperties.ScaffoldProps(
+                                topBar = ComposeNode(
+                                    type = ComposeType.TopAppBar,
+                                    properties = NodeProperties.TopAppBarProps(
+                                        title = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "Scaffold App Bar"
+                                            )
+                                        )
+                                    )
+                                ),
                                 child = ComposeNode(
                                     type = ComposeType.Text,
                                     properties = NodeProperties.TextProps(
