@@ -375,6 +375,65 @@ fun App() {
                             )
                         ),
                         ComposeNode(
+                            type = ComposeType.TopAppBar,
+                            properties = NodeProperties.TopAppBarProps(
+                                title = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "My App"
+                                    )
+                                ),
+                                navigationIcon = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        onClickEventName = "button_clicked",
+                                        child = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "<"
+                                            )
+                                        )
+                                    )
+                                ),
+                                actions = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Button,
+                                        properties = NodeProperties.ButtonProps(
+                                            onClickEventName = "button_clicked",
+                                            child = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(
+                                                    text = "Action"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                ),
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Scaffold,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxWidth,
+                                    ComposeModifier.Operation.Height(120),
+                                )
+                            ),
+                            properties = NodeProperties.ScaffoldProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Content inside Scaffold"
+                                    ),
+                                    composeModifier = ComposeModifier(
+                                        operations = listOf(
+                                            ComposeModifier.Operation.Padding(16),
+                                        )
+                                    ),
+                                )
+                            )
+                        ),
+                        ComposeNode(
                             type = ComposeType.Custom,
                             properties = NodeProperties.CustomProps(
                                 customType = "ProductCard",
