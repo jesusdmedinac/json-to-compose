@@ -16,6 +16,7 @@ enum class ComposeType {
     TopAppBar,
     BottomBar,
     Switch,
+    Checkbox,
     Custom;
 
     fun isLayout(): Boolean = when (this) {

@@ -139,6 +139,14 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
+    @SerialName("CheckboxProps")
+    data class CheckboxProps(
+        val checkedStateHostName: String? = null,
+        val onCheckedChangeEventName: String? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    @Serializable
     @SerialName("CustomProps")
     data class CustomProps(
         val customType: String,

@@ -41,6 +41,8 @@ fun App() {
     var showDialog by remember { mutableStateOf(false) }
     var switchChecked by remember { mutableStateOf(false) }
     var switchEnabled by remember { mutableStateOf(true) }
+    var checkboxChecked by remember { mutableStateOf(false) }
+    var checkboxEnabled by remember { mutableStateOf(true) }
 
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
@@ -69,6 +71,11 @@ fun App() {
             override fun invoke() {
                 println("Switch toggled: $switchChecked")
             }
+        },
+        "checkbox_toggled" to object : Behavior {
+            override fun invoke() {
+                println("Checkbox toggled: $checkboxChecked")
+            }
         }
     )
     val stateHosts = mapOf(
@@ -94,6 +101,22 @@ fun App() {
 
             override fun onStateChange(state: Boolean) {
                 switchChecked = state
+            }
+        },
+        "checkbox_checked" to object : StateHost<Boolean> {
+            override val state: Boolean
+                get() = checkboxChecked
+
+            override fun onStateChange(state: Boolean) {
+                checkboxChecked = state
+            }
+        },
+        "checkbox_enabled" to object : StateHost<Boolean> {
+            override val state: Boolean
+                get() = checkboxEnabled
+
+            override fun onStateChange(state: Boolean) {
+                checkboxEnabled = state
             }
         },
         "switch_enabled" to object : StateHost<Boolean> {
@@ -233,6 +256,27 @@ fun App() {
                                 checkedStateHostName = "switch_state",
                                 onCheckedChangeEventName = "switch_toggled",
                                 enabledStateHostName = "switch_enabled",
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Row,
+                            properties = NodeProperties.RowProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Checkbox,
+                                        properties = NodeProperties.CheckboxProps(
+                                            checkedStateHostName = "checkbox_checked",
+                                            onCheckedChangeEventName = "checkbox_toggled",
+                                            enabledStateHostName = "checkbox_enabled",
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Accept terms and conditions"
+                                        )
+                                    ),
+                                )
                             )
                         ),
                         ComposeNode(

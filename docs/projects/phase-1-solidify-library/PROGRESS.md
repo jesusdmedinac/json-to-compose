@@ -151,11 +151,11 @@
 - [x] Scenario: Serialize and deserialize a Switch from JSON
 
 ## Feature: Checkbox Component rendered from JSON
-- [ ] Scenario: Render an unchecked Checkbox
-- [ ] Scenario: Render a checked Checkbox
-- [ ] Scenario: Checkbox emits event when state changes
-- [ ] Scenario: Checkbox with label as child
-- [ ] Scenario: Serialize and deserialize a Checkbox from JSON
+- [x] Scenario: Render an unchecked Checkbox
+- [x] Scenario: Render a checked Checkbox
+- [x] Scenario: Checkbox emits event when state changes
+- [x] Scenario: Checkbox with label as child
+- [x] Scenario: Serialize and deserialize a Checkbox from JSON
 
 ## Feature: Border Modifier applied from JSON
 - [ ] Scenario: Apply border with width and color
