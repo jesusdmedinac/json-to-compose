@@ -116,7 +116,7 @@ class AlertDialogRendererTest {
             properties = NodeProperties.AlertDialogProps(
                 title = ComposeNode(
                     type = ComposeType.Text,
-                    properties = NodeProperties.TextProps(text = "Delete")
+                    properties = NodeProperties.TextProps(text = "Confirm Delete")
                 ),
                 text = ComposeNode(
                     type = ComposeType.Text,
