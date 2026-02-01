@@ -17,7 +17,7 @@ This plan has two parts:
 
 ### What changes
 
-Every renderer in `ComponentRenderers.kt` will add `Modifier.testTag()` based on `ComposeNode.type.name` to the root composable it emits. This allows tests to locate nodes by their component type.
+Every renderer (each in its own file under `renderer/`) will add `Modifier.testTag()` based on `ComposeNode.type.name` to the root composable it emits. This allows tests to locate nodes by their component type.
 
 ### Tag format
 
@@ -31,7 +31,7 @@ For example, a `Column` renderer will produce `Modifier.testTag("Column")`. When
 
 | File | Change |
 |------|--------|
-| `renderer/ComponentRenderers.kt` | Add `.testTag(type.name)` to every renderer's modifier chain |
+| `renderer/*Renderer.kt` | Each renderer file already has `.testTag(type.name)` in its modifier chain |
 
 ### Renderer changes (pseudocode)
 
@@ -43,7 +43,7 @@ val modifier = Modifier from composeModifier
 val modifier = (Modifier from composeModifier).testTag(type.name)
 ```
 
-This applies to all 11 renderers: `ToColumn`, `ToRow`, `ToBox`, `ToText`, `ToButton`, `ToImage`, `ToTextField`, `ToLazyColumn`, `ToLazyRow`, `ToScaffold`, `ToCustom`.
+This applies to all 14 renderers: `ToColumn`, `ToRow`, `ToBox`, `ToText`, `ToButton`, `ToImage`, `ToTextField`, `ToLazyColumn`, `ToLazyRow`, `ToScaffold`, `ToCard`, `ToAlertDialog`, `ToTopAppBar`, `ToCustom`.
 
 ### Impact on existing tests
 
@@ -146,7 +146,7 @@ Replace the 8 snapshot scenario lines with the corresponding semantic structure 
 
 ### Step 3: Refactor renderers to add `testTag`
 
-Modify each renderer in `ComponentRenderers.kt` to append `.testTag(type.name)` to the modifier. The `type` property is already available on every `ComposeNode` receiver.
+Each renderer file (e.g., `ColumnRenderer.kt`, `TextRenderer.kt`) already appends `.testTag(type.name)` to its modifier. The `type` property is available on every `ComposeNode` receiver.
 
 ### Step 4: Write the test file
 

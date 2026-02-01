@@ -184,6 +184,6 @@ The library validates at registration time that the StateHost's generic type mat
 ## References
 
 - `StateHost<T>` interface: `library/src/commonMain/kotlin/.../state/StateHost.kt`
-- Current StateHost usages in renderers: `library/src/commonMain/kotlin/.../renderer/ComponentRenderers.kt` (lines 179, 267)
+- Current StateHost usages in renderers: `library/src/commonMain/kotlin/.../renderer/TextFieldRenderer.kt` and `AlertDialogRenderer.kt`
 - `LocalStateHost` definition: `library/src/commonMain/kotlin/.../JsonToCompose.kt` (line 29)
 - ADR-001: Snapshot testing approach (precedent for this ADR format)

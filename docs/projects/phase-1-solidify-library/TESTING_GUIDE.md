@@ -405,12 +405,12 @@ Since there is no stable cross-platform snapshot testing API for Compose Multipl
 
 ### How it works
 
-Every renderer in `ComponentRenderers.kt` applies `Modifier.testTag(type.name)` to its root composable. This means:
+Every renderer (e.g., `ColumnRenderer.kt`, `TextRenderer.kt`, etc. in `renderer/`) applies `Modifier.testTag(type.name)` to its root composable. This means:
 
 - A `Text` renderer produces a node with `testTag = "Text"`
 - A `Column` renderer produces a node with `testTag = "Column"`
 - A `Button` renderer produces a node with `testTag = "Button"`
-- And so on for all 10 renderers with modifiers (Custom delegates to the consumer's renderer)
+- And so on for all 14 renderers (Custom delegates to the consumer's renderer)
 
 ### Finding nodes by tag
 

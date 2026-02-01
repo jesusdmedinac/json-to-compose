@@ -31,7 +31,20 @@ library/src/commonMain/kotlin/com/jesusdmedinac/jsontocompose/
 │   ├── ComposeModifier.kt        → Serializable modifiers
 │   └── NodeProperties.kt         → Component-specific props (sealed interface)
 ├── renderer/
-│   ├── ComponentRenderers.kt     → @Composable functions per component
+│   ├── ColumnRenderer.kt         → ComposeNode.ToColumn()
+│   ├── RowRenderer.kt            → ComposeNode.ToRow()
+│   ├── BoxRenderer.kt            → ComposeNode.ToBox()
+│   ├── TextRenderer.kt           → ComposeNode.ToText()
+│   ├── ButtonRenderer.kt         → ComposeNode.ToButton()
+│   ├── ImageRenderer.kt          → ComposeNode.ToImage()
+│   ├── TextFieldRenderer.kt      → ComposeNode.ToTextField()
+│   ├── LazyColumnRenderer.kt     → ComposeNode.ToLazyColumn()
+│   ├── LazyRowRenderer.kt        → ComposeNode.ToLazyRow()
+│   ├── ScaffoldRenderer.kt       → ComposeNode.ToScaffold()
+│   ├── CardRenderer.kt           → ComposeNode.ToCard()
+│   ├── AlertDialogRenderer.kt    → ComposeNode.ToAlertDialog()
+│   ├── TopAppBarRenderer.kt      → ComposeNode.ToTopAppBar()
+│   ├── CustomRenderer.kt         → ComposeNode.ToCustom()
 │   ├── Alignment.kt              → String → Compose Alignment mappers
 │   └── Arrangment.kt             → String → Compose Arrangement mappers
 ├── modifier/
@@ -66,6 +79,10 @@ fun ComposeNode.ToCompose() {
         ComposeType.LazyColumn -> ToLazyColumn()
         ComposeType.LazyRow -> ToLazyRow()
         ComposeType.Scaffold -> ToScaffold()
+        ComposeType.Card -> ToCard()
+        ComposeType.AlertDialog -> ToAlertDialog()
+        ComposeType.TopAppBar -> ToTopAppBar()
+        ComposeType.Custom -> ToCustom()
     }
 }
 ```
@@ -79,11 +96,15 @@ fun ComposeNode.ToCompose() {
 | TextField | TextFieldProps | Leaf |
 | Button | ButtonProps | Single Child |
 | Scaffold | ScaffoldProps | Single Child |
+| Card | CardProps | Single Child |
 | Column | ColumnProps | Container |
 | Row | RowProps | Container |
 | Box | BoxProps | Container |
 | LazyColumn | ColumnProps | Container (lazy) |
 | LazyRow | RowProps | Container (lazy) |
+| AlertDialog | AlertDialogProps | Dialog |
+| TopAppBar | TopAppBarProps | Navigation |
+| Custom | CustomProps | Extensible |
 
 ## How to Add a New Component
 
@@ -127,7 +148,7 @@ data class NewComponentProps(
 
 ### Step 3: Create the Renderer
 
-File: `renderer/ComponentRenderers.kt`
+File: `renderer/{Name}Renderer.kt` (one file per renderer)
 
 ```kotlin
 @Composable
