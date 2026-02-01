@@ -491,16 +491,49 @@ fun App() {
                             properties = NodeProperties.BottomBarProps(
                                 children = listOf(
                                     ComposeNode(
-                                        type = ComposeType.Text,
-                                        properties = NodeProperties.TextProps(text = "Home"),
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selected = true,
+                                            onClickEventName = "button_clicked",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Home"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "H"),
+                                            ),
+                                        )
                                     ),
                                     ComposeNode(
-                                        type = ComposeType.Text,
-                                        properties = NodeProperties.TextProps(text = "Search"),
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selected = false,
+                                            onClickEventName = "button_clicked",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Search"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "S"),
+                                            ),
+                                        )
                                     ),
                                     ComposeNode(
-                                        type = ComposeType.Text,
-                                        properties = NodeProperties.TextProps(text = "Profile"),
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selected = false,
+                                            onClickEventName = "button_clicked",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Profile"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "P"),
+                                            ),
+                                        )
                                     ),
                                 ),
                             )
@@ -530,12 +563,32 @@ fun App() {
                                     properties = NodeProperties.BottomBarProps(
                                         children = listOf(
                                             ComposeNode(
-                                                type = ComposeType.Text,
-                                                properties = NodeProperties.TextProps(text = "Home"),
+                                                type = ComposeType.BottomNavigationItem,
+                                                properties = NodeProperties.BottomNavigationItemProps(
+                                                    selected = true,
+                                                    label = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "Home"),
+                                                    ),
+                                                    icon = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "H"),
+                                                    ),
+                                                )
                                             ),
                                             ComposeNode(
-                                                type = ComposeType.Text,
-                                                properties = NodeProperties.TextProps(text = "Settings"),
+                                                type = ComposeType.BottomNavigationItem,
+                                                properties = NodeProperties.BottomNavigationItemProps(
+                                                    selected = false,
+                                                    label = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "Settings"),
+                                                    ),
+                                                    icon = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "S"),
+                                                    ),
+                                                )
                                             ),
                                         ),
                                     )

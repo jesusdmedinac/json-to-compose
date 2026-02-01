@@ -122,6 +122,15 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
+    @SerialName("BottomNavigationItemProps")
+    data class BottomNavigationItemProps(
+        val selected: Boolean? = null,
+        val onClickEventName: String? = null,
+        val label: ComposeNode? = null,
+        val icon: ComposeNode? = null,
+    ) : NodeProperties
+
+    @Serializable
     @SerialName("SwitchProps")
     data class SwitchProps(
         val checkedStateHostName: String? = null,

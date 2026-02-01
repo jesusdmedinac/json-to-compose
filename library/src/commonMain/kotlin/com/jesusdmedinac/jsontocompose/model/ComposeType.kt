@@ -15,6 +15,7 @@ enum class ComposeType {
     AlertDialog,
     TopAppBar,
     BottomBar,
+    BottomNavigationItem,
     Switch,
     Checkbox,
     Custom;

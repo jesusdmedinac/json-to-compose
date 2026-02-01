@@ -142,11 +142,11 @@
 - [x] Scenario: Serialize and deserialize a BottomBar from JSON
 
 ## Feature: BottomNavigationItem Component rendered from JSON
-- [ ] Scenario: Render a BottomNavigationItem with label and icon
-- [ ] Scenario: Render a BottomNavigationItem as selected
-- [ ] Scenario: BottomNavigationItem emits event when clicked
-- [ ] Scenario: BottomNavigationItem integrated with BottomBar
-- [ ] Scenario: Serialize and deserialize a BottomNavigationItem from JSON
+- [x] Scenario: Render a BottomNavigationItem with label and icon
+- [x] Scenario: Render a BottomNavigationItem as selected
+- [x] Scenario: BottomNavigationItem emits event when clicked
+- [x] Scenario: BottomNavigationItem integrated with BottomBar
+- [x] Scenario: Serialize and deserialize a BottomNavigationItem from JSON
 
 ## Feature: Switch Component rendered from JSON
 - [x] Scenario: Render a Switch in off state
