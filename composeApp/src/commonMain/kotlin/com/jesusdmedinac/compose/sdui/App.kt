@@ -489,24 +489,20 @@ fun App() {
                         ComposeNode(
                             type = ComposeType.BottomBar,
                             properties = NodeProperties.BottomBarProps(
-                                items = listOf(
-                                    NodeProperties.BottomBarItem(
-                                        label = "Home",
-                                        iconName = "H",
-                                        eventName = "button_clicked",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Home"),
                                     ),
-                                    NodeProperties.BottomBarItem(
-                                        label = "Search",
-                                        iconName = "S",
-                                        eventName = "button_clicked",
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Search"),
                                     ),
-                                    NodeProperties.BottomBarItem(
-                                        label = "Profile",
-                                        iconName = "P",
-                                        eventName = "button_clicked",
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Profile"),
                                     ),
                                 ),
-                                selectedIndex = 0,
                             )
                         ),
                         ComposeNode(
@@ -532,17 +528,16 @@ fun App() {
                                 bottomBar = ComposeNode(
                                     type = ComposeType.BottomBar,
                                     properties = NodeProperties.BottomBarProps(
-                                        items = listOf(
-                                            NodeProperties.BottomBarItem(
-                                                label = "Home",
-                                                iconName = "H",
+                                        children = listOf(
+                                            ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Home"),
                                             ),
-                                            NodeProperties.BottomBarItem(
-                                                label = "Settings",
-                                                iconName = "S",
+                                            ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Settings"),
                                             ),
                                         ),
-                                        selectedIndex = 0,
                                     )
                                 ),
                                 child = ComposeNode(

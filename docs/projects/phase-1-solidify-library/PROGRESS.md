@@ -137,11 +137,16 @@
 - [x] Scenario: Serialize and deserialize a TopAppBar from JSON
 
 ## Feature: BottomBar Component rendered from JSON
-- [x] Scenario: Render a BottomBar with navigation items
-- [x] Scenario: Render a BottomBar with selected item
-- [x] Scenario: BottomBar emits event when item is selected
+- [x] Scenario: Render a BottomBar with children
 - [x] Scenario: BottomBar integrated with Scaffold
 - [x] Scenario: Serialize and deserialize a BottomBar from JSON
+
+## Feature: BottomNavigationItem Component rendered from JSON
+- [ ] Scenario: Render a BottomNavigationItem with label and icon
+- [ ] Scenario: Render a BottomNavigationItem as selected
+- [ ] Scenario: BottomNavigationItem emits event when clicked
+- [ ] Scenario: BottomNavigationItem integrated with BottomBar
+- [ ] Scenario: Serialize and deserialize a BottomNavigationItem from JSON
 
 ## Feature: Switch Component rendered from JSON
 - [x] Scenario: Render a Switch in off state

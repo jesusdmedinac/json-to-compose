@@ -2,13 +2,10 @@ package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.test.performClick
-import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
@@ -17,22 +14,30 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalTestApi::class)
 class BottomBarRendererTest {
 
-    // --- Scenario 1: Render a BottomBar with navigation items ---
+    // --- Scenario 1: Render a BottomBar with children ---
 
     @Test
-    fun bottomBarRendersWithNavigationItems() = runComposeUiTest {
+    fun bottomBarRendersWithChildren() = runComposeUiTest {
         val node = ComposeNode(
             type = ComposeType.BottomBar,
             properties = NodeProperties.BottomBarProps(
-                items = listOf(
-                    NodeProperties.BottomBarItem(label = "Home"),
-                    NodeProperties.BottomBarItem(label = "Search"),
-                    NodeProperties.BottomBarItem(label = "Profile"),
+                children = listOf(
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Home"),
+                    ),
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Search"),
+                    ),
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Profile"),
+                    ),
                 ),
             )
         )
@@ -41,6 +46,7 @@ class BottomBarRendererTest {
             node.ToCompose()
         }
 
+        onNodeWithTag("BottomBar").assertIsDisplayed()
         onNodeWithText("Home").assertIsDisplayed()
         onNodeWithText("Search").assertIsDisplayed()
         onNodeWithText("Profile").assertIsDisplayed()
@@ -53,12 +59,20 @@ class BottomBarRendererTest {
         val node = ComposeNode(
             type = ComposeType.BottomBar,
             properties = NodeProperties.BottomBarProps(
-                items = listOf(
-                    NodeProperties.BottomBarItem(label = "Home"),
-                    NodeProperties.BottomBarItem(label = "Search"),
-                    NodeProperties.BottomBarItem(label = "Profile"),
+                children = listOf(
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Home"),
+                    ),
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Search"),
+                    ),
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Profile"),
+                    ),
                 ),
-                selectedIndex = 1,
             )
         )
 
@@ -71,41 +85,7 @@ class BottomBarRendererTest {
         onNodeWithText("Profile").assertIsDisplayed()
     }
 
-    // --- Scenario 3: BottomBar emits event when item is selected ---
-
-    @Test
-    fun bottomBarEmitsEventWhenItemSelected() = runComposeUiTest {
-        var invoked = false
-        val mockBehavior = object : Behavior {
-            override fun invoke() {
-                invoked = true
-            }
-        }
-
-        val node = ComposeNode(
-            type = ComposeType.BottomBar,
-            properties = NodeProperties.BottomBarProps(
-                items = listOf(
-                    NodeProperties.BottomBarItem(label = "Home", eventName = "home_click"),
-                    NodeProperties.BottomBarItem(label = "Search", eventName = "search_click"),
-                    NodeProperties.BottomBarItem(label = "Profile", eventName = "profile_click"),
-                ),
-            )
-        )
-
-        setContent {
-            CompositionLocalProvider(
-                LocalBehavior provides mapOf("profile_click" to mockBehavior)
-            ) {
-                node.ToCompose()
-            }
-        }
-
-        onNodeWithText("Profile").performClick()
-        assertTrue(invoked, "Behavior for profile_click should have been invoked")
-    }
-
-    // --- Scenario 4: BottomBar integrated with Scaffold ---
+    // --- Scenario 3: BottomBar integrated with Scaffold ---
 
     @Test
     fun bottomBarIntegratedWithScaffold() = runComposeUiTest {
@@ -121,9 +101,15 @@ class BottomBarRendererTest {
                 bottomBar = ComposeNode(
                     type = ComposeType.BottomBar,
                     properties = NodeProperties.BottomBarProps(
-                        items = listOf(
-                            NodeProperties.BottomBarItem(label = "Home"),
-                            NodeProperties.BottomBarItem(label = "Settings"),
+                        children = listOf(
+                            ComposeNode(
+                                type = ComposeType.Text,
+                                properties = NodeProperties.TextProps(text = "Home"),
+                            ),
+                            ComposeNode(
+                                type = ComposeType.Text,
+                                properties = NodeProperties.TextProps(text = "Settings"),
+                            ),
                         ),
                     )
                 ),
@@ -142,26 +128,23 @@ class BottomBarRendererTest {
         onNodeWithText("Body Content").assertIsDisplayed()
     }
 
-    // --- Scenario 5: Serialize and deserialize a BottomBar from JSON ---
+    // --- Scenario 4: Serialize and deserialize a BottomBar from JSON ---
 
     @Test
     fun bottomBarSerializationRoundtrip() {
         val original = ComposeNode(
             type = ComposeType.BottomBar,
             properties = NodeProperties.BottomBarProps(
-                items = listOf(
-                    NodeProperties.BottomBarItem(
-                        label = "Home",
-                        iconName = "home",
-                        eventName = "home_click",
+                children = listOf(
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Home"),
                     ),
-                    NodeProperties.BottomBarItem(
-                        label = "Profile",
-                        iconName = "person",
-                        eventName = "profile_click",
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Profile"),
                     ),
                 ),
-                selectedIndex = 0,
                 backgroundColor = 0xFF6200EE.toInt(),
                 contentColor = 0xFFFFFFFF.toInt(),
             )
@@ -173,13 +156,10 @@ class BottomBarRendererTest {
         assertEquals(ComposeType.BottomBar, decoded.type)
         val props = decoded.properties as? NodeProperties.BottomBarProps
         assertNotNull(props)
-        assertNotNull(props.items)
-        assertEquals(2, props.items?.size)
-        assertEquals("Home", props.items?.get(0)?.label)
-        assertEquals("home", props.items?.get(0)?.iconName)
-        assertEquals("home_click", props.items?.get(0)?.eventName)
-        assertEquals("Profile", props.items?.get(1)?.label)
-        assertEquals(0, props.selectedIndex)
+        assertNotNull(props.children)
+        assertEquals(2, props.children?.size)
+        assertEquals(ComposeType.Text, props.children?.get(0)?.type)
+        assertEquals(ComposeType.Text, props.children?.get(1)?.type)
         assertEquals(0xFF6200EE.toInt(), props.backgroundColor)
         assertEquals(0xFFFFFFFF.toInt(), props.contentColor)
     }

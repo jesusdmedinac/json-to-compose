@@ -114,18 +114,9 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     @Serializable
-    @SerialName("BottomBarItem")
-    data class BottomBarItem(
-        val label: String? = null,
-        val iconName: String? = null,
-        val eventName: String? = null,
-    )
-
-    @Serializable
     @SerialName("BottomBarProps")
     data class BottomBarProps(
-        val items: List<BottomBarItem>? = null,
-        val selectedIndex: Int? = null,
+        val children: List<ComposeNode>? = null,
         val backgroundColor: Int? = null,
         val contentColor: Int? = null,
     ) : NodeProperties
