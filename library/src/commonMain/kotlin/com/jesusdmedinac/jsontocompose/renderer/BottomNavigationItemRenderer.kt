@@ -1,6 +1,8 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -47,8 +49,11 @@ fun ComposeNode.ToBottomNavigationItem() {
             alwaysShowLabel = alwaysShowLabel,
             icon = { props.icon?.ToCompose() ?: Text("") },
             // TODO: Support interactionSource
+            interactionSource = null,
             // TODO: Support selectedContentColor
+            selectedContentColor = LocalContentColor.current,
             // TODO: Support unselectedContentColor
+            unselectedContentColor =  LocalContentColor.current.copy(alpha = ContentAlpha.medium),
         )
     }
 }
