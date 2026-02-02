@@ -12,6 +12,7 @@ sealed interface NodeProperties {
     @SerialName("TextProps")
     data class TextProps(
         val text: String? = null,
+        val textStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable
@@ -42,16 +43,21 @@ sealed interface NodeProperties {
     data class BoxProps(
         val children: List<ComposeNode>? = null,
         val contentAlignment: String? = null,
-        val propagateMinConstraints: Boolean? = false,
+        val propagateMinConstraints: Boolean? = null,
+        val propagateMinConstraintsStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable
     @SerialName("ImageProps")
     data class ImageProps(
         val url: String? = null,
+        val urlStateHostName: String? = null,
         val resourceName: String? = null,
+        val resourceNameStateHostName: String? = null,
         val contentDescription: String? = null,
-        val contentScale: String = "Fit"
+        val contentDescriptionStateHostName: String? = null,
+        val contentScale: String? = null,
+        val contentScaleStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable
@@ -74,7 +80,9 @@ sealed interface NodeProperties {
     data class CardProps(
         val child: ComposeNode? = null,
         val elevation: Int? = null,
+        val elevationStateHostName: String? = null,
         val cornerRadius: Int? = null,
+        val cornerRadiusStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toAlignment
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
@@ -18,8 +19,14 @@ fun ComposeNode.ToBox() {
     val contentAlignment = props.contentAlignment
         ?.toAlignment()
         ?: Alignment.TopStart
-    val propagateMinConstraints = props.propagateMinConstraints ?: false
     val modifier = (Modifier from composeModifier).testTag(type.name)
+
+    val (propagateMinConstraints, _) = resolveStateHostValue(
+        stateHostName = props.propagateMinConstraintsStateHostName,
+        inlineValue = props.propagateMinConstraints,
+        defaultValue = false,
+    )
+
     Box(
         modifier = modifier,
         contentAlignment = contentAlignment,

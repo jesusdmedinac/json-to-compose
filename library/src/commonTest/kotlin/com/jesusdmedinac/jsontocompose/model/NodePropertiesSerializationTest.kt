@@ -124,12 +124,12 @@ class NodePropertiesSerializationTest {
     }
 
     @Test
-    fun boxPropsPropagateMinConstraintsDefaultsToFalse() {
+    fun boxPropsPropagateMinConstraintsDefaultsToNull() {
         val jsonString = """{"type":"BoxProps"}"""
         val decoded = json.decodeFromString<NodeProperties>(jsonString)
 
         assertIs<NodeProperties.BoxProps>(decoded)
-        assertEquals(false, decoded.propagateMinConstraints)
+        assertEquals(null, decoded.propagateMinConstraints)
     }
 
     // --- Scenario 7: ImageProps serialization with URL ---
@@ -151,12 +151,12 @@ class NodePropertiesSerializationTest {
     }
 
     @Test
-    fun imagePropsContentScaleDefaultsToFit() {
+    fun imagePropsContentScaleDefaultsToNull() {
         val jsonString = """{"type":"ImageProps"}"""
         val decoded = json.decodeFromString<NodeProperties>(jsonString)
 
         assertIs<NodeProperties.ImageProps>(decoded)
-        assertEquals("Fit", decoded.contentScale)
+        assertEquals(null, decoded.contentScale)
     }
 
     // --- Scenario 8: TextFieldProps serialization with valueStateHostName ---

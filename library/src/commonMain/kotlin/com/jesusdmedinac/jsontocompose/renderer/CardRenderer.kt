@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.jsontocompose.ToCompose
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
@@ -15,12 +16,22 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 fun ComposeNode.ToCard() {
     val props = properties as? NodeProperties.CardProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val elevation = (props.elevation ?: 1).dp
-    val shape = RoundedCornerShape((props.cornerRadius ?: 0).dp)
+
+    val (elevation, _) = resolveStateHostValue(
+        stateHostName = props.elevationStateHostName,
+        inlineValue = props.elevation,
+        defaultValue = 1,
+    )
+    val (cornerRadius, _) = resolveStateHostValue(
+        stateHostName = props.cornerRadiusStateHostName,
+        inlineValue = props.cornerRadius,
+        defaultValue = 0,
+    )
+
     Card(
         modifier = modifier,
-        elevation = elevation,
-        shape = shape,
+        elevation = elevation.dp,
+        shape = RoundedCornerShape(cornerRadius.dp),
     ) {
         props.child?.ToCompose()
     }
