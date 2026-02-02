@@ -55,8 +55,8 @@ class NodePropertiesSerializationTest {
         assertIs<NodeProperties.ButtonProps>(decoded)
         assertEquals("click_me", decoded.onClickEventName)
         assertNotNull(decoded.child)
-        assertEquals(ComposeType.Text, decoded.child?.type)
-        val childProps = decoded.child?.properties as? NodeProperties.TextProps
+        assertEquals(ComposeType.Text, decoded.child!!.type)
+        val childProps = decoded.child!!.properties as? NodeProperties.TextProps
         assertEquals("Click", childProps?.text)
     }
 
@@ -187,7 +187,7 @@ class NodePropertiesSerializationTest {
 
         assertIs<NodeProperties.ScaffoldProps>(decoded)
         assertNotNull(decoded.child)
-        assertEquals(ComposeType.Text, decoded.child?.type)
+        assertEquals(ComposeType.Text, decoded.child!!.type)
     }
 
     // --- Scenario 10: CardProps serialization with all fields ---
@@ -276,8 +276,8 @@ class NodePropertiesSerializationTest {
         assertIs<NodeProperties.CustomProps>(decoded)
         assertEquals("MyWidget", decoded.customType)
         assertNotNull(decoded.customData)
-        assertEquals("value", decoded.customData?.get("key")?.let { (it as JsonPrimitive).content })
-        assertEquals("42", decoded.customData?.get("count")?.let { (it as JsonPrimitive).content })
+        assertEquals("value", (decoded.customData!!["key"] as JsonPrimitive).content)
+        assertEquals("42", (decoded.customData!!["count"] as JsonPrimitive).content)
     }
 
     // --- Scenario 13: NodeProperties polymorphic deserialization ---

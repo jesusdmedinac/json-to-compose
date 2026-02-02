@@ -32,18 +32,17 @@ inline fun <reified T> resolveStateHostValue(
             if (typed != null) {
                 val rawValue = try {
                     typed.state
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     println("Warning: StateHost \"$stateHostName\" failed to read state. Expected StateHost<${T::class.simpleName}>.")
                     return ResolvedStateHostValue(inlineValue ?: defaultValue, null)
                 }
                 // Verify the actual runtime type matches T (type erasure makes the cast above always succeed)
-                if (rawValue != null && rawValue !is T) {
+                if (rawValue != null && !T::class.isInstance(rawValue)) {
                     println("Warning: StateHost \"$stateHostName\" returned ${rawValue::class.simpleName} but expected ${T::class.simpleName}.")
                     return ResolvedStateHostValue(inlineValue ?: defaultValue, null)
                 }
                 @Suppress("UNCHECKED_CAST")
-                val value = rawValue as T
-                return ResolvedStateHostValue(value, typed)
+                return ResolvedStateHostValue(rawValue as T, typed)
             }
             println("Warning: StateHost \"$stateHostName\" type mismatch. Expected StateHost<${T::class.simpleName}>.")
         } else {

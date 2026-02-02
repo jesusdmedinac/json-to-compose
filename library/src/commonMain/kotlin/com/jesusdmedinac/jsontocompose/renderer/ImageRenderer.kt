@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -45,11 +46,14 @@ fun ComposeNode.ToImage() {
         defaultValue = "Fit",
     )
 
+    val resolvedContentScale = contentScale.toContentScale()
+
     when {
         url != null -> {
             AsyncImage(
                 model = url,
                 contentDescription = contentDescription,
+                contentScale = resolvedContentScale,
                 modifier = modifier
             )
         }
@@ -61,6 +65,7 @@ fun ComposeNode.ToImage() {
                 Image(
                     painter = painterResource(resource),
                     contentDescription = contentDescription,
+                    contentScale = resolvedContentScale,
                     modifier = modifier
                 )
             } else {
@@ -74,4 +79,15 @@ fun ComposeNode.ToImage() {
             Box(modifier = modifier.background(Color.Magenta))
         }
     }
+}
+
+private fun String.toContentScale(): ContentScale = when (this) {
+    "Crop" -> ContentScale.Crop
+    "Fit" -> ContentScale.Fit
+    "FillBounds" -> ContentScale.FillBounds
+    "FillHeight" -> ContentScale.FillHeight
+    "FillWidth" -> ContentScale.FillWidth
+    "Inside" -> ContentScale.Inside
+    "None" -> ContentScale.None
+    else -> ContentScale.Fit
 }
