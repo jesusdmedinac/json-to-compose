@@ -1,9 +1,6 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
@@ -13,7 +10,7 @@ import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -25,14 +22,6 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalTestApi::class)
 class BottomNavigationItemRendererTest {
-
-    private fun createBooleanStateHost(initial: Boolean): StateHost<Boolean> {
-        var value by mutableStateOf(initial)
-        return object : StateHost<Boolean> {
-            override val state: Boolean get() = value
-            override fun onStateChange(state: Boolean) { value = state }
-        }
-    }
 
     private fun bottomBarWith(vararg items: ComposeNode) = ComposeNode(
         type = ComposeType.BottomBar,
@@ -83,15 +72,15 @@ class BottomNavigationItemRendererTest {
         setContent {
             CompositionLocalProvider(
                 LocalStateHost provides mapOf(
-                    "home_selected" to createBooleanStateHost(false),
-                    "home_enabled" to createBooleanStateHost(true),
-                    "home_show_label" to createBooleanStateHost(true),
-                    "search_selected" to createBooleanStateHost(false),
-                    "search_enabled" to createBooleanStateHost(true),
-                    "search_show_label" to createBooleanStateHost(true),
-                    "profile_selected" to createBooleanStateHost(false),
-                    "profile_enabled" to createBooleanStateHost(true),
-                    "profile_show_label" to createBooleanStateHost(true),
+                    "home_selected" to MutableStateHost(false),
+                    "home_enabled" to MutableStateHost(true),
+                    "home_show_label" to MutableStateHost(true),
+                    "search_selected" to MutableStateHost(false),
+                    "search_enabled" to MutableStateHost(true),
+                    "search_show_label" to MutableStateHost(true),
+                    "profile_selected" to MutableStateHost(false),
+                    "profile_enabled" to MutableStateHost(true),
+                    "profile_show_label" to MutableStateHost(true),
                 )
             ) {
                 node.ToCompose()
@@ -116,15 +105,15 @@ class BottomNavigationItemRendererTest {
         setContent {
             CompositionLocalProvider(
                 LocalStateHost provides mapOf(
-                    "home_selected" to createBooleanStateHost(false),
-                    "home_enabled" to createBooleanStateHost(true),
-                    "home_show_label" to createBooleanStateHost(true),
-                    "search_selected" to createBooleanStateHost(true),
-                    "search_enabled" to createBooleanStateHost(true),
-                    "search_show_label" to createBooleanStateHost(true),
-                    "profile_selected" to createBooleanStateHost(false),
-                    "profile_enabled" to createBooleanStateHost(true),
-                    "profile_show_label" to createBooleanStateHost(true),
+                    "home_selected" to MutableStateHost(false),
+                    "home_enabled" to MutableStateHost(true),
+                    "home_show_label" to MutableStateHost(true),
+                    "search_selected" to MutableStateHost(true),
+                    "search_enabled" to MutableStateHost(true),
+                    "search_show_label" to MutableStateHost(true),
+                    "profile_selected" to MutableStateHost(false),
+                    "profile_enabled" to MutableStateHost(true),
+                    "profile_show_label" to MutableStateHost(true),
                 )
             ) {
                 node.ToCompose()
@@ -155,12 +144,12 @@ class BottomNavigationItemRendererTest {
         setContent {
             CompositionLocalProvider(
                 LocalStateHost provides mapOf(
-                    "home_selected" to createBooleanStateHost(false),
-                    "home_enabled" to createBooleanStateHost(true),
-                    "home_show_label" to createBooleanStateHost(true),
-                    "profile_selected" to createBooleanStateHost(false),
-                    "profile_enabled" to createBooleanStateHost(true),
-                    "profile_show_label" to createBooleanStateHost(true),
+                    "home_selected" to MutableStateHost(false),
+                    "home_enabled" to MutableStateHost(true),
+                    "home_show_label" to MutableStateHost(true),
+                    "profile_selected" to MutableStateHost(false),
+                    "profile_enabled" to MutableStateHost(true),
+                    "profile_show_label" to MutableStateHost(true),
                 ),
                 LocalBehavior provides mapOf("profile_click" to mockBehavior),
             ) {
@@ -193,12 +182,12 @@ class BottomNavigationItemRendererTest {
         setContent {
             CompositionLocalProvider(
                 LocalStateHost provides mapOf(
-                    "home_selected" to createBooleanStateHost(true),
-                    "home_enabled" to createBooleanStateHost(true),
-                    "home_show_label" to createBooleanStateHost(true),
-                    "settings_selected" to createBooleanStateHost(false),
-                    "settings_enabled" to createBooleanStateHost(true),
-                    "settings_show_label" to createBooleanStateHost(true),
+                    "home_selected" to MutableStateHost(true),
+                    "home_enabled" to MutableStateHost(true),
+                    "home_show_label" to MutableStateHost(true),
+                    "settings_selected" to MutableStateHost(false),
+                    "settings_enabled" to MutableStateHost(true),
+                    "settings_show_label" to MutableStateHost(true),
                 )
             ) {
                 node.ToCompose()
@@ -296,9 +285,9 @@ class BottomNavigationItemRendererTest {
         setContent {
             CompositionLocalProvider(
                 LocalStateHost provides mapOf(
-                    "home_selected" to createBooleanStateHost(true),
-                    "home_enabled" to createBooleanStateHost(true),
-                    "home_show_label" to createBooleanStateHost(true),
+                    "home_selected" to MutableStateHost(true),
+                    "home_enabled" to MutableStateHost(true),
+                    "home_show_label" to MutableStateHost(true),
                 )
             ) {
                 node.ToCompose()

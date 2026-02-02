@@ -7,10 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
@@ -20,6 +17,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
@@ -37,12 +35,12 @@ fun App() {
         "compose-multiplatform" to Res.drawable.compose_multiplatform
     )
 
-    var textFieldValue by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
-    var switchChecked by remember { mutableStateOf(false) }
-    var switchEnabled by remember { mutableStateOf(true) }
-    var checkboxChecked by remember { mutableStateOf(false) }
-    var checkboxEnabled by remember { mutableStateOf(true) }
+    val textFieldHost = remember { MutableStateHost("") }
+    val dialogHost = remember { MutableStateHost(false) }
+    val switchStateHost = remember { MutableStateHost(false) }
+    val switchEnabledHost = remember { MutableStateHost(true) }
+    val checkboxCheckedHost = remember { MutableStateHost(false) }
+    val checkboxEnabledHost = remember { MutableStateHost(true) }
 
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
@@ -52,81 +50,39 @@ fun App() {
         },
         "show_dialog" to object : Behavior {
             override fun invoke() {
-                showDialog = true
+                dialogHost.onStateChange(true)
             }
         },
         "dialog_confirm" to object : Behavior {
             override fun invoke() {
                 println("Dialog confirmed")
-                showDialog = false
+                dialogHost.onStateChange(false)
             }
         },
         "dialog_dismiss" to object : Behavior {
             override fun invoke() {
                 println("Dialog dismissed")
-                showDialog = false
+                dialogHost.onStateChange(false)
             }
         },
         "switch_toggled" to object : Behavior {
             override fun invoke() {
-                println("Switch toggled: $switchChecked")
+                println("Switch toggled: ${switchStateHost.state}")
             }
         },
         "checkbox_toggled" to object : Behavior {
             override fun invoke() {
-                println("Checkbox toggled: $checkboxChecked")
+                println("Checkbox toggled: ${checkboxCheckedHost.state}")
             }
         }
     )
-    val stateHosts = mapOf(
-        "text_field_value" to object : StateHost<String> {
-            override val state: String
-                get() = textFieldValue
-
-            override fun onStateChange(state: String) {
-                textFieldValue = state
-            }
-        },
-        "dialog_visibility" to object : StateHost<Boolean> {
-            override val state: Boolean
-                get() = showDialog
-
-            override fun onStateChange(state: Boolean) {
-                showDialog = state
-            }
-        },
-        "switch_state" to object : StateHost<Boolean> {
-            override val state: Boolean
-                get() = switchChecked
-
-            override fun onStateChange(state: Boolean) {
-                switchChecked = state
-            }
-        },
-        "checkbox_checked" to object : StateHost<Boolean> {
-            override val state: Boolean
-                get() = checkboxChecked
-
-            override fun onStateChange(state: Boolean) {
-                checkboxChecked = state
-            }
-        },
-        "checkbox_enabled" to object : StateHost<Boolean> {
-            override val state: Boolean
-                get() = checkboxEnabled
-
-            override fun onStateChange(state: Boolean) {
-                checkboxEnabled = state
-            }
-        },
-        "switch_enabled" to object : StateHost<Boolean> {
-            override val state: Boolean
-                get() = switchEnabled
-
-            override fun onStateChange(state: Boolean) {
-                switchEnabled = state
-            }
-        },
+    val stateHosts = mapOf<String, StateHost<*>>(
+        "text_field_value" to textFieldHost,
+        "dialog_visibility" to dialogHost,
+        "switch_state" to switchStateHost,
+        "checkbox_checked" to checkboxCheckedHost,
+        "checkbox_enabled" to checkboxEnabledHost,
+        "switch_enabled" to switchEnabledHost,
     )
 
     val customRenderers: Map<String, @Composable (ComposeNode) -> Unit> = mapOf(
