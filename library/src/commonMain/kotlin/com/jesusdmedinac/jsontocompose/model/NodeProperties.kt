@@ -57,10 +57,7 @@ sealed interface NodeProperties {
     @Serializable
     @SerialName("TextFieldProps")
     data class TextFieldProps(
-        /**
-         * Name of the [StateHost]<[String]> that provides and receives the text field's current value.
-         * The host app must register a `StateHost<String>` with this name in [LocalStateHost].
-         */
+        val value: String? = null,
         val valueStateHostName: String? = null,
     ) : NodeProperties
 
@@ -124,27 +121,34 @@ sealed interface NodeProperties {
     @Serializable
     @SerialName("BottomNavigationItemProps")
     data class BottomNavigationItemProps(
+        val selected: Boolean? = null,
         val selectedStateHostName: String? = null,
         val onClickEventName: String? = null,
         val label: ComposeNode? = null,
         val icon: ComposeNode? = null,
+        val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
+        val alwaysShowLabel: Boolean? = null,
         val alwaysShowLabelStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable
     @SerialName("SwitchProps")
     data class SwitchProps(
+        val checked: Boolean? = null,
         val checkedStateHostName: String? = null,
         val onCheckedChangeEventName: String? = null,
+        val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable
     @SerialName("CheckboxProps")
     data class CheckboxProps(
+        val checked: Boolean? = null,
         val checkedStateHostName: String? = null,
         val onCheckedChangeEventName: String? = null,
+        val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
     ) : NodeProperties
 

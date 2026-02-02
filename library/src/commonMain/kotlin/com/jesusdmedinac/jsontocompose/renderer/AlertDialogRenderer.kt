@@ -9,9 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.window.DialogProperties
 import com.jesusdmedinac.jsontocompose.LocalBehavior
-import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
@@ -20,33 +19,12 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 fun ComposeNode.ToAlertDialog() {
     val props = properties as? NodeProperties.AlertDialogProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val currentStateHost = LocalStateHost.current
-    val visibilityStateHost = props.visibilityStateHostName?.let { name ->
-        val rawStateHost = currentStateHost[name]
-        if (rawStateHost == null) {
-            println("Warning: No StateHost registered with name \"$name\". Expected StateHost<Boolean>. Dialog will default to visible.")
-            return@let null
-        }
-        @Suppress("UNCHECKED_CAST")
-        val typed = rawStateHost as? StateHost<Boolean>
-        if (typed == null) {
-            println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
-            return@let null
-        }
-        // Verify actual type at runtime (type erasure makes the cast above always succeed)
-        try {
-            typed.state as? Boolean ?: run {
-                println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
-                return@let null
-            }
-            typed
-        } catch (e: ClassCastException) {
-            println("Warning: StateHost \"$name\" is not of type StateHost<Boolean>. Check the registered type. Dialog will default to visible.")
-            null
-        }
-    }
 
-    val isVisible = visibilityStateHost?.state ?: true
+    val (isVisible, visibilityStateHost) = resolveStateHostValue(
+        stateHostName = props.visibilityStateHostName,
+        inlineValue = null,
+        defaultValue = true,
+    )
     if (!isVisible) return
 
     val onClickEventName = props.onDismissRequestEventName

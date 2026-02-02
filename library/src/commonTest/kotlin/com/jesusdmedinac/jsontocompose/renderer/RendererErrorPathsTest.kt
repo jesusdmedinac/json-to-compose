@@ -36,10 +36,10 @@ class RendererErrorPathsTest {
         onAllNodesWithTag("Text").assertCountEquals(0)
     }
 
-    // --- Scenario 2: TextField renders nothing when valueStateHostName is null ---
+    // --- Scenario 2: TextField renders with default empty value when no StateHost ---
 
     @Test
-    fun textFieldRendersNothingWhenStateHostNameIsNull() = runComposeUiTest {
+    fun textFieldRendersWithDefaultWhenStateHostNameIsNull() = runComposeUiTest {
         val node = ComposeNode(
             type = ComposeType.TextField,
             properties = NodeProperties.TextFieldProps(valueStateHostName = null)
@@ -49,13 +49,14 @@ class RendererErrorPathsTest {
             node.ToCompose()
         }
 
-        onAllNodesWithTag("TextField").assertCountEquals(0)
+        // TextField renders with empty default value
+        onAllNodesWithTag("TextField").assertCountEquals(1)
     }
 
-    // --- Scenario 3: TextField renders nothing when StateHost is not registered ---
+    // --- Scenario 3: TextField renders with default when StateHost is not registered ---
 
     @Test
-    fun textFieldRendersNothingWhenStateHostNotRegistered() = runComposeUiTest {
+    fun textFieldRendersWithDefaultWhenStateHostNotRegistered() = runComposeUiTest {
         val node = ComposeNode(
             type = ComposeType.TextField,
             properties = NodeProperties.TextFieldProps(valueStateHostName = "missing_key")
@@ -69,13 +70,14 @@ class RendererErrorPathsTest {
             }
         }
 
-        onAllNodesWithTag("TextField").assertCountEquals(0)
+        // TextField renders with empty default, logs warning about missing StateHost
+        onAllNodesWithTag("TextField").assertCountEquals(1)
     }
 
-    // --- Scenario 4: TextField renders nothing when StateHost has wrong type ---
+    // --- Scenario 4: TextField renders with default when StateHost has wrong type ---
 
     @Test
-    fun textFieldRendersNothingWhenStateHostHasWrongType() = runComposeUiTest {
+    fun textFieldRendersWithDefaultWhenStateHostHasWrongType() = runComposeUiTest {
         val boolStateHost = object : StateHost<Boolean> {
             override val state: Boolean get() = true
             override fun onStateChange(state: Boolean) {}
@@ -94,7 +96,8 @@ class RendererErrorPathsTest {
             }
         }
 
-        onAllNodesWithTag("TextField").assertCountEquals(0)
+        // TextField renders with empty default, logs warning about type mismatch
+        onAllNodesWithTag("TextField").assertCountEquals(1)
     }
 
     // --- Scenario 5: TopAppBar returns early when props type is wrong ---

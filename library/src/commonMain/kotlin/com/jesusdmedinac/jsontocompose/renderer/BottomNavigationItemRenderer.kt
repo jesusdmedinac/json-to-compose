@@ -7,9 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalRowScope
-import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
@@ -20,81 +19,21 @@ fun ComposeNode.ToBottomNavigationItem() {
     val rowScope = LocalRowScope.current ?: return
     val behaviors = LocalBehavior.current
 
-    val selectedStateHostName = props.selectedStateHostName
-    if (selectedStateHostName == null) {
-        println("Warning: BottomNavigationItem node has no selectedStateHostName. The component will not render.")
-        return
-    }
-
-    val enabledStateHostName = props.enabledStateHostName
-    if (enabledStateHostName == null) {
-        println("Warning: BottomNavigationItem node has no enabledStateHostName. The component will not render.")
-        return
-    }
-
-    val alwaysShowLabelStateHostName = props.alwaysShowLabelStateHostName
-    if (alwaysShowLabelStateHostName == null) {
-        println("Warning: BottomNavigationItem node has no alwaysShowLabelStateHostName. The component will not render.")
-        return
-    }
-
-    val currentStateHost = LocalStateHost.current
-    val selectedStateHost = currentStateHost[selectedStateHostName]
-    if (selectedStateHost == null) {
-        println("Warning: No StateHost registered with name \"$selectedStateHostName\". Expected StateHost<Boolean>.")
-        return
-    }
-
-    val enabledStateHost = currentStateHost[enabledStateHostName]
-    if (enabledStateHost == null) {
-        println("Warning: No StateHost registered with name \"$enabledStateHostName\". Expected StateHost<Boolean>.")
-        return
-    }
-
-    val alwaysShowLabelStateHost = currentStateHost[alwaysShowLabelStateHostName]
-    if (alwaysShowLabelStateHost == null) {
-        println("Warning: No StateHost registered with name \"$alwaysShowLabelStateHostName\". Expected StateHost<Boolean>.")
-        return
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    val typedSelectedStateHost = selectedStateHost as? StateHost<Boolean>
-    if (typedSelectedStateHost == null) {
-        println("Warning: StateHost \"$selectedStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
-        return
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    val typedEnabledStateHost = enabledStateHost as? StateHost<Boolean>
-    if (typedEnabledStateHost == null) {
-        println("Warning: StateHost \"$enabledStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
-        return
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    val typedAlwaysShowLabelStateHost = alwaysShowLabelStateHost as? StateHost<Boolean>
-    if (typedAlwaysShowLabelStateHost == null) {
-        println("Warning: StateHost \"$alwaysShowLabelStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
-        return
-    }
-
-    val selected = runCatching { typedSelectedStateHost.state }
-        .getOrElse {
-            println("Warning: StateHost \"$selectedStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
-            false
-        }
-
-    val enabled = runCatching { typedEnabledStateHost.state }
-        .getOrElse {
-            println("Warning: StateHost \"$enabledStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
-            true
-        }
-
-    val alwaysShowLabel = runCatching { typedAlwaysShowLabelStateHost.state }
-        .getOrElse {
-            println("Warning: StateHost \"$alwaysShowLabelStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
-            true
-        }
+    val (selected, _) = resolveStateHostValue(
+        stateHostName = props.selectedStateHostName,
+        inlineValue = props.selected,
+        defaultValue = false,
+    )
+    val (enabled, _) = resolveStateHostValue(
+        stateHostName = props.enabledStateHostName,
+        inlineValue = props.enabled,
+        defaultValue = true,
+    )
+    val (alwaysShowLabel, _) = resolveStateHostValue(
+        stateHostName = props.alwaysShowLabelStateHostName,
+        inlineValue = props.alwaysShowLabel,
+        defaultValue = true,
+    )
 
     with(rowScope) {
         BottomNavigationItem(

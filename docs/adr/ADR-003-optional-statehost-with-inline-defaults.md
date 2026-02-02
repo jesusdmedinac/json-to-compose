@@ -1,6 +1,6 @@
 # ADR-003: Optional StateHost with Inline Defaults
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-02-01
 **Decision makers:** Project maintainers
 

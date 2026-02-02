@@ -315,22 +315,36 @@ CompositionLocalProvider(
 
 When mapping parameters from a Jetpack Compose composable function to a `NodeProperties` data class, follow these rules to determine the correct type in json-to-compose:
 
-### 1. Primitive-like types (`Boolean`, `String`, `Int`, `Float`, `Double`) → `StateHost` (`String?` name)
+### 1. Primitive-like types (`Boolean`, `String`, `Int`, `Float`, `Double`) → Dual properties (inline value + StateHost name)
 
-These values may need to change at runtime driven by the server or host app. Map them as **StateHost name references** (`String?`), not as direct values.
+These values support **two modes**: static (inline value from JSON) and dynamic (StateHost managed by the host app). Always declare **both** fields in `NodeProperties`:
 
-- In `NodeProperties`: declare as `val fooStateHostName: String? = null`
-- In the renderer: resolve via `LocalStateHost.current[name]` → cast to `StateHost<T>` → read `.state`
-- Default when the StateHost value can't be read: use the same default as the original Compose parameter
+- `val foo: T? = null` — inline value for static use cases
+- `val fooStateHostName: String? = null` — StateHost name for dynamic use cases
+
+**Resolution order** (implemented by `resolveStateHostValue()` in `state/StateHostResolver.kt`):
+1. StateHost registered with the given name → use its `.state` value
+2. StateHost name provided but not registered → log warning, fall back to inline value
+3. Inline value provided → use it
+4. Neither provided → use sensible default (same as the original Compose parameter default)
+
+**In the renderer**, use the helper:
+```kotlin
+val (selected, _) = resolveStateHostValue(
+    stateHostName = props.selectedStateHostName,
+    inlineValue = props.selected,
+    defaultValue = false,
+)
+```
 
 **Examples:**
-| Compose parameter | NodeProperties field | StateHost type |
+| Compose parameter | NodeProperties fields | StateHost type |
 |---|---|---|
-| `selected: Boolean` | `selectedStateHostName: String?` | `StateHost<Boolean>` |
-| `enabled: Boolean` | `enabledStateHostName: String?` | `StateHost<Boolean>` |
-| `alwaysShowLabel: Boolean` | `alwaysShowLabelStateHostName: String?` | `StateHost<Boolean>` |
-| `checked: Boolean` | `checkedStateHostName: String?` | `StateHost<Boolean>` |
-| `value: String` (TextField) | `valueStateHostName: String?` | `StateHost<String>` |
+| `selected: Boolean` | `selected: Boolean?` + `selectedStateHostName: String?` | `StateHost<Boolean>` |
+| `enabled: Boolean` | `enabled: Boolean?` + `enabledStateHostName: String?` | `StateHost<Boolean>` |
+| `alwaysShowLabel: Boolean` | `alwaysShowLabel: Boolean?` + `alwaysShowLabelStateHostName: String?` | `StateHost<Boolean>` |
+| `checked: Boolean` | `checked: Boolean?` + `checkedStateHostName: String?` | `StateHost<Boolean>` |
+| `value: String` (TextField) | `value: String?` + `valueStateHostName: String?` | `StateHost<String>` |
 
 ### 2. `@Composable` content lambdas (`() -> Unit`, `RowScope.() -> Unit`) → `ComposeNode?`
 
@@ -378,12 +392,16 @@ These types belong to the Compose framework and cannot be serialized directly to
 Compose parameter type?
 ├── @Composable lambda      → ComposeNode? or List<ComposeNode>?
 ├── Non-composable lambda   → String? (event name, resolved via LocalBehavior)
-├── Boolean/String/Int/...  → String? (StateHost name, resolved via LocalStateHost)
+├── Boolean/String/Int/...  → T? (inline) + String? (StateHost name)
+│                              Resolved via resolveStateHostValue() helper
+│                              Precedence: StateHost > inline > default
 ├── Color                   → Int? (ARGB)
 ├── Dp                      → Int? or Float?
 ├── Modifier                → ComposeModifier (automatic via composeModifier field)
 └── Other Compose types     → TODO / special implementation needed
 ```
+
+See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for the full rationale behind the dual-property pattern.
 
 ## Code Conventions
 

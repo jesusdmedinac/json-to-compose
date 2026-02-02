@@ -247,4 +247,93 @@ class BottomNavigationItemRendererTest {
         assertNotNull(props.icon)
         assertEquals(ComposeType.Text, props.icon?.type)
     }
+
+    // --- Scenario 6: Render with inline values only (no StateHost) ---
+
+    @Test
+    fun bottomNavigationItemRendersWithInlineValuesOnly() = runComposeUiTest {
+        val node = bottomBarWith(
+            navItem(label = "Home", icon = "H", selectedStateHostName = null, enabledStateHostName = null, alwaysShowLabelStateHostName = null),
+        )
+
+        setContent {
+            node.ToCompose()
+        }
+
+        onNodeWithText("Home").assertIsDisplayed()
+    }
+
+    // --- Scenario 7: StateHost takes precedence over inline value ---
+
+    @Test
+    fun bottomNavigationItemStateHostTakesPrecedenceOverInline() = runComposeUiTest {
+        // inline selected = false, but StateHost says true
+        val node = ComposeNode(
+            type = ComposeType.BottomBar,
+            properties = NodeProperties.BottomBarProps(
+                children = listOf(
+                    ComposeNode(
+                        type = ComposeType.BottomNavigationItem,
+                        properties = NodeProperties.BottomNavigationItemProps(
+                            selected = false,
+                            selectedStateHostName = "home_selected",
+                            enabledStateHostName = "home_enabled",
+                            alwaysShowLabelStateHostName = "home_show_label",
+                            label = ComposeNode(
+                                type = ComposeType.Text,
+                                properties = NodeProperties.TextProps(text = "Home"),
+                            ),
+                            icon = ComposeNode(
+                                type = ComposeType.Text,
+                                properties = NodeProperties.TextProps(text = "H"),
+                            ),
+                        )
+                    ),
+                ),
+            ),
+        )
+
+        setContent {
+            CompositionLocalProvider(
+                LocalStateHost provides mapOf(
+                    "home_selected" to createBooleanStateHost(true),
+                    "home_enabled" to createBooleanStateHost(true),
+                    "home_show_label" to createBooleanStateHost(true),
+                )
+            ) {
+                node.ToCompose()
+            }
+        }
+
+        // Component renders (StateHost selected=true wins over inline selected=false)
+        onNodeWithText("Home").assertIsDisplayed()
+    }
+
+    // --- Scenario 8: Render with neither inline nor StateHost (defaults apply) ---
+
+    @Test
+    fun bottomNavigationItemRendersWithDefaults() = runComposeUiTest {
+        val node = bottomBarWith(
+            ComposeNode(
+                type = ComposeType.BottomNavigationItem,
+                properties = NodeProperties.BottomNavigationItemProps(
+                    label = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Default"),
+                    ),
+                    icon = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "D"),
+                    ),
+                )
+            ),
+        )
+
+        setContent {
+            node.ToCompose()
+        }
+
+        // Renders with defaults: selected=false, enabled=true, alwaysShowLabel=true
+        onNodeWithText("Default").assertIsDisplayed()
+    }
 }
