@@ -1,6 +1,8 @@
 package com.jesusdmedinac.jsontocompose
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
@@ -34,6 +36,8 @@ val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap()
 val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
 
 val LocalCustomRenderers = staticCompositionLocalOf<Map<String, @Composable (ComposeNode) -> Unit>> { emptyMap() }
+
+val LocalRowScope = compositionLocalOf<RowScope?> { null }
 
 @Composable
 fun String.ToCompose() {
