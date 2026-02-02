@@ -1,6 +1,5 @@
 package com.jesusdmedinac.jsontocompose.model
 
-import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
