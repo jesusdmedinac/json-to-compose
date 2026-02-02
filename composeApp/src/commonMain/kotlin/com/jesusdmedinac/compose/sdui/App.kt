@@ -126,7 +126,55 @@ fun App() {
             override fun onStateChange(state: Boolean) {
                 switchEnabled = state
             }
-        }
+        },
+        "home_selected" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "home_enabled" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "home_show_label" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "search_selected" to object : StateHost<Boolean> {
+            override val state: Boolean get() = false
+            override fun onStateChange(state: Boolean) {}
+        },
+        "search_enabled" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "search_show_label" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "profile_selected" to object : StateHost<Boolean> {
+            override val state: Boolean get() = false
+            override fun onStateChange(state: Boolean) {}
+        },
+        "profile_enabled" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "profile_show_label" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "settings_selected" to object : StateHost<Boolean> {
+            override val state: Boolean get() = false
+            override fun onStateChange(state: Boolean) {}
+        },
+        "settings_enabled" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
+        "settings_show_label" to object : StateHost<Boolean> {
+            override val state: Boolean get() = true
+            override fun onStateChange(state: Boolean) {}
+        },
     )
 
     val customRenderers: Map<String, @Composable (ComposeNode) -> Unit> = mapOf(
@@ -493,7 +541,9 @@ fun App() {
                                     ComposeNode(
                                         type = ComposeType.BottomNavigationItem,
                                         properties = NodeProperties.BottomNavigationItemProps(
-                                            selected = true,
+                                            selectedStateHostName = "home_selected",
+                                            enabledStateHostName = "home_enabled",
+                                            alwaysShowLabelStateHostName = "home_show_label",
                                             onClickEventName = "button_clicked",
                                             label = ComposeNode(
                                                 type = ComposeType.Text,
@@ -508,7 +558,9 @@ fun App() {
                                     ComposeNode(
                                         type = ComposeType.BottomNavigationItem,
                                         properties = NodeProperties.BottomNavigationItemProps(
-                                            selected = false,
+                                            selectedStateHostName = "search_selected",
+                                            enabledStateHostName = "search_enabled",
+                                            alwaysShowLabelStateHostName = "search_show_label",
                                             onClickEventName = "button_clicked",
                                             label = ComposeNode(
                                                 type = ComposeType.Text,
@@ -523,7 +575,9 @@ fun App() {
                                     ComposeNode(
                                         type = ComposeType.BottomNavigationItem,
                                         properties = NodeProperties.BottomNavigationItemProps(
-                                            selected = false,
+                                            selectedStateHostName = "profile_selected",
+                                            enabledStateHostName = "profile_enabled",
+                                            alwaysShowLabelStateHostName = "profile_show_label",
                                             onClickEventName = "button_clicked",
                                             label = ComposeNode(
                                                 type = ComposeType.Text,
@@ -565,7 +619,9 @@ fun App() {
                                             ComposeNode(
                                                 type = ComposeType.BottomNavigationItem,
                                                 properties = NodeProperties.BottomNavigationItemProps(
-                                                    selected = true,
+                                                    selectedStateHostName = "home_selected",
+                                                    enabledStateHostName = "home_enabled",
+                                                    alwaysShowLabelStateHostName = "home_show_label",
                                                     label = ComposeNode(
                                                         type = ComposeType.Text,
                                                         properties = NodeProperties.TextProps(text = "Home"),
@@ -579,7 +635,9 @@ fun App() {
                                             ComposeNode(
                                                 type = ComposeType.BottomNavigationItem,
                                                 properties = NodeProperties.BottomNavigationItemProps(
-                                                    selected = false,
+                                                    selectedStateHostName = "settings_selected",
+                                                    enabledStateHostName = "settings_enabled",
+                                                    alwaysShowLabelStateHostName = "settings_show_label",
                                                     label = ComposeNode(
                                                         type = ComposeType.Text,
                                                         properties = NodeProperties.TextProps(text = "Settings"),
