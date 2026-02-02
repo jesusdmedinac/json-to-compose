@@ -41,8 +41,7 @@ inline fun <reified T> resolveStateHostValue(
                     println("Warning: StateHost \"$stateHostName\" returned ${rawValue::class.simpleName} but expected ${T::class.simpleName}.")
                     return ResolvedStateHostValue(inlineValue ?: defaultValue, null)
                 }
-                @Suppress("UNCHECKED_CAST")
-                return ResolvedStateHostValue(rawValue as T, typed)
+                return ResolvedStateHostValue(rawValue, typed)
             }
             println("Warning: StateHost \"$stateHostName\" type mismatch. Expected StateHost<${T::class.simpleName}>.")
         } else {

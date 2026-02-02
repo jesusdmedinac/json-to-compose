@@ -37,11 +37,15 @@ fun App() {
         "compose-multiplatform" to Res.drawable.compose_multiplatform
     )
 
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     var textFieldValue by remember { mutableStateOf("") }
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     var showDialog by remember { mutableStateOf(false) }
     var switchChecked by remember { mutableStateOf(false) }
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     var switchEnabled by remember { mutableStateOf(true) }
     var checkboxChecked by remember { mutableStateOf(false) }
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     var checkboxEnabled by remember { mutableStateOf(true) }
 
     val behaviors = mapOf(

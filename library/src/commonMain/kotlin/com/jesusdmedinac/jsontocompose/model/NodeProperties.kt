@@ -95,15 +95,15 @@ sealed interface NodeProperties {
         val backgroundColor: Int? = null,
         val contentColor: Int? = null,
         /**
-         * Name of the [StateHost]<[Boolean]> that controls whether the dialog is visible.
+         * Name of the `StateHost<Boolean>` that controls whether the dialog is visible.
          * When `state == false`, the dialog is not rendered. On confirm or dismiss,
          * the renderer sets the state to `false` automatically.
-         * The host app must register a `StateHost<Boolean>` with this name in [LocalStateHost].
+         * The host app must register a `StateHost<Boolean>` with this name in `LocalStateHost`.
          */
         val visibilityStateHostName: String? = null,
         /**
-         * Name of the [Behavior] that is invoked when the dialog is dismissed.
-         * The host app must register a `Behavior` with this name in [LocalBehavior].
+         * Name of the `Behavior` that is invoked when the dialog is dismissed.
+         * The host app must register a `Behavior` with this name in `LocalBehavior`.
          */
         val onDismissRequestEventName: String? = null,
     ) : NodeProperties

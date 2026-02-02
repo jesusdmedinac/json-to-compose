@@ -243,9 +243,9 @@ class BottomNavigationItemRendererTest {
         assertEquals("nav_home_show_label", props.alwaysShowLabelStateHostName)
         assertEquals("nav_home", props.onClickEventName)
         assertNotNull(props.label)
-        assertEquals(ComposeType.Text, props.label!!.type)
+        assertEquals(ComposeType.Text, props.label.type)
         assertNotNull(props.icon)
-        assertEquals(ComposeType.Text, props.icon!!.type)
+        assertEquals(ComposeType.Text, props.icon.type)
     }
 
     // --- Scenario 6: Render with inline values only (no StateHost) ---
