@@ -129,7 +129,7 @@ sealed interface NodeProperties {
         val label: ComposeNode? = null,
         val icon: ComposeNode? = null,
         val enabledStateHostName: String? = null,
-        val alwaysShowLabel: Boolean? = null,
+        val alwaysShowLabelStateHostName: String? = null,
     ) : NodeProperties
 
     @Serializable

@@ -46,12 +46,14 @@ class BottomNavigationItemRendererTest {
         icon: String? = null,
         selectedStateHostName: String? = null,
         enabledStateHostName: String? = null,
+        alwaysShowLabelStateHostName: String? = null,
         onClickEventName: String? = null,
     ) = ComposeNode(
         type = ComposeType.BottomNavigationItem,
         properties = NodeProperties.BottomNavigationItemProps(
             selectedStateHostName = selectedStateHostName,
             enabledStateHostName = enabledStateHostName,
+            alwaysShowLabelStateHostName = alwaysShowLabelStateHostName,
             onClickEventName = onClickEventName,
             label = label?.let {
                 ComposeNode(
@@ -73,9 +75,9 @@ class BottomNavigationItemRendererTest {
     @Test
     fun bottomNavigationItemRendersWithLabelAndIcon() = runComposeUiTest {
         val node = bottomBarWith(
-            navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled"),
-            navItem(label = "Search", icon = "S", selectedStateHostName = "search_selected", enabledStateHostName = "search_enabled"),
-            navItem(label = "Profile", icon = "P", selectedStateHostName = "profile_selected", enabledStateHostName = "profile_enabled"),
+            navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled", alwaysShowLabelStateHostName = "home_show_label"),
+            navItem(label = "Search", icon = "S", selectedStateHostName = "search_selected", enabledStateHostName = "search_enabled", alwaysShowLabelStateHostName = "search_show_label"),
+            navItem(label = "Profile", icon = "P", selectedStateHostName = "profile_selected", enabledStateHostName = "profile_enabled", alwaysShowLabelStateHostName = "profile_show_label"),
         )
 
         setContent {
@@ -83,10 +85,13 @@ class BottomNavigationItemRendererTest {
                 LocalStateHost provides mapOf(
                     "home_selected" to createBooleanStateHost(false),
                     "home_enabled" to createBooleanStateHost(true),
+                    "home_show_label" to createBooleanStateHost(true),
                     "search_selected" to createBooleanStateHost(false),
                     "search_enabled" to createBooleanStateHost(true),
+                    "search_show_label" to createBooleanStateHost(true),
                     "profile_selected" to createBooleanStateHost(false),
                     "profile_enabled" to createBooleanStateHost(true),
+                    "profile_show_label" to createBooleanStateHost(true),
                 )
             ) {
                 node.ToCompose()
@@ -103,9 +108,9 @@ class BottomNavigationItemRendererTest {
     @Test
     fun bottomNavigationItemRendersAsSelected() = runComposeUiTest {
         val node = bottomBarWith(
-            navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled"),
-            navItem(label = "Search", icon = "S", selectedStateHostName = "search_selected", enabledStateHostName = "search_enabled"),
-            navItem(label = "Profile", icon = "P", selectedStateHostName = "profile_selected", enabledStateHostName = "profile_enabled"),
+            navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled", alwaysShowLabelStateHostName = "home_show_label"),
+            navItem(label = "Search", icon = "S", selectedStateHostName = "search_selected", enabledStateHostName = "search_enabled", alwaysShowLabelStateHostName = "search_show_label"),
+            navItem(label = "Profile", icon = "P", selectedStateHostName = "profile_selected", enabledStateHostName = "profile_enabled", alwaysShowLabelStateHostName = "profile_show_label"),
         )
 
         setContent {
@@ -113,10 +118,13 @@ class BottomNavigationItemRendererTest {
                 LocalStateHost provides mapOf(
                     "home_selected" to createBooleanStateHost(false),
                     "home_enabled" to createBooleanStateHost(true),
+                    "home_show_label" to createBooleanStateHost(true),
                     "search_selected" to createBooleanStateHost(true),
                     "search_enabled" to createBooleanStateHost(true),
+                    "search_show_label" to createBooleanStateHost(true),
                     "profile_selected" to createBooleanStateHost(false),
                     "profile_enabled" to createBooleanStateHost(true),
+                    "profile_show_label" to createBooleanStateHost(true),
                 )
             ) {
                 node.ToCompose()
@@ -140,8 +148,8 @@ class BottomNavigationItemRendererTest {
         }
 
         val node = bottomBarWith(
-            navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled", onClickEventName = "home_click"),
-            navItem(label = "Profile", icon = "P", selectedStateHostName = "profile_selected", enabledStateHostName = "profile_enabled", onClickEventName = "profile_click"),
+            navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled", alwaysShowLabelStateHostName = "home_show_label", onClickEventName = "home_click"),
+            navItem(label = "Profile", icon = "P", selectedStateHostName = "profile_selected", enabledStateHostName = "profile_enabled", alwaysShowLabelStateHostName = "profile_show_label", onClickEventName = "profile_click"),
         )
 
         setContent {
@@ -149,8 +157,10 @@ class BottomNavigationItemRendererTest {
                 LocalStateHost provides mapOf(
                     "home_selected" to createBooleanStateHost(false),
                     "home_enabled" to createBooleanStateHost(true),
+                    "home_show_label" to createBooleanStateHost(true),
                     "profile_selected" to createBooleanStateHost(false),
                     "profile_enabled" to createBooleanStateHost(true),
+                    "profile_show_label" to createBooleanStateHost(true),
                 ),
                 LocalBehavior provides mapOf("profile_click" to mockBehavior),
             ) {
@@ -170,8 +180,8 @@ class BottomNavigationItemRendererTest {
             type = ComposeType.Scaffold,
             properties = NodeProperties.ScaffoldProps(
                 bottomBar = bottomBarWith(
-                    navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled"),
-                    navItem(label = "Settings", icon = "S", selectedStateHostName = "settings_selected", enabledStateHostName = "settings_enabled"),
+                    navItem(label = "Home", icon = "H", selectedStateHostName = "home_selected", enabledStateHostName = "home_enabled", alwaysShowLabelStateHostName = "home_show_label"),
+                    navItem(label = "Settings", icon = "S", selectedStateHostName = "settings_selected", enabledStateHostName = "settings_enabled", alwaysShowLabelStateHostName = "settings_show_label"),
                 ),
                 child = ComposeNode(
                     type = ComposeType.Text,
@@ -185,8 +195,10 @@ class BottomNavigationItemRendererTest {
                 LocalStateHost provides mapOf(
                     "home_selected" to createBooleanStateHost(true),
                     "home_enabled" to createBooleanStateHost(true),
+                    "home_show_label" to createBooleanStateHost(true),
                     "settings_selected" to createBooleanStateHost(false),
                     "settings_enabled" to createBooleanStateHost(true),
+                    "settings_show_label" to createBooleanStateHost(true),
                 )
             ) {
                 node.ToCompose()
@@ -207,6 +219,7 @@ class BottomNavigationItemRendererTest {
             properties = NodeProperties.BottomNavigationItemProps(
                 selectedStateHostName = "nav_home_selected",
                 enabledStateHostName = "nav_home_enabled",
+                alwaysShowLabelStateHostName = "nav_home_show_label",
                 onClickEventName = "nav_home",
                 label = ComposeNode(
                     type = ComposeType.Text,
@@ -227,6 +240,7 @@ class BottomNavigationItemRendererTest {
         assertNotNull(props)
         assertEquals("nav_home_selected", props.selectedStateHostName)
         assertEquals("nav_home_enabled", props.enabledStateHostName)
+        assertEquals("nav_home_show_label", props.alwaysShowLabelStateHostName)
         assertEquals("nav_home", props.onClickEventName)
         assertNotNull(props.label)
         assertEquals(ComposeType.Text, props.label?.type)

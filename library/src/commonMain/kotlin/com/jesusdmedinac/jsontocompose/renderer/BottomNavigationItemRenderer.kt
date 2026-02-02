@@ -32,6 +32,12 @@ fun ComposeNode.ToBottomNavigationItem() {
         return
     }
 
+    val alwaysShowLabelStateHostName = props.alwaysShowLabelStateHostName
+    if (alwaysShowLabelStateHostName == null) {
+        println("Warning: BottomNavigationItem node has no alwaysShowLabelStateHostName. The component will not render.")
+        return
+    }
+
     val currentStateHost = LocalStateHost.current
     val selectedStateHost = currentStateHost[selectedStateHostName]
     if (selectedStateHost == null) {
@@ -42,6 +48,12 @@ fun ComposeNode.ToBottomNavigationItem() {
     val enabledStateHost = currentStateHost[enabledStateHostName]
     if (enabledStateHost == null) {
         println("Warning: No StateHost registered with name \"$enabledStateHostName\". Expected StateHost<Boolean>.")
+        return
+    }
+
+    val alwaysShowLabelStateHost = currentStateHost[alwaysShowLabelStateHostName]
+    if (alwaysShowLabelStateHost == null) {
+        println("Warning: No StateHost registered with name \"$alwaysShowLabelStateHostName\". Expected StateHost<Boolean>.")
         return
     }
 
@@ -59,6 +71,13 @@ fun ComposeNode.ToBottomNavigationItem() {
         return
     }
 
+    @Suppress("UNCHECKED_CAST")
+    val typedAlwaysShowLabelStateHost = alwaysShowLabelStateHost as? StateHost<Boolean>
+    if (typedAlwaysShowLabelStateHost == null) {
+        println("Warning: StateHost \"$alwaysShowLabelStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
+        return
+    }
+
     val selected = runCatching { typedSelectedStateHost.state }
         .getOrElse {
             println("Warning: StateHost \"$selectedStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
@@ -71,6 +90,12 @@ fun ComposeNode.ToBottomNavigationItem() {
             true
         }
 
+    val alwaysShowLabel = runCatching { typedAlwaysShowLabelStateHost.state }
+        .getOrElse {
+            println("Warning: StateHost \"$alwaysShowLabelStateHostName\" is not of type StateHost<Boolean>. Check the registered type.")
+            true
+        }
+
     with(rowScope) {
         BottomNavigationItem(
             selected = selected,
@@ -80,7 +105,7 @@ fun ComposeNode.ToBottomNavigationItem() {
             modifier = (Modifier from composeModifier).testTag(type.name),
             enabled = enabled,
             label = props.label?.let { label -> { label.ToCompose() } },
-            alwaysShowLabel = props.alwaysShowLabel ?: true,
+            alwaysShowLabel = alwaysShowLabel,
             icon = { props.icon?.ToCompose() ?: Text("") },
             // TODO: Support interactionSource
             // TODO: Support selectedContentColor

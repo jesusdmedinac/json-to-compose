@@ -311,6 +311,80 @@ CompositionLocalProvider(
 ### Horizontal Arrangement (Row/LazyRow)
 `Start`, `End`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
 
+## Type Mapping: Compose Parameters → NodeProperties
+
+When mapping parameters from a Jetpack Compose composable function to a `NodeProperties` data class, follow these rules to determine the correct type in json-to-compose:
+
+### 1. Primitive-like types (`Boolean`, `String`, `Int`, `Float`, `Double`) → `StateHost` (`String?` name)
+
+These values may need to change at runtime driven by the server or host app. Map them as **StateHost name references** (`String?`), not as direct values.
+
+- In `NodeProperties`: declare as `val fooStateHostName: String? = null`
+- In the renderer: resolve via `LocalStateHost.current[name]` → cast to `StateHost<T>` → read `.state`
+- Default when the StateHost value can't be read: use the same default as the original Compose parameter
+
+**Examples:**
+| Compose parameter | NodeProperties field | StateHost type |
+|---|---|---|
+| `selected: Boolean` | `selectedStateHostName: String?` | `StateHost<Boolean>` |
+| `enabled: Boolean` | `enabledStateHostName: String?` | `StateHost<Boolean>` |
+| `alwaysShowLabel: Boolean` | `alwaysShowLabelStateHostName: String?` | `StateHost<Boolean>` |
+| `checked: Boolean` | `checkedStateHostName: String?` | `StateHost<Boolean>` |
+| `value: String` (TextField) | `valueStateHostName: String?` | `StateHost<String>` |
+
+### 2. `@Composable` content lambdas (`() -> Unit`, `RowScope.() -> Unit`) → `ComposeNode?`
+
+Composable content slots are always mapped to `ComposeNode?` (or `List<ComposeNode>?` for containers). These are rendered recursively via `child.ToCompose()`.
+
+**Examples:**
+| Compose parameter | NodeProperties field |
+|---|---|
+| `icon: @Composable () -> Unit` | `icon: ComposeNode?` |
+| `label: @Composable () -> Unit` | `label: ComposeNode?` |
+| `title: @Composable () -> Unit` | `title: ComposeNode?` |
+| `content: @Composable () -> Unit` | `child: ComposeNode?` |
+| `content: @Composable () -> Unit` (layout) | `children: List<ComposeNode>?` |
+
+### 3. Event callbacks (`() -> Unit`, `(T) -> Unit`) → `String?` event name
+
+Non-composable lambdas (click handlers, change listeners) are mapped to **behavior event names** resolved via `LocalBehavior`.
+
+- In `NodeProperties`: declare as `val onFooEventName: String? = null`
+- In the renderer: resolve via `LocalBehavior.current[eventName]?.invoke()`
+
+**Examples:**
+| Compose parameter | NodeProperties field |
+|---|---|
+| `onClick: () -> Unit` | `onClickEventName: String?` |
+| `onDismissRequest: () -> Unit` | `onDismissRequestEventName: String?` |
+| `onCheckedChange: (Boolean) -> Unit` | `onCheckedChangeEventName: String?` |
+
+### 4. Compose-library complex types (`Color`, `Modifier`, `MutableInteractionSource`, etc.) → Special handling
+
+These types belong to the Compose framework and cannot be serialized directly to JSON. Each requires its own mapping strategy:
+
+| Compose type | json-to-compose strategy |
+|---|---|
+| `Modifier` | Handled via `ComposeModifier` (list of serializable `Operation`s) |
+| `Color` | Mapped as `Int?` (ARGB integer, e.g. `0xFFFF0000`), converted in renderer with `Color(value)` |
+| `Dp` / `Dp.Elevation` | Mapped as `Int?` or `Float?`, converted with `.dp` |
+| `MutableInteractionSource` | **Not yet supported** — mark with `// TODO: Support interactionSource` |
+| `ContentColor` | Mapped as `Int?`, same as Color |
+| `TextStyle`, `FontWeight` | Require dedicated mapping (see existing `TextProps` for reference) |
+
+### 5. Summary decision tree
+
+```
+Compose parameter type?
+├── @Composable lambda      → ComposeNode? or List<ComposeNode>?
+├── Non-composable lambda   → String? (event name, resolved via LocalBehavior)
+├── Boolean/String/Int/...  → String? (StateHost name, resolved via LocalStateHost)
+├── Color                   → Int? (ARGB)
+├── Dp                      → Int? or Float?
+├── Modifier                → ComposeModifier (automatic via composeModifier field)
+└── Other Compose types     → TODO / special implementation needed
+```
+
 ## Code Conventions
 
 ### Naming
