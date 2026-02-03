@@ -57,5 +57,58 @@ data class ComposeModifier(
         data class BackgroundColor(val hexColor: String) : Operation(
             modifierOperation = ModifierOperation.BackgroundColor
         )
+
+        @Serializable
+        @SerialName("Border")
+        data class Border(
+            val width: Int,
+            val color: String,
+            val shape: ComposeShape = ComposeShape.Rectangle
+        ) : Operation(
+            modifierOperation = ModifierOperation.Border
+        )
+
+        @Serializable
+        @SerialName("Shadow")
+        data class Shadow(
+            val elevation: Int,
+            val shape: ComposeShape = ComposeShape.Rectangle,
+            val clip: Boolean = false
+        ) : Operation(
+            modifierOperation = ModifierOperation.Shadow
+        )
+
+        @Serializable
+        @SerialName("Clip")
+        data class Clip(
+            val shape: ComposeShape
+        ) : Operation(
+            modifierOperation = ModifierOperation.Clip
+        )
+
+        @Serializable
+        @SerialName("Background")
+        data class Background(
+            val color: String,
+            val shape: ComposeShape = ComposeShape.Rectangle
+        ) : Operation(
+            modifierOperation = ModifierOperation.Background
+        )
+
+        @Serializable
+        @SerialName("Alpha")
+        data class Alpha(
+            val value: Float
+        ) : Operation(
+            modifierOperation = ModifierOperation.Alpha
+        )
+
+        @Serializable
+        @SerialName("Rotate")
+        data class Rotate(
+            val degrees: Float
+        ) : Operation(
+            modifierOperation = ModifierOperation.Rotate
+        )
     }
 }
