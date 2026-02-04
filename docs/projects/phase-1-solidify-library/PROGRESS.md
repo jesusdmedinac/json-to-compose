@@ -163,41 +163,41 @@
 - [x] Scenario: Serialize and deserialize a Checkbox from JSON
 
 ## Feature: Border Modifier applied from JSON
-- [ ] Scenario: Apply border with width and color
-- [ ] Scenario: Apply border with rounded corners
-- [ ] Scenario: Serialize and deserialize Border modifier
+- [x] Scenario: Apply border with width and color
+- [x] Scenario: Apply border with rounded corners
+- [x] Scenario: Serialize and deserialize Border modifier
 
 ## Feature: Shadow Modifier applied from JSON
-- [ ] Scenario: Apply shadow with elevation
-- [ ] Scenario: Apply shadow with rounded shape
-- [ ] Scenario: Apply shadow with clip enabled
-- [ ] Scenario: Serialize and deserialize Shadow modifier
+- [x] Scenario: Apply shadow with elevation
+- [x] Scenario: Apply shadow with rounded shape
+- [x] Scenario: Apply shadow with clip enabled
+- [x] Scenario: Serialize and deserialize Shadow modifier
 
 ## Feature: Clip Modifier applied from JSON
-- [ ] Scenario: Apply clip with circular shape
-- [ ] Scenario: Apply clip with rounded corners
-- [ ] Scenario: Apply rectangular clip
-- [ ] Scenario: Serialize and deserialize Clip modifier
+- [x] Scenario: Apply clip with circular shape
+- [x] Scenario: Apply clip with rounded corners
+- [x] Scenario: Apply rectangular clip
+- [x] Scenario: Serialize and deserialize Clip modifier
 
 ## Feature: Shape Modifier (Background with shape) applied from JSON
-- [ ] Scenario: Apply background with circular shape
-- [ ] Scenario: Apply background with rounded corners
-- [ ] Scenario: Apply background with custom rounded corners per side
-- [ ] Scenario: Serialize and deserialize BackgroundShape modifier
+- [x] Scenario: Apply background with circular shape
+- [x] Scenario: Apply background with rounded corners
+- [x] Scenario: Apply background with custom rounded corners per side
+- [x] Scenario: Serialize and deserialize BackgroundShape modifier
 
 ## Feature: Alpha Modifier applied from JSON
-- [ ] Scenario: Apply full alpha (opaque)
-- [ ] Scenario: Apply partial alpha (semi-transparent)
-- [ ] Scenario: Apply zero alpha (invisible)
-- [ ] Scenario: Alpha with out-of-range value is clamped
-- [ ] Scenario: Serialize and deserialize Alpha modifier
+- [x] Scenario: Apply full alpha (opaque)
+- [x] Scenario: Apply partial alpha (semi-transparent)
+- [x] Scenario: Apply zero alpha (invisible)
+- [x] Scenario: Alpha with out-of-range value is clamped
+- [x] Scenario: Serialize and deserialize Alpha modifier
 
 ## Feature: Rotation Modifier applied from JSON
-- [ ] Scenario: Apply 0 degree rotation
-- [ ] Scenario: Apply 90 degree rotation
-- [ ] Scenario: Apply 180 degree rotation
-- [ ] Scenario: Apply negative rotation
-- [ ] Scenario: Serialize and deserialize Rotation modifier
+- [x] Scenario: Apply 0 degree rotation
+- [x] Scenario: Apply 90 degree rotation
+- [x] Scenario: Apply 180 degree rotation
+- [x] Scenario: Apply negative rotation
+- [x] Scenario: Serialize and deserialize Rotation modifier
 
 ## Feature: JSON Schema Validation
 - [ ] Scenario: Valid JSON processes without errors
