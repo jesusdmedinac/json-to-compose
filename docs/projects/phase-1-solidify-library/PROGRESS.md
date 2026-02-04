@@ -200,17 +200,17 @@
 - [x] Scenario: Serialize and deserialize Rotation modifier
 
 ## Feature: JSON Schema Validation
-- [ ] Scenario: Valid JSON processes without errors
-- [ ] Scenario: JSON with unknown component type
-- [ ] Scenario: JSON with properties incompatible with type
-- [ ] Scenario: JSON with unknown modifier operation
-- [ ] Scenario: JSON with invalid tree structure (child in leaf node)
-- [ ] Scenario: JSON with out-of-range modifier value
-- [ ] Scenario: JSON with invalid hex color
-- [ ] Scenario: JSON with invalid arrangement
-- [ ] Scenario: Empty JSON
-- [ ] Scenario: Malformed JSON (invalid syntax)
-- [ ] Scenario: Validation in strict vs permissive mode
+- [x] Scenario: Valid JSON processes without errors
+- [x] Scenario: JSON with unknown component type
+- [x] Scenario: JSON with properties incompatible with type
+- [x] Scenario: JSON with unknown modifier operation
+- [x] Scenario: JSON with invalid tree structure (child in leaf node)
+- [x] Scenario: JSON with out-of-range modifier value
+- [x] Scenario: JSON with invalid hex color
+- [x] Scenario: JSON with invalid arrangement
+- [x] Scenario: Empty JSON
+- [x] Scenario: Malformed JSON (invalid syntax)
+- [x] Scenario: Validation in strict vs permissive mode
 
 ## Feature: KDoc on all public API
 - [ ] Scenario: KDoc on ComposeNode data class
