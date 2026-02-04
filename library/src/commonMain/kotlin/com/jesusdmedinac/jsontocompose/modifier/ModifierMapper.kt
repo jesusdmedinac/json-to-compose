@@ -77,18 +77,15 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
 fun ComposeShape.toShape(): Shape = when (this) {
     ComposeShape.Rectangle -> RectangleShape
     ComposeShape.Circle -> CircleShape
-    is ComposeShape.RoundedCorner -> {
-        if (all != null) {
-            RoundedCornerShape(all.dp)
-        } else {
-            RoundedCornerShape(
+    is ComposeShape.RoundedCorner ->
+        all
+            ?.let { RoundedCornerShape(it.dp) }
+            ?: RoundedCornerShape(
                 topStart = (topStart ?: 0).dp,
                 topEnd = (topEnd ?: 0).dp,
                 bottomEnd = (bottomEnd ?: 0).dp,
                 bottomStart = (bottomStart ?: 0).dp
             )
-        }
-    }
 }
 
 fun String.toColorInt(): Color {
