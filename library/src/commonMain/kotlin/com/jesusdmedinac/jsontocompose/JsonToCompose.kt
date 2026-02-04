@@ -29,21 +29,60 @@ import com.jesusdmedinac.jsontocompose.renderer.ToTopAppBar
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
 
+/**
+ * Provides local drawable resources for [ComposeType.Image] components.
+ *
+ * Map resource names (used in `ImageProps.resourceName`) to [DrawableResource] instances.
+ */
 val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 
+/**
+ * Provides named [Behavior] callbacks for event-driven components.
+ *
+ * Map event names (used in `onClickEventName`, `onCheckedChangeEventName`, etc.)
+ * to [Behavior] implementations.
+ */
 val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
 
+/**
+ * Provides named [StateHost] instances for stateful components.
+ *
+ * Map state host names (used in `*StateHostName` properties) to [StateHost] instances.
+ */
 val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
 
+/**
+ * Provides custom component renderers for [ComposeType.Custom] nodes.
+ *
+ * Map custom type names (used in `CustomProps.customType`) to composable render functions.
+ */
 val LocalCustomRenderers = staticCompositionLocalOf<Map<String, @Composable (ComposeNode) -> Unit>> { emptyMap() }
 
+/**
+ * Provides the current [RowScope] to child components inside a Row.
+ *
+ * Used internally by renderers that need Row-specific modifiers (e.g., `Modifier.weight()`).
+ */
 val LocalRowScope = compositionLocalOf<RowScope?> { null }
 
+/**
+ * Deserializes this JSON string into a [ComposeNode] and renders it as a Compose UI tree.
+ *
+ * This is the main entry point for rendering server-driven UI from a JSON string.
+ *
+ * @throws kotlinx.serialization.SerializationException if the JSON is malformed or contains unknown types.
+ */
 @Composable
 fun String.ToCompose() {
     Json.decodeFromString<ComposeNode>(this).ToCompose()
 }
 
+/**
+ * Renders this [ComposeNode] as the corresponding Compose component.
+ *
+ * Dispatches to the type-specific renderer based on [ComposeNode.type].
+ * Child nodes are rendered recursively by each component's renderer.
+ */
 @Composable
 fun ComposeNode.ToCompose() {
     when (type) {

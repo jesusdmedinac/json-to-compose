@@ -213,15 +213,18 @@
 - [x] Scenario: Validation in strict vs permissive mode
 
 ## Feature: KDoc on all public API
-- [ ] Scenario: KDoc on ComposeNode data class
-- [ ] Scenario: KDoc on ComposeType enum
-- [ ] Scenario: KDoc on NodeProperties sealed interface
-- [ ] Scenario: KDoc on ComposeModifier and ModifierOperation
-- [ ] Scenario: KDoc on Behavior interface
-- [ ] Scenario: KDoc on StateHost interface
-- [ ] Scenario: KDoc on CompositionLocals
-- [ ] Scenario: KDoc on extension functions
-- [ ] Scenario: Documentation generation with Dokka
+- [x] Scenario: KDoc on ComposeNode data class
+- [x] Scenario: KDoc on ComposeType enum
+- [x] Scenario: KDoc on NodeProperties sealed interface
+- [x] Scenario: KDoc on ComposeModifier and ModifierOperation
+- [x] Scenario: KDoc on ComposeShape sealed class
+- [x] Scenario: KDoc on Behavior interface
+- [x] Scenario: KDoc on StateHost interface
+- [x] Scenario: KDoc on CompositionLocals
+- [x] Scenario: KDoc on extension functions
+- [x] Scenario: KDoc on Validation classes
+- [x] Scenario: KDoc on Exception classes
+- [x] Scenario: Documentation generation with Dokka
 
 ## Feature: Demo app showcase (composeApp/)
 - [ ] Scenario: App has a main screen with categorized sections

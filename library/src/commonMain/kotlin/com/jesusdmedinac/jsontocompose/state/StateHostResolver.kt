@@ -3,6 +3,14 @@ package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state
 import androidx.compose.runtime.Composable
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 
+/**
+ * Result of resolving a state host value, containing the resolved value and
+ * an optional reference to the typed [StateHost] for state updates.
+ *
+ * @param T The type of the resolved value.
+ * @property value The resolved value (from StateHost, inline JSON, or default).
+ * @property stateHost The typed StateHost if found and matched, or `null` otherwise.
+ */
 data class ResolvedStateHostValue<T>(
     val value: T,
     val stateHost: StateHost<T>?,

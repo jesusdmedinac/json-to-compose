@@ -22,6 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeShape
 
+/**
+ * Enumerates all supported modifier operations.
+ *
+ * Each value corresponds to a [ComposeModifier.Operation] subclass and maps
+ * to a specific Compose `Modifier` function during rendering.
+ */
 enum class ModifierOperation {
     Padding,
     FillMaxSize,
@@ -38,6 +44,14 @@ enum class ModifierOperation {
     Rotate;
 }
 
+/**
+ * Applies all [ComposeModifier] operations to this [Modifier] in order.
+ *
+ * Each [ComposeModifier.Operation] is mapped to its corresponding Compose modifier function.
+ *
+ * @param composeModifier The modifier descriptor containing the operations to apply.
+ * @return A new [Modifier] with all operations applied.
+ */
 infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
     var result = this
     composeModifier.operations.forEach { operation ->
@@ -74,6 +88,9 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
     return result
 }
 
+/**
+ * Converts a [ComposeShape] descriptor to a Compose [Shape].
+ */
 fun ComposeShape.toShape(): Shape = when (this) {
     ComposeShape.Rectangle -> RectangleShape
     ComposeShape.Circle -> CircleShape
@@ -88,6 +105,12 @@ fun ComposeShape.toShape(): Shape = when (this) {
             )
 }
 
+/**
+ * Parses an `#AARRGGBB` hex color string into a Compose [Color].
+ *
+ * The string must start with `#` and be exactly 9 characters long (e.g., `"#FF0000FF"`).
+ * Returns [Color.White] if the format is invalid.
+ */
 fun String.toColorInt(): Color {
     if (!startsWith("#") || length != 9) {
         return Color.White

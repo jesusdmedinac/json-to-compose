@@ -14,6 +14,17 @@ import kotlinx.serialization.json.jsonPrimitive
 private val lenientJson = Json { ignoreUnknownKeys = true }
 private val strictJson = Json { ignoreUnknownKeys = false }
 
+/**
+ * Validates this JSON string as a [ComposeNode][com.jesusdmedinac.jsontocompose.model.ComposeNode] tree.
+ *
+ * Performs pre-parse checks (empty, malformed, unknown types/modifiers) and post-parse
+ * checks (properties type match, tree structure, arrangement/alignment, modifier values).
+ * All errors are collected — the validator does not fail fast.
+ *
+ * @param mode [ValidationMode.Strict] reports unrecognized JSON properties as warnings;
+ *   [ValidationMode.Permissive] (default) ignores them.
+ * @return A [ValidationResult] containing all findings.
+ */
 fun String.validateJson(
     mode: ValidationMode = ValidationMode.Permissive,
 ): ValidationResult {
@@ -76,6 +87,16 @@ fun String.validateJson(
     return ValidationResult(errors)
 }
 
+/**
+ * Validates this deserialized [ComposeNode] tree.
+ *
+ * Checks properties type match, tree structure, arrangement/alignment values,
+ * and modifier values recursively. All errors are collected.
+ *
+ * @param mode Validation mode. Strict mode has limited effect on already-deserialized nodes
+ *   since unrecognized JSON properties are lost during deserialization.
+ * @return A [ValidationResult] containing all findings.
+ */
 fun ComposeNode.validate(
     mode: ValidationMode = ValidationMode.Permissive,
 ): ValidationResult {
