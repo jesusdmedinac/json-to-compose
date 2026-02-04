@@ -13,6 +13,7 @@ import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
+import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.renderer.ToText
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -240,5 +241,177 @@ class ModifierMapperTest {
 
         onNodeWithText("Styled").assertExists()
         onNodeWithText("Styled").assertIsDisplayed()
+    }
+
+    // --- Border ---
+
+    @Test
+    fun borderModifierAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Bordered"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Border(
+                        width = 2,
+                        color = "#FF000000"
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Bordered").assertExists()
+        onNodeWithText("Bordered").assertIsDisplayed()
+    }
+
+    // --- Shadow ---
+
+    @Test
+    fun shadowModifierAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Shadowed"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Shadow(
+                        elevation = 4
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Shadowed").assertExists()
+        onNodeWithText("Shadowed").assertIsDisplayed()
+    }
+
+    // --- Clip ---
+
+    @Test
+    fun clipModifierAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Clipped"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Clip(
+                        shape = ComposeShape.Circle
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Clipped").assertExists()
+        onNodeWithText("Clipped").assertIsDisplayed()
+    }
+
+    // --- Background (with Shape) ---
+
+    @Test
+    fun backgroundWithShapeModifierAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Shaped BG"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Background(
+                        color = "#FF00FF00",
+                        shape = ComposeShape.RoundedCorner(all = 8)
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Shaped BG").assertExists()
+        onNodeWithText("Shaped BG").assertIsDisplayed()
+    }
+
+    // --- Alpha ---
+
+    @Test
+    fun alphaModifierAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Faded"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Alpha(value = 0.5f)
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Faded").assertExists()
+        onNodeWithText("Faded").assertIsDisplayed()
+    }
+
+    // --- Rotate ---
+
+    @Test
+    fun rotateModifierAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Rotated"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Rotate(degrees = 45f)
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Rotated").assertExists()
+        onNodeWithText("Rotated").assertIsDisplayed()
+    }
+
+    // --- Custom Rounded Corner ---
+
+    @Test
+    fun customRoundedCornerShapeAppliesCorrectly() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Custom Corner"),
+            composeModifier = ComposeModifier(
+                operations = listOf(
+                    ComposeModifier.Operation.Background(
+                        color = "#FFFF0000",
+                        shape = ComposeShape.RoundedCorner(
+                            topStart = 10,
+                            topEnd = 0,
+                            bottomEnd = 20,
+                            bottomStart = 5
+                        )
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("Custom Corner").assertExists()
+        onNodeWithText("Custom Corner").assertIsDisplayed()
     }
 }
