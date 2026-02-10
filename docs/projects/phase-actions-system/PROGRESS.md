@@ -9,11 +9,11 @@
 - [x] ComposeAction is serializable to and from JSON
 
 ## Feature 2: ComposeDocument Model
-- [ ] ComposeDocument contains an initialState map
-- [ ] ComposeDocument contains an actions map of name to action list
-- [ ] ComposeDocument contains a root ComposeNode
-- [ ] ComposeDocument is serializable to and from JSON
-- [ ] ComposeDocument with empty state and empty actions is valid
+- [x] ComposeDocument contains an initialState map
+- [x] ComposeDocument contains an actions map of name to action list
+- [x] ComposeDocument contains a root ComposeNode
+- [x] ComposeDocument is serializable to and from JSON
+- [x] ComposeDocument with empty state and empty actions is valid
 
 ## Feature 3: Action Dispatcher
 - [ ] Dispatcher executes SetState and updates the corresponding StateHost
