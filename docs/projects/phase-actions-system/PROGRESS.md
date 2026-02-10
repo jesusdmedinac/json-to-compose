@@ -33,10 +33,10 @@
 - [x] TextField updates work end-to-end with auto-wired String StateHost
 
 ## Feature 5: Custom Action Handlers
-- [ ] LocalCustomActionHandlers CompositionLocal accepts a handler map
-- [ ] Custom action type is dispatched to its registered handler
-- [ ] Custom action with unregistered type logs a warning
-- [ ] Custom action handler receives action params map
+- [x] LocalCustomActionHandlers CompositionLocal accepts a handler map
+- [x] Custom action type is dispatched to its registered handler
+- [x] Custom action with unregistered type logs a warning
+- [x] Custom action handler receives action params map
 
 ## Feature 6: JSON Serialization
 - [ ] ComposeDocument serializes to a JSON string
