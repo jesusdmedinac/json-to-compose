@@ -39,11 +39,11 @@
 - [x] Custom action handler receives action params map
 
 ## Feature 6: JSON Serialization
-- [ ] ComposeDocument serializes to a JSON string
-- [ ] ComposeDocument deserializes from a JSON string
-- [ ] Round-trip serialization preserves all data
-- [ ] Malformed JSON returns a validation error
-- [ ] ComposeDocument JSON integrates with existing ComposeNode JSON format
+- [x] ComposeDocument serializes to a JSON string
+- [x] ComposeDocument deserializes from a JSON string
+- [x] Round-trip serialization preserves all data
+- [x] Malformed JSON returns a validation error
+- [x] ComposeDocument JSON integrates with existing ComposeNode JSON format
 
 ## Feature 7: Backward Compatibility
 - [ ] Existing Behavior interface works unchanged with LocalBehavior
