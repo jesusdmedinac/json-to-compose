@@ -16,13 +16,13 @@
 - [x] ComposeDocument with empty state and empty actions is valid
 
 ## Feature 3: Action Dispatcher
-- [ ] Dispatcher executes SetState and updates the corresponding StateHost
-- [ ] Dispatcher executes ToggleState and flips a boolean StateHost
-- [ ] Dispatcher executes Log and outputs the message
-- [ ] Dispatcher executes Sequence and runs all child actions in order
-- [ ] Dispatcher executes Custom action via registered handler
-- [ ] Dispatcher warns on SetState for non-existent state key
-- [ ] Dispatcher warns on ToggleState for non-boolean state key
+- [x] Dispatcher executes SetState and updates the corresponding StateHost
+- [x] Dispatcher executes ToggleState and flips a boolean StateHost
+- [x] Dispatcher executes Log and outputs the message
+- [x] Dispatcher executes Sequence and runs all child actions in order
+- [x] Dispatcher executes Custom action via registered handler
+- [x] Dispatcher warns on SetState for non-existent state key
+- [x] Dispatcher warns on ToggleState for non-boolean state key
 
 ## Feature 4: Auto-Wiring ComposeDocument to Compose
 - [ ] ComposeDocument.ToCompose creates MutableStateHost for each initialState entry
