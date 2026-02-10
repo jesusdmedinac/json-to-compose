@@ -1,12 +1,12 @@
 # Phase: Actions System — Progress
 
 ## Feature 1: ComposeAction Model
-- [ ] SetState action holds a stateKey and a value
-- [ ] ToggleState action holds a stateKey
-- [ ] Log action holds a message string
-- [ ] Sequence action holds a list of child actions
-- [ ] Custom action holds a type and a params map
-- [ ] ComposeAction is serializable to and from JSON
+- [x] SetState action holds a stateKey and a value
+- [x] ToggleState action holds a stateKey
+- [x] Log action holds a message string
+- [x] Sequence action holds a list of child actions
+- [x] Custom action holds a type and a params map
+- [x] ComposeAction is serializable to and from JSON
 
 ## Feature 2: ComposeDocument Model
 - [ ] ComposeDocument contains an initialState map
