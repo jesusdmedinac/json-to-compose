@@ -25,12 +25,12 @@
 - [x] Dispatcher warns on ToggleState for non-boolean state key
 
 ## Feature 4: Auto-Wiring ComposeDocument to Compose
-- [ ] ComposeDocument.ToCompose creates MutableStateHost for each initialState entry
-- [ ] ComposeDocument.ToCompose creates Behavior for each actions entry
-- [ ] Auto-created Behaviors dispatch their action lists through the dispatcher
-- [ ] Auto-created StateHosts are accessible by renderers via LocalStateHost
-- [ ] Auto-created Behaviors are accessible by renderers via LocalBehavior
-- [ ] TextField updates work end-to-end with auto-wired String StateHost
+- [x] ComposeDocument.ToCompose creates MutableStateHost for each initialState entry
+- [x] ComposeDocument.ToCompose creates Behavior for each actions entry
+- [x] Auto-created Behaviors dispatch their action lists through the dispatcher
+- [x] Auto-created StateHosts are accessible by renderers via LocalStateHost
+- [x] Auto-created Behaviors are accessible by renderers via LocalBehavior
+- [x] TextField updates work end-to-end with auto-wired String StateHost
 
 ## Feature 5: Custom Action Handlers
 - [ ] LocalCustomActionHandlers CompositionLocal accepts a handler map
