@@ -37,22 +37,27 @@ val LocalCustomActionHandlers =
 @Composable
 fun ComposeDocument.ToCompose() {
     val customActionHandlers = LocalCustomActionHandlers.current
+    val existingBehaviors = LocalBehavior.current
+    val existingStateHosts = LocalStateHost.current
 
-    val stateHosts: Map<String, StateHost<*>> = remember(initialState) {
+    val autoStateHosts: Map<String, StateHost<*>> = remember(initialState) {
         initialState.mapValues { (_, jsonElement) ->
             val nativeValue: Any? = jsonElement.toNativeValue()
             MutableStateHost(nativeValue)
         }
     }
 
-    val dispatcher = remember(stateHosts, customActionHandlers) {
+    // Merge: existing manual entries + auto-wired (auto-wired wins on conflict)
+    val mergedStateHosts = existingStateHosts + autoStateHosts
+
+    val dispatcher = remember(mergedStateHosts, customActionHandlers) {
         ActionDispatcher(
-            stateHosts = stateHosts,
+            stateHosts = mergedStateHosts,
             customActionHandlers = customActionHandlers,
         )
     }
 
-    val behaviors: Map<String, Behavior> = remember(actions, dispatcher) {
+    val autoBehaviors: Map<String, Behavior> = remember(actions, dispatcher) {
         actions.mapValues { (_, actionList) ->
             object : Behavior {
                 override fun invoke() {
@@ -62,9 +67,12 @@ fun ComposeDocument.ToCompose() {
         }
     }
 
+    // Merge: existing manual entries + auto-wired (auto-wired wins on conflict)
+    val mergedBehaviors = existingBehaviors + autoBehaviors
+
     CompositionLocalProvider(
-        LocalStateHost provides stateHosts,
-        LocalBehavior provides behaviors,
+        LocalStateHost provides mergedStateHosts,
+        LocalBehavior provides mergedBehaviors,
     ) {
         root.ToCompose()
     }

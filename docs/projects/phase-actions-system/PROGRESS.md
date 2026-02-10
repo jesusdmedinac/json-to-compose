@@ -46,7 +46,7 @@
 - [x] ComposeDocument JSON integrates with existing ComposeNode JSON format
 
 ## Feature 7: Backward Compatibility
-- [ ] Existing Behavior interface works unchanged with LocalBehavior
-- [ ] Existing StateHost interface works unchanged with LocalStateHost
-- [ ] ComposeNode.ToCompose works without a ComposeDocument wrapper
-- [ ] Manual and auto-wired state and behaviors can coexist
+- [x] Existing Behavior interface works unchanged with LocalBehavior
+- [x] Existing StateHost interface works unchanged with LocalStateHost
+- [x] ComposeNode.ToCompose works without a ComposeDocument wrapper
+- [x] Manual and auto-wired state and behaviors can coexist
