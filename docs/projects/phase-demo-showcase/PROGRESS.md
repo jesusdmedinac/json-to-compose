@@ -9,10 +9,10 @@
 - [x] Bottom navigation reflects the currently selected screen
 
 ## Feature 2: App Shell with Scaffold and Design Language
-- [ ] App shell renders a Scaffold with TopAppBar
-- [ ] App shell renders a BottomBar with three items
-- [ ] Consistent color palette applied across screens
-- [ ] Helper functions produce reusable styled nodes
+- [x] App shell renders a Scaffold with TopAppBar
+- [x] App shell renders a BottomBar with three items
+- [x] Consistent color palette applied across screens
+- [x] Helper functions produce reusable styled nodes
 
 ## Feature 3: Catalog Screen — Home
 - [ ] Hero section with Box + BackgroundColor + centered text

@@ -1,15 +1,12 @@
 package com.jesusdmedinac.compose.sdui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -48,51 +45,6 @@ val LocalNavController = compositionLocalOf<NavHostController> {
 
 // endregion
 
-// region Helper functions
-
-fun sectionHeader(title: String): ComposeNode = ComposeNode(
-    type = ComposeType.Column,
-    composeModifier = ComposeModifier(
-        operations = listOf(
-            ComposeModifier.Operation.FillMaxWidth,
-            ComposeModifier.Operation.BackgroundColor("#FF1565C0"),
-            ComposeModifier.Operation.Padding(12),
-        )
-    ),
-    properties = NodeProperties.ColumnProps(
-        children = listOf(
-            ComposeNode(
-                type = ComposeType.Text,
-                properties = NodeProperties.TextProps(text = title),
-            )
-        )
-    )
-)
-
-fun sectionDivider(): ComposeNode = ComposeNode(
-    type = ComposeType.Box,
-    composeModifier = ComposeModifier(
-        operations = listOf(
-            ComposeModifier.Operation.FillMaxWidth,
-            ComposeModifier.Operation.Height(2),
-            ComposeModifier.Operation.BackgroundColor("#FFE0E0E0"),
-        )
-    ),
-    properties = NodeProperties.BoxProps(children = emptyList()),
-)
-
-fun demoLabel(label: String): ComposeNode = ComposeNode(
-    type = ComposeType.Text,
-    composeModifier = ComposeModifier(
-        operations = listOf(
-            ComposeModifier.Operation.Padding(8),
-        )
-    ),
-    properties = NodeProperties.TextProps(text = label),
-)
-
-// endregion
-
 // region Section builders
 
 fun appTitleHeader(): ComposeNode = ComposeNode(
@@ -100,7 +52,7 @@ fun appTitleHeader(): ComposeNode = ComposeNode(
     composeModifier = ComposeModifier(
         operations = listOf(
             ComposeModifier.Operation.FillMaxWidth,
-            ComposeModifier.Operation.BackgroundColor("#FF0D47A1"),
+            ComposeModifier.Operation.BackgroundColor(DemoPalette.primaryDark),
             ComposeModifier.Operation.Padding(24),
         )
     ),
@@ -109,7 +61,7 @@ fun appTitleHeader(): ComposeNode = ComposeNode(
         children = listOf(
             ComposeNode(
                 type = ComposeType.Text,
-                properties = NodeProperties.TextProps(text = "json-to-compose Showcase"),
+                properties = NodeProperties.TextProps(text = "JSON to Compose Showcase"),
             ),
             ComposeNode(
                 type = ComposeType.Text,
@@ -1316,13 +1268,15 @@ fun App() {
                             properties = NodeProperties.TopAppBarProps(
                                 title = ComposeNode(
                                     type = ComposeType.Text,
-                                    properties = NodeProperties.TextProps(text = "json-to-compose"),
-                                )
+                                    properties = NodeProperties.TextProps(text = "JSON to Compose"),
+                                ),
+                                backgroundColor = DemoPalette.primaryDarkArgb,
                             )
                         ),
                         bottomBar = ComposeNode(
                             type = ComposeType.BottomBar,
                             properties = NodeProperties.BottomBarProps(
+                                backgroundColor = DemoPalette.primaryArgb,
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.BottomNavigationItem,
@@ -1335,7 +1289,7 @@ fun App() {
                                             ),
                                             icon = ComposeNode(
                                                 type = ComposeType.Text,
-                                                properties = NodeProperties.TextProps(text = "C"),
+                                                properties = NodeProperties.TextProps(text = "#"),
                                             ),
                                         )
                                     ),
@@ -1350,7 +1304,7 @@ fun App() {
                                             ),
                                             icon = ComposeNode(
                                                 type = ComposeType.Text,
-                                                properties = NodeProperties.TextProps(text = "Co"),
+                                                properties = NodeProperties.TextProps(text = "{ }"),
                                             ),
                                         )
                                     ),
@@ -1365,7 +1319,7 @@ fun App() {
                                             ),
                                             icon = ComposeNode(
                                                 type = ComposeType.Text,
-                                                properties = NodeProperties.TextProps(text = "S"),
+                                                properties = NodeProperties.TextProps(text = "*"),
                                             ),
                                         )
                                     ),
