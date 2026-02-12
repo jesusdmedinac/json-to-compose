@@ -7,13 +7,19 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -29,6 +35,18 @@ import json_to_compose.composeapp.generated.resources.Res
 import json_to_compose.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+
+// region Navigation routes
+
+@Serializable data object CatalogRoute
+@Serializable data object ComponentsRoute
+@Serializable data object StylesRoute
+
+val LocalNavController = compositionLocalOf<NavHostController> {
+    error("No NavHostController provided")
+}
+
+// endregion
 
 // region Helper functions
 
@@ -1134,6 +1152,8 @@ fun customRendererDemo(): ComposeNode = ComposeNode(
 @Composable
 @Preview
 fun App() {
+    val navController = rememberNavController()
+
     val drawableResources = mapOf(
         "compose-multiplatform" to Res.drawable.compose_multiplatform
     )
@@ -1144,6 +1164,16 @@ fun App() {
     val switchEnabledHost = remember { MutableStateHost(true) }
     val checkboxCheckedHost = remember { MutableStateHost(false) }
     val checkboxEnabledHost = remember { MutableStateHost(true) }
+
+    val catalogSelectedHost = remember { MutableStateHost(true) }
+    val componentsSelectedHost = remember { MutableStateHost(false) }
+    val stylesSelectedHost = remember { MutableStateHost(false) }
+
+    fun updateTabSelection(tab: String) {
+        catalogSelectedHost.onStateChange(tab == "catalog")
+        componentsSelectedHost.onStateChange(tab == "components")
+        stylesSelectedHost.onStateChange(tab == "styles")
+    }
 
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
@@ -1177,7 +1207,34 @@ fun App() {
             override fun invoke() {
                 println("Checkbox toggled: ${checkboxCheckedHost.state}")
             }
-        }
+        },
+        "navigate_catalog" to object : Behavior {
+            override fun invoke() {
+                updateTabSelection("catalog")
+                navController.navigate(CatalogRoute) {
+                    popUpTo<CatalogRoute> { inclusive = false }
+                    launchSingleTop = true
+                }
+            }
+        },
+        "navigate_components" to object : Behavior {
+            override fun invoke() {
+                updateTabSelection("components")
+                navController.navigate(ComponentsRoute) {
+                    popUpTo<CatalogRoute> { inclusive = false }
+                    launchSingleTop = true
+                }
+            }
+        },
+        "navigate_styles" to object : Behavior {
+            override fun invoke() {
+                updateTabSelection("styles")
+                navController.navigate(StylesRoute) {
+                    popUpTo<CatalogRoute> { inclusive = false }
+                    launchSingleTop = true
+                }
+            }
+        },
     )
 
     val stateHosts = mapOf<String, StateHost<*>>(
@@ -1187,6 +1244,9 @@ fun App() {
         "checkbox_checked" to checkboxCheckedHost,
         "checkbox_enabled" to checkboxEnabledHost,
         "switch_enabled" to switchEnabledHost,
+        "catalog_selected" to catalogSelectedHost,
+        "components_selected" to componentsSelectedHost,
+        "styles_selected" to stylesSelectedHost,
     )
 
     val customRenderers: Map<String, @Composable (ComposeNode) -> Unit> = mapOf(
@@ -1199,78 +1259,127 @@ fun App() {
                 Text(text = "Product: $title")
                 Text(text = "Price: $$price")
             }
-        }
+        },
+        "NavHost" to {
+            val currentNavController = LocalNavController.current
+            NavHost(
+                navController = currentNavController,
+                startDestination = CatalogRoute,
+            ) {
+                composable<CatalogRoute> {
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.TextProps(text = "Catalog Screen"),
+                    ).toString().ToCompose()
+                }
+                composable<ComponentsRoute> {
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.TextProps(text = "Components Screen"),
+                    ).toString().ToCompose()
+                }
+                composable<StylesRoute> {
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.TextProps(text = "Styles Screen"),
+                    ).toString().ToCompose()
+                }
+            }
+        },
     )
 
-    CompositionProviders(
-        drawableResources = drawableResources,
-        behaviors = behaviors,
-        stateHosts = stateHosts,
-        customRenderers = customRenderers,
-    ) {
-        MaterialTheme {
-            LazyColumn(Modifier.fillMaxSize()) {
-                // App Title
-                item { appTitleHeader().toString().ToCompose() }
-
-                // Layout Components
-                item { sectionHeader("Layout Components").toString().ToCompose() }
-                item { columnDemo().toString().ToCompose() }
-                item { rowDemo().toString().ToCompose() }
-                item { boxDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Content Components
-                item { sectionHeader("Content Components").toString().ToCompose() }
-                item { textDemo().toString().ToCompose() }
-                item { imageUrlDemo().toString().ToCompose() }
-                item { imageResourceDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Input Components
-                item { sectionHeader("Input Components").toString().ToCompose() }
-                item { buttonDemo().toString().ToCompose() }
-                item { textFieldDemo().toString().ToCompose() }
-                item { switchDemo().toString().ToCompose() }
-                item { checkboxDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Containers
-                item { sectionHeader("Containers").toString().ToCompose() }
-                item { cardDemo().toString().ToCompose() }
-                item { scaffoldDemo().toString().ToCompose() }
-                item { alertDialogDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Navigation
-                item { sectionHeader("Navigation").toString().ToCompose() }
-                item { topAppBarDemo().toString().ToCompose() }
-                item { bottomBarDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Lazy Lists
-                item { sectionHeader("Lazy Lists").toString().ToCompose() }
-                item { lazyColumnDemo().toString().ToCompose() }
-                item { lazyRowDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Modifiers Showcase
-                item { sectionHeader("Modifiers Showcase").toString().ToCompose() }
-                item { paddingDemo().toString().ToCompose() }
-                item { fillMaxWidthDemo().toString().ToCompose() }
-                item { widthHeightDemo().toString().ToCompose() }
-                item { backgroundColorDemo().toString().ToCompose() }
-                item { backgroundShapeDemo().toString().ToCompose() }
-                item { borderDemo().toString().ToCompose() }
-                item { shadowDemo().toString().ToCompose() }
-                item { clipDemo().toString().ToCompose() }
-                item { alphaDemo().toString().ToCompose() }
-                item { rotateDemo().toString().ToCompose() }
-                item { sectionDivider().toString().ToCompose() }
-
-                // Custom Renderer
-                item { sectionHeader("Custom Renderer").toString().ToCompose() }
-                item { customRendererDemo().toString().ToCompose() }
+    CompositionLocalProvider(LocalNavController provides navController) {
+        CompositionProviders(
+            drawableResources = drawableResources,
+            behaviors = behaviors,
+            stateHosts = stateHosts,
+            customRenderers = customRenderers,
+        ) {
+            MaterialTheme {
+                ComposeNode(
+                    type = ComposeType.Scaffold,
+                    composeModifier = ComposeModifier(
+                        operations = listOf(ComposeModifier.Operation.FillMaxSize)
+                    ),
+                    properties = NodeProperties.ScaffoldProps(
+                        topBar = ComposeNode(
+                            type = ComposeType.TopAppBar,
+                            properties = NodeProperties.TopAppBarProps(
+                                title = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "json-to-compose"),
+                                )
+                            )
+                        ),
+                        bottomBar = ComposeNode(
+                            type = ComposeType.BottomBar,
+                            properties = NodeProperties.BottomBarProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selectedStateHostName = "catalog_selected",
+                                            onClickEventName = "navigate_catalog",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Catalog"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "C"),
+                                            ),
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selectedStateHostName = "components_selected",
+                                            onClickEventName = "navigate_components",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Components"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Co"),
+                                            ),
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selectedStateHostName = "styles_selected",
+                                            onClickEventName = "navigate_styles",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Styles"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "S"),
+                                            ),
+                                        )
+                                    ),
+                                )
+                            )
+                        ),
+                        child = ComposeNode(
+                            type = ComposeType.Custom,
+                            properties = NodeProperties.CustomProps(
+                                customType = "NavHost",
+                            )
+                        ),
+                    )
+                ).toString().ToCompose()
             }
         }
     }

@@ -12,6 +12,7 @@ compose-multiplatform = "1.9.3"
 kotlinx-coroutines = "1.10.2"
 kotlinxSerializationJson = "1.9.0"
 materialKolor = "3.0.0"
+navigationCompose = "2.9.1"
 voyager = "1.1.0-beta03"
 conveyor = "1.12"
 koin-bom = "4.1.0"
@@ -25,6 +26,7 @@ dokka = "2.0.0"
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }
 supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt" }
 filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }

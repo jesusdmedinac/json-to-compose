@@ -1,12 +1,12 @@
 # Phase: Demo Showcase — Progress
 
 ## Feature 1: Navigation Infrastructure
-- [ ] Add navigation-compose dependency to composeApp
-- [ ] Define screen routes as serializable objects
-- [ ] Provide NavHostController via CompositionLocal
-- [ ] Register NavHost as a Custom renderer
-- [ ] Bottom bar navigates between screens
-- [ ] Bottom navigation reflects the currently selected screen
+- [x] Add navigation-compose dependency to composeApp
+- [x] Define screen routes as serializable objects
+- [x] Provide NavHostController via CompositionLocal
+- [x] Register NavHost as a Custom renderer
+- [x] Bottom bar navigates between screens
+- [x] Bottom navigation reflects the currently selected screen
 
 ## Feature 2: App Shell with Scaffold and Design Language
 - [ ] App shell renders a Scaffold with TopAppBar
