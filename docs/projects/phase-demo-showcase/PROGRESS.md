@@ -15,11 +15,11 @@
 - [x] Helper functions produce reusable styled nodes
 
 ## Feature 3: Catalog Screen — Home
-- [ ] Hero section with Box + BackgroundColor + centered text
-- [ ] Component category cards in LazyRow (Layout, Content, Input, Containers)
-- [ ] Featured components list with mini live demos
-- [ ] Modifier highlights row (Shadow, Clip, Border, Rotate)
-- [ ] Built entirely with ComposeNode trees
+- [x] Hero section with Box + BackgroundColor + centered text
+- [x] Component category cards in LazyRow (Layout, Content, Input, Containers)
+- [x] Featured components list with mini live demos
+- [x] Modifier highlights row (Shadow, Clip, Border, Rotate)
+- [x] Built entirely with ComposeNode trees
 
 ## Feature 4: Components Screen — Interactive Demos
 - [ ] Layout demos (Column, Row, Box with arrangements)

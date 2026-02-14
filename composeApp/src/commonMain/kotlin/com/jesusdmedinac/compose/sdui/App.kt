@@ -1219,13 +1219,7 @@ fun App() {
                 startDestination = CatalogRoute,
             ) {
                 composable<CatalogRoute> {
-                    ComposeNode(
-                        type = ComposeType.Text,
-                        composeModifier = ComposeModifier(
-                            operations = listOf(ComposeModifier.Operation.Padding(16))
-                        ),
-                        properties = NodeProperties.TextProps(text = "Catalog Screen"),
-                    ).toString().ToCompose()
+                    catalogScreen().toString().ToCompose()
                 }
                 composable<ComponentsRoute> {
                     ComposeNode(
