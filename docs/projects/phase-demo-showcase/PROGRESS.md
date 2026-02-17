@@ -22,14 +22,14 @@
 - [x] Built entirely with ComposeNode trees
 
 ## Feature 4: Components Screen — Interactive Demos
-- [ ] Layout demos (Column, Row, Box with arrangements)
-- [ ] Content demos (Text, Image URL, Image resource)
-- [ ] Interactive input demos (Button, TextField, Switch, Checkbox with StateHost)
-- [ ] Container demos (Card, AlertDialog, mini-Scaffold)
-- [ ] Lazy list demos (LazyColumn, LazyRow)
-- [ ] Navigation component demos (TopAppBar, BottomBar)
-- [ ] Custom renderer demo (ProductCard)
-- [ ] Built entirely with ComposeNode trees
+- [x] Layout demos (Column, Row, Box with arrangements)
+- [x] Content demos (Text, Image URL, Image resource)
+- [x] Interactive input demos (Button, TextField, Switch, Checkbox with StateHost)
+- [x] Container demos (Card, AlertDialog, mini-Scaffold)
+- [x] Lazy list demos (LazyColumn, LazyRow)
+- [x] Navigation component demos (TopAppBar, BottomBar)
+- [x] Custom renderer demo (ProductCard)
+- [x] Built entirely with ComposeNode trees
 
 ## Feature 5: Styles Screen — Modifier Gallery
 - [ ] Sizing modifier demos (Padding, FillMaxWidth, Width+Height, FillMaxSize)
