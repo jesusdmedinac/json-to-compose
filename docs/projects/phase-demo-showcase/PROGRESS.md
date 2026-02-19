@@ -41,9 +41,9 @@
 - [x] Built entirely with ComposeNode trees
 
 ## Feature 6: Multi-Platform Compilation
-- [ ] Compiles on Android
-- [ ] Compiles on Desktop
-- [ ] Compiles on iOS
-- [ ] Compiles on WASM
-- [ ] Code organized into separate files (App.kt, CatalogScreen.kt, ComponentsScreen.kt, StylesScreen.kt, DemoHelpers.kt)
-- [ ] No navigation dependency added to library module
+- [x] Compiles on Android
+- [x] Compiles on Desktop
+- [x] Compiles on iOS
+- [x] Compiles on WASM
+- [x] Code organized into separate files (App.kt, CatalogScreen.kt, ComponentsScreen.kt, StylesScreen.kt, DemoHelpers.kt)
+- [x] No navigation dependency added to library module
