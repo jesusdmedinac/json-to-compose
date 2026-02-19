@@ -7,11 +7,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toFontStyle
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toFontWeight
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toTextAlign
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toTextDecoration
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toTextOverflow
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
