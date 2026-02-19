@@ -134,7 +134,7 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
-     * Singleton properties that represent a [Spacer] component. [Spacer] on compose just receive
+     * Singleton properties that represent a [ComposeType.Spacer] component. [ComposeType.Spacer] on compose just receive
      * a modifier, so SpacerProps is an empty object.
      */
     @Serializable
