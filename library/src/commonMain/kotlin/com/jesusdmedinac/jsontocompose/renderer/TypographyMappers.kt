@@ -10,7 +10,7 @@ import androidx.compose.ui.text.style.TextOverflow
  * Maps this string to a [FontWeight].
  * Supported: "Thin", "ExtraLight", "Light", "Normal", "Medium", "SemiBold", "Bold", "ExtraBold", "Black".
  */
-fun String?.toFontWeight(): FontWeight = when (this) {
+fun String?.toFontWeight(): FontWeight? = when (this) {
     "Thin" -> FontWeight.Thin
     "ExtraLight" -> FontWeight.ExtraLight
     "Light" -> FontWeight.Light
@@ -20,7 +20,7 @@ fun String?.toFontWeight(): FontWeight = when (this) {
     "Bold" -> FontWeight.Bold
     "ExtraBold" -> FontWeight.ExtraBold
     "Black" -> FontWeight.Black
-    else -> FontWeight.Normal
+    else -> null
 }
 
 /**
