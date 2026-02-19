@@ -1,4 +1,4 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer
+package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
