@@ -27,10 +27,10 @@ fun String?.toFontWeight(): FontWeight? = when (this) {
  * Maps this string to a [FontStyle].
  * Supported: "Normal", "Italic".
  */
-fun String?.toFontStyle(): FontStyle = when (this) {
+fun String?.toFontStyle(): FontStyle? = when (this) {
     "Normal" -> FontStyle.Normal
     "Italic" -> FontStyle.Italic
-    else -> FontStyle.Normal
+    else -> null
 }
 
 /**
