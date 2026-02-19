@@ -62,9 +62,9 @@ fun String?.toTextOverflow(): TextOverflow = when (this) {
  * Maps this string to a [TextDecoration].
  * Supported: "None", "Underline", "LineThrough".
  */
-fun String?.toTextDecoration(): TextDecoration = when (this) {
+fun String?.toTextDecoration(): TextDecoration? = when (this) {
     "None" -> TextDecoration.None
     "Underline" -> TextDecoration.Underline
     "LineThrough" -> TextDecoration.LineThrough
-    else -> TextDecoration.None
+    else -> null
 }
