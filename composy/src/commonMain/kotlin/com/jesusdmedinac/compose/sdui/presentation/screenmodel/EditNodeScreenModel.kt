@@ -3,6 +3,7 @@ package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
@@ -74,6 +75,12 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
                 ModifierOperation.Width -> ComposeModifier.Operation.Width(0)
                 ModifierOperation.Height -> ComposeModifier.Operation.Height(0)
                 ModifierOperation.BackgroundColor -> ComposeModifier.Operation.BackgroundColor("#FFFFFFFF")
+                ModifierOperation.Border -> ComposeModifier.Operation.Border(0, "#FFFFFFFF", ComposeShape.Rectangle)
+                ModifierOperation.Shadow -> ComposeModifier.Operation.Shadow(0, ComposeShape.Rectangle, false)
+                ModifierOperation.Clip -> ComposeModifier.Operation.Clip(ComposeShape.Rectangle)
+                ModifierOperation.Background -> ComposeModifier.Operation.Background("#FFFFFFFF", ComposeShape.Rectangle)
+                ModifierOperation.Alpha -> ComposeModifier.Operation.Alpha(1f)
+                ModifierOperation.Rotate -> ComposeModifier.Operation.Rotate(0f)
             }
             val editingComposeNode = state.editingComposeNode?.copy(
                 composeModifier = state.editingComposeNode.composeModifier.copy(
