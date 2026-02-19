@@ -29,9 +29,18 @@ class TextRendererTest {
 
     @Test
     fun textRendersEmptyWhenTextIsNull() = runComposeUiTest {
-        // ... (existing content)
-    }
+    fun textRendersEmptyWhenTextIsNull() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = null)
+        )
 
+        setContent {
+            node.ToText()
+        }
+
+        onNodeWithText("").assertExists()
+    }
     @Test
     fun textRendersWithFontSize() = runComposeUiTest {
         val node = ComposeNode(
