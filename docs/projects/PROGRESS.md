@@ -8,16 +8,16 @@
 |---|-------|--------|-----------|-----------|----------|
 | 1 | [phase-1-solidify-library](#1-phase-1-solidify-library) | `library/` | 187 | 187 | **100%** |
 | 2 | [phase-actions-system](#2-phase-actions-system) | `library/` | 37 | 37 | **100%** |
-| 3 | [phase-demo-showcase](#3-phase-demo-showcase) | `composeApp/` | 36 | 0 | **0%** |
+| 3 | [phase-demo-showcase](#3-phase-demo-showcase) | `composeApp/` | 36 | 36 | **100%** |
 | 4 | [phase-3-expand-library](#4-phase-3-expand-library) | `library/` | 206 | 0 | **0%** |
 | 5 | [phase-2-editor-mvp](#5-phase-2-editor-mvp) | `composy/` | 54 | 0 | **0%** |
 | 6 | [phase-3-differentiators](#6-phase-3-differentiators) | Multi-module | 37 | 0 | **0%** |
-| | **TOTAL** | | **557** | **224** | **40%** |
+| | **TOTAL** | | **557** | **260** | **46%** |
 
 ```
-Progress: [████████████████░░░░░░░░░░░░░░░░░░░░░░░░] 40%
+Progress: [███████████████████░░░░░░░░░░░░░░░░░░░░░] 46%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-           phase-1 ✅  actions ✅  demo  expand  editor  diff
+           phase-1 ✅  actions ✅  demo ✅  expand  editor  diff
 ```
 
 ---
@@ -29,9 +29,9 @@ phase-1-solidify-library ✅
   │
   ├── phase-actions-system ✅
   │     │
-  │     ├── phase-demo-showcase ← NEXT
+  │     ├── phase-demo-showcase ✅
   │     │
-  │     └── phase-3-expand-library
+  │     └── phase-3-expand-library ← NEXT
   │           │
   │           └── phase-2-editor-mvp
   │                 │
@@ -52,10 +52,8 @@ phase-1-solidify-library ✅
 **Module:** `library/`
 **Summary:** Declarative state and behaviors from JSON. ComposeAction (SetState, ToggleState, Log, Sequence, Custom), ComposeDocument, ActionDispatcher, auto-wiring, custom action handlers, backward compatibility.
 
----
-
 ### 3. phase-demo-showcase
-**Status:** 🔜 Next (0/36 — 0%)
+**Status:** ✅ Complete (36/36 — 100%)
 **Module:** `composeApp/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -77,7 +75,7 @@ phase-1-solidify-library ✅
 | Multi-Platform Compilation | 6 |
 
 ### 4. phase-3-expand-library
-**Status:** 📋 Planned (0/206 — 0%)
+**Status:** 🔜 Next (0/206 — 0%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 

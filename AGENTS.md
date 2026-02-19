@@ -432,9 +432,11 @@ This project follows a **5-step process** for AI-assisted planning and developme
 4. **Maintain `PROGRESS.md`** - Use a development tracker with a checklist of completed scenarios.
 5. **Develop scenario by scenario** - Implement, test, and commit each scenario independently.
 
-### Instructions for the Agent
+### CRITICAL Instructions for the Agent
 
-- **When starting a new functionality:** Read `PROGRESS.md` to know where the project stands. If it doesn't exist, create it.
+- **BEFORE STARTING:** Always read `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
+- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario.
+- **UPON COMPLETION:** **You MUST update BOTH** the specific phase `PROGRESS.md` AND the main `docs/projects/PROGRESS.md` file to ensure they stay in sync. This is mandatory for every completed task or scenario.
 - **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/features/`, and update `PROGRESS.md`.
 - **When receiving "Develop the next scenario":** Read `PROGRESS.md`, identify the next pending scenario, read the corresponding `.feature`, implement the code, run the tests, and update `PROGRESS.md`.
 - **When completing a scenario:** Commit with a message referencing the scenario (e.g., `feat: render basic Text from JSON [text_rendering.feature:Scenario 1]`).
