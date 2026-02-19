@@ -1,9 +1,12 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
+import com.jesusdmedinac.jsontocompose.LocalStateHost
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -29,7 +32,6 @@ class TextRendererTest {
 
     @Test
     fun textRendersEmptyWhenTextIsNull() = runComposeUiTest {
-    fun textRendersEmptyWhenTextIsNull() = runComposeUiTest {
         val node = ComposeNode(
             type = ComposeType.Text,
             properties = NodeProperties.TextProps(text = null)
@@ -41,6 +43,7 @@ class TextRendererTest {
 
         onNodeWithText("").assertExists()
     }
+
     @Test
     fun textRendersWithFontSize() = runComposeUiTest {
         val node = ComposeNode(
@@ -60,7 +63,28 @@ class TextRendererTest {
 
     @Test
     fun textRendersWithStateDrivenFontSize() = runComposeUiTest {
-        // ... (existing content)
+        val node = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(
+                text = "Dynamic Text",
+                fontSizeStateHostName = "font_size_state",
+            )
+        )
+
+        val mockStateHost = object : StateHost<Double> {
+            override val state: Double = 40.0
+            override fun onStateChange(state: Double) {}
+        }
+
+        setContent {
+            CompositionLocalProvider(
+                LocalStateHost provides mapOf("font_size_state" to mockStateHost)
+            ) {
+                node.ToText()
+            }
+        }
+
+        onNodeWithText("Dynamic Text").assertExists()
     }
 
     @Test
