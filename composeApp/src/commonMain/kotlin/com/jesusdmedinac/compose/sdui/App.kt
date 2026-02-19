@@ -7,10 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
@@ -20,6 +17,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
@@ -37,24 +35,54 @@ fun App() {
         "compose-multiplatform" to Res.drawable.compose_multiplatform
     )
 
+    val textFieldHost = remember { MutableStateHost("") }
+    val dialogHost = remember { MutableStateHost(false) }
+    val switchStateHost = remember { MutableStateHost(false) }
+    val switchEnabledHost = remember { MutableStateHost(true) }
+    val checkboxCheckedHost = remember { MutableStateHost(false) }
+    val checkboxEnabledHost = remember { MutableStateHost(true) }
+
     val behaviors = mapOf(
         "button_clicked" to object : Behavior {
-            override fun onClick() {
+            override fun invoke() {
                 println("Button clicked: button_clicked")
+            }
+        },
+        "show_dialog" to object : Behavior {
+            override fun invoke() {
+                dialogHost.onStateChange(true)
+            }
+        },
+        "dialog_confirm" to object : Behavior {
+            override fun invoke() {
+                println("Dialog confirmed")
+                dialogHost.onStateChange(false)
+            }
+        },
+        "dialog_dismiss" to object : Behavior {
+            override fun invoke() {
+                println("Dialog dismissed")
+                dialogHost.onStateChange(false)
+            }
+        },
+        "switch_toggled" to object : Behavior {
+            override fun invoke() {
+                println("Switch toggled: ${switchStateHost.state}")
+            }
+        },
+        "checkbox_toggled" to object : Behavior {
+            override fun invoke() {
+                println("Checkbox toggled: ${checkboxCheckedHost.state}")
             }
         }
     )
-
-    var textFieldValue by remember { mutableStateOf("") }
-    val stateHosts = mapOf(
-        "text_field_value" to object : StateHost<String> {
-            override val state: String
-                get() = textFieldValue
-
-            override fun onStateChange(state: String) {
-                textFieldValue = state
-            }
-        }
+    val stateHosts = mapOf<String, StateHost<*>>(
+        "text_field_value" to textFieldHost,
+        "dialog_visibility" to dialogHost,
+        "switch_state" to switchStateHost,
+        "checkbox_checked" to checkboxCheckedHost,
+        "checkbox_enabled" to checkboxEnabledHost,
+        "switch_enabled" to switchEnabledHost,
     )
 
     val customRenderers: Map<String, @Composable (ComposeNode) -> Unit> = mapOf(
@@ -175,7 +203,36 @@ fun App() {
                         ComposeNode(
                             type = ComposeType.TextField,
                             properties = NodeProperties.TextFieldProps(
-                                onTextChangeEventName = "text_field_value"
+                                valueStateHostName = "text_field_value"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Switch,
+                            properties = NodeProperties.SwitchProps(
+                                checkedStateHostName = "switch_state",
+                                onCheckedChangeEventName = "switch_toggled",
+                                enabledStateHostName = "switch_enabled",
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Row,
+                            properties = NodeProperties.RowProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Checkbox,
+                                        properties = NodeProperties.CheckboxProps(
+                                            checkedStateHostName = "checkbox_checked",
+                                            onCheckedChangeEventName = "checkbox_toggled",
+                                            enabledStateHostName = "checkbox_enabled",
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(
+                                            text = "Accept terms and conditions"
+                                        )
+                                    ),
+                                )
                             )
                         ),
                         ComposeNode(
@@ -253,6 +310,259 @@ fun App() {
                             ),
                         ),
                         ComposeNode(
+                            type = ComposeType.Card,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxWidth,
+                                    ComposeModifier.Operation.Padding(8),
+                                )
+                            ),
+                            properties = NodeProperties.CardProps(
+                                elevation = 4,
+                                cornerRadius = 12,
+                                child = ComposeNode(
+                                    type = ComposeType.Column,
+                                    properties = NodeProperties.ColumnProps(
+                                        children = listOf(
+                                            ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(
+                                                    text = "Card Title"
+                                                ),
+                                                composeModifier = ComposeModifier(
+                                                    operations = listOf(
+                                                        ComposeModifier.Operation.Padding(16),
+                                                    )
+                                                ),
+                                            ),
+                                            ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(
+                                                    text = "Card body with elevation 4dp and 12dp rounded corners"
+                                                ),
+                                                composeModifier = ComposeModifier(
+                                                    operations = listOf(
+                                                        ComposeModifier.Operation.Padding(16),
+                                                    )
+                                                ),
+                                            ),
+                                        )
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                onClickEventName = "show_dialog",
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Show Dialog"
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.AlertDialog,
+                            properties = NodeProperties.AlertDialogProps(
+                                title = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Confirm Action"
+                                    )
+                                ),
+                                text = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Do you want to proceed with this action?"
+                                    )
+                                ),
+                                confirmButton = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        onClickEventName = "dialog_confirm",
+                                        child = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "Confirm"
+                                            )
+                                        )
+                                    )
+                                ),
+                                dismissButton = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        onClickEventName = "dialog_dismiss",
+                                        child = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "Cancel"
+                                            )
+                                        )
+                                    )
+                                ),
+                                visibilityStateHostName = "dialog_visibility",
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.TopAppBar,
+                            properties = NodeProperties.TopAppBarProps(
+                                title = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "My App"
+                                    )
+                                ),
+                                navigationIcon = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        onClickEventName = "button_clicked",
+                                        child = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "<"
+                                            )
+                                        )
+                                    )
+                                ),
+                                actions = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Button,
+                                        properties = NodeProperties.ButtonProps(
+                                            onClickEventName = "button_clicked",
+                                            child = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(
+                                                    text = "Action"
+                                                )
+                                            )
+                                        )
+                                    ),
+                                ),
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.BottomBar,
+                            properties = NodeProperties.BottomBarProps(
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selected = true,
+                                            onClickEventName = "button_clicked",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Home"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "H"),
+                                            ),
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selected = false,
+                                            onClickEventName = "button_clicked",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Search"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "S"),
+                                            ),
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.BottomNavigationItem,
+                                        properties = NodeProperties.BottomNavigationItemProps(
+                                            selected = false,
+                                            onClickEventName = "button_clicked",
+                                            label = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "Profile"),
+                                            ),
+                                            icon = ComposeNode(
+                                                type = ComposeType.Text,
+                                                properties = NodeProperties.TextProps(text = "P"),
+                                            ),
+                                        )
+                                    ),
+                                ),
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Scaffold,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxWidth,
+                                    ComposeModifier.Operation.Height(180),
+                                )
+                            ),
+                            properties = NodeProperties.ScaffoldProps(
+                                topBar = ComposeNode(
+                                    type = ComposeType.TopAppBar,
+                                    properties = NodeProperties.TopAppBarProps(
+                                        title = ComposeNode(
+                                            type = ComposeType.Text,
+                                            properties = NodeProperties.TextProps(
+                                                text = "Scaffold App Bar"
+                                            )
+                                        )
+                                    )
+                                ),
+                                bottomBar = ComposeNode(
+                                    type = ComposeType.BottomBar,
+                                    properties = NodeProperties.BottomBarProps(
+                                        children = listOf(
+                                            ComposeNode(
+                                                type = ComposeType.BottomNavigationItem,
+                                                properties = NodeProperties.BottomNavigationItemProps(
+                                                    selected = true,
+                                                    label = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "Home"),
+                                                    ),
+                                                    icon = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "H"),
+                                                    ),
+                                                )
+                                            ),
+                                            ComposeNode(
+                                                type = ComposeType.BottomNavigationItem,
+                                                properties = NodeProperties.BottomNavigationItemProps(
+                                                    selected = false,
+                                                    label = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "Settings"),
+                                                    ),
+                                                    icon = ComposeNode(
+                                                        type = ComposeType.Text,
+                                                        properties = NodeProperties.TextProps(text = "S"),
+                                                    ),
+                                                )
+                                            ),
+                                        ),
+                                    )
+                                ),
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Content inside Scaffold"
+                                    ),
+                                    composeModifier = ComposeModifier(
+                                        operations = listOf(
+                                            ComposeModifier.Operation.Padding(16),
+                                        )
+                                    ),
+                                )
+                            )
+                        ),
+                        ComposeNode(
                             type = ComposeType.Custom,
                             properties = NodeProperties.CustomProps(
                                 customType = "ProductCard",
@@ -265,8 +575,10 @@ fun App() {
                     )
                 )
             )
+            // The ComposeNode tree can also be serialized to JSON with composeNode.toString()
+            // and deserialized back with jsonString.ToCompose().
+            // See the project documentation for the full JSON schema reference.
             val composeAsString = composeNode.toString()
-            println(composeAsString)
             LazyColumn {
                 item {
                     composeAsString.ToCompose()
@@ -278,16 +590,6 @@ fun App() {
 
                 item {
                     Text(text = composeAsString)
-                }
-
-                item {
-                    Divider()
-                }
-
-                item {
-                    Column {
-                        JSON_AS_STRING.ToCompose()
-                    }
                 }
             }
         }
@@ -353,228 +655,3 @@ fun CustomRenderersComposition(
     }
 }
 
-val JSON_AS_STRING = """
-{
-  "type": "Column",
-  "properties": {
-    "type": "ColumnProps",
-    "children": [
-      {
-        "type": "Text",
-        "properties": {
-          "type": "TextProps",
-          "text": "Text Node"
-        }
-      },
-      {
-        "type": "Button",
-        "properties": {
-          "type": "ButtonProps",
-          "onClickEventName": "button_clicked",
-          "child": {
-            "type": "Text",
-            "properties": {
-              "type": "TextProps",
-              "text": "Button Node"
-            }
-          }
-        }
-      },
-      {
-        "type": "Image",
-        "properties": {
-          "type": "ImageProps",
-          "url": "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
-          "contentDescription": "Image Node from url"
-        }
-      },
-      {
-        "type": "Image",
-        "properties": {
-          "type": "ImageProps",
-          "resourceName": "compose-multiplatform",
-          "contentDescription": "Image Node from resource"
-        }
-      },
-      {
-        "type": "Column",
-        "properties": {
-          "type": "ColumnProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "Row",
-        "properties": {
-          "type": "RowProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "Box",
-        "properties": {
-          "type": "BoxProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "type": "TextField",
-        "properties": {
-          "type": "TextFieldProps",
-          "onTextChangeEventName": "text_field_value"
-        }
-      },
-      {
-        "type": "LazyColumn",
-        "properties": {
-          "type": "ColumnProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text on lazy column"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text on lazy column"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Third text on lazy column"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Fourth text on lazy column"
-              }
-            }
-          ]
-        },
-        "composeModifier": {
-          "operations": [
-            {
-              "type": "FillMaxWidth"
-            },
-            {
-              "type": "Height",
-              "value": 64
-            }
-          ]
-        }
-      },
-      {
-        "type": "LazyRow",
-        "properties": {
-          "type": "RowProps",
-          "children": [
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "First text on lazy row"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Second text on lazy row"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Third text on lazy row"
-              }
-            },
-            {
-              "type": "Text",
-              "properties": {
-                "type": "TextProps",
-                "text": "Fourth text on lazy row"
-              }
-            }
-          ]
-        },
-        "composeModifier": {
-          "operations": [
-            {
-              "type": "FillMaxWidth"
-            },
-            {
-              "type": "Width",
-              "value": 64
-            }
-          ]
-        }
-      },
-      {
-        "type": "Custom",
-        "properties": {
-          "type": "CustomProps",
-          "customType": "ProductCard",
-          "customData": {
-            "title": "JSON Product",
-            "price": "149.99"
-          }
-        }
-      }
-    ]
-  }
-}
-""".trimIndent()

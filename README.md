@@ -158,6 +158,9 @@ fun App() {
 | LazyColumn | Lazy vertical scrolling list |
 | LazyRow | Lazy horizontal scrolling list |
 | Scaffold | Material Design scaffold layout |
+| Card | Material Design card container |
+| AlertDialog | Material Design alert dialog |
+| TopAppBar | Material Design top app bar |
 | **Custom** | User-defined custom components |
 
 ## 🧩 Custom Components

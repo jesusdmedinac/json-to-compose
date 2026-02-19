@@ -19,6 +19,7 @@ supabase-bom = "3.2.1"
 ktor = "3.3.0"
 logback = "1.5.18"
 coil = "3.3.0"
+dokka = "2.0.0"
 
 [libraries]
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -63,3 +64,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 conveyor = { id = "dev.hydraulic.conveyor", version.ref = "conveyor" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

@@ -1,56 +1,69 @@
-# AGENTS.md - Guía para Agentes de IA
+# AGENTS.md - Guide for AI Agents
 
-Este documento proporciona contexto esencial para que agentes de IA colaboren efectivamente en este proyecto.
+This document provides essential context for AI agents to collaborate effectively on this project.
 
-## Visión General
+## Overview
 
-**json-to-compose** es un framework de Server-Driven UI (SDUI) para Kotlin Multiplatform que convierte estructuras JSON en componentes de Jetpack Compose en tiempo de ejecución.
+**json-to-compose** is a Server-Driven UI (SDUI) framework for Kotlin Multiplatform that converts JSON structures into Jetpack Compose components at runtime.
 
-**Caso de uso principal:** El backend controla la UI de la aplicación sin requerir actualizaciones de la app.
+**Main use case:** The backend controls the application's UI without requiring app updates.
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 json-to-compose/
-├── library/       → Librería core (publicada en Maven Central v1.0.3)
-├── composy/       → Editor visual web/desktop
-├── composeApp/    → App demo multiplataforma
-├── server/        → Backend Ktor
-└── shared/        → Utilidades compartidas
+├── library/       → Core library (published on Maven Central v1.0.3)
+├── composy/       → Visual editor web/desktop
+├── composeApp/    → Multiplatform demo app
+├── server/        → Ktor Backend
+└── shared/        → Shared utilities
 ```
 
-### Módulo Principal: `/library`
+### Main Module: `/library`
 
-Ubicación del código core:
+Location of core code:
 ```
 library/src/commonMain/kotlin/com/jesusdmedinac/jsontocompose/
 ├── JsonToCompose.kt              → Entry point, CompositionLocals, router
 ├── model/
-│   ├── ComposeNode.kt            → Nodo serializable del árbol UI
-│   ├── ComposeType.kt            → Enum de tipos de componentes
-│   ├── ComposeModifier.kt        → Modificadores serializables
-│   └── NodeProperties.kt         → Props específicos por componente (sealed interface)
+│   ├── ComposeNode.kt            → Serializable UI tree node
+│   ├── ComposeType.kt            → Component types enum
+│   ├── ComposeModifier.kt        → Serializable modifiers
+│   └── NodeProperties.kt         → Component-specific props (sealed interface)
 ├── renderer/
-│   ├── ComponentRenderers.kt     → Funciones @Composable por componente
-│   ├── Alignment.kt              → Mappers String → Compose Alignment
-│   └── Arrangment.kt             → Mappers String → Compose Arrangement
+│   ├── ColumnRenderer.kt         → ComposeNode.ToColumn()
+│   ├── RowRenderer.kt            → ComposeNode.ToRow()
+│   ├── BoxRenderer.kt            → ComposeNode.ToBox()
+│   ├── TextRenderer.kt           → ComposeNode.ToText()
+│   ├── ButtonRenderer.kt         → ComposeNode.ToButton()
+│   ├── ImageRenderer.kt          → ComposeNode.ToImage()
+│   ├── TextFieldRenderer.kt      → ComposeNode.ToTextField()
+│   ├── LazyColumnRenderer.kt     → ComposeNode.ToLazyColumn()
+│   ├── LazyRowRenderer.kt        → ComposeNode.ToLazyRow()
+│   ├── ScaffoldRenderer.kt       → ComposeNode.ToScaffold()
+│   ├── CardRenderer.kt           → ComposeNode.ToCard()
+│   ├── AlertDialogRenderer.kt    → ComposeNode.ToAlertDialog()
+│   ├── TopAppBarRenderer.kt      → ComposeNode.ToTopAppBar()
+│   ├── CustomRenderer.kt         → ComposeNode.ToCustom()
+│   ├── Alignment.kt              → String → Compose Alignment mappers
+│   └── Arrangment.kt             → String → Compose Arrangement mappers
 ├── modifier/
-│   └── ModifierMapper.kt         → Aplica operaciones de modificador
+│   └── ModifierMapper.kt         → Applies modifier operations
 ├── behavior/
-│   └── Behavior.kt               → Interface para eventos click
+│   └── Behavior.kt               → Interface for click events
 └── state/
-    └── StateHost.kt              → Interface para manejo de estado
+    └── StateHost.kt              → Interface for state management
 ```
 
-## Arquitectura Core
+## Core Architecture
 
-### Flujo de Datos
+### Data Flow
 
 ```
-JSON String → kotlinx.serialization → ComposeNode → Router → Renderer específico → Compose UI
+JSON String → kotlinx.serialization → ComposeNode → Router → Specific Renderer → Compose UI
 ```
 
-### Router Principal (`JsonToCompose.kt:34-47`)
+### Main Router (`JsonToCompose.kt:34-47`)
 
 ```kotlin
 @Composable
@@ -66,161 +79,192 @@ fun ComposeNode.ToCompose() {
         ComposeType.LazyColumn -> ToLazyColumn()
         ComposeType.LazyRow -> ToLazyRow()
         ComposeType.Scaffold -> ToScaffold()
+        ComposeType.Card -> ToCard()
+        ComposeType.AlertDialog -> ToAlertDialog()
+        ComposeType.TopAppBar -> ToTopAppBar()
+        ComposeType.Custom -> ToCustom()
     }
 }
 ```
 
-### Componentes Soportados
+### Supported Components
 
-| Tipo | Props Class | Categoría |
+| Type | Props Class | Category |
 |------|-------------|-----------|
 | Text | TextProps | Leaf |
 | Image | ImageProps | Leaf |
 | TextField | TextFieldProps | Leaf |
 | Button | ButtonProps | Single Child |
 | Scaffold | ScaffoldProps | Single Child |
+| Card | CardProps | Single Child |
 | Column | ColumnProps | Container |
 | Row | RowProps | Container |
 | Box | BoxProps | Container |
 | LazyColumn | ColumnProps | Container (lazy) |
 | LazyRow | RowProps | Container (lazy) |
+| AlertDialog | AlertDialogProps | Dialog |
+| TopAppBar | TopAppBarProps | Navigation |
+| Custom | CustomProps | Extensible |
 
-## Cómo Agregar un Nuevo Componente
+## How to Add a New Component
 
-### Paso 1: Agregar al enum `ComposeType`
+### Step 1: Add to `ComposeType` enum
 
-Archivo: `model/ComposeType.kt`
+File: `model/ComposeType.kt`
 
 ```kotlin
 enum class ComposeType {
-    // ... existentes
-    NuevoComponente;
+    // ... existing
+    NewComponent;
 
     fun isLayout(): Boolean = when (this) {
-        Column, Row, Box, NuevoComponente -> true  // si es layout
+        Column, Row, Box, NewComponent -> true  // if it is a layout
         else -> false
     }
 
     fun hasChild(): Boolean = when (this) {
-        Button, NuevoComponente -> true  // si tiene un solo hijo
+        Button, NewComponent -> true  // if it has a single child
         else -> false
     }
 }
 ```
 
-### Paso 2: Crear Props en `NodeProperties`
+### Step 2: Create Props in `NodeProperties`
 
-Archivo: `model/NodeProperties.kt`
+File: `model/NodeProperties.kt`
 
 ```kotlin
 @Serializable
-@SerialName("NuevoComponenteProps")
-data class NuevoComponenteProps(
-    val propiedad1: String? = null,
-    val propiedad2: Int? = null,
-    val children: List<ComposeNode>? = null,  // si es container
-    val child: ComposeNode? = null,            // si es single child
+@SerialName("NewComponentProps")
+data class NewComponentProps(
+    val property1: String? = null,
+    val property2: Int? = null,
+    val children: List<ComposeNode>? = null,  // if it is a container
+    val child: ComposeNode? = null,            // if it is single child
 ) : NodeProperties
 ```
 
-**Importante:** Usar `@SerialName` para serialización JSON correcta.
+**Important:** Use `@SerialName` for correct JSON serialization.
 
-### Paso 3: Crear el Renderer
+### Step 3: Create the Renderer
 
-Archivo: `renderer/ComponentRenderers.kt`
+File: `renderer/{Name}Renderer.kt` (one file per renderer)
 
 ```kotlin
 @Composable
-fun ComposeNode.ToNuevoComponente() {
-    val props = properties as? NodeProperties.NuevoComponenteProps ?: return
-    val modifier = Modifier from composeModifier
+fun ComposeNode.ToNewComponent() {
+    val props = properties as? NodeProperties.NewComponentProps ?: return
+    val modifier = (Modifier from composeModifier).testTag(type.name)
 
-    // Implementar el composable
-    NuevoComponente(
+    // Implement the composable
+    NewComponent(
         modifier = modifier,
-        propiedad1 = props.propiedad1 ?: "default",
+        property1 = props.property1 ?: "default",
     ) {
         props.children?.forEach { it.ToCompose() }
-        // o para single child:
+        // or for single child:
         props.child?.ToCompose()
     }
 }
 ```
 
-### Paso 4: Agregar al Router
+**Important:** Always apply `.testTag(type.name)` to the modifier so the component can be found in tests via `onNodeWithTag("NewComponent")`.
 
-Archivo: `JsonToCompose.kt`
+### Step 4: Add to Router
+
+File: `JsonToCompose.kt`
 
 ```kotlin
 @Composable
 fun ComposeNode.ToCompose() {
     when (type) {
-        // ... existentes
-        ComposeType.NuevoComponente -> ToNuevoComponente()
+        // ... existing
+        ComposeType.NewComponent -> ToNewComponent()
     }
 }
 ```
 
-### Paso 5: Actualizar `ComposeNode.children()` (si aplica)
+### Step 5: Update `ComposeNode.children()` (if applicable)
 
-Archivo: `model/ComposeNode.kt:25-30`
+File: `model/ComposeNode.kt:25-30`
 
 ```kotlin
 private fun NodeProperties?.children(): List<ComposeNode> = when(this) {
     is NodeProperties.ColumnProps -> children
     is NodeProperties.RowProps -> children
     is NodeProperties.BoxProps -> children
-    is NodeProperties.NuevoComponenteProps -> children  // agregar si es container
+    is NodeProperties.NewComponentProps -> children  // add if it is container
     else -> null
 } ?: emptyList()
 ```
 
-## Sistema de Modificadores
+### Step 6: Add example to demo app
 
-### Operaciones Disponibles
+File: `composeApp/src/commonMain/kotlin/.../App.kt`
 
-| Operación | Parámetros | Efecto |
+Add a `ComposeNode` using the new component to the demo catalog in `App.kt`. The example should demonstrate the component's key properties so developers evaluating the library can see it in action.
+
+```kotlin
+ComposeNode(
+    type = ComposeType.NewComponent,
+    properties = NodeProperties.NewComponentProps(
+        property1 = "Example value",
+        child = ComposeNode(
+            type = ComposeType.Text,
+            properties = NodeProperties.TextProps(text = "Inside NewComponent")
+        )
+    )
+),
+```
+
+**Important:** Every new component must be visible in the demo app. This ensures the component is validated visually in a real app, not just in headless tests.
+
+## Modifiers System
+
+### Available Operations
+
+| Operation | Parameters | Effect |
 |-----------|------------|--------|
-| Padding | `value: Int` | Padding en dp |
-| FillMaxSize | - | Llena ancho y alto |
-| FillMaxWidth | - | Llena ancho |
-| FillMaxHeight | - | Llena alto |
-| Width | `value: Int` | Ancho fijo en dp |
-| Height | `value: Int` | Alto fijo en dp |
-| BackgroundColor | `hexColor: String` | Color ARGB (#AARRGGBB) |
+| Padding | `value: Int` | Padding in dp |
+| FillMaxSize | - | Fills width and height |
+| FillMaxWidth | - | Fills width |
+| FillMaxHeight | - | Fills height |
+| Width | `value: Int` | Fixed width in dp |
+| Height | `value: Int` | Fixed height in dp |
+| BackgroundColor | `hexColor: String` | ARGB Color (#AARRGGBB) |
 
-### Agregar Nueva Operación de Modificador
+### Add New Modifier Operation
 
-1. **Agregar al enum** (`modifier/ModifierMapper.kt:15-23`):
+1. **Add to enum** (`modifier/ModifierMapper.kt:15-23`):
 ```kotlin
 enum class ModifierOperation {
-    // ... existentes
-    NuevaOperacion;
+    // ... existing
+    NewOperation;
 }
 ```
 
-2. **Crear clase sealed** (`model/ComposeModifier.kt`):
+2. **Create sealed class** (`model/ComposeModifier.kt`):
 ```kotlin
 @Serializable
-@SerialName("NuevaOperacion")
-data class NuevaOperacion(val valor: Int) : Operation(
-    modifierOperation = ModifierOperation.NuevaOperacion
+@SerialName("NewOperation")
+data class NewOperation(val value: Int) : Operation(
+    modifierOperation = ModifierOperation.NewOperation
 )
 ```
 
-3. **Implementar en mapper** (`modifier/ModifierMapper.kt:25-39`):
+3. **Implement in mapper** (`modifier/ModifierMapper.kt:25-39`):
 ```kotlin
-is ComposeModifier.Operation.NuevaOperacion -> result.nuevaOperacion(operation.valor.dp)
+is ComposeModifier.Operation.NewOperation -> result.newOperation(operation.value.dp)
 ```
 
-## Inyección de Dependencias (CompositionLocal)
+## Dependency Injection (CompositionLocal)
 
-### Recursos Drawable
+### Drawable Resources
 ```kotlin
 val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 ```
 
-### Comportamientos (Clicks)
+### Behaviors (Clicks)
 ```kotlin
 val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
 
@@ -229,7 +273,7 @@ interface Behavior {
 }
 ```
 
-### Estado (TextField)
+### State (TextField)
 ```kotlin
 val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
 
@@ -239,7 +283,7 @@ interface StateHost<T> {
 }
 ```
 
-### Uso en App
+### Usage in App
 ```kotlin
 CompositionLocalProvider(
     LocalDrawableResources provides mapOf("icon" to Res.drawable.icon),
@@ -250,9 +294,9 @@ CompositionLocalProvider(
 }
 ```
 
-## Alignment y Arrangement
+## Alignment and Arrangement
 
-### Alignment 2D (Box)
+### 2D Alignment (Box)
 `TopStart`, `TopCenter`, `TopEnd`, `CenterStart`, `Center`, `CenterEnd`, `BottomStart`, `BottomCenter`, `BottomEnd`
 
 ### Vertical Alignment (Row)
@@ -267,46 +311,171 @@ CompositionLocalProvider(
 ### Horizontal Arrangement (Row/LazyRow)
 `Start`, `End`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
 
-## Convenciones de Código
+## Type Mapping: Compose Parameters → NodeProperties
 
-### Nomenclatura
+When mapping parameters from a Jetpack Compose composable function to a `NodeProperties` data class, follow these rules to determine the correct type in json-to-compose:
+
+### 1. Primitive-like types (`Boolean`, `String`, `Int`, `Float`, `Double`) → Dual properties (inline value + StateHost name)
+
+These values support **two modes**: static (inline value from JSON) and dynamic (StateHost managed by the host app). Always declare **both** fields in `NodeProperties`:
+
+- `val foo: T? = null` — inline value for static use cases
+- `val fooStateHostName: String? = null` — StateHost name for dynamic use cases
+
+**Resolution order** (implemented by `resolveStateHostValue()` in `state/StateHostResolver.kt`):
+1. StateHost registered with the given name → use its `.state` value
+2. StateHost name provided but not registered → log warning, fall back to inline value
+3. Inline value provided → use it
+4. Neither provided → use sensible default (same as the original Compose parameter default)
+
+**In the renderer**, use the helper:
+```kotlin
+val (selected, _) = resolveStateHostValue(
+    stateHostName = props.selectedStateHostName,
+    inlineValue = props.selected,
+    defaultValue = false,
+)
+```
+
+**Examples:**
+| Compose parameter | NodeProperties fields | StateHost type |
+|---|---|---|
+| `selected: Boolean` | `selected: Boolean?` + `selectedStateHostName: String?` | `StateHost<Boolean>` |
+| `enabled: Boolean` | `enabled: Boolean?` + `enabledStateHostName: String?` | `StateHost<Boolean>` |
+| `alwaysShowLabel: Boolean` | `alwaysShowLabel: Boolean?` + `alwaysShowLabelStateHostName: String?` | `StateHost<Boolean>` |
+| `checked: Boolean` | `checked: Boolean?` + `checkedStateHostName: String?` | `StateHost<Boolean>` |
+| `value: String` (TextField) | `value: String?` + `valueStateHostName: String?` | `StateHost<String>` |
+
+### 2. `@Composable` content lambdas (`() -> Unit`, `RowScope.() -> Unit`) → `ComposeNode?`
+
+Composable content slots are always mapped to `ComposeNode?` (or `List<ComposeNode>?` for containers). These are rendered recursively via `child.ToCompose()`.
+
+**Examples:**
+| Compose parameter | NodeProperties field |
+|---|---|
+| `icon: @Composable () -> Unit` | `icon: ComposeNode?` |
+| `label: @Composable () -> Unit` | `label: ComposeNode?` |
+| `title: @Composable () -> Unit` | `title: ComposeNode?` |
+| `content: @Composable () -> Unit` | `child: ComposeNode?` |
+| `content: @Composable () -> Unit` (layout) | `children: List<ComposeNode>?` |
+
+### 3. Event callbacks (`() -> Unit`, `(T) -> Unit`) → `String?` event name
+
+Non-composable lambdas (click handlers, change listeners) are mapped to **behavior event names** resolved via `LocalBehavior`.
+
+- In `NodeProperties`: declare as `val onFooEventName: String? = null`
+- In the renderer: resolve via `LocalBehavior.current[eventName]?.invoke()`
+
+**Examples:**
+| Compose parameter | NodeProperties field |
+|---|---|
+| `onClick: () -> Unit` | `onClickEventName: String?` |
+| `onDismissRequest: () -> Unit` | `onDismissRequestEventName: String?` |
+| `onCheckedChange: (Boolean) -> Unit` | `onCheckedChangeEventName: String?` |
+
+### 4. Compose-library complex types (`Color`, `Modifier`, `MutableInteractionSource`, etc.) → Special handling
+
+These types belong to the Compose framework and cannot be serialized directly to JSON. Each requires its own mapping strategy:
+
+| Compose type | json-to-compose strategy |
+|---|---|
+| `Modifier` | Handled via `ComposeModifier` (list of serializable `Operation`s) |
+| `Color` | Mapped as `Int?` (ARGB integer, e.g. `0xFFFF0000`), converted in renderer with `Color(value)` |
+| `Dp` / `Dp.Elevation` | Mapped as `Int?` or `Float?`, converted with `.dp` |
+| `MutableInteractionSource` | **Not yet supported** — mark with `// TODO: Support interactionSource` |
+| `ContentColor` | Mapped as `Int?`, same as Color |
+| `TextStyle`, `FontWeight` | Require dedicated mapping (see existing `TextProps` for reference) |
+
+### 5. Summary decision tree
+
+```
+Compose parameter type?
+├── @Composable lambda      → ComposeNode? or List<ComposeNode>?
+├── Non-composable lambda   → String? (event name, resolved via LocalBehavior)
+├── Boolean/String/Int/...  → T? (inline) + String? (StateHost name)
+│                              Resolved via resolveStateHostValue() helper
+│                              Precedence: StateHost > inline > default
+├── Color                   → Int? (ARGB)
+├── Dp                      → Int? or Float?
+├── Modifier                → ComposeModifier (automatic via composeModifier field)
+└── Other Compose types     → TODO / special implementation needed
+```
+
+See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for the full rationale behind the dual-property pattern.
+
+## Code Conventions
+
+### Naming
 - **Props:** `{ComponentName}Props` (e.g., `ColumnProps`, `TextProps`)
-- **Renderers:** `To{ComponentName}()` como extension function de `ComposeNode`
-- **Mappers:** `to{TargetType}()` como extension function de String
+- **Renderers:** `To{ComponentName}()` as `ComposeNode` extension function
+- **Mappers:** `to{TargetType}()` as String extension function
 
-### Serialización
-- Usar `@Serializable` en todas las data classes
-- Usar `@SerialName("NombreExplicito")` para control del JSON
-- Usar `@Transient` para campos que no deben serializarse
+### Serialization
+- Use `@Serializable` in all data classes
+- Use `@SerialName("ExplicitName")` for JSON control
+- Use `@Transient` for fields that should not be serialized
 
-### Patrones
-- Props nullable con valores default: `val prop: Type? = null`
-- Early return si props no coinciden: `val props = properties as? Props ?: return`
-- Modifier siempre aplicado: `val modifier = Modifier from composeModifier`
+### Patterns
+- Nullable props with default values: `val prop: Type? = null`
+- Early return if props don't match: `val props = properties as? Props ?: return`
+- Modifier always applied: `val modifier = Modifier from composeModifier`
 
-## Comandos Gradle Útiles
+## Planning and Development Process with AI
+
+This project follows a **5-step process** for AI-assisted planning and development. All agents collaborating on this project must follow this methodology. The full guide is located at [`docs/AI_PLANNING_PROCESS.md`](docs/AI_PLANNING_PROCESS.md).
+
+### Process Summary
+
+1. **Define the idea in natural language** - Describe the milestone or functionality at a high level.
+2. **Generate Gherkin features and scenarios** - Ask the agent to propose features and scenarios in Gherkin format.
+3. **Persist in `.feature` files** - Create the files in `docs/features/` to free up conversation context.
+4. **Maintain `PROGRESS.md`** - Use a development tracker with a checklist of completed scenarios.
+5. **Develop scenario by scenario** - Implement, test, and commit each scenario independently.
+
+### Instructions for the Agent
+
+- **When starting a new functionality:** Read `PROGRESS.md` to know where the project stands. If it doesn't exist, create it.
+- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/features/`, and update `PROGRESS.md`.
+- **When receiving "Develop the next scenario":** Read `PROGRESS.md`, identify the next pending scenario, read the corresponding `.feature`, implement the code, run the tests, and update `PROGRESS.md`.
+- **When completing a scenario:** Commit with a message referencing the scenario (e.g., `feat: render basic Text from JSON [text_rendering.feature:Scenario 1]`).
+- **If you lose context:** `PROGRESS.md` and `docs/features/*.feature` files contain everything needed to resume work.
+
+### Planning Files Structure
+
+```
+json-to-compose/
+├── PROGRESS.md                      → Development tracker (scenario checklist)
+├── docs/
+│   ├── AI_PLANNING_PROCESS.md       → Full guide to the 5-step process
+│   └── features/                    → .feature files with Gherkin scenarios
+│       ├── text_rendering.feature
+│       ├── column_layout.feature
+│       └── ...
+```
+
+## Useful Gradle Commands
 
 ```bash
-# Compilar librería
+# Build library
 ./gradlew :library:build
 
 # Tests
 ./gradlew :library:test
 
-# Publicar a Maven Local (para pruebas)
+# Publish to Maven Local (for testing)
 ./gradlew :library:publishToMavenLocal
 
-# Ejecutar app demo (Desktop)
+# Run demo app (Desktop)
 ./gradlew :composeApp:run
 
-# Ejecutar editor Composy (Desktop)
+# Run Composy editor (Desktop)
 ./gradlew :composy:run
 
-# Servidor Ktor
+# Ktor Server
 ./gradlew :server:run
 ```
 
-## Ejemplo JSON Completo
+## Full JSON Example
 
 ```json
 {
@@ -352,26 +521,27 @@ CompositionLocalProvider(
 }
 ```
 
-## Plataformas Soportadas
+## Supported Platforms
 
-- Android (SDK mínimo según `libs.versions`)
+- Android (Min SDK per `libs.versions`)
 - iOS (x64, arm64, simulator arm64)
 - Desktop (JVM)
 - WebAssembly (wasmJs)
 
-## Dependencias Principales
+## Main Dependencies
 
 - **Jetpack Compose** - UI framework
 - **kotlinx.serialization** - JSON parsing
-- **Coil** - Carga de imágenes (con soporte Ktor)
-- **Ktor** - Cliente HTTP
+- **Coil** - Image loading (with Ktor support)
+- **Ktor** - HTTP Client
 
-## Checklist para Nuevos Componentes
+## New Component Checklist
 
-- [ ] Agregar tipo a `ComposeType` enum
-- [ ] Crear `{Nombre}Props` en `NodeProperties` sealed interface
-- [ ] Implementar `To{Nombre}()` renderer
-- [ ] Agregar case al router en `ComposeNode.ToCompose()`
-- [ ] Actualizar `children()` si es container
-- [ ] Agregar tests
-- [ ] Actualizar este documento si hay nuevos patrones
+- [ ] Add type to `ComposeType` enum
+- [ ] Create `{Name}Props` in `NodeProperties` sealed interface
+- [ ] Implement `To{Name}()` renderer (with `.testTag(type.name)`)
+- [ ] Add case to router in `ComposeNode.ToCompose()`
+- [ ] Update `children()` / `asList()` if it has children or a single child
+- [ ] Add tests
+- [ ] Add example to demo app (`composeApp/` `App.kt`)
+- [ ] Update this document if there are new patterns

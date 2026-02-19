@@ -1,0 +1,39 @@
+package com.jesusdmedinac.jsontocompose.renderer
+
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.runComposeUiTest
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
+import com.jesusdmedinac.jsontocompose.model.NodeProperties
+import kotlin.test.Test
+
+@OptIn(ExperimentalTestApi::class)
+class ScaffoldRendererTest {
+
+    @Test
+    fun scaffoldRendersWithColumnChild() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Scaffold,
+            properties = NodeProperties.ScaffoldProps(
+                child = ComposeNode(
+                    type = ComposeType.Column,
+                    properties = NodeProperties.ColumnProps(
+                        children = listOf(
+                            ComposeNode(
+                                type = ComposeType.Text,
+                                properties = NodeProperties.TextProps(text = "Scaffold Content")
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToScaffold()
+        }
+
+        onNodeWithText("Scaffold Content").assertExists()
+    }
+}

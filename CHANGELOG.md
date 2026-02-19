@@ -8,13 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Card component** - Material Design card container with elevation and corner radius support
+- **AlertDialog component** - Material Design alert dialog with title, text, confirm/dismiss buttons, visibility state management via `StateHost<Boolean>`, and customizable background/content colors
+- **TopAppBar component** - Material Design top app bar with title, navigation icon, actions, and customizable background/content colors
 - **Custom Components**: New extensibility system allowing developers to register custom components without forking the library
   - New `ComposeType.Custom` type
   - New `NodeProperties.CustomProps` with `customType` and `customData` fields
   - New `LocalCustomRenderers` CompositionLocal for registering custom renderers
   - New `ToCustom()` renderer function
 
-## [1.1.0] - Upcoming
+### Changed
+- **Renderer file split** - Each renderer function now lives in its own file under `renderer/` (e.g., `ColumnRenderer.kt`, `TextRenderer.kt`) instead of a single `ComponentRenderers.kt`. No API changes.
+
+## [1.1.0]
 
 ### Added
 - **Custom Components extensibility** - Developers can now extend the library with their own components
