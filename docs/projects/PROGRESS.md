@@ -11,13 +11,14 @@
 | 3 | [phase-demo-showcase](#3-phase-demo-showcase) | `composeApp/` | 36 | 36 | **100%** |
 | 4 | [phase-3-expand-library](#4-phase-3-expand-library) | `library/` | 206 | 16 | **8%** |
 | 5 | [phase-2-editor-mvp](#5-phase-2-editor-mvp) | `composy/` | 54 | 0 | **0%** |
-| 6 | [phase-3-differentiators](#6-phase-3-differentiators) | Multi-module | 37 | 0 | **0%** |
-| | **TOTAL** | | **557** | **276** | **50%** |
+| 6 | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/` | 26 | 0 | **0%** |
+| 7 | [phase-3-differentiators](#7-phase-3-differentiators) | Multi-module | 37 | 0 | **0%** |
+| | **TOTAL** | | **583** | **276** | **47%** |
 
 ```
-Progress: [█████████████████████░░░░░░░░░░░░░░░░░░░░] 50%
+Progress: [███████████████████░░░░░░░░░░░░░░░░░░░░░] 47%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-           phase-1 ✅  actions ✅  demo ✅  expand  editor  diff
+           phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
 
 ---
@@ -33,7 +34,9 @@ phase-1-solidify-library ✅
   │     │
   │     └── phase-3-expand-library ← IN PROGRESS
   │           │
-  │           └── phase-2-editor-mvp
+  │           ├── phase-2-editor-mvp
+  │           │
+  │           └── phase-4-semantics-testability
   │                 │
   └─────────────────┴── phase-3-differentiators
 ```
@@ -127,7 +130,25 @@ phase-1-solidify-library ✅
 | JSON Export and Import | 8 |
 | Critical Editor Bug Fixes | 8 |
 
-### 6. phase-3-differentiators
+### 6. phase-4-semantics-testability
+**Status:** 📋 Planned (0/26 — 0%)
+**Module:** `library/`
+**Depends on:** phase-3-expand-library.
+
+**Why here:**
+- Ensures rigorous testing for all the new components and properties added in Phase 3.
+- Upgrades the testing infrastructure to validate styles and layout correctness, not just existence.
+- Can be implemented in parallel with Phase 2 or Phase 3 components as they are added.
+
+**Features:**
+| Feature | Scenarios |
+|---------|-----------|
+| Text Semantics | 8 |
+| Modifier Semantics | 7 |
+| Layout Semantics | 5 |
+| Component Semantics | 6 |
+
+### 7. phase-3-differentiators
 **Status:** 📋 Planned (0/37 — 0%)
 **Module:** `composy/`, `server/`, `intellij-plugin/` (new), deployment
 **Depends on:** All previous phases.

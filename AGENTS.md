@@ -294,6 +294,36 @@ CompositionLocalProvider(
 }
 ```
 
+## Testing & Semantics for Testability
+
+To enable rigorous UI testing, visual properties that are not natively exposed by Compose semantics (like custom `fontSize`, `color`, `padding`, etc.) must be explicitly attached to the component's semantic tree using custom `SemanticsPropertyKey`s.
+
+### Pattern: Exposing Properties
+
+1. **Define Keys:** In the renderer or a dedicated semantics file:
+```kotlin
+val FontSizeKey = SemanticsPropertyKey<TextUnit>("FontSize")
+var SemanticsPropertyReceiver.fontSize by FontSizeKey
+```
+
+2. **Attach in Renderer:**
+```kotlin
+Text(
+    text = text,
+    modifier = modifier.semantics { 
+        this.fontSize = resolvedFontSize 
+    },
+    fontSize = resolvedFontSize
+)
+```
+
+3. **Verify in Tests:**
+```kotlin
+onNodeWithTag("Text").assert(SemanticsMatcher.expectValue(FontSizeKey, 24.sp))
+```
+
+Always prefer semantic assertions over simple existence checks (`assertExists`) when testing properties that affect visual correctness or dynamic state-driven updates.
+
 ## Alignment and Arrangement
 
 ### 2D Alignment (Box)
