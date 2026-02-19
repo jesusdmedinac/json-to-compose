@@ -13,6 +13,8 @@ enum class ComposeType {
     Row,
     /** Overlay/stacking layout container. Uses [NodeProperties.BoxProps]. */
     Box,
+    /** Spacer with fixed height and width. Uses [NodeProperties.SpacerProps]. */
+    Spacer,
     /** Displays a text string. Uses [NodeProperties.TextProps]. */
     Text,
     /** Clickable button with a single child. Uses [NodeProperties.ButtonProps]. */

@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `BackgroundColor(hexColor)`
 
 ### Changed
+- **Behavior interface (BREAKING)** - Changed `fun onClick()` to `operator fun invoke()` to make it more idiomatic in Kotlin.
 - **NodeProperties refactor** - Each component now has specific Props class (ColumnProps, RowProps, BoxProps, etc.)
 - **Behavior injection** - Now uses `LocalBehavior` CompositionLocal instead of direct parameter
 - **Drawable resources** - Now uses `LocalDrawableResources` CompositionLocal
@@ -104,8 +105,13 @@ jsonString.ToCompose(object : Behavior {
 ```kotlin
 val behaviors = mapOf(
     "button_clicked" to object : Behavior {
-        override fun onClick() { }
+        override fun invoke() { }
     }
+)
+
+// Or using lambda syntax:
+val behaviors = mapOf(
+    "button_clicked" to Behavior { println("Clicked!") }
 )
 
 CompositionLocalProvider(LocalBehavior provides behaviors) {

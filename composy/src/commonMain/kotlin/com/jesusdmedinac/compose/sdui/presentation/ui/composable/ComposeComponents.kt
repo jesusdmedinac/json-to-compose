@@ -163,6 +163,12 @@ fun ComposeComponent(
                 ComposeType.Card -> Lucide.Square
                 ComposeType.AlertDialog -> Lucide.Box
                 ComposeType.Custom -> Lucide.Box
+                ComposeType.Spacer -> Lucide.Box
+                ComposeType.TopAppBar -> Lucide.Square
+                ComposeType.BottomBar -> Lucide.Square
+                ComposeType.BottomNavigationItem -> Lucide.Square
+                ComposeType.Switch -> Lucide.Square
+                ComposeType.Checkbox -> Lucide.Square
             },
             contentDescription = type.name
         )

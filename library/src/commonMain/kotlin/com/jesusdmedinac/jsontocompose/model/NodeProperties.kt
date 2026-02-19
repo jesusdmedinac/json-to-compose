@@ -90,6 +90,14 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
+     * Singleton properties that represent a [Spacer] component. [Spacer] on compose just receive
+     * a modifier, so SpacerProps is an empty object.
+     */
+    @Serializable
+    @SerialName("SpacerProps")
+    data object SpacerProps
+
+    /**
      * Properties for a [ComposeType.Image] component.
      *
      * @property url URL of the image to load remotely.

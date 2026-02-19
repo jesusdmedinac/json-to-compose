@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.ToSpacer
 import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
@@ -89,6 +90,7 @@ fun ComposeNode.ToCompose() {
         ComposeType.Column -> ToColumn()
         ComposeType.Row -> ToRow()
         ComposeType.Box -> ToBox()
+        ComposeType.Spacer -> ToSpacer()
         ComposeType.Text -> ToText()
         ComposeType.Button -> ToButton()
         ComposeType.Image -> ToImage()
