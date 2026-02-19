@@ -569,13 +569,7 @@ fun App() {
                     componentsScreen().toString().ToCompose()
                 }
                 composable<StylesRoute> {
-                    ComposeNode(
-                        type = ComposeType.Text,
-                        composeModifier = ComposeModifier(
-                            operations = listOf(ComposeModifier.Operation.Padding(16))
-                        ),
-                        properties = NodeProperties.TextProps(text = "Styles Screen"),
-                    ).toString().ToCompose()
+                    stylesScreen().toString().ToCompose()
                 }
             }
         },

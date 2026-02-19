@@ -32,13 +32,13 @@
 - [x] Built entirely with ComposeNode trees
 
 ## Feature 5: Styles Screen — Modifier Gallery
-- [ ] Sizing modifier demos (Padding, FillMaxWidth, Width+Height, FillMaxSize)
-- [ ] Color palette demos (5 colored boxes with hex labels)
-- [ ] Shape and clip demos (Circle, RoundedCorner, per-corner)
-- [ ] Border and shadow comparison
-- [ ] Alpha and rotation gallery (25/50/75/100%, 0/15/45/90 degrees)
-- [ ] Combined modifiers demo
-- [ ] Built entirely with ComposeNode trees
+- [x] Sizing modifier demos (Padding, FillMaxWidth, Width+Height, FillMaxSize)
+- [x] Color palette demos (5 colored boxes with hex labels)
+- [x] Shape and clip demos (Circle, RoundedCorner, per-corner)
+- [x] Border and shadow comparison
+- [x] Alpha and rotation gallery (25/50/75/100%, 0/15/45/90 degrees)
+- [x] Combined modifiers demo
+- [x] Built entirely with ComposeNode trees
 
 ## Feature 6: Multi-Platform Compilation
 - [ ] Compiles on Android
