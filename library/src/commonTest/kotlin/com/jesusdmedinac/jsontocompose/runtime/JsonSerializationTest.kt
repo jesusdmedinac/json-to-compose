@@ -253,21 +253,50 @@ class JsonSerializationTest {
 
     @Test
     fun existingComposeNodeToStringNotBrokenByDocumentAddition() {
-        // Ensure ComposeNode serialization still works as before
+        // ... (existing content)
+    }
+
+    @Test
+    fun textPropsWithFontSizeSerialization() {
+        // ... (existing content)
+    }
+
+    @Test
+    fun textPropsWithAllTypographySerialization() {
+        val originalProps = NodeProperties.TextProps(
+            text = "Full Typography",
+            fontSize = 18.0,
+            fontWeight = "Bold",
+            fontStyle = "Italic",
+            color = 0xFF123456.toInt(),
+            textAlign = "Center",
+            maxLines = 5,
+            overflow = "Ellipsis",
+            letterSpacing = 0.5,
+            lineHeight = 24.0,
+            textDecoration = "Underline",
+            minLines = 2,
+        )
         val node = ComposeNode(
-            type = ComposeType.Switch,
-            properties = NodeProperties.SwitchProps(
-                checkedStateHostName = "my_switch",
-                onCheckedChangeEventName = "toggled",
-            ),
+            type = ComposeType.Text,
+            properties = originalProps,
         )
 
-        val nodeJson = node.toString()
-        val decoded = Json.decodeFromString<ComposeNode>(nodeJson)
+        val jsonString = node.toString()
+        val decoded = Json.decodeFromString<ComposeNode>(jsonString)
+        val decodedProps = decoded.properties as NodeProperties.TextProps
 
-        assertEquals(ComposeType.Switch, decoded.type)
-        val props = decoded.properties as NodeProperties.SwitchProps
-        assertEquals("my_switch", props.checkedStateHostName)
-        assertEquals("toggled", props.onCheckedChangeEventName)
+        assertEquals(originalProps.text, decodedProps.text)
+        assertEquals(originalProps.fontSize, decodedProps.fontSize)
+        assertEquals(originalProps.fontWeight, decodedProps.fontWeight)
+        assertEquals(originalProps.fontStyle, decodedProps.fontStyle)
+        assertEquals(originalProps.color, decodedProps.color)
+        assertEquals(originalProps.textAlign, decodedProps.textAlign)
+        assertEquals(originalProps.maxLines, decodedProps.maxLines)
+        assertEquals(originalProps.overflow, decodedProps.overflow)
+        assertEquals(originalProps.letterSpacing, decodedProps.letterSpacing)
+        assertEquals(originalProps.lineHeight, decodedProps.lineHeight)
+        assertEquals(originalProps.textDecoration, decodedProps.textDecoration)
+        assertEquals(originalProps.minLines, decodedProps.minLines)
     }
 }

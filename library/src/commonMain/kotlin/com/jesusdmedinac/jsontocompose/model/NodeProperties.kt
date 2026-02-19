@@ -20,12 +20,56 @@ sealed interface NodeProperties {
      *
      * @property text The static text to display.
      * @property textStateHostName Name of a `StateHost<String>` that provides the text dynamically.
+     * @property fontSize The font size in sp.
+     * @property fontSizeStateHostName Name of a `StateHost<Double>` that provides the font size dynamically.
+     * @property fontWeight Font weight (e.g., "Bold", "Light", "Normal").
+     * @property fontWeightStateHostName Name of a `StateHost<String>` for dynamic font weight.
+     * @property fontStyle Font style ("Normal", "Italic").
+     * @property fontStyleStateHostName Name of a `StateHost<String>` for dynamic font style.
+     * @property color Text color as an ARGB integer.
+     * @property colorStateHostName Name of a `StateHost<Int>` for dynamic color.
+     * @property textAlign Text alignment ("Start", "Center", "End", "Justify").
+     * @property textAlignStateHostName Name of a `StateHost<String>` for dynamic text alignment.
+     * @property maxLines Maximum number of lines to display.
+     * @property maxLinesStateHostName Name of a `StateHost<Int>` for dynamic max lines.
+     * @property overflow Text overflow strategy ("Clip", "Ellipsis", "Visible").
+     * @property overflowStateHostName Name of a `StateHost<String>` for dynamic overflow.
+     * @property letterSpacing Letter spacing in sp.
+     * @property letterSpacingStateHostName Name of a `StateHost<Double>` for dynamic letter spacing.
+     * @property lineHeight Line height in sp.
+     * @property lineHeightStateHostName Name of a `StateHost<Double>` for dynamic line height.
+     * @property textDecoration Text decoration ("Underline", "LineThrough", "None").
+     * @property textDecorationStateHostName Name of a `StateHost<String>` for dynamic text decoration.
+     * @property minLines Minimum number of lines to display.
+     * @property minLinesStateHostName Name of a `StateHost<Int>` for dynamic min lines.
      */
     @Serializable
     @SerialName("TextProps")
     data class TextProps(
         val text: String? = null,
         val textStateHostName: String? = null,
+        val fontSize: Double? = null,
+        val fontSizeStateHostName: String? = null,
+        val fontWeight: String? = null,
+        val fontWeightStateHostName: String? = null,
+        val fontStyle: String? = null,
+        val fontStyleStateHostName: String? = null,
+        val color: Int? = null,
+        val colorStateHostName: String? = null,
+        val textAlign: String? = null,
+        val textAlignStateHostName: String? = null,
+        val maxLines: Int? = null,
+        val maxLinesStateHostName: String? = null,
+        val overflow: String? = null,
+        val overflowStateHostName: String? = null,
+        val letterSpacing: Double? = null,
+        val letterSpacingStateHostName: String? = null,
+        val lineHeight: Double? = null,
+        val lineHeightStateHostName: String? = null,
+        val textDecoration: String? = null,
+        val textDecorationStateHostName: String? = null,
+        val minLines: Int? = null,
+        val minLinesStateHostName: String? = null,
     ) : NodeProperties
 
     /**

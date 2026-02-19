@@ -1,22 +1,22 @@
 # PROGRESS - Phase 3: Expand Library — Full Component & Modifier Coverage
 
 ## Feature: Text Component Property Enhancement
-- [ ] Scenario: Render Text with fontSize
-- [ ] Scenario: Render Text with fontWeight Bold
-- [ ] Scenario: Render Text with fontWeight Light
-- [ ] Scenario: Render Text with fontStyle Italic
-- [ ] Scenario: Render Text with color
-- [ ] Scenario: Render Text with textAlign Center
-- [ ] Scenario: Render Text with textAlign End
-- [ ] Scenario: Render Text with maxLines
-- [ ] Scenario: Render Text with overflow Ellipsis
-- [ ] Scenario: Render Text with letterSpacing
-- [ ] Scenario: Render Text with lineHeight
-- [ ] Scenario: Render Text with textDecoration Underline
-- [ ] Scenario: Render Text with textDecoration LineThrough
-- [ ] Scenario: Render Text with minLines
-- [ ] Scenario: Render Text with state-driven fontSize
-- [ ] Scenario: Serialize and deserialize Text with all typography properties
+- [x] Scenario: Render Text with fontSize
+- [x] Scenario: Render Text with fontWeight Bold
+- [x] Scenario: Render Text with fontWeight Light
+- [x] Scenario: Render Text with fontStyle Italic
+- [x] Scenario: Render Text with color
+- [x] Scenario: Render Text with textAlign Center
+- [x] Scenario: Render Text with textAlign End
+- [x] Scenario: Render Text with maxLines
+- [x] Scenario: Render Text with overflow Ellipsis
+- [x] Scenario: Render Text with letterSpacing
+- [x] Scenario: Render Text with lineHeight
+- [x] Scenario: Render Text with textDecoration Underline
+- [x] Scenario: Render Text with textDecoration LineThrough
+- [x] Scenario: Render Text with minLines
+- [x] Scenario: Render Text with state-driven fontSize
+- [x] Scenario: Serialize and deserialize Text with all typography properties
 
 ## Feature: Button Variant Components
 - [ ] Scenario: Render an OutlinedButton with Text child
