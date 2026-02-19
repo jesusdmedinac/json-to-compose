@@ -37,14 +37,14 @@ fun String?.toFontStyle(): FontStyle? = when (this) {
  * Maps this string to a [TextAlign].
  * Supported: "Left", "Right", "Center", "Justify", "Start", "End".
  */
-fun String?.toTextAlign(): TextAlign = when (this) {
+fun String?.toTextAlign(): TextAlign? = when (this) {
     "Left" -> TextAlign.Left
     "Right" -> TextAlign.Right
     "Center" -> TextAlign.Center
     "Justify" -> TextAlign.Justify
     "Start" -> TextAlign.Start
     "End" -> TextAlign.End
-    else -> TextAlign.Start
+    else -> null
 }
 
 /**
