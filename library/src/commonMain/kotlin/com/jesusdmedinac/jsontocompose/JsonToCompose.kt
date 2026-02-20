@@ -15,6 +15,10 @@ import com.jesusdmedinac.jsontocompose.renderer.ToColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToCard
 import com.jesusdmedinac.jsontocompose.renderer.ToAlertDialog
 import com.jesusdmedinac.jsontocompose.renderer.ToCustom
+import com.jesusdmedinac.jsontocompose.renderer.ToExtendedFloatingActionButton
+import com.jesusdmedinac.jsontocompose.renderer.ToFloatingActionButton
+import com.jesusdmedinac.jsontocompose.renderer.ToIcon
+import com.jesusdmedinac.jsontocompose.renderer.ToIconButton
 import com.jesusdmedinac.jsontocompose.renderer.ToImage
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyRow
@@ -92,7 +96,17 @@ fun ComposeNode.ToCompose() {
         ComposeType.Box -> ToBox()
         ComposeType.Spacer -> ToSpacer()
         ComposeType.Text -> ToText()
-        ComposeType.Button -> ToButton()
+        ComposeType.Icon -> ToIcon()
+        ComposeType.Button,
+        ComposeType.OutlinedButton,
+        ComposeType.TextButton,
+        ComposeType.ElevatedButton,
+        ComposeType.FilledTonalButton -> ToButton()
+
+        ComposeType.IconButton -> ToIconButton()
+        ComposeType.FloatingActionButton -> ToFloatingActionButton()
+        ComposeType.ExtendedFloatingActionButton -> ToExtendedFloatingActionButton()
+
         ComposeType.Image -> ToImage()
         ComposeType.TextField -> ToTextField()
         ComposeType.LazyColumn -> ToLazyColumn()
