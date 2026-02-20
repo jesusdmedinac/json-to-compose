@@ -4,7 +4,7 @@ android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "34"
 filekitCompose = "0.8.8"
-iconsLucide = "1.1.0"
+iconsLucide = "2.2.1"
 kotlin = "2.2.21"
 androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.9.1"
@@ -24,7 +24,7 @@ dokka = "2.0.0"
 
 [libraries]
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
+icons-lucide-cmp = { module = "com.composables:icons-lucide-cmp", version.ref = "iconsLucide" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }

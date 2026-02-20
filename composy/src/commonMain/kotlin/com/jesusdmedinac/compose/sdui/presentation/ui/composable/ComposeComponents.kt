@@ -38,17 +38,34 @@ import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Box
+import com.composables.icons.lucide.CaseSensitive
+import com.composables.icons.lucide.Circle
+import com.composables.icons.lucide.CirclePlay
+import com.composables.icons.lucide.CirclePlus
 import com.composables.icons.lucide.Columns3
 import com.composables.icons.lucide.Columns4
+import com.composables.icons.lucide.GalleryVertical
 import com.composables.icons.lucide.Image
+import com.composables.icons.lucide.Layers
+import com.composables.icons.lucide.LayoutDashboard
 import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.MessageSquare
 import com.composables.icons.lucide.MousePointerClick
+import com.composables.icons.lucide.PanelBottom
+import com.composables.icons.lucide.PanelTop
+import com.composables.icons.lucide.Plus
+import com.composables.icons.lucide.Puzzle
+import com.composables.icons.lucide.RectangleHorizontal
 import com.composables.icons.lucide.Rows3
 import com.composables.icons.lucide.Rows4
 import com.composables.icons.lucide.Search
+import com.composables.icons.lucide.SeparatorHorizontal
+import com.composables.icons.lucide.Smile
 import com.composables.icons.lucide.Square
-import com.composables.icons.lucide.Text
+import com.composables.icons.lucide.SquareCheck
 import com.composables.icons.lucide.TextCursor
+import com.composables.icons.lucide.ToggleRight
+import com.composables.icons.lucide.WholeWord
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 
@@ -153,22 +170,30 @@ fun ComposeComponent(
                 ComposeType.Column -> Lucide.Rows3
                 ComposeType.Row -> Lucide.Columns3
                 ComposeType.Box -> Lucide.Box
-                ComposeType.Text -> Lucide.Text
+                ComposeType.Text -> Lucide.CaseSensitive
                 ComposeType.Button -> Lucide.MousePointerClick
                 ComposeType.Image -> Lucide.Image
                 ComposeType.TextField -> Lucide.TextCursor
                 ComposeType.LazyColumn -> Lucide.Rows4
                 ComposeType.LazyRow -> Lucide.Columns4
-                ComposeType.Scaffold -> Lucide.Square
-                ComposeType.Card -> Lucide.Square
-                ComposeType.AlertDialog -> Lucide.Box
-                ComposeType.Custom -> Lucide.Box
-                ComposeType.Spacer -> Lucide.Box
-                ComposeType.TopAppBar -> Lucide.Square
-                ComposeType.BottomBar -> Lucide.Square
+                ComposeType.Scaffold -> Lucide.LayoutDashboard
+                ComposeType.Card -> Lucide.GalleryVertical
+                ComposeType.AlertDialog -> Lucide.MessageSquare
+                ComposeType.Custom -> Lucide.Puzzle
+                ComposeType.Spacer -> Lucide.SeparatorHorizontal
+                ComposeType.TopAppBar -> Lucide.PanelTop
+                ComposeType.BottomBar -> Lucide.PanelBottom
                 ComposeType.BottomNavigationItem -> Lucide.Square
-                ComposeType.Switch -> Lucide.Square
-                ComposeType.Checkbox -> Lucide.Square
+                ComposeType.Switch -> Lucide.ToggleRight
+                ComposeType.Checkbox -> Lucide.SquareCheck
+                ComposeType.Icon -> Lucide.Smile
+                ComposeType.OutlinedButton -> Lucide.RectangleHorizontal
+                ComposeType.TextButton -> Lucide.WholeWord
+                ComposeType.ElevatedButton -> Lucide.Layers
+                ComposeType.FilledTonalButton -> Lucide.RectangleHorizontal
+                ComposeType.IconButton -> Lucide.Circle
+                ComposeType.FloatingActionButton -> Lucide.CirclePlus
+                ComposeType.ExtendedFloatingActionButton -> Lucide.Plus
             },
             contentDescription = type.name
         )
