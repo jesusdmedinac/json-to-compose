@@ -1,4 +1,4 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.exception
+package com.jesusdmedinac.jsontocompose.exception
 
 /**
  * Thrown when a string cannot be mapped to a valid Compose [Arrangement][androidx.compose.foundation.layout.Arrangement].

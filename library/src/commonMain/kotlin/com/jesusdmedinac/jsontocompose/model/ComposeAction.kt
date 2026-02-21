@@ -21,7 +21,7 @@ sealed class ComposeAction {
     /**
      * Sets a state value identified by [stateKey] to the given [value].
      *
-     * At runtime, the dispatcher finds the [com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost]
+     * At runtime, the dispatcher finds the [com.jesusdmedinac.jsontocompose.state.StateHost]
      * registered under [stateKey] and calls `onStateChange` with the deserialized value.
      *
      * Supports any JSON-representable value: String, Boolean, Int, Float, etc.

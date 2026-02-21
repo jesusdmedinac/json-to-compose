@@ -48,6 +48,16 @@ data class ComposeNode(
         is NodeProperties.ColumnProps -> children
         is NodeProperties.RowProps -> children
         is NodeProperties.BoxProps -> children
+        is NodeProperties.TopAppBarProps -> buildList {
+            title?.let { add(it) }
+            navigationIcon?.let { add(it) }
+            actions?.let { addAll(it) }
+        }
+        is NodeProperties.BottomBarProps -> children
+        is NodeProperties.ExtendedFabProps -> buildList {
+            icon?.let { add(it) }
+            text?.let { add(it) }
+        }
         else -> null
     } ?: emptyList()
 
@@ -83,6 +93,7 @@ data class ComposeNode(
         val child = when (properties) {
             is NodeProperties.ButtonProps -> properties.child
             is NodeProperties.CardProps -> properties.child
+            is NodeProperties.FabProps -> properties.icon
             is NodeProperties.AlertDialogProps -> null
             else -> null
         }

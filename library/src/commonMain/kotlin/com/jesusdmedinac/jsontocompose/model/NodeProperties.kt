@@ -73,17 +73,74 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
-     * Properties for a [ComposeType.Button] component.
+     * Properties for a [ComposeType.Icon] component.
+     *
+     * @property iconName The name of the icon.
+     * @property iconNameStateHostName Name of a `StateHost<String>` for dynamic icon selection.
+     * @property tint Tint color for the icon as an ARGB integer.
+     * @property tintStateHostName Name of a `StateHost<Int>` for dynamic tint color.
+     * @property contentDescription Accessibility description for the icon.
+     */
+    @Serializable
+    @SerialName("IconProps")
+    data class IconProps(
+        val iconName: String? = null,
+        val iconNameStateHostName: String? = null,
+        val tint: Int? = null,
+        val tintStateHostName: String? = null,
+        val contentDescription: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.Button] component and its variants (OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton).
      *
      * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
      *   invoked when the button is clicked.
      * @property child The single child node rendered inside the button.
+     * @property enabled Whether the button is enabled for interaction.
+     * @property enabledStateHostName Name of a `StateHost<Boolean>` for dynamic enabled state.
      */
     @Serializable
     @SerialName("ButtonProps")
     data class ButtonProps(
         val onClickEventName: String? = null,
         val child: ComposeNode? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.FloatingActionButton] component.
+     *
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the button is clicked.
+     * @property icon The icon node rendered inside the FAB.
+     * @property containerColor Background color of the FAB as an ARGB integer.
+     */
+    @Serializable
+    @SerialName("FabProps")
+    data class FabProps(
+        val onClickEventName: String? = null,
+        val icon: ComposeNode? = null,
+        val containerColor: Int? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.ExtendedFloatingActionButton] component.
+     *
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the button is clicked.
+     * @property icon The icon node rendered inside the FAB.
+     * @property text The text node rendered inside the FAB.
+     * @property containerColor Background color of the FAB as an ARGB integer.
+     */
+    @Serializable
+    @SerialName("ExtendedFabProps")
+    data class ExtendedFabProps(
+        val onClickEventName: String? = null,
+        val icon: ComposeNode? = null,
+        val text: ComposeNode? = null,
+        val containerColor: Int? = null,
     ) : NodeProperties
 
     /**

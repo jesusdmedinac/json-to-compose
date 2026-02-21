@@ -1,11 +1,11 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.runComposeUiTest
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.runComposeUiTest
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.behavior.Behavior

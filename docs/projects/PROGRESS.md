@@ -9,14 +9,14 @@
 | 1 | [phase-1-solidify-library](#1-phase-1-solidify-library) | `library/` | 187 | 187 | **100%** |
 | 2 | [phase-actions-system](#2-phase-actions-system) | `library/` | 37 | 37 | **100%** |
 | 3 | [phase-demo-showcase](#3-phase-demo-showcase) | `composeApp/` | 36 | 36 | **100%** |
-| 4 | [phase-3-expand-library](#4-phase-3-expand-library) | `library/` | 206 | 16 | **8%** |
+| 4 | [phase-3-expand-library](#4-phase-3-expand-library) | `library/` | 206 | 31 | **15%** |
 | 5 | [phase-2-editor-mvp](#5-phase-2-editor-mvp) | `composy/` | 54 | 0 | **0%** |
 | 6 | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/` | 26 | 0 | **0%** |
 | 7 | [phase-3-differentiators](#7-phase-3-differentiators) | Multi-module | 37 | 0 | **0%** |
-| | **TOTAL** | | **583** | **276** | **47%** |
+| | **TOTAL** | | **583** | **291** | **50%** |
 
 ```
-Progress: [███████████████████░░░░░░░░░░░░░░░░░░░░░] 47%
+Progress: [█████████████████████░░░░░░░░░░░░░░░░░░░] 50%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
@@ -78,7 +78,7 @@ phase-1-solidify-library ✅
 | Multi-Platform Compilation | 6 |
 
 ### 4. phase-3-expand-library
-**Status:** 🏗️ In Progress (16/206 — 8%)
+**Status:** 🏗️ In Progress (31/206 — 15%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -93,7 +93,7 @@ phase-1-solidify-library ✅
 | Feature | Scenarios | What it adds | Status |
 |---------|-----------|--------------|--------|
 | Text Enhancement | 16 | fontSize, fontWeight, color, textAlign, maxLines, overflow, etc. | ✅ Done |
-| Button Variants | 12 | OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton, FAB | 🔜 Pending |
+| Button Variants | 12 | OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton, FAB | ✅ Done |
 | Card Variants | 6 | ElevatedCard, OutlinedCard | 🔜 Pending |
 | TextField Enhancement | 16 | placeholder, label, icons, isError, keyboardType, password, OutlinedTextField | 🔜 Pending |
 | Navigation Components | 15 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | 🔜 Pending |
@@ -101,7 +101,7 @@ phase-1-solidify-library ✅
 | Layout Components | 14 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | 🔜 Pending |
 | Pager Components | 8 | HorizontalPager, VerticalPager | 🔜 Pending |
 | ModalBottomSheet | 8 | ModalBottomSheet with state, drag, shape, scrim | 🔜 Pending |
-| Display Components | 22 | Icon, Badge, Chips (4 types), Progress indicators, Tooltip | 🔜 Pending |
+| Display Components | 22 | Icon, Badge, Chips (4 types), Progress indicators, Tooltip | 🏗️ In Progress |
 | Snackbar | 8 | SnackbarHost, ShowSnackbar action | 🔜 Pending |
 | ListItem | 10 | Material 3 ListItem with all slots | 🔜 Pending |
 | Missing Modifiers | 22 | Clickable, Weight, Scroll, Offset, Size, AspectRatio, ZIndex, etc. | 🔜 Pending |

@@ -19,18 +19,18 @@
 - [x] Scenario: Serialize and deserialize Text with all typography properties
 
 ## Feature: Button Variant Components
-- [ ] Scenario: Render an OutlinedButton with Text child
-- [ ] Scenario: Render a TextButton with Text child
-- [ ] Scenario: Render an ElevatedButton with Text child
-- [ ] Scenario: Render a FilledTonalButton with Text child
-- [ ] Scenario: Render an IconButton with Image child
-- [ ] Scenario: Render a FloatingActionButton with Icon
-- [ ] Scenario: Render an ExtendedFloatingActionButton with icon and text
-- [ ] Scenario: Render a Button with enabled = false
-- [ ] Scenario: Render a Button with state-driven enabled property
-- [ ] Scenario: Button onClick triggers associated action
-- [ ] Scenario: FloatingActionButton with custom containerColor
-- [ ] Scenario: Serialize and deserialize all button variants
+- [x] Scenario: Render an OutlinedButton with Text child
+- [x] Scenario: Render a TextButton with Text child
+- [x] Scenario: Render an ElevatedButton with Text child
+- [x] Scenario: Render a FilledTonalButton with Text child
+- [x] Scenario: Render an IconButton with Image child
+- [x] Scenario: Render a FloatingActionButton with Icon
+- [x] Scenario: Render an ExtendedFloatingActionButton with icon and text
+- [x] Scenario: Render a Button with enabled = false
+- [x] Scenario: Render a Button with state-driven enabled property
+- [x] Scenario: Button onClick triggers associated action
+- [x] Scenario: FloatingActionButton with custom containerColor
+- [x] Scenario: Serialize and deserialize all button variants
 
 ## Feature: Card Variant Components
 - [ ] Scenario: Render an ElevatedCard with Text child
@@ -132,10 +132,10 @@
 - [ ] Scenario: Serialize and deserialize ModalBottomSheet
 
 ## Feature: Display Components
-- [ ] Scenario: Render an Icon by name
-- [ ] Scenario: Render an Icon with custom tint color
+- [x] Scenario: Render an Icon by name
+- [x] Scenario: Render an Icon with custom tint color
 - [ ] Scenario: Render an Icon with custom size via modifier
-- [ ] Scenario: Icon name controlled by state
+- [x] Scenario: Icon name controlled by state
 - [ ] Scenario: Render a Badge with no content
 - [ ] Scenario: Render a Badge with count text
 - [ ] Scenario: Render a BadgedBox with icon and badge
