@@ -1,4 +1,4 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer
+package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.runtime.Composable

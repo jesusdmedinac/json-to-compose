@@ -21,8 +21,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
+import com.jesusdmedinac.jsontocompose.state.MutableStateHost
+import com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeShape

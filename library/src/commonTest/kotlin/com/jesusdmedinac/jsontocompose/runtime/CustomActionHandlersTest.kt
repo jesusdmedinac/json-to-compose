@@ -5,8 +5,8 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
+import com.jesusdmedinac.jsontocompose.state.MutableStateHost
+import com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeAction
 import com.jesusdmedinac.jsontocompose.model.ComposeDocument
 import com.jesusdmedinac.jsontocompose.model.ComposeNode

@@ -1,4 +1,4 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state
+package com.jesusdmedinac.jsontocompose.state
 
 import androidx.compose.runtime.Composable
 import com.jesusdmedinac.jsontocompose.LocalStateHost

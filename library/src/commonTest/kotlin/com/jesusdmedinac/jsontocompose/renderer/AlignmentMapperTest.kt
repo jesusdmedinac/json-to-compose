@@ -1,10 +1,10 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.ui.Alignment
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.exception.AlignmentException
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toAlignment
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toHorizontalsAlignment
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer.toVerticalAlignment
+import com.jesusdmedinac.jsontocompose.exception.AlignmentException
+import com.jesusdmedinac.jsontocompose.renderer.toAlignment
+import com.jesusdmedinac.jsontocompose.renderer.toHorizontalsAlignment
+import com.jesusdmedinac.jsontocompose.renderer.toVerticalAlignment
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

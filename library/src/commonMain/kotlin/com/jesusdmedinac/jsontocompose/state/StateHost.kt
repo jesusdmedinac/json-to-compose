@@ -1,4 +1,4 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state
+package com.jesusdmedinac.jsontocompose.state
 
 /**
  * Interface for providing and updating reactive state to JSON-driven components.

@@ -244,7 +244,7 @@ class ButtonVariantsRendererTest {
             )
         )
 
-        val canSubmitStateHost = object : com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost<Boolean> {
+        val canSubmitStateHost = object : com.jesusdmedinac.jsontocompose.state.StateHost<Boolean> {
             override val state: Boolean = false
             override fun onStateChange(newState: Boolean) {}
         }
