@@ -40,7 +40,6 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.CaseSensitive
 import com.composables.icons.lucide.Circle
-import com.composables.icons.lucide.CirclePlay
 import com.composables.icons.lucide.CirclePlus
 import com.composables.icons.lucide.Columns3
 import com.composables.icons.lucide.Columns4

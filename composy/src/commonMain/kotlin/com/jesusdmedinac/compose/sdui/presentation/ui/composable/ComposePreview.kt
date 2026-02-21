@@ -1,17 +1,13 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
@@ -43,8 +39,8 @@ import com.composables.icons.lucide.Monitor
 import com.composables.icons.lucide.Smartphone
 import com.composables.icons.lucide.Tablet
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.BoxWithSizeListener
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.IconTabBar

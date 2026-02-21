@@ -1,7 +1,7 @@
 package com.jesusdmedinac.jsontocompose.runtime
 
-import com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeAction
+import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.floatOrNull

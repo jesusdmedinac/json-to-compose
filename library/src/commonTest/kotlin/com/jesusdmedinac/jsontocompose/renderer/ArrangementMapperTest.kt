@@ -2,9 +2,6 @@ package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.layout.Arrangement
 import com.jesusdmedinac.jsontocompose.exception.ArrangementException
-import com.jesusdmedinac.jsontocompose.renderer.toArrangement
-import com.jesusdmedinac.jsontocompose.renderer.toHorizontalArrangement
-import com.jesusdmedinac.jsontocompose.renderer.toVerticalArrangement
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

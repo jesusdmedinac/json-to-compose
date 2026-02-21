@@ -37,9 +37,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.jesusdmedinac.compose.sdui.Platform
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
-import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenState
-import com.jesusdmedinac.compose.sdui.auth.presentation.ui.AuthScreen
 import com.jesusdmedinac.compose.sdui.getPlatform
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsSideEffect

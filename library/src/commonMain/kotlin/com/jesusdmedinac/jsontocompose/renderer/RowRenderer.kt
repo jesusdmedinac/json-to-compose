@@ -7,8 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.renderer.toHorizontalArrangement
-import com.jesusdmedinac.jsontocompose.renderer.toVerticalAlignment
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
