@@ -211,6 +211,7 @@ private fun textDemo(): ComposeNode = ComposeNode(
                     text = "Large Bold Title",
                     fontSize = 24.0,
                     fontWeight = "Bold",
+                    color = -14931154 // #FF1A237E
                 ),
             ),
             ComposeNode(
@@ -219,6 +220,7 @@ private fun textDemo(): ComposeNode = ComposeNode(
                     text = "Medium Italic Subtitle",
                     fontSize = 18.0,
                     fontStyle = "Italic",
+                    color = -12632235 // #FF3F51B5
                 ),
             ),
             ComposeNode(
@@ -434,8 +436,8 @@ private fun buttonDemo(): ComposeNode = ComposeNode(
                     children = listOf(
                         ComposeNode(
                             type = ComposeType.FloatingActionButton,
-                            properties = NodeProperties.ButtonProps(
-                                child = ComposeNode(
+                            properties = NodeProperties.FabProps(
+                                icon = ComposeNode(
                                     type = ComposeType.Icon,
                                     properties = NodeProperties.IconProps(iconName = "Add"),
                                 )
@@ -443,7 +445,7 @@ private fun buttonDemo(): ComposeNode = ComposeNode(
                         ),
                         ComposeNode(
                             type = ComposeType.ExtendedFloatingActionButton,
-                            properties = NodeProperties.ButtonProps(
+                            properties = NodeProperties.ExtendedFabProps(
                                 text = ComposeNode(
                                     type = ComposeType.Text,
                                     properties = NodeProperties.TextProps(text = "Compose"),
