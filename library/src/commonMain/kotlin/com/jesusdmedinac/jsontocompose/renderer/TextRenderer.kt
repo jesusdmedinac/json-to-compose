@@ -84,7 +84,7 @@ fun ComposeNode.ToText() {
         fontSize = if (fontSize >= 0) fontSize.sp else TextUnit.Unspecified,
         fontWeight = fontWeight.toFontWeight(),
         fontStyle = fontStyle.toFontStyle(),
-        color = color?.let { Color(it) } ?: Color.Unspecified,
+        color = color.toColor(),
         textAlign = textAlign.toTextAlign(),
         maxLines = maxLines,
         overflow = overflow.toTextOverflow(),

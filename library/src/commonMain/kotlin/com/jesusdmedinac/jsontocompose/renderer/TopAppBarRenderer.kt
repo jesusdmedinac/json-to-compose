@@ -18,10 +18,8 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 fun ComposeNode.ToTopAppBar() {
     val props = properties as? NodeProperties.TopAppBarProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val backgroundColor = props.backgroundColor?.let { Color(it) }
-        ?: MaterialTheme.colors.primarySurface
-    val contentColor = props.contentColor?.let { Color(it) }
-        ?: contentColorFor(backgroundColor)
+    val backgroundColor = props.backgroundColor.toColor(MaterialTheme.colors.primarySurface)
+    val contentColor = props.contentColor.toColor(contentColorFor(backgroundColor))
     TopAppBar(
         modifier = modifier,
         title = { props.title?.ToCompose() },

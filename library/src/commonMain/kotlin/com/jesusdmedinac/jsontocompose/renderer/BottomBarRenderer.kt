@@ -21,10 +21,8 @@ fun ComposeNode.ToBottomBar() {
     val props = properties as? NodeProperties.BottomBarProps ?: return
     val children = props.children ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val backgroundColor = props.backgroundColor?.let { Color(it) }
-        ?: MaterialTheme.colors.primarySurface
-    val contentColor = props.contentColor?.let { Color(it) }
-        ?: contentColorFor(backgroundColor)
+    val backgroundColor = props.backgroundColor.toColor(MaterialTheme.colors.primarySurface)
+    val contentColor = props.contentColor.toColor(contentColorFor(backgroundColor))
 
     BottomNavigation(
         modifier = modifier,

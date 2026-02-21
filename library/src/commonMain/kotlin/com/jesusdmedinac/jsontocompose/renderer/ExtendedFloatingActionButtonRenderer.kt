@@ -21,8 +21,7 @@ fun ComposeNode.ToExtendedFloatingActionButton() {
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onClickEventName]
 
-    val containerColor = props.containerColor?.let { Color(it) }
-        ?: FloatingActionButtonDefaults.containerColor
+    val containerColor = props.containerColor.toColor(FloatingActionButtonDefaults.containerColor)
 
     val modifier = (Modifier from composeModifier).testTag(type.name)
 

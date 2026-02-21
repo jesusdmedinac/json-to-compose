@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeShape
+import com.jesusdmedinac.jsontocompose.renderer.toColor
 
 /**
  * Enumerates all supported modifier operations.
@@ -62,10 +63,10 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
             is ComposeModifier.Operation.FillMaxHeight -> result.fillMaxHeight()
             is ComposeModifier.Operation.Width -> result.width(operation.value.dp)
             is ComposeModifier.Operation.Height -> result.height(operation.value.dp)
-            is ComposeModifier.Operation.BackgroundColor -> result.background(operation.hexColor.toColorInt())
+            is ComposeModifier.Operation.BackgroundColor -> result.background(operation.hexColor.toColor())
             is ComposeModifier.Operation.Border -> result.border(
                 width = operation.width.dp,
-                color = operation.color.toColorInt(),
+                color = operation.color.toColor(),
                 shape = operation.shape.toShape()
             )
 
@@ -77,7 +78,7 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
 
             is ComposeModifier.Operation.Clip -> result.clip(operation.shape.toShape())
             is ComposeModifier.Operation.Background -> result.background(
-                color = operation.color.toColorInt(),
+                color = operation.color.toColor(),
                 shape = operation.shape.toShape()
             )
 
@@ -103,24 +104,4 @@ fun ComposeShape.toShape(): Shape = when (this) {
                 bottomEnd = (bottomEnd ?: 0).dp,
                 bottomStart = (bottomStart ?: 0).dp
             )
-}
-
-/**
- * Parses an `#AARRGGBB` hex color string into a Compose [Color].
- *
- * The string must start with `#` and be exactly 9 characters long (e.g., `"#FF0000FF"`).
- * Returns [Color.White] if the format is invalid.
- */
-fun String.toColorInt(): Color {
-    if (!startsWith("#") || length != 9) {
-        return Color.White
-    }
-
-    val colorLong = removePrefix("#").toLong(16)
-    val alpha = (colorLong shr 24 and 0xFF).toInt()
-    val red = (colorLong shr 16 and 0xFF).toInt()
-    val green = (colorLong shr 8 and 0xFF).toInt()
-    val blue = (colorLong and 0xFF).toInt()
-
-    return Color(red, green, blue, alpha)
 }

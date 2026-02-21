@@ -54,7 +54,7 @@ sealed interface NodeProperties {
         val fontWeightStateHostName: String? = null,
         val fontStyle: String? = null,
         val fontStyleStateHostName: String? = null,
-        val color: Int? = null,
+        val color: String? = null,
         val colorStateHostName: String? = null,
         val textAlign: String? = null,
         val textAlignStateHostName: String? = null,
@@ -77,8 +77,8 @@ sealed interface NodeProperties {
      *
      * @property iconName The name of the icon.
      * @property iconNameStateHostName Name of a `StateHost<String>` for dynamic icon selection.
-     * @property tint Tint color for the icon as an ARGB integer.
-     * @property tintStateHostName Name of a `StateHost<Int>` for dynamic tint color.
+     * @property tint Tint color for the icon as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property tintStateHostName Name of a `StateHost<String>` for dynamic tint color.
      * @property contentDescription Accessibility description for the icon.
      */
     @Serializable
@@ -86,7 +86,7 @@ sealed interface NodeProperties {
     data class IconProps(
         val iconName: String? = null,
         val iconNameStateHostName: String? = null,
-        val tint: Int? = null,
+        val tint: String? = null,
         val tintStateHostName: String? = null,
         val contentDescription: String? = null,
     ) : NodeProperties
@@ -115,14 +115,14 @@ sealed interface NodeProperties {
      * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
      *   invoked when the button is clicked.
      * @property icon The icon node rendered inside the FAB.
-     * @property containerColor Background color of the FAB as an ARGB integer.
+     * @property containerColor Background color of the FAB as an ARGB hex string (#AARRGGBB or #RRGGBB).
      */
     @Serializable
     @SerialName("FabProps")
     data class FabProps(
         val onClickEventName: String? = null,
         val icon: ComposeNode? = null,
-        val containerColor: Int? = null,
+        val containerColor: String? = null,
     ) : NodeProperties
 
     /**
@@ -132,7 +132,7 @@ sealed interface NodeProperties {
      *   invoked when the button is clicked.
      * @property icon The icon node rendered inside the FAB.
      * @property text The text node rendered inside the FAB.
-     * @property containerColor Background color of the FAB as an ARGB integer.
+     * @property containerColor Background color of the FAB as an ARGB hex string (#AARRGGBB or #RRGGBB).
      */
     @Serializable
     @SerialName("ExtendedFabProps")
@@ -140,7 +140,7 @@ sealed interface NodeProperties {
         val onClickEventName: String? = null,
         val icon: ComposeNode? = null,
         val text: ComposeNode? = null,
-        val containerColor: Int? = null,
+        val containerColor: String? = null,
     ) : NodeProperties
 
     /**
@@ -293,8 +293,8 @@ sealed interface NodeProperties {
         val dismissButton: ComposeNode? = null,
         val title: ComposeNode? = null,
         val text: ComposeNode? = null,
-        val backgroundColor: Int? = null,
-        val contentColor: Int? = null,
+        val backgroundColor: String? = null,
+        val contentColor: String? = null,
         val visibilityStateHostName: String? = null,
         val onDismissRequestEventName: String? = null,
     ) : NodeProperties
@@ -305,8 +305,8 @@ sealed interface NodeProperties {
      * @property title The node rendered as the app bar title.
      * @property navigationIcon The node rendered as the navigation icon (typically an Image or Button).
      * @property actions List of nodes rendered as action items in the app bar.
-     * @property backgroundColor Background color as an ARGB integer.
-     * @property contentColor Content color as an ARGB integer.
+     * @property backgroundColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
      */
     @Serializable
     @SerialName("TopAppBarProps")
@@ -314,30 +314,30 @@ sealed interface NodeProperties {
         val title: ComposeNode? = null,
         val navigationIcon: ComposeNode? = null,
         val actions: List<ComposeNode>? = null,
-        val backgroundColor: Int? = null,
-        val contentColor: Int? = null,
+        val backgroundColor: String? = null,
+        val contentColor: String? = null,
     ) : NodeProperties
 
     /**
      * Properties for a [ComposeType.BottomBar] component.
      *
      * @property children List of child nodes (typically [ComposeType.BottomNavigationItem] nodes).
-     * @property backgroundColor Background color as an ARGB integer.
-     * @property contentColor Content color as an ARGB integer.
+     * @property backgroundColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
      */
     @Serializable
     @SerialName("BottomBarProps")
     data class BottomBarProps(
         val children: List<ComposeNode>? = null,
-        val backgroundColor: Int? = null,
-        val contentColor: Int? = null,
+        val backgroundColor: String? = null,
+        val contentColor: String? = null,
     ) : NodeProperties
 
     /**
      * Properties for a [ComposeType.BottomNavigationItem] component.
      *
      * @property selected Whether this item is currently selected.
-     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
+     * @property selectedStateHostName Name of a `StateHost<String>` for dynamic selection state.
      * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
      *   invoked when the item is clicked.
      * @property label The node rendered as the item label (typically a Text node).

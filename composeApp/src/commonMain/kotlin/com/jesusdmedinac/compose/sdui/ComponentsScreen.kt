@@ -211,7 +211,7 @@ private fun textDemo(): ComposeNode = ComposeNode(
                     text = "Large Bold Title",
                     fontSize = 24.0,
                     fontWeight = "Bold",
-                    color = -14931154 // #FF1A237E
+                    color = "#FF1A237E"
                 ),
             ),
             ComposeNode(
@@ -220,7 +220,7 @@ private fun textDemo(): ComposeNode = ComposeNode(
                     text = "Medium Italic Subtitle",
                     fontSize = 18.0,
                     fontStyle = "Italic",
-                    color = -12632235 // #FF3F51B5
+                    color = "#FF3F51B5"
                 ),
             ),
             ComposeNode(

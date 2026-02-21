@@ -39,7 +39,7 @@ fun ComposeNode.ToIcon() {
                 painter = painterResource(resource),
                 contentDescription = contentDescription,
                 modifier = modifier,
-                tint = tint?.let { Color(it) } ?: LocalContentColor.current
+                tint = tint.toColor(LocalContentColor.current)
             )
         } else {
             Text(

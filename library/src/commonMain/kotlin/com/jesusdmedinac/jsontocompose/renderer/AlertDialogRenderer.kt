@@ -31,10 +31,8 @@ fun ComposeNode.ToAlertDialog() {
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onClickEventName]
 
-    val backgroundColor = props.backgroundColor?.let { Color(it) }
-        ?: MaterialTheme.colors.surface
-    val contentColor = props.contentColor?.let { Color(it) }
-        ?: contentColorFor(backgroundColor)
+    val backgroundColor = props.backgroundColor.toColor(MaterialTheme.colors.surface)
+    val contentColor = props.contentColor.toColor(contentColorFor(backgroundColor))
 
     AlertDialog(
         modifier = modifier,
