@@ -93,3 +93,13 @@ Feature: Advanced Action Types for ComposeAction
     Given JSON strings for Navigate, NavigateBack, Delay, Conditional, IncrementState, DecrementState, ShowSnackbar, LaunchUrl, CopyToClipboard, and UpdateList actions
     When each is deserialized to ComposeAction and serialized back
     Then each resulting JSON maintains all action properties
+
+  Scenario: Update showcase with this feature
+    Given the demo app showcase
+    When the feature properties are added to the showcase
+    Then the demo app should render the feature correctly
+
+  Scenario: Update main README.md with this feature
+    Given the library documentation
+    When the feature properties are added to the README.md
+    Then the documentation should reflect the support for this feature

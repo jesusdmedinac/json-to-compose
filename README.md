@@ -146,22 +146,30 @@ fun App() {
 
 ## 🔧 Supported Components
 
-| Component | Description |
-|-----------|-------------|
-| Text | Display text |
-| Button | Clickable button with child content |
-| Column | Vertical layout container |
-| Row | Horizontal layout container |
-| Box | Stacking layout container |
-| Image | Display images from URL or local resources |
-| TextField | Text input field |
-| LazyColumn | Lazy vertical scrolling list |
-| LazyRow | Lazy horizontal scrolling list |
-| Scaffold | Material Design scaffold layout |
-| Card | Material Design card container |
-| AlertDialog | Material Design alert dialog |
-| TopAppBar | Material Design top app bar |
-| **Custom** | User-defined custom components |
+| Component | Description | Properties |
+|-----------|-------------|------------|
+| **Text** | Display text | `text`, `fontSize`, `fontWeight`, `fontStyle`, `color`, `textAlign`, `maxLines`, `overflow`, `letterSpacing`, `lineHeight`, `textDecoration`, `minLines` |
+| **Button** | Standard filled button | `child`, `enabled`, `onClickEventName` |
+| **ElevatedButton** | Button with elevation | `child`, `enabled`, `onClickEventName` |
+| **FilledTonalButton** | Button with secondary container color | `child`, `enabled`, `onClickEventName` |
+| **OutlinedButton** | Button with border | `child`, `enabled`, `onClickEventName` |
+| **TextButton** | Button without border or background | `child`, `enabled`, `onClickEventName` |
+| **IconButton** | Button containing an icon | `child`, `enabled`, `onClickEventName` |
+| **FloatingActionButton**| Circular FAB | `child`, `containerColor`, `onClickEventName` |
+| **ExtendedFAB** | FAB with icon and text | `icon`, `text`, `containerColor`, `onClickEventName` |
+| **Icon** | Material Design icon | `iconName`, `tint` |
+| **Column** | Vertical layout container | `verticalArrangement`, `horizontalAlignment`, `children` |
+| **Row** | Horizontal layout container | `horizontalArrangement`, `verticalAlignment`, `children` |
+| **Box** | Stacking layout container | `contentAlignment`, `children` |
+| **Image** | Display images | `url`, `resourceName`, `contentDescription`, `contentScale` |
+| **TextField** | Text input field | `value`, `onValueChange`, `label`, `placeholder` |
+| **LazyColumn** | Lazy vertical scrolling list | `children` |
+| **LazyRow** | Lazy horizontal scrolling list | `children` |
+| **Scaffold** | Material Design scaffold | `topBar`, `bottomBar`, `floatingActionButton`, `child` |
+| **Card** | Material Design card | `elevation`, `cornerRadius`, `child` |
+| **AlertDialog** | Material Design alert dialog | `title`, `text`, `confirmButton`, `dismissButton`, `visibilityState` |
+| **TopAppBar** | Material Design top app bar | `title`, `backgroundColor` |
+| **Custom** | User-defined components | `customType`, `customData` |
 
 ## 🧩 Custom Components
 

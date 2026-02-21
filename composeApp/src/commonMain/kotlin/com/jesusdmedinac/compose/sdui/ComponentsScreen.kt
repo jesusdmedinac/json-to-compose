@@ -204,13 +204,46 @@ private fun textDemo(): ComposeNode = ComposeNode(
     ),
     properties = NodeProperties.ColumnProps(
         children = listOf(
-            demoLabel("Text Styles"),
+            demoLabel("Text Styles & Properties"),
             ComposeNode(
                 type = ComposeType.Text,
-                composeModifier = ComposeModifier(
-                    operations = listOf(ComposeModifier.Operation.Padding(8))
+                properties = NodeProperties.TextProps(
+                    text = "Large Bold Title",
+                    fontSize = 24.0,
+                    fontWeight = "Bold",
                 ),
-                properties = NodeProperties.TextProps(text = "Standard Text Node"),
+            ),
+            ComposeNode(
+                type = ComposeType.Text,
+                properties = NodeProperties.TextProps(
+                    text = "Medium Italic Subtitle",
+                    fontSize = 18.0,
+                    fontStyle = "Italic",
+                ),
+            ),
+            ComposeNode(
+                type = ComposeType.Text,
+                properties = NodeProperties.TextProps(
+                    text = "Center aligned text with custom line height and letter spacing to demonstrate typography control.",
+                    textAlign = "Center",
+                    lineHeight = 24.0,
+                    letterSpacing = 2.0
+                ),
+            ),
+            ComposeNode(
+                type = ComposeType.Text,
+                properties = NodeProperties.TextProps(
+                    text = "Underlined text",
+                    textDecoration = "Underline"
+                ),
+            ),
+            ComposeNode(
+                type = ComposeType.Text,
+                properties = NodeProperties.TextProps(
+                    text = "This is a very long text that should be truncated with ellipsis after two lines because of the maxLines and overflow properties applied to it.",
+                    maxLines = 2,
+                    overflow = "Ellipsis"
+                ),
             ),
         )
     )
@@ -294,16 +327,135 @@ private fun buttonDemo(): ComposeNode = ComposeNode(
     ),
     properties = NodeProperties.ColumnProps(
         children = listOf(
-            demoLabel("Button"),
+            demoLabel("Button Variants"),
             ComposeNode(
-                type = ComposeType.Button,
-                properties = NodeProperties.ButtonProps(
-                    onClickEventName = "button_clicked",
-                    child = ComposeNode(
-                        type = ComposeType.Text,
-                        properties = NodeProperties.TextProps(text = "Click Me"),
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Filled"),
+                                )
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.ElevatedButton,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Elevated"),
+                                )
+                            ),
+                        ),
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
                     )
                 ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.OutlinedButton,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Outlined"),
+                                )
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.FilledTonalButton,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Tonal"),
+                                )
+                            ),
+                        ),
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.TextButton,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Text Button"),
+                                )
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.IconButton,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Icon,
+                                    properties = NodeProperties.IconProps(iconName = "Favorite"),
+                                )
+                            ),
+                        ),
+                    )
+                )
+            ),
+            demoLabel("Floating Action Buttons"),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.FloatingActionButton,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Icon,
+                                    properties = NodeProperties.IconProps(iconName = "Add"),
+                                )
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.ExtendedFloatingActionButton,
+                            properties = NodeProperties.ButtonProps(
+                                text = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Compose"),
+                                ),
+                                icon = ComposeNode(
+                                    type = ComposeType.Icon,
+                                    properties = NodeProperties.IconProps(iconName = "Edit"),
+                                )
+                            ),
+                        ),
+                    )
+                )
             ),
         )
     )
@@ -462,7 +614,11 @@ private fun scaffoldDemo(): ComposeNode = ComposeNode(
                     operations = listOf(
                         ComposeModifier.Operation.FillMaxWidth,
                         ComposeModifier.Operation.Height(200),
-                        ComposeModifier.Operation.Border(1, DemoPalette.divider, ComposeShape.RoundedCorner(all = 4)),
+                        ComposeModifier.Operation.Border(
+                            1,
+                            DemoPalette.divider,
+                            ComposeShape.RoundedCorner(all = 4)
+                        ),
                     )
                 ),
                 properties = NodeProperties.ScaffoldProps(

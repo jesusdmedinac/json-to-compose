@@ -17,6 +17,8 @@
 - [x] Scenario: Render Text with minLines
 - [x] Scenario: Render Text with state-driven fontSize
 - [x] Scenario: Serialize and deserialize Text with all typography properties
+- [x] Scenario: Update showcase with Text property enhancements
+- [x] Scenario: Update main README.md with Text property enhancements
 
 ## Feature: Button Variant Components
 - [x] Scenario: Render an OutlinedButton with Text child
@@ -31,6 +33,8 @@
 - [x] Scenario: Button onClick triggers associated action
 - [x] Scenario: FloatingActionButton with custom containerColor
 - [x] Scenario: Serialize and deserialize all button variants
+- [x] Scenario: Update showcase with all button variants
+- [x] Scenario: Update main README.md with all button variants
 
 ## Feature: Card Variant Components
 - [ ] Scenario: Render an ElevatedCard with Text child
@@ -39,6 +43,8 @@
 - [ ] Scenario: Render an OutlinedCard with custom border color
 - [ ] Scenario: Card variants support cornerRadius
 - [ ] Scenario: Serialize and deserialize card variants
+- [ ] Scenario: Update showcase with card variants
+- [ ] Scenario: Update main README.md with card variants
 
 ## Feature: TextField Component Property Enhancement
 - [ ] Scenario: Render TextField with placeholder text
@@ -57,6 +63,8 @@
 - [ ] Scenario: Render OutlinedTextField variant
 - [ ] Scenario: Render TextField with prefix and suffix
 - [ ] Scenario: Serialize and deserialize TextField with all properties
+- [ ] Scenario: Update showcase with TextField enhancements
+- [ ] Scenario: Update main README.md with TextField enhancements
 
 ## Feature: Navigation Components
 - [ ] Scenario: Render a NavigationBar with three items
@@ -74,6 +82,8 @@
 - [ ] Scenario: Render a ScrollableTabRow with many tabs
 - [ ] Scenario: Render NavigationBar inside Scaffold bottomBar
 - [ ] Scenario: Serialize and deserialize all navigation components
+- [ ] Scenario: Update showcase with navigation components
+- [ ] Scenario: Update main README.md with navigation components
 
 ## Feature: Input Components
 - [ ] Scenario: Render a Slider with default range 0 to 1
@@ -94,6 +104,8 @@
 - [ ] Scenario: Render a SearchBar
 - [ ] Scenario: SearchBar query updates state as user types
 - [ ] Scenario: Serialize and deserialize all input components
+- [ ] Scenario: Update showcase with input components
+- [ ] Scenario: Update main README.md with input components
 
 ## Feature: Layout Components
 - [ ] Scenario: Render a Spacer with fixed height
@@ -110,6 +122,8 @@
 - [ ] Scenario: Column with Arrangement.spacedBy
 - [ ] Scenario: Row with Arrangement.spacedBy
 - [ ] Scenario: Serialize and deserialize all layout components
+- [ ] Scenario: Update showcase with layout components
+- [ ] Scenario: Update main README.md with layout components
 
 ## Feature: Pager Components
 - [ ] Scenario: Render a HorizontalPager with pages
@@ -120,6 +134,8 @@
 - [ ] Scenario: HorizontalPager with beyondViewportPageCount
 - [ ] Scenario: HorizontalPager with userScrollEnabled = false
 - [ ] Scenario: Serialize and deserialize pager components
+- [ ] Scenario: Update showcase with pager components
+- [ ] Scenario: Update main README.md with pager components
 
 ## Feature: ModalBottomSheet Component
 - [ ] Scenario: Render a ModalBottomSheet with content
@@ -130,6 +146,8 @@
 - [ ] Scenario: ModalBottomSheet with scrimColor
 - [ ] Scenario: Scaffold with ModalBottomSheet integration
 - [ ] Scenario: Serialize and deserialize ModalBottomSheet
+- [ ] Scenario: Update showcase with ModalBottomSheet
+- [ ] Scenario: Update main README.md with ModalBottomSheet
 
 ## Feature: Display Components
 - [x] Scenario: Render an Icon by name
@@ -154,6 +172,8 @@
 - [ ] Scenario: Render a PlainTooltip on an Icon
 - [ ] Scenario: Render a RichTooltip with title and action
 - [ ] Scenario: Serialize and deserialize all display components
+- [ ] Scenario: Update showcase with display components
+- [ ] Scenario: Update main README.md with display components
 
 ## Feature: Snackbar Component and Integration
 - [ ] Scenario: Render a Scaffold with SnackbarHost
@@ -164,6 +184,8 @@
 - [ ] Scenario: Snackbar with duration Indefinite
 - [ ] Scenario: Snackbar with withDismissAction = true
 - [ ] Scenario: Serialize and deserialize ShowSnackbar action
+- [ ] Scenario: Update showcase with Snackbar integration
+- [ ] Scenario: Update main README.md with Snackbar integration
 
 ## Feature: ListItem Component
 - [ ] Scenario: Render a ListItem with headline text
@@ -176,6 +198,8 @@
 - [ ] Scenario: ListItem onClick triggers action
 - [ ] Scenario: Render a LazyColumn of ListItems
 - [ ] Scenario: Serialize and deserialize ListItem with all slots
+- [ ] Scenario: Update showcase with ListItem
+- [ ] Scenario: Update main README.md with ListItem
 
 ## Feature: Missing Modifier Operations
 - [ ] Scenario: Apply Clickable modifier with onClick event
@@ -200,6 +224,8 @@
 - [ ] Scenario: Apply AnimateContentSize modifier
 - [ ] Scenario: Apply TestTag modifier for UI testing
 - [ ] Scenario: Serialize and deserialize all new modifiers
+- [ ] Scenario: Update showcase with new modifiers
+- [ ] Scenario: Update main README.md with new modifiers
 
 ## Feature: Enhanced Properties for Existing Components
 - [ ] Scenario: Render Image with alignment
@@ -219,6 +245,8 @@
 - [ ] Scenario: Render LargeTopAppBar with prominent title
 - [ ] Scenario: Render Box with propagateMinConstraints controlled by state
 - [ ] Scenario: Serialize and deserialize all enhanced properties
+- [ ] Scenario: Update showcase with enhanced properties
+- [ ] Scenario: Update main README.md with enhanced properties
 
 ## Feature: Advanced Action Types
 - [ ] Scenario: Navigate action changes current route
@@ -235,3 +263,5 @@
 - [ ] Scenario: UpdateList action adds item to list state
 - [ ] Scenario: UpdateList action removes item from list state
 - [ ] Scenario: Serialize and deserialize all advanced actions
+- [ ] Scenario: Update showcase with advanced actions
+- [ ] Scenario: Update main README.md with advanced actions
