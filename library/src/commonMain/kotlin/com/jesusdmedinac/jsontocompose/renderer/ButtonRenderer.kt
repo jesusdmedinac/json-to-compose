@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.FilledTonalButton
@@ -32,56 +33,47 @@ fun ComposeNode.ToButton() {
 
     val modifier = (Modifier from composeModifier).testTag(type.name)
 
+    val onClick: () -> Unit = {
+        behavior?.invoke()
+    }
+    val buttonContent: @Composable RowScope.() -> Unit = {
+        child?.ToCompose()
+    }
     when (type) {
         ComposeType.Button -> Button(
-            onClick = {
-                behavior?.invoke()
-            },
+            onClick = onClick,
             modifier = modifier,
             enabled = enabled,
-        ) {
-            child?.ToCompose()
-        }
+            content = buttonContent,
+        )
 
         ComposeType.OutlinedButton -> OutlinedButton(
-            onClick = {
-                behavior?.invoke()
-            },
+            onClick = onClick,
             modifier = modifier,
             enabled = enabled,
-        ) {
-            child?.ToCompose()
-        }
+            content = buttonContent,
+        )
 
         ComposeType.TextButton -> TextButton(
-            onClick = {
-                behavior?.invoke()
-            },
+            onClick = onClick,
             modifier = modifier,
             enabled = enabled,
-        ) {
-            child?.ToCompose()
-        }
+            content = buttonContent,
+        )
 
         ComposeType.ElevatedButton -> ElevatedButton(
-            onClick = {
-                behavior?.invoke()
-            },
+            onClick = onClick,
             modifier = modifier,
             enabled = enabled,
-        ) {
-            child?.ToCompose()
-        }
+            content = buttonContent,
+        )
 
         ComposeType.FilledTonalButton -> FilledTonalButton(
-            onClick = {
-                behavior?.invoke()
-            },
+            onClick = onClick,
             modifier = modifier,
             enabled = enabled,
-        ) {
-            child?.ToCompose()
-        }
+            content = buttonContent,
+        )
 
         else -> {}
     }
