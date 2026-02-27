@@ -2,6 +2,9 @@
 
 This document describes a methodical and repeatable process for planning and developing AI-assisted software. Any agent or developer can follow these steps to maintain context, traceability, and efficiency throughout the entire development cycle.
 
+> [!TIP]
+> AI Agents working on concurrent features should read the [Git Worktrees Guide](GIT_WORKTREES_GUIDE.md) to isolate branches and avoid file conflicts in the main repository.
+
 ---
 
 ## Step 1: Define the Idea in Natural Language (High Level)

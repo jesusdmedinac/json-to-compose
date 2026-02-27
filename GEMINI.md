@@ -480,6 +480,8 @@ See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for t
 
 This project follows a **5-step process** for AI-assisted planning and development. All agents collaborating on this project must follow this methodology. The full guide is located at [`docs/AI_PLANNING_PROCESS.md`](docs/AI_PLANNING_PROCESS.md).
 
+For guidelines on how to handle multiple concurrent features without branch conflicts, refer to the [Git Worktrees Guide](docs/GIT_WORKTREES_GUIDE.md).
+
 ### Process Summary
 
 1. **Define the idea in natural language** - Describe the milestone or functionality at a high level.
@@ -495,6 +497,7 @@ This project follows a **5-step process** for AI-assisted planning and developme
 ### CRITICAL Instructions for the Agent
 
 - **BEFORE STARTING:** Always read the main `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
+- **GIT WORKTREES:** When working on a new feature, ALWAYS create a new Git Worktree outside the main repository (e.g., `git worktree add ../json-to-compose-feat -b <feat-branch>`) as specified in the [Git Worktrees Guide](docs/GIT_WORKTREES_GUIDE.md).
 - **GITHUB MANDATE:** You MUST ensure that every feature being worked on has a corresponding GitHub Issue, is part of the Project, and is assigned to a Milestone. Use `gh issue list` and `gh issue create` to verify/sync.
 - **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario. **CRITICALLY**, you MUST immediately update the matching numbers in the main `docs/projects/PROGRESS.md` file. The completed and total scenario counts and progress percentages of BOTH files must reflect EXACTLY the same reality.
 - **UPON COMPLETION:** Verify BOTH `PROGRESS.md` files are 100% synchronized. Close the corresponding GitHub Issue.
