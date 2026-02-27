@@ -863,7 +863,7 @@ private fun topAppBarDemo(): ComposeNode = ComposeNode(
                         type = ComposeType.Text,
                         properties = NodeProperties.TextProps(text = "My App"),
                     ),
-                    backgroundColor = DemoPalette.primaryArgb,
+                    backgroundColor = DemoPalette.primary,
                 )
             ),
         )
@@ -881,7 +881,7 @@ private fun bottomBarDemo(): ComposeNode = ComposeNode(
             ComposeNode(
                 type = ComposeType.BottomBar,
                 properties = NodeProperties.BottomBarProps(
-                    backgroundColor = DemoPalette.primaryArgb,
+                    backgroundColor = DemoPalette.primary,
                     children = listOf(
                         ComposeNode(
                             type = ComposeType.BottomNavigationItem,

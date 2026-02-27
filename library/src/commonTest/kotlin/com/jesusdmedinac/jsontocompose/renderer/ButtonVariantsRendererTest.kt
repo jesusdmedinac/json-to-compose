@@ -169,7 +169,7 @@ class ButtonVariantsRendererTest {
         val node = ComposeNode(
             type = ComposeType.FloatingActionButton,
             properties = NodeProperties.FabProps(
-                containerColor = 0xFFFF0000.toInt(), // Red
+                containerColor = "#FFFF0000", // Red
                 icon = ComposeNode(
                     type = ComposeType.Icon,
                     properties = NodeProperties.IconProps(iconName = "add")

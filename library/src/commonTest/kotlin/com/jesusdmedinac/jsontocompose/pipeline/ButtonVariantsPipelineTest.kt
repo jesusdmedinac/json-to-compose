@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose.pipeline
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -69,7 +70,7 @@ class ButtonVariantsPipelineTest {
         """.trimIndent()
 
         setContent {
-            androidx.compose.material3.MaterialTheme {
+            MaterialTheme {
                 json.ToCompose()
             }
         }
@@ -119,7 +120,7 @@ class ButtonVariantsPipelineTest {
         val original = ComposeNode(
             type = ComposeType.FloatingActionButton,
             properties = NodeProperties.FabProps(
-                containerColor = 0xFFFF0000.toInt(),
+                containerColor = "#FFFF0000",
                 icon = ComposeNode(
                     type = ComposeType.Icon,
                     properties = NodeProperties.IconProps(iconName = "add")
@@ -145,7 +146,7 @@ class ButtonVariantsPipelineTest {
         val original = ComposeNode(
             type = ComposeType.ExtendedFloatingActionButton,
             properties = NodeProperties.ExtendedFabProps(
-                containerColor = 0xFF00FF00.toInt(),
+                containerColor = "#FF00FF00",
                 icon = ComposeNode(
                     type = ComposeType.Icon,
                     properties = NodeProperties.IconProps(iconName = "add")

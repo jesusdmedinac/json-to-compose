@@ -267,7 +267,7 @@ class JsonSerializationTest {
             fontSize = 18.0,
             fontWeight = "Bold",
             fontStyle = "Italic",
-            color = 0xFF123456.toInt(),
+            color = "#FF123456",
             textAlign = "Center",
             maxLines = 5,
             overflow = "Ellipsis",

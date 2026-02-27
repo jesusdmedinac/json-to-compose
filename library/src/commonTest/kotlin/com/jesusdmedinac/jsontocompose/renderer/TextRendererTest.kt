@@ -119,7 +119,7 @@ class TextRendererTest {
             type = ComposeType.Text,
             properties = NodeProperties.TextProps(
                 text = "Colored Text",
-                color = 0xFFFF0000.toInt(),
+                color = "#FFFF0000",
             )
         )
         setContent { node.ToText() }

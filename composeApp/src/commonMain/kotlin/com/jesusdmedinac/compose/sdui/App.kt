@@ -594,13 +594,13 @@ fun App() {
                                     type = ComposeType.Text,
                                     properties = NodeProperties.TextProps(text = "JSON to Compose"),
                                 ),
-                                backgroundColor = DemoPalette.primaryDarkArgb,
+                                backgroundColor = DemoPalette.primaryDark,
                             )
                         ),
                         bottomBar = ComposeNode(
                             type = ComposeType.BottomBar,
                             properties = NodeProperties.BottomBarProps(
-                                backgroundColor = DemoPalette.primaryArgb,
+                                backgroundColor = DemoPalette.primary,
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.BottomNavigationItem,

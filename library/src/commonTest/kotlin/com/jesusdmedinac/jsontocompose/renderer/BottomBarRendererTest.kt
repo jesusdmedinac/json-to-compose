@@ -145,8 +145,8 @@ class BottomBarRendererTest {
                         properties = NodeProperties.TextProps(text = "Profile"),
                     ),
                 ),
-                backgroundColor = 0xFF6200EE.toInt(),
-                contentColor = 0xFFFFFFFF.toInt(),
+                backgroundColor = "#FF6200EE",
+                contentColor = "#FFFFFFFF",
             )
         )
 
@@ -160,7 +160,7 @@ class BottomBarRendererTest {
         assertEquals(2, props.children?.size)
         assertEquals(ComposeType.Text, props.children?.get(0)?.type)
         assertEquals(ComposeType.Text, props.children?.get(1)?.type)
-        assertEquals(0xFF6200EE.toInt(), props.backgroundColor)
-        assertEquals(0xFFFFFFFF.toInt(), props.contentColor)
+        assertEquals("#FF6200EE", props.backgroundColor)
+        assertEquals("#FFFFFFFF", props.contentColor)
     }
 }

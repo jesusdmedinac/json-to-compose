@@ -9,34 +9,40 @@ json-to-compose is an Android library that allows you to convert JSON structures
 ## 💡 Use case
 
 ### 1. Server-Driven UI
+
 This library is perfect for implementing Server-Driven UI patterns, where your backend controls the UI layout and content. Some benefits include:
+
 - Update your app's UI without deploying new versions
 - A/B testing different layouts and components
 - Dynamic content presentation based on user segments
 - Consistent UI across platforms by sharing the same JSON structure
 
 Example:
+
 ```kotlin
 @Composable
 fun App() {
     var uiDefinition by remember { mutableStateOf(api.fetchUIDefinition()) }
-    
+
     LaunchedEffect(Unit) {
         uiDefinition = api.fetchUIDefinition()
     }
-    
+
     uiDefinition.ToCompose()
 }
 ```
 
 ### 2. Generative UI
+
 Integrate with AI services to create dynamic UIs based on user input or context:
+
 - AI-powered layout suggestions
 - Dynamic form generation based on user preferences
 - Context-aware UI adaptations
 - Prototype testing with AI-generated interfaces
 
 Example:
+
 ```kotlin
 @Composable
 fun App(userContext: String) {
@@ -146,30 +152,30 @@ fun App() {
 
 ## 🔧 Supported Components
 
-| Component | Description | Properties |
-|-----------|-------------|------------|
-| **Text** | Display text | `text`, `fontSize`, `fontWeight`, `fontStyle`, `color`, `textAlign`, `maxLines`, `overflow`, `letterSpacing`, `lineHeight`, `textDecoration`, `minLines` |
-| **Button** | Standard filled button | `child`, `enabled`, `onClickEventName` |
-| **ElevatedButton** | Button with elevation | `child`, `enabled`, `onClickEventName` |
-| **FilledTonalButton** | Button with secondary container color | `child`, `enabled`, `onClickEventName` |
-| **OutlinedButton** | Button with border | `child`, `enabled`, `onClickEventName` |
-| **TextButton** | Button without border or background | `child`, `enabled`, `onClickEventName` |
-| **IconButton** | Button containing an icon | `child`, `enabled`, `onClickEventName` |
-| **FloatingActionButton**| Circular FAB | `child`, `containerColor`, `onClickEventName` |
-| **ExtendedFAB** | FAB with icon and text | `icon`, `text`, `containerColor`, `onClickEventName` |
-| **Icon** | Material Design icon | `iconName`, `tint` |
-| **Column** | Vertical layout container | `verticalArrangement`, `horizontalAlignment`, `children` |
-| **Row** | Horizontal layout container | `horizontalArrangement`, `verticalAlignment`, `children` |
-| **Box** | Stacking layout container | `contentAlignment`, `children` |
-| **Image** | Display images | `url`, `resourceName`, `contentDescription`, `contentScale` |
-| **TextField** | Text input field | `value`, `onValueChange`, `label`, `placeholder` |
-| **LazyColumn** | Lazy vertical scrolling list | `children` |
-| **LazyRow** | Lazy horizontal scrolling list | `children` |
-| **Scaffold** | Material Design scaffold | `topBar`, `bottomBar`, `floatingActionButton`, `child` |
-| **Card** | Material Design card | `elevation`, `cornerRadius`, `child` |
-| **AlertDialog** | Material Design alert dialog | `title`, `text`, `confirmButton`, `dismissButton`, `visibilityState` |
-| **TopAppBar** | Material Design top app bar | `title`, `backgroundColor` |
-| **Custom** | User-defined components | `customType`, `customData` |
+| Component                | Description                           | Properties                                                                                                                                               |
+| ------------------------ | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Text**                 | Display text                          | `text`, `fontSize`, `fontWeight`, `fontStyle`, `color`, `textAlign`, `maxLines`, `overflow`, `letterSpacing`, `lineHeight`, `textDecoration`, `minLines` |
+| **Button**               | Standard filled button                | `child`, `enabled`, `onClickEventName`                                                                                                                   |
+| **ElevatedButton**       | Button with elevation                 | `child`, `enabled`, `onClickEventName`                                                                                                                   |
+| **FilledTonalButton**    | Button with secondary container color | `child`, `enabled`, `onClickEventName`                                                                                                                   |
+| **OutlinedButton**       | Button with border                    | `child`, `enabled`, `onClickEventName`                                                                                                                   |
+| **TextButton**           | Button without border or background   | `child`, `enabled`, `onClickEventName`                                                                                                                   |
+| **IconButton**           | Button containing an icon             | `child`, `enabled`, `onClickEventName`                                                                                                                   |
+| **FloatingActionButton** | Circular FAB                          | `child`, `containerColor`, `onClickEventName`                                                                                                            |
+| **ExtendedFAB**          | FAB with icon and text                | `icon`, `text`, `containerColor`, `onClickEventName`                                                                                                     |
+| **Icon**                 | Material Design icon                  | `iconName`, `tint`                                                                                                                                       |
+| **Column**               | Vertical layout container             | `verticalArrangement`, `horizontalAlignment`, `children`                                                                                                 |
+| **Row**                  | Horizontal layout container           | `horizontalArrangement`, `verticalAlignment`, `children`                                                                                                 |
+| **Box**                  | Stacking layout container             | `contentAlignment`, `children`                                                                                                                           |
+| **Image**                | Display images                        | `url`, `resourceName`, `contentDescription`, `contentScale`                                                                                              |
+| **TextField**            | Text input field                      | `value`, `onValueChange`, `label`, `placeholder`                                                                                                         |
+| **LazyColumn**           | Lazy vertical scrolling list          | `children`                                                                                                                                               |
+| **LazyRow**              | Lazy horizontal scrolling list        | `children`                                                                                                                                               |
+| **Scaffold**             | Material Design scaffold              | `topBar`, `bottomBar`, `floatingActionButton`, `child`                                                                                                   |
+| **Card**                 | Material Design card                  | `elevation`, `cornerRadius`, `child`                                                                                                                     |
+| **AlertDialog**          | Material Design alert dialog          | `title`, `text`, `confirmButton`, `dismissButton`, `visibilityState`                                                                                     |
+| **TopAppBar**            | Material Design top app bar           | `title`, `backgroundColor`                                                                                                                               |
+| **Custom**               | User-defined components               | `customType`, `customData`                                                                                                                               |
 
 ## 🧩 Custom Components
 
@@ -200,6 +206,7 @@ CompositionLocalProvider(LocalCustomRenderers provides customRenderers) {
 ```
 
 **JSON for custom component:**
+
 ```json
 {
   "type": "Custom",
@@ -234,6 +241,7 @@ Apply modifiers to any component using `composeModifier`:
 ```
 
 **Available operations:**
+
 - `Padding` - Add padding (value in dp)
 - `FillMaxSize` - Fill maximum available size
 - `FillMaxWidth` - Fill maximum width
@@ -297,6 +305,7 @@ Apply modifiers to any component using `composeModifier`:
 Composy is a web and desktop app that facilitates the creation of JSON structures for json-to-compose. It provides a compose-tree editor, real-time preview, and export functionality. Composy is perfect for designing dynamic UIs and generating JSON definitions for your app.
 
 ### Features
+
 - Compose-tree editor
 - Real-time preview
 - Export functionality
@@ -306,6 +315,7 @@ Composy is a web and desktop app that facilitates the creation of JSON structure
 This library prioritizes rigorous UI testing. Beyond basic existence checks, it exposes visual properties (like `fontSize`, `color`, `padding`, and layout arrangements) through **Jetpack Compose Semantics**.
 
 This allows you to write tests that verify the exact visual state of your server-driven UI:
+
 ```kotlin
 onNodeWithTag("Text").assert(SemanticsMatcher.expectValue(FontSizeKey, 32.sp))
 onNodeWithTag("Box").assert(SemanticsMatcher.expectValue(PaddingKey, 16.dp))
@@ -328,6 +338,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 If you have questions or suggestions, feel free to:
+
 - Open an [issue](https://github.com/jesusdmedinac/json-to-compose/issues/new)
 - Follow me on Social network:
   - [YouTube](https://www.youtube.com/@jesusdmedinac/)

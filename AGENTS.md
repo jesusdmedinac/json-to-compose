@@ -22,6 +22,7 @@ json-to-compose/
 ### Main Module: `/library`
 
 Location of core code:
+
 ```
 library/src/commonMain/kotlin/com/jesusdmedinac/jsontocompose/
 ├── JsonToCompose.kt              → Entry point, CompositionLocals, router
@@ -89,22 +90,22 @@ fun ComposeNode.ToCompose() {
 
 ### Supported Components
 
-| Type | Props Class | Category |
-|------|-------------|-----------|
-| Text | TextProps | Leaf |
-| Image | ImageProps | Leaf |
-| TextField | TextFieldProps | Leaf |
-| Button | ButtonProps | Single Child |
-| Scaffold | ScaffoldProps | Single Child |
-| Card | CardProps | Single Child |
-| Column | ColumnProps | Container |
-| Row | RowProps | Container |
-| Box | BoxProps | Container |
-| LazyColumn | ColumnProps | Container (lazy) |
-| LazyRow | RowProps | Container (lazy) |
-| AlertDialog | AlertDialogProps | Dialog |
-| TopAppBar | TopAppBarProps | Navigation |
-| Custom | CustomProps | Extensible |
+| Type        | Props Class      | Category         |
+| ----------- | ---------------- | ---------------- |
+| Text        | TextProps        | Leaf             |
+| Image       | ImageProps       | Leaf             |
+| TextField   | TextFieldProps   | Leaf             |
+| Button      | ButtonProps      | Single Child     |
+| Scaffold    | ScaffoldProps    | Single Child     |
+| Card        | CardProps        | Single Child     |
+| Column      | ColumnProps      | Container        |
+| Row         | RowProps         | Container        |
+| Box         | BoxProps         | Container        |
+| LazyColumn  | ColumnProps      | Container (lazy) |
+| LazyRow     | RowProps         | Container (lazy) |
+| AlertDialog | AlertDialogProps | Dialog           |
+| TopAppBar   | TopAppBarProps   | Navigation       |
+| Custom      | CustomProps      | Extensible       |
 
 ## How to Add a New Component
 
@@ -223,19 +224,20 @@ ComposeNode(
 
 ### Available Operations
 
-| Operation | Parameters | Effect |
-|-----------|------------|--------|
-| Padding | `value: Int` | Padding in dp |
-| FillMaxSize | - | Fills width and height |
-| FillMaxWidth | - | Fills width |
-| FillMaxHeight | - | Fills height |
-| Width | `value: Int` | Fixed width in dp |
-| Height | `value: Int` | Fixed height in dp |
+| Operation       | Parameters         | Effect                 |
+| --------------- | ------------------ | ---------------------- |
+| Padding         | `value: Int`       | Padding in dp          |
+| FillMaxSize     | -                  | Fills width and height |
+| FillMaxWidth    | -                  | Fills width            |
+| FillMaxHeight   | -                  | Fills height           |
+| Width           | `value: Int`       | Fixed width in dp      |
+| Height          | `value: Int`       | Fixed height in dp     |
 | BackgroundColor | `hexColor: String` | ARGB Color (#AARRGGBB) |
 
 ### Add New Modifier Operation
 
 1. **Add to enum** (`modifier/ModifierMapper.kt:15-23`):
+
 ```kotlin
 enum class ModifierOperation {
     // ... existing
@@ -244,6 +246,7 @@ enum class ModifierOperation {
 ```
 
 2. **Create sealed class** (`model/ComposeModifier.kt`):
+
 ```kotlin
 @Serializable
 @SerialName("NewOperation")
@@ -253,6 +256,7 @@ data class NewOperation(val value: Int) : Operation(
 ```
 
 3. **Implement in mapper** (`modifier/ModifierMapper.kt:25-39`):
+
 ```kotlin
 is ComposeModifier.Operation.NewOperation -> result.newOperation(operation.value.dp)
 ```
@@ -260,11 +264,13 @@ is ComposeModifier.Operation.NewOperation -> result.newOperation(operation.value
 ## Dependency Injection (CompositionLocal)
 
 ### Drawable Resources
+
 ```kotlin
 val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 ```
 
 ### Behaviors (Clicks)
+
 ```kotlin
 val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
 
@@ -274,6 +280,7 @@ interface Behavior {
 ```
 
 ### State (TextField)
+
 ```kotlin
 val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
 
@@ -284,6 +291,7 @@ interface StateHost<T> {
 ```
 
 ### Usage in App
+
 ```kotlin
 CompositionLocalProvider(
     LocalDrawableResources provides mapOf("icon" to Res.drawable.icon),
@@ -301,23 +309,26 @@ To enable rigorous UI testing, visual properties that are not natively exposed b
 ### Pattern: Exposing Properties
 
 1. **Define Keys:** In the renderer or a dedicated semantics file:
+
 ```kotlin
 val FontSizeKey = SemanticsPropertyKey<TextUnit>("FontSize")
 var SemanticsPropertyReceiver.fontSize by FontSizeKey
 ```
 
 2. **Attach in Renderer:**
+
 ```kotlin
 Text(
     text = text,
-    modifier = modifier.semantics { 
-        this.fontSize = resolvedFontSize 
+    modifier = modifier.semantics {
+        this.fontSize = resolvedFontSize
     },
     fontSize = resolvedFontSize
 )
 ```
 
 3. **Verify in Tests:**
+
 ```kotlin
 onNodeWithTag("Text").assert(SemanticsMatcher.expectValue(FontSizeKey, 24.sp))
 ```
@@ -327,18 +338,23 @@ Always prefer semantic assertions over simple existence checks (`assertExists`) 
 ## Alignment and Arrangement
 
 ### 2D Alignment (Box)
+
 `TopStart`, `TopCenter`, `TopEnd`, `CenterStart`, `Center`, `CenterEnd`, `BottomStart`, `BottomCenter`, `BottomEnd`
 
 ### Vertical Alignment (Row)
+
 `Top`, `CenterVertically`, `Bottom`
 
 ### Horizontal Alignment (Column)
+
 `Start`, `CenterHorizontally`, `End`
 
 ### Vertical Arrangement (Column/LazyColumn)
+
 `Top`, `Bottom`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
 
 ### Horizontal Arrangement (Row/LazyRow)
+
 `Start`, `End`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
 
 ## Type Mapping: Compose Parameters → NodeProperties
@@ -353,12 +369,14 @@ These values support **two modes**: static (inline value from JSON) and dynamic 
 - `val fooStateHostName: String? = null` — StateHost name for dynamic use cases
 
 **Resolution order** (implemented by `resolveStateHostValue()` in `state/StateHostResolver.kt`):
+
 1. StateHost registered with the given name → use its `.state` value
 2. StateHost name provided but not registered → log warning, fall back to inline value
 3. Inline value provided → use it
 4. Neither provided → use sensible default (same as the original Compose parameter default)
 
 **In the renderer**, use the helper:
+
 ```kotlin
 val (selected, _) = resolveStateHostValue(
     stateHostName = props.selectedStateHostName,
@@ -407,14 +425,14 @@ Non-composable lambdas (click handlers, change listeners) are mapped to **behavi
 
 These types belong to the Compose framework and cannot be serialized directly to JSON. Each requires its own mapping strategy:
 
-| Compose type | json-to-compose strategy |
-|---|---|
-| `Modifier` | Handled via `ComposeModifier` (list of serializable `Operation`s) |
-| `Color` | Mapped as `Int?` (ARGB integer, e.g. `0xFFFF0000`), converted in renderer with `Color(value)` |
-| `Dp` / `Dp.Elevation` | Mapped as `Int?` or `Float?`, converted with `.dp` |
-| `MutableInteractionSource` | **Not yet supported** — mark with `// TODO: Support interactionSource` |
-| `ContentColor` | Mapped as `Int?`, same as Color |
-| `TextStyle`, `FontWeight` | Require dedicated mapping (see existing `TextProps` for reference) |
+| Compose type               | json-to-compose strategy                                                                      |
+| -------------------------- | --------------------------------------------------------------------------------------------- |
+| `Modifier`                 | Handled via `ComposeModifier` (list of serializable `Operation`s)                             |
+| `Color`                    | Mapped as `Int?` (ARGB integer, e.g. `0xFFFF0000`), converted in renderer with `Color(value)` |
+| `Dp` / `Dp.Elevation`      | Mapped as `Int?` or `Float?`, converted with `.dp`                                            |
+| `MutableInteractionSource` | **Not yet supported** — mark with `// TODO: Support interactionSource`                        |
+| `ContentColor`             | Mapped as `Int?`, same as Color                                                               |
+| `TextStyle`, `FontWeight`  | Require dedicated mapping (see existing `TextProps` for reference)                            |
 
 ### 5. Summary decision tree
 
@@ -436,16 +454,19 @@ See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for t
 ## Code Conventions
 
 ### Naming
+
 - **Props:** `{ComponentName}Props` (e.g., `ColumnProps`, `TextProps`)
 - **Renderers:** `To{ComponentName}()` as `ComposeNode` extension function
 - **Mappers:** `to{TargetType}()` as String extension function
 
 ### Serialization
+
 - Use `@Serializable` in all data classes
 - Use `@SerialName("ExplicitName")` for JSON control
 - Use `@Transient` for fields that should not be serialized
 
 ### Patterns
+
 - Nullable props with default values: `val prop: Type? = null`
 - Early return if props don't match: `val props = properties as? Props ?: return`
 - Modifier always applied: `val modifier = Modifier from composeModifier`
@@ -522,9 +543,7 @@ json-to-compose/
           "text": "Hello World"
         },
         "composeModifier": {
-          "operations": [
-            { "type": "Padding", "value": 16 }
-          ]
+          "operations": [{ "type": "Padding", "value": 16 }]
         }
       },
       {
@@ -546,9 +565,7 @@ json-to-compose/
     "horizontalAlignment": "CenterHorizontally"
   },
   "composeModifier": {
-    "operations": [
-      { "type": "FillMaxSize" }
-    ]
+    "operations": [{ "type": "FillMaxSize" }]
   }
 }
 ```
