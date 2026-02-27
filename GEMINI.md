@@ -1,7 +1,7 @@
-# AGENTS.md - Guide for AI Agents
+# GEMINI.md - Guide for AI Agents
 
 > [!IMPORTANT]
-> This file must always be kept in sync with `GEMINI.md`. Any changes made here must be reflected in `GEMINI.md` and vice-versa.
+> This file must always be kept in sync with `AGENTS.md`. Any changes made here must be reflected in `AGENTS.md` and vice-versa.
 
 This document provides essential context for AI agents to collaborate effectively on this project.
 

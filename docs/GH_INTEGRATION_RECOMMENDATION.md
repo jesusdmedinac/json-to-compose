@@ -39,14 +39,22 @@ Reference the Issue number in your atomic commits for each scenario.
 - **Commit message example:** `feat: support textAlign property [text_enhancement.feature:Scenario 4] #12`
 - **Why:** This automatically links your code changes to the Issue (the Feature) and the specific scenario you were working on.
 
+### 4. GitHub Milestones: The Versioning (Releases)
+
+**Use for:** Grouping Issues by Release Version (e.g., `v0.1.0-alpha`)
+
+- **Organization:** Assign Issues to a Milestone representing your next release target.
+- **Automation:** Facilitates the use of "GitHub Release Notes" automation, which can automatically group closed Issues by label.
+- **Why:** It provides a clear "Definition of Done" for a specific version, separate from the high-level Phase.
+
 ---
 
-## Issue vs. Project: Which one to use?
+## Issue vs. Project vs. Milestone: Which one to use?
 
 | Level           | Granularity                     | Recommended Tool                  |
 | --------------- | ------------------------------- | --------------------------------- |
 | **Roadmap**     | Global (All Phases)             | **GitHub Project**                |
-| **Milestone**   | One Phase (Solidify, Expand...) | **GitHub Milestone** (optional)   |
+| **Version**     | Release Target (e.g., v0.1.0)   | **GitHub Milestone**              |
 | **Logic Unit**  | One Feature (.feature file)     | **GitHub Issue**                  |
 | **Action Unit** | One Scenario                    | **Task List item** (inside Issue) |
 
@@ -56,8 +64,10 @@ Reference the Issue number in your atomic commits for each scenario.
 2.  **Sync to GitHub** only when a phase or feature is ready to be implemented:
     - Update the **Project** status to "In Progress".
     - Create/Open the **Issue** for the current Feature.
+    - Assign the Issue to the current **Milestone** (Release target).
 3.  **Develop** locally. Your commits will "speak" to your GitHub Issues.
 4.  **Close** the Issue when all scenarios are checked off.
+5.  **Release:** When the Milestone reaches 100%, trigger a GitHub Release to auto-generate the changelog from the closed Issues.
 
 > [!TIP]
 > Since you already use the GitHub CLI (`gh`), you can integrate the issue creation into your "Step 3" of the planning process. This way, documenting on GitHub becomes a 1-second task instead of a manual chore.
