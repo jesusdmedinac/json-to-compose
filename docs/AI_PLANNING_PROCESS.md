@@ -55,25 +55,29 @@ Feature: Rendering a Text component from JSON
 
 ---
 
-## Step 3: Persist Features in .feature Files
+## Step 3: Persist and Sync Features (The Context Anchor)
 
-Create a `docs/features/` folder and ask the AI to create the `.feature` files with their scenarios.
+Create a `docs/features/` folder and ask the AI to create the `.feature` files with their scenarios. **This is also where the local planning is synchronized with GitHub.**
+
+### 3.1. Persist locally
+The conversation with the AI is ephemeral, but the complete functionality remains **persisted in your files**. If you lose the LLM's context window, you can resume the conversation without losing progress.
 
 ```
 docs/features/
 ├── text_rendering.feature
 ├── column_layout.feature
-├── button_interaction.feature
 └── ...
 ```
 
-### This is the key to freeing up context
+### 3.2. Sync with GitHub (Mandatory)
+For every `.feature` file created, a corresponding **GitHub Issue** must be opened to track its progress in the cloud.
 
-The conversation with the AI is ephemeral, but the complete functionality remains **persisted in your files**. If you lose the LLM's context window, you can resume the conversation without losing progress.
-
-**Example prompt:**
-
-> "Create the .feature files in docs/features/ with all the scenarios you just generated."
+1.  **Create Issue:** Use the GitHub CLI to create an issue with the feature description.
+    ```bash
+    gh issue create --title "Feature: [Name]" --body-file docs/features/[name].feature
+    ```
+2.  **Assign to Milestone:** Link the issue to the current release target (e.g., `v0.1.0-alpha`).
+3.  **Add to Project:** Add the issue to the GitHub Project and set its status to "In Progress".
 
 ---
 
@@ -86,15 +90,17 @@ Create a `PROGRESS.md` file at the project root that acts as a **development tra
 ```markdown
 # PROGRESS
 
-## Feature: Rendering a Text component from JSON
+## Feature: Rendering a Text component from JSON (#12)
 - [x] Scenario: Render a basic Text
 - [x] Scenario: Render a Text with padding modifier
 - [ ] Scenario: Render a Text with custom color
 
-## Feature: Column Layout from JSON
+## Feature: Column Layout from JSON (#15)
 - [x] Scenario: Render a Column with children
 - [ ] Scenario: Render a Column with vertical arrangement
 ```
+
+**Note:** Always include the GitHub Issue number (#) next to the feature title for traceability.
 
 ### Let the AI manage it
 
@@ -117,8 +123,9 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 3. The AI implements the code needed to satisfy the scenario.
 4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test).
 5. The code is reviewed.
-6. A commit is made with a message referencing the scenario.
+6. A commit is made with a message referencing the scenario and the issue (e.g., `feat: basic Text [text.feature:Scenario 1] #12`).
 7. The AI updates `PROGRESS.md` marking the scenario as completed.
+8. **Finalize:** Once all scenarios in a feature are checked off, close the corresponding GitHub Issue.
 
 ### Iterative prompt example
 
@@ -135,13 +142,13 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 
 ## Summary
 
-| Step | Action | Artifact |
-|------|--------|----------|
-| 1 | Define the idea in natural language | High-level description |
-| 2 | Generate Gherkin features and scenarios | Scenarios in Gherkin format |
-| 3 | Persist in `.feature` files | `docs/features/*.feature` |
-| 4 | Create progress tracker | `PROGRESS.md` |
-| 5 | Develop scenario by scenario | Code + atomic commits |
+| Step | Action | Artifact | GitHub Action |
+|------|--------|----------|---------------|
+| 1 | Define the idea | High-level description | - |
+| 2 | Generate Gherkin | Scenarios Gherkin | - |
+| 3 | Persist and Sync | `docs/features/*.feature` | **Create Issue + Milestone** |
+| 4 | Create tracker | `PROGRESS.md` | **Add to Project** |
+| 5 | Develop scenario | Code + atomic commits | **Close Issue on completion** |
 
 ---
 
