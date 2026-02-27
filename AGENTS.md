@@ -449,6 +449,8 @@ Compose parameter type?
 └── Other Compose types     → TODO / special implementation needed
 ```
 
+See [Local GitHub Management](docs/github-management.md) for instructions on how to manage issues and projects locally.
+
 See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for the full rationale behind the dual-property pattern.
 
 ## Code Conventions
