@@ -26,62 +26,20 @@ Progress: [███████████████████░░░░
 ## Dependency Graph
 
 ```
-phase-1-solidify-library ✅
+phase-3-expand-library ← IN PROGRESS
   │
-  ├── phase-actions-system ✅
-  │     │
-  │     ├── phase-demo-showcase ✅
-  │     │
-  │     └── phase-3-expand-library ← IN PROGRESS
-  │           │
-  │           ├── phase-2-editor-mvp
-  │           │
-  │           └── phase-4-semantics-testability
-  │                 │
-  └─────────────────┴── phase-3-differentiators
+  ├── phase-2-editor-mvp
+  │
+  └── phase-4-semantics-testability
+        │
+  ──────┴── phase-3-differentiators
 ```
 
 ---
 
 ## Recommended Development Order
 
-### 1. phase-1-solidify-library
-
-**Status:** ✅ Complete (187/187 — 100%)
-**Module:** `library/`
-**Summary:** Foundation — tests, 6 new components (Card, Dialog, TopAppBar, BottomBar, Switch, Checkbox), 6 new modifiers (Border, Shadow, Clip, Shape, Alpha, Rotate), JSON validation, KDoc, demo app showcase.
-
-### 2. phase-actions-system
-
-**Status:** ✅ Complete (37/37 — 100%)
-**Module:** `library/`
-**Summary:** Declarative state and behaviors from JSON. ComposeAction (SetState, ToggleState, Log, Sequence, Custom), ComposeDocument, ActionDispatcher, auto-wiring, custom action handlers, backward compatibility.
-
-### 3. phase-demo-showcase
-
-**Status:** ✅ Complete (36/36 — 100%)
-**Module:** `composeApp/`
-**Depends on:** phase-1 ✅, phase-actions-system ✅
-
-**Why next:**
-
-- Uses **only** the existing 18 components + 14 modifiers + actions system — no new library work needed.
-- Quick win with high visibility: produces a shareable, multi-screen demo app.
-- Demonstrates the library's real capabilities to potential adopters.
-- Independent of `composy/` — does not block or get blocked by the editor.
-- Validates that the actions system works in a real multi-screen navigation scenario.
-
-**Features:**
-| Feature | Scenarios |
-|---------|-----------|
-| Navigation Infrastructure | 6 |
-| App Shell with Scaffold and Design Language | 4 |
-| Catalog Screen — Home | 5 |
-| Components Screen — Interactive Demos | 8 |
-| Styles Screen — Modifier Gallery | 7 |
-| Multi-Platform Compilation | 6 |
-
-### 4. phase-3-expand-library
+### 1. phase-3-expand-library
 
 **Status:** 🏗️ In Progress (35/236 — 15%)
 **Module:** `library/`
@@ -114,11 +72,11 @@ phase-1-solidify-library ✅
 | Existing Component Properties | 19 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | 🔜 Pending |
 | Advanced Actions | 16 | Navigate, Conditional, Delay, IncrementState, LaunchUrl, CopyToClipboard, UpdateList | 🔜 Pending |
 
-### 5. phase-2-editor-mvp
+### 2. phase-2-editor-mvp
 
 **Status:** 📋 Planned (0/54 — 0%)
 **Module:** `composy/`
-**Depends on:** phase-1 ✅. Benefits from phase-3-expand-library.
+**Depends on:** Benefits from phase-3-expand-library.
 
 **Why after expand:**
 
@@ -138,7 +96,7 @@ phase-1-solidify-library ✅
 | JSON Export and Import | 8 |
 | Critical Editor Bug Fixes | 8 |
 
-### 6. phase-4-semantics-testability
+### 3. phase-4-semantics-testability
 
 **Status:** 📋 Planned (0/26 — 0%)
 **Module:** `library/`
@@ -158,7 +116,7 @@ phase-1-solidify-library ✅
 | Layout Semantics | 5 |
 | Component Semantics | 6 |
 
-### 7. phase-3-differentiators
+### 4. phase-3-differentiators
 
 **Status:** 📋 Planned (0/37 — 0%)
 **Module:** `composy/`, `server/`, `intellij-plugin/` (new), deployment
