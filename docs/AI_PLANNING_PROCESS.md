@@ -12,7 +12,7 @@ Capture the core idea of the project or milestone in plain language. You don't n
 
 - Focus on the first milestone, not the entire application lifecycle.
 - Use natural language, without unnecessary technical jargon.
-- Describe the *what*, not the *how*.
+- Describe the _what_, not the _how_.
 
 **Example:**
 
@@ -60,6 +60,7 @@ Feature: Rendering a Text component from JSON
 Create a `docs/features/` folder and ask the AI to create the `.feature` files with their scenarios. **This is also where the local planning is synchronized with GitHub.**
 
 ### 3.1. Persist locally
+
 The conversation with the AI is ephemeral, but the complete functionality remains **persisted in your files**. If you lose the LLM's context window, you can resume the conversation without losing progress.
 
 ```
@@ -70,6 +71,7 @@ docs/features/
 ```
 
 ### 3.2. Sync with GitHub (Mandatory)
+
 For every `.feature` file created, a corresponding **GitHub Issue** must be opened to track its progress in the cloud.
 
 1.  **Create Issue:** Use the GitHub CLI to create an issue with the feature description.
@@ -91,11 +93,13 @@ Create a `PROGRESS.md` file at the project root that acts as a **development tra
 # PROGRESS
 
 ## Feature: Rendering a Text component from JSON (#12)
+
 - [x] Scenario: Render a basic Text
 - [x] Scenario: Render a Text with padding modifier
 - [ ] Scenario: Render a Text with custom color
 
 ## Feature: Column Layout from JSON (#15)
+
 - [x] Scenario: Render a Column with children
 - [ ] Scenario: Render a Column with vertical arrangement
 ```
@@ -124,8 +128,9 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test).
 5. The code is reviewed.
 6. A commit is made with a message referencing the scenario and the issue (e.g., `feat: basic Text [text.feature:Scenario 1] #12`).
-7. The AI updates `PROGRESS.md` marking the scenario as completed.
-8. **Finalize:** Once all scenarios in a feature are checked off, close the corresponding GitHub Issue.
+7. The AI updates the specific phase `PROGRESS.md` marking the scenario as completed.
+8. **CRITICAL:** The AI MUST immediately update the main `docs/projects/PROGRESS.md` file to reflect the new totals and percentages. Both files must ALWAYS remain in perfect sync.
+9. **Finalize:** Once all scenarios in a feature are checked off, close the corresponding GitHub Issue.
 
 ### Iterative prompt example
 
@@ -142,13 +147,13 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 
 ## Summary
 
-| Step | Action | Artifact | GitHub Action |
-|------|--------|----------|---------------|
-| 1 | Define the idea | High-level description | - |
-| 2 | Generate Gherkin | Scenarios Gherkin | - |
-| 3 | Persist and Sync | `docs/features/*.feature` | **Create Issue + Milestone** |
-| 4 | Create tracker | `PROGRESS.md` | **Add to Project** |
-| 5 | Develop scenario | Code + atomic commits | **Close Issue on completion** |
+| Step | Action           | Artifact                  | GitHub Action                 |
+| ---- | ---------------- | ------------------------- | ----------------------------- |
+| 1    | Define the idea  | High-level description    | -                             |
+| 2    | Generate Gherkin | Scenarios Gherkin         | -                             |
+| 3    | Persist and Sync | `docs/features/*.feature` | **Create Issue + Milestone**  |
+| 4    | Create tracker   | `PROGRESS.md`             | **Add to Project**            |
+| 5    | Develop scenario | Code + atomic commits     | **Close Issue on completion** |
 
 ---
 

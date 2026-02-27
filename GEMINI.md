@@ -485,23 +485,23 @@ This project follows a **5-step process** for AI-assisted planning and developme
 1. **Define the idea in natural language** - Describe the milestone or functionality at a high level.
 2. **Generate Gherkin features and scenarios** - Ask the agent to propose features and scenarios in Gherkin format.
 3. **Persist and Sync (Mandatory)**:
-    - Create the `.feature` files in `docs/features/`.
-    - **GitHub Sync:** Create a GitHub Issue for each feature using the `gh` CLI.
-    - **GitHub Project:** Add the issues to the project and set status to "In Progress".
-    - **GitHub Milestone:** Assign the issues to the active Milestone (Release target).
+   - Create the `.feature` files in `docs/features/`.
+   - **GitHub Sync:** Create a GitHub Issue for each feature using the `gh` CLI.
+   - **GitHub Project:** Add the issues to the project and set status to "In Progress".
+   - **GitHub Milestone:** Assign the issues to the active Milestone (Release target).
 4. **Maintain `PROGRESS.md`** - Use a development tracker with a checklist of completed scenarios.
 5. **Develop scenario by scenario** - Implement, test, and commit each scenario independently.
 
 ### CRITICAL Instructions for the Agent
 
-- **BEFORE STARTING:** Always read `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
+- **BEFORE STARTING:** Always read the main `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
 - **GITHUB MANDATE:** You MUST ensure that every feature being worked on has a corresponding GitHub Issue, is part of the Project, and is assigned to a Milestone. Use `gh issue list` and `gh issue create` to verify/sync.
-- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario.
-- **UPON COMPLETION:** **You MUST update BOTH** the specific phase `PROGRESS.md` AND the main `docs/projects/PROGRESS.md` file. Close the corresponding GitHub Issue.
-- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/features/`, and update `PROGRESS.md`.
-- **When receiving "Develop the next scenario":** Read `PROGRESS.md`, identify the next pending scenario, read the corresponding `.feature`, implement the code, run the tests, and update `PROGRESS.md`.
+- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario. **CRITICALLY**, you MUST immediately update the matching numbers in the main `docs/projects/PROGRESS.md` file. The completed and total scenario counts and progress percentages of BOTH files must reflect EXACTLY the same reality.
+- **UPON COMPLETION:** Verify BOTH `PROGRESS.md` files are 100% synchronized. Close the corresponding GitHub Issue.
+- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/projects/<phase>/features/`, and update BOTH `PROGRESS.md` files.
+- **When receiving "Develop the next scenario":** Read BOTH `PROGRESS.md` files to identify the next pending scenario, read the corresponding `.feature`, implement the code, run tests, and update BOTH `PROGRESS.md` files to mark it completed.
 - **When completing a scenario:** Commit with a message referencing the scenario (e.g., `feat: render basic Text from JSON [text_rendering.feature:Scenario 1]`).
-- **If you lose context:** `PROGRESS.md` and `docs/features/*.feature` files contain everything needed to resume work.
+- **If you lose context:** Both `PROGRESS.md` files and `.feature` files contain everything needed to resume work.
 
 ### Planning Files Structure
 
