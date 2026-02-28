@@ -13,6 +13,8 @@ import com.jesusdmedinac.jsontocompose.renderer.ToBottomNavigationItem
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
 import com.jesusdmedinac.jsontocompose.renderer.ToButton
 import com.jesusdmedinac.jsontocompose.renderer.ToCard
+import com.jesusdmedinac.jsontocompose.renderer.ToElevatedCard
+import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToCheckbox
 import com.jesusdmedinac.jsontocompose.renderer.ToColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToCustom
