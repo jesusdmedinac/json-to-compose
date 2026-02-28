@@ -642,6 +642,66 @@ private fun cardDemo(): ComposeNode = ComposeNode(
                     )
                 )
             ),
+            demoLabel("Elevated Card"),
+            ComposeNode(
+                type = ComposeType.ElevatedCard,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8),
+                    )
+                ),
+                properties = NodeProperties.CardProps(
+                    elevation = 12,
+                    cornerRadius = 24,
+                    child = ComposeNode(
+                        type = ComposeType.Column,
+                        properties = NodeProperties.ColumnProps(
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    composeModifier = ComposeModifier(
+                                        operations = listOf(ComposeModifier.Operation.Padding(16))
+                                    ),
+                                    properties = NodeProperties.TextProps(
+                                        text = "High elevation (12dp) with very rounded corners (24dp)"
+                                    ),
+                                ),
+                            )
+                        )
+                    )
+                )
+            ),
+            demoLabel("Outlined Card"),
+            ComposeNode(
+                type = ComposeType.OutlinedCard,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8),
+                    )
+                ),
+                properties = NodeProperties.OutlinedCardProps(
+                    borderColor = "#FF9C27B0", // Purple border
+                    cornerRadius = 8,
+                    child = ComposeNode(
+                        type = ComposeType.Column,
+                        properties = NodeProperties.ColumnProps(
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    composeModifier = ComposeModifier(
+                                        operations = listOf(ComposeModifier.Operation.Padding(16))
+                                    ),
+                                    properties = NodeProperties.TextProps(
+                                        text = "Border outlined in purple with 8dp rounded corners"
+                                    ),
+                                ),
+                            )
+                        )
+                    )
+                )
+            ),
         )
     )
 )

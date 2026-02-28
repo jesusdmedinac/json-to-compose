@@ -40,14 +40,14 @@
 
 ## Feature: Card Variant Components
 
-- [ ] Scenario: Render an ElevatedCard with Text child
-- [ ] Scenario: Render an ElevatedCard with custom elevation
-- [ ] Scenario: Render an OutlinedCard with Text child
-- [ ] Scenario: Render an OutlinedCard with custom border color
-- [ ] Scenario: Card variants support cornerRadius
-- [ ] Scenario: Serialize and deserialize card variants
-- [ ] Scenario: Update showcase with card variants
-- [ ] Scenario: Update main README.md with card variants
+- [x] Scenario: Render an ElevatedCard with Text child
+- [x] Scenario: Render an ElevatedCard with custom elevation
+- [x] Scenario: Render an OutlinedCard with Text child
+- [x] Scenario: Render an OutlinedCard with custom border color
+- [x] Scenario: Card variants support cornerRadius
+- [x] Scenario: Serialize and deserialize card variants
+- [x] Scenario: Update showcase with card variants
+- [x] Scenario: Update main README.md with card variants
 
 ## Feature: TextField Component Property Enhancement
 

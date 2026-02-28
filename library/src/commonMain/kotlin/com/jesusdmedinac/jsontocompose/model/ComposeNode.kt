@@ -60,6 +60,7 @@ data class ComposeNode(
         }
         is NodeProperties.ButtonProps -> listOfNotNull(child)
         is NodeProperties.CardProps -> listOfNotNull(child)
+        is NodeProperties.OutlinedCardProps -> listOfNotNull(child)
         is NodeProperties.FabProps -> listOfNotNull(icon)
         is NodeProperties.ScaffoldProps -> buildList {
             topBar?.let { add(it) }

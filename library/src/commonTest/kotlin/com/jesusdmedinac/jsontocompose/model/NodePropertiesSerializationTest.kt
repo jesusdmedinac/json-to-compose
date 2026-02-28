@@ -211,6 +211,27 @@ class NodePropertiesSerializationTest {
         assertEquals(16, decoded.cornerRadius)
     }
 
+    // --- Scenario 10.5: OutlinedCardProps serialization ---
+
+    @Test
+    fun outlinedCardPropsSerializationWithAllFields() {
+        val original = NodeProperties.OutlinedCardProps(
+            child = ComposeNode(
+                type = ComposeType.Text,
+                properties = NodeProperties.TextProps(text = "Outlined content")
+            ),
+            borderColor = "#FF000000",
+            cornerRadius = 24,
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.OutlinedCardProps>(decoded)
+        assertNotNull(decoded.child)
+        assertEquals("#FF000000", decoded.borderColor)
+        assertEquals(24, decoded.cornerRadius)
+    }
+
     // --- Scenario 11: DialogProps serialization with all fields ---
 
     @Test

@@ -300,6 +300,25 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
+     * Properties for a [ComposeType.OutlinedCard] component.
+     *
+     * @property child The single child node rendered inside the card.
+     * @property borderColor Custom border color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property borderColorStateHostName Name of a `StateHost<String>` for dynamic border color.
+     * @property cornerRadius The corner radius in dp.
+     * @property cornerRadiusStateHostName Name of a `StateHost<Int>` for dynamic corner radius.
+     */
+    @Serializable
+    @SerialName("OutlinedCardProps")
+    data class OutlinedCardProps(
+        val child: ComposeNode? = null,
+        val borderColor: String? = null,
+        val borderColorStateHostName: String? = null,
+        val cornerRadius: Int? = null,
+        val cornerRadiusStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
      * Properties for a [ComposeType.AlertDialog] component.
      *
      * @property confirmButton The node rendered as the confirm action button.
