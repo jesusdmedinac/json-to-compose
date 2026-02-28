@@ -13,11 +13,10 @@ import com.jesusdmedinac.jsontocompose.renderer.ToBottomNavigationItem
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
 import com.jesusdmedinac.jsontocompose.renderer.ToButton
 import com.jesusdmedinac.jsontocompose.renderer.ToCard
-import com.jesusdmedinac.jsontocompose.renderer.ToElevatedCard
-import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToCheckbox
 import com.jesusdmedinac.jsontocompose.renderer.ToColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToCustom
+import com.jesusdmedinac.jsontocompose.renderer.ToElevatedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToExtendedFloatingActionButton
 import com.jesusdmedinac.jsontocompose.renderer.ToFloatingActionButton
 import com.jesusdmedinac.jsontocompose.renderer.ToIcon
@@ -25,6 +24,7 @@ import com.jesusdmedinac.jsontocompose.renderer.ToIconButton
 import com.jesusdmedinac.jsontocompose.renderer.ToImage
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyRow
+import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToRow
 import com.jesusdmedinac.jsontocompose.renderer.ToScaffold
 import com.jesusdmedinac.jsontocompose.renderer.ToSpacer

@@ -8,7 +8,6 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.LocalRowScope
 import com.jesusdmedinac.jsontocompose.ToCompose
