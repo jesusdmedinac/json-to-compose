@@ -49,6 +49,10 @@ enum class ComposeType {
     Scaffold,
     /** Material Card container with elevation and shape. Uses [NodeProperties.CardProps]. */
     Card,
+    /** Material ElevatedCard container. Uses [NodeProperties.CardProps]. */
+    ElevatedCard,
+    /** Material OutlinedCard container. Uses [NodeProperties.OutlinedCardProps]. */
+    OutlinedCard,
     /** Material AlertDialog with confirm/dismiss buttons. Uses [NodeProperties.AlertDialogProps]. */
     AlertDialog,
     /** Material TopAppBar with title, navigation icon, and actions. Uses [NodeProperties.TopAppBarProps]. */
@@ -83,7 +87,9 @@ enum class ComposeType {
         FilledTonalButton,
         IconButton,
         FloatingActionButton,
-        Card -> true
+        Card,
+        ElevatedCard,
+        OutlinedCard -> true
 
         else -> false
     }

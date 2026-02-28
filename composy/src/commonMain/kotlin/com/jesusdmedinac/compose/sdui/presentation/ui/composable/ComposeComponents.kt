@@ -194,6 +194,8 @@ fun ComposeComponent(
                 ComposeType.FloatingActionButton -> Lucide.CirclePlus
                 ComposeType.ExtendedFloatingActionButton -> Lucide.Plus
                 ComposeType.OutlinedTextField -> Lucide.TextCursor
+                ComposeType.ElevatedCard -> Lucide.Layers
+                ComposeType.OutlinedCard -> Lucide.Layers
             },
             contentDescription = type.name
         )
