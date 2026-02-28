@@ -193,6 +193,7 @@ fun ComposeComponent(
                 ComposeType.IconButton -> Lucide.Circle
                 ComposeType.FloatingActionButton -> Lucide.CirclePlus
                 ComposeType.ExtendedFloatingActionButton -> Lucide.Plus
+                ComposeType.OutlinedTextField -> Lucide.TextCursor
             },
             contentDescription = type.name
         )
