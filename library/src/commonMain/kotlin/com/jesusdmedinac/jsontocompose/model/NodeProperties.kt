@@ -229,12 +229,40 @@ sealed interface NodeProperties {
      * @property value The initial text value of the field.
      * @property valueStateHostName Name of a `StateHost<String>` that provides and receives the text value.
      *   Required for the TextField to render — without it, the field is not displayed.
+     * @property placeholder The node rendered as the placeholder text.
+     * @property label The node rendered as the label text.
+     * @property leadingIcon The node rendered as the leading icon.
+     * @property trailingIcon The node rendered as the trailing icon.
+     * @property isError Whether the text field is in an error state.
+     * @property isErrorStateHostName Name of a `StateHost<Boolean>` for dynamic error state.
+     * @property supportingText The node rendered as supporting text.
+     * @property singleLine Whether the text field is a single line.
+     * @property maxLines The maximum height in terms of maximum number of visible lines.
+     * @property keyboardType The keyboard type (e.g., "Text", "Number", "Email", "Password").
+     * @property visualTransformation The visual transformation (e.g., "Password", "None").
+     * @property readOnly Whether the text field is read only.
+     * @property prefix The node rendered as the prefix text.
+     * @property suffix The node rendered as the suffix text.
      */
     @Serializable
     @SerialName("TextFieldProps")
     data class TextFieldProps(
         val value: String? = null,
         val valueStateHostName: String? = null,
+        val placeholder: ComposeNode? = null,
+        val label: ComposeNode? = null,
+        val leadingIcon: ComposeNode? = null,
+        val trailingIcon: ComposeNode? = null,
+        val isError: Boolean? = null,
+        val isErrorStateHostName: String? = null,
+        val supportingText: ComposeNode? = null,
+        val singleLine: Boolean? = null,
+        val maxLines: Int? = null,
+        val keyboardType: String? = null,
+        val visualTransformation: String? = null,
+        val readOnly: Boolean? = null,
+        val prefix: ComposeNode? = null,
+        val suffix: ComposeNode? = null,
     ) : NodeProperties
 
     /**
@@ -337,7 +365,7 @@ sealed interface NodeProperties {
      * Properties for a [ComposeType.BottomNavigationItem] component.
      *
      * @property selected Whether this item is currently selected.
-     * @property selectedStateHostName Name of a `StateHost<String>` for dynamic selection state.
+     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
      * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
      *   invoked when the item is clicked.
      * @property label The node rendered as the item label (typically a Text node).

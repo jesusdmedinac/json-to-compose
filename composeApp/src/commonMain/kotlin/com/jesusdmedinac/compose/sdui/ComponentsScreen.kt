@@ -470,14 +470,58 @@ private fun textFieldDemo(): ComposeNode = ComposeNode(
     ),
     properties = NodeProperties.ColumnProps(
         children = listOf(
-            demoLabel("TextField"),
+            demoLabel("TextField (Basic)"),
             ComposeNode(
                 type = ComposeType.TextField,
                 composeModifier = ComposeModifier(
                     operations = listOf(ComposeModifier.Operation.FillMaxWidth)
                 ),
                 properties = NodeProperties.TextFieldProps(
-                    valueStateHostName = "text_field_value"
+                    valueStateHostName = "text_field_value",
+                    label = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Enter text")),
+                    placeholder = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Placeholder...")),
+                ),
+            ),
+            demoLabel("TextField (Error & Supporting text)"),
+            ComposeNode(
+                type = ComposeType.TextField,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.TextFieldProps(
+                    valueStateHostName = "text_field_value",
+                    isError = true,
+                    supportingText = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Please enter a valid value")),
+                ),
+            ),
+            demoLabel("OutlinedTextField (Icons & Keyboard)"),
+            ComposeNode(
+                type = ComposeType.OutlinedTextField,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.TextFieldProps(
+                    valueStateHostName = "text_field_value",
+                    label = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Email address")),
+                    leadingIcon = ComposeNode(ComposeType.Icon, NodeProperties.IconProps(iconName = "Email")),
+                    trailingIcon = ComposeNode(ComposeType.Icon, NodeProperties.IconProps(iconName = "Clear")),
+                    keyboardType = "Email",
+                    singleLine = true,
+                ),
+            ),
+            demoLabel("TextField (Password & Prefix/Suffix)"),
+            ComposeNode(
+                type = ComposeType.TextField,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.TextFieldProps(
+                    valueStateHostName = "text_field_value",
+                    label = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Password")),
+                    visualTransformation = "Password",
+                    keyboardType = "Password",
+                    prefix = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "key: ")),
+                    suffix = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = " *")),
                 ),
             ),
         )

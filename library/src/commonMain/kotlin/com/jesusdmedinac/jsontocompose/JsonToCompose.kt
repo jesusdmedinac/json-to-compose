@@ -108,7 +108,8 @@ fun ComposeNode.ToCompose() {
         ComposeType.ExtendedFloatingActionButton -> ToExtendedFloatingActionButton()
 
         ComposeType.Image -> ToImage()
-        ComposeType.TextField -> ToTextField()
+        ComposeType.TextField,
+        ComposeType.OutlinedTextField -> ToTextField()
         ComposeType.LazyColumn -> ToLazyColumn()
         ComposeType.LazyRow -> ToLazyRow()
         ComposeType.Scaffold -> ToScaffold()

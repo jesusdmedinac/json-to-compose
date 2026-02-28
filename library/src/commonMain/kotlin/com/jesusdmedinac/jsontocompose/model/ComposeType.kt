@@ -39,6 +39,8 @@ enum class ComposeType {
     Image,
     /** Editable text input field. Uses [NodeProperties.TextFieldProps]. */
     TextField,
+    /** Outlined editable text input field. Uses [NodeProperties.TextFieldProps]. */
+    OutlinedTextField,
     /** Vertically scrolling lazy list. Uses [NodeProperties.ColumnProps]. */
     LazyColumn,
     /** Horizontally scrolling lazy list. Uses [NodeProperties.RowProps]. */
