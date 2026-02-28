@@ -307,6 +307,8 @@ CompositionLocalProvider(
 
 ## Testing & Semantics for Testability
 
+For detailed instructions on how to set up, write, and run UI tests for Compose Multiplatform, see [Compose Multiplatform UI Testing](docs/COMPOSE_MULTIPLATFORM_TESTING.md).
+
 To enable rigorous UI testing, visual properties that are not natively exposed by Compose semantics (like custom `fontSize`, `color`, `padding`, etc.) must be explicitly attached to the component's semantic tree using custom `SemanticsPropertyKey`s.
 
 ### Pattern: Exposing Properties

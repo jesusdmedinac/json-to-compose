@@ -317,14 +317,10 @@ Composy is a web and desktop app that facilitates the creation of JSON structure
 
 This library prioritizes rigorous UI testing. Beyond basic existence checks, it exposes visual properties (like `fontSize`, `color`, `padding`, and layout arrangements) through **Jetpack Compose Semantics**.
 
-This allows you to write tests that verify the exact visual state of your server-driven UI:
-
-```kotlin
-onNodeWithTag("Text").assert(SemanticsMatcher.expectValue(FontSizeKey, 32.sp))
-onNodeWithTag("Box").assert(SemanticsMatcher.expectValue(PaddingKey, 16.dp))
-```
-
-For detailed guidance, see the [Testing Guide](docs/projects/phase-1-solidify-library/TESTING_GUIDE.md) and [Semantics Phase](docs/projects/phase-4-semantics-testability/README.md).
+For detailed guidance, see:
+- [Compose Multiplatform UI Testing](docs/COMPOSE_MULTIPLATFORM_TESTING.md) - General overview and tutorial.
+- [Testing Guide (Phase 1)](docs/projects/phase-1-solidify-library/TESTING_GUIDE.md) - Project-specific testing patterns.
+- [Semantics Phase](docs/projects/phase-4-semantics-testability/README.md) - Details on semantic-based testing.
 
 ## 📚 Documentation
 

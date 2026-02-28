@@ -8,6 +8,8 @@ UI testing in Compose Multiplatform uses the same **finders**, **assertions**, *
 
 > The common test API does **not** rely on JUnit's `TestRule` class. Instead, you call the `runComposeUiTest` function and invoke test functions on the `ComposeUiTest` receiver.
 
+For a broader overview and tutorial-style guide, see [Compose Multiplatform UI Testing](../../COMPOSE_MULTIPLATFORM_TESTING.md).
+
 JUnit-based API is available only for the desktop (JVM) target.
 
 The API is **Experimental** and may change in the future.
