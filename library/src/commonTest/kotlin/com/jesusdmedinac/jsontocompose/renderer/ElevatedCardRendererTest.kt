@@ -59,5 +59,8 @@ class ElevatedCardRendererTest {
         onNodeWithTag("ElevatedCard").assertExists()
         onNodeWithTag("ElevatedCard").assertIsDisplayed()
         onNodeWithText("Elevated 12dp").assertIsDisplayed()
+        val props = node.properties as NodeProperties.CardProps
+        assertEquals(12, props.elevation)
+        assertEquals(24, props.cornerRadius)
     }
 }

@@ -1,6 +1,7 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ fun ComposeNode.ToElevatedCard() {
     ElevatedCard(
         modifier = modifier,
         shape = RoundedCornerShape(cornerRadius.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = elevation.dp)
     ) {
         props.child?.ToCompose()
     }

@@ -638,7 +638,7 @@ private fun cardDemo(): ComposeNode = ComposeNode(
                     )
                 ),
                 properties = NodeProperties.OutlinedCardProps(
-                    borderColor = "#FF9C27B0", // Purple border
+                    borderColor = DemoPalette.primary, // Purple border
                     cornerRadius = 8,
                     child = ComposeNode(
                         type = ComposeType.Column,

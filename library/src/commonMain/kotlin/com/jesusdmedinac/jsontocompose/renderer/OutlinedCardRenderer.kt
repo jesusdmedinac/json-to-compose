@@ -2,6 +2,7 @@ package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,17 +15,18 @@ import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 
-fun String.toColorOrNull(): Color? {
-    return try {
-        if (this.startsWith("#")) {
-            Color(this.substring(1).toLong(16) or 0x00000000)
-        } else {
-            null
-        }
-    } catch (e: Exception) {
+fun String.toColorOrNull(): Color? = runCatching {
+    if (!startsWith("#")) {
         null
+    } else {
+        var colorString = substring(1)
+        if (colorString.length == 6) {
+            colorString = "FF$colorString"
+        }
+        Color(colorString.toLong(16))
     }
 }
+    .getOrNull()
 
 @Composable
 fun ComposeNode.ToOutlinedCard() {
@@ -44,22 +46,14 @@ fun ComposeNode.ToOutlinedCard() {
     )
 
     val borderColor = borderColorString?.toColorOrNull()
-    val borderStroke = if (borderColor != null) BorderStroke(1.dp, borderColor) else null
+    val borderStroke = if (borderColor != null) BorderStroke(1.dp, borderColor)
+    else CardDefaults.outlinedCardBorder()
 
-    if (borderStroke != null) {
-        OutlinedCard(
-            modifier = modifier,
-            shape = RoundedCornerShape(cornerRadius.dp),
-            border = borderStroke
-        ) {
-            props.child?.ToCompose()
-        }
-    } else {
-        OutlinedCard(
-            modifier = modifier,
-            shape = RoundedCornerShape(cornerRadius.dp),
-        ) {
-            props.child?.ToCompose()
-        }
+    OutlinedCard(
+        modifier = modifier,
+        shape = RoundedCornerShape(cornerRadius.dp),
+        border = borderStroke
+    ) {
+        props.child?.ToCompose()
     }
 }

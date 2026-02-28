@@ -59,5 +59,7 @@ class OutlinedCardRendererTest {
         onNodeWithTag("OutlinedCard").assertExists()
         onNodeWithTag("OutlinedCard").assertIsDisplayed()
         onNodeWithText("Outlined Black").assertIsDisplayed()
+        val props = node.properties as NodeProperties.OutlinedCardProps
+        assertEquals("#FF000000", props.borderColor)
     }
 }
