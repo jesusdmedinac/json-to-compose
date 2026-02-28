@@ -1,6 +1,7 @@
 # PROGRESS - Phase 3: Expand Library — Full Component & Modifier Coverage
 
 ## Feature: Text Component Property Enhancement
+
 - [x] Scenario: Render Text with fontSize
 - [x] Scenario: Render Text with fontWeight Bold
 - [x] Scenario: Render Text with fontWeight Light
@@ -21,6 +22,7 @@
 - [x] Scenario: Update main README.md with Text property enhancements
 
 ## Feature: Button Variant Components
+
 - [x] Scenario: Render an OutlinedButton with Text child
 - [x] Scenario: Render a TextButton with Text child
 - [x] Scenario: Render an ElevatedButton with Text child
@@ -37,16 +39,18 @@
 - [x] Scenario: Update main README.md with all button variants
 
 ## Feature: Card Variant Components
-- [ ] Scenario: Render an ElevatedCard with Text child
-- [ ] Scenario: Render an ElevatedCard with custom elevation
-- [ ] Scenario: Render an OutlinedCard with Text child
-- [ ] Scenario: Render an OutlinedCard with custom border color
-- [ ] Scenario: Card variants support cornerRadius
-- [ ] Scenario: Serialize and deserialize card variants
-- [ ] Scenario: Update showcase with card variants
-- [ ] Scenario: Update main README.md with card variants
+
+- [x] Scenario: Render an ElevatedCard with Text child
+- [x] Scenario: Render an ElevatedCard with custom elevation
+- [x] Scenario: Render an OutlinedCard with Text child
+- [x] Scenario: Render an OutlinedCard with custom border color
+- [x] Scenario: Card variants support cornerRadius
+- [x] Scenario: Serialize and deserialize card variants
+- [x] Scenario: Update showcase with card variants
+- [x] Scenario: Update main README.md with card variants
 
 ## Feature: TextField Component Property Enhancement
+
 - [ ] Scenario: Render TextField with placeholder text
 - [ ] Scenario: Render TextField with label
 - [ ] Scenario: Render TextField with leadingIcon
@@ -67,6 +71,7 @@
 - [ ] Scenario: Update main README.md with TextField enhancements
 
 ## Feature: Navigation Components
+
 - [ ] Scenario: Render a NavigationBar with three items
 - [ ] Scenario: Render a NavigationBarItem with icon and label
 - [ ] Scenario: NavigationBarItem selection controlled by state
@@ -86,6 +91,7 @@
 - [ ] Scenario: Update main README.md with navigation components
 
 ## Feature: Input Components
+
 - [ ] Scenario: Render a Slider with default range 0 to 1
 - [ ] Scenario: Render a Slider with custom valueRange
 - [ ] Scenario: Render a Slider with steps
@@ -108,6 +114,7 @@
 - [ ] Scenario: Update main README.md with input components
 
 ## Feature: Layout Components
+
 - [ ] Scenario: Render a Spacer with fixed height
 - [ ] Scenario: Render a Spacer with fixed width in a Row
 - [ ] Scenario: Render a Spacer with weight modifier in a Column
@@ -126,6 +133,7 @@
 - [ ] Scenario: Update main README.md with layout components
 
 ## Feature: Pager Components
+
 - [ ] Scenario: Render a HorizontalPager with pages
 - [ ] Scenario: HorizontalPager current page controlled by state
 - [ ] Scenario: HorizontalPager page change updates state
@@ -138,6 +146,7 @@
 - [ ] Scenario: Update main README.md with pager components
 
 ## Feature: ModalBottomSheet Component
+
 - [ ] Scenario: Render a ModalBottomSheet with content
 - [ ] Scenario: ModalBottomSheet hidden when state is false
 - [ ] Scenario: ModalBottomSheet dismiss updates state
@@ -150,6 +159,7 @@
 - [ ] Scenario: Update main README.md with ModalBottomSheet
 
 ## Feature: Display Components
+
 - [x] Scenario: Render an Icon by name
 - [x] Scenario: Render an Icon with custom tint color
 - [ ] Scenario: Render an Icon with custom size via modifier
@@ -176,6 +186,7 @@
 - [ ] Scenario: Update main README.md with display components
 
 ## Feature: Snackbar Component and Integration
+
 - [ ] Scenario: Render a Scaffold with SnackbarHost
 - [ ] Scenario: Show a Snackbar via ShowSnackbar action
 - [ ] Scenario: Show a Snackbar with action button
@@ -188,6 +199,7 @@
 - [ ] Scenario: Update main README.md with Snackbar integration
 
 ## Feature: ListItem Component
+
 - [ ] Scenario: Render a ListItem with headline text
 - [ ] Scenario: Render a ListItem with headline and supporting text
 - [ ] Scenario: Render a ListItem with overline text
@@ -202,6 +214,7 @@
 - [ ] Scenario: Update main README.md with ListItem
 
 ## Feature: Missing Modifier Operations
+
 - [ ] Scenario: Apply Clickable modifier with onClick event
 - [ ] Scenario: Apply Clickable modifier with ripple indication
 - [ ] Scenario: Apply Weight modifier in a Column
@@ -228,6 +241,7 @@
 - [ ] Scenario: Update main README.md with new modifiers
 
 ## Feature: Enhanced Properties for Existing Components
+
 - [ ] Scenario: Render Image with alignment
 - [ ] Scenario: Render Image with colorFilter tint
 - [ ] Scenario: Render Button with custom shape
@@ -249,6 +263,7 @@
 - [ ] Scenario: Update main README.md with enhanced properties
 
 ## Feature: Advanced Action Types
+
 - [ ] Scenario: Navigate action changes current route
 - [ ] Scenario: Navigate action with arguments
 - [ ] Scenario: NavigateBack action pops the navigation stack

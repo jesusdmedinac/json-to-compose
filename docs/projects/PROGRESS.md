@@ -9,14 +9,14 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 35        | **15%**  |
+| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 43        | **18%**  |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **613**   | **295**   | **48%**  |
+|     | **TOTAL**                                                         |               | **613**   | **303**   | **49%**  |
 
 ```
-Progress: [███████████████████░░░░░░░░░░░░░░░░░░░░░] 48%
+Progress: [███████████████████░░░░░░░░░░░░░░░░░░░░░] 49%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
@@ -41,7 +41,7 @@ phase-3-expand-library ← IN PROGRESS
 
 ### 1. phase-3-expand-library
 
-**Status:** 🏗️ In Progress (35/236 — 15%)
+**Status:** 🏗️ In Progress (43/236 — 18%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -58,7 +58,7 @@ phase-3-expand-library ← IN PROGRESS
 |---------|-----------|--------------|--------|
 | Text Enhancement | 18 | fontSize, fontWeight, color, textAlign, maxLines, overflow, etc. | ✅ Done |
 | Button Variants | 14 | OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton, FAB | ✅ Done |
-| Card Variants | 8 | ElevatedCard, OutlinedCard | 🔜 Pending |
+| Card Variants | 8 | ElevatedCard, OutlinedCard | ✅ Done |
 | TextField Enhancement | 18 | placeholder, label, icons, isError, keyboardType, password, OutlinedTextField | 🔜 Pending |
 | Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | 🔜 Pending |
 | Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |

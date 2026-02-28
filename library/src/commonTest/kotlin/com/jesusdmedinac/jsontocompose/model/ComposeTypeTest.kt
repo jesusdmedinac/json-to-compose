@@ -42,6 +42,8 @@ class ComposeTypeTest {
     fun hasChildReturnsTrueForSingleChildTypes() {
         assertTrue(ComposeType.Button.hasChild())
         assertTrue(ComposeType.Card.hasChild())
+        assertTrue(ComposeType.ElevatedCard.hasChild())
+        assertTrue(ComposeType.OutlinedCard.hasChild())
     }
 
     // --- Scenario 4: hasChild returns false for non-single-child types ---
