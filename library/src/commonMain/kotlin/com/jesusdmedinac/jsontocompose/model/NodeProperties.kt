@@ -365,7 +365,7 @@ sealed interface NodeProperties {
      * Properties for a [ComposeType.BottomNavigationItem] component.
      *
      * @property selected Whether this item is currently selected.
-     * @property selectedStateHostName Name of a `StateHost<String>` for dynamic selection state.
+     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
      * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
      *   invoked when the item is clicked.
      * @property label The node rendered as the item label (typically a Text node).
