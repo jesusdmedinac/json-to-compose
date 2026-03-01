@@ -34,7 +34,11 @@ fun ComposeNode.ToButton() {
     val modifier = (Modifier from composeModifier).testTag(type.name)
 
     val onClick: () -> Unit = {
-        behavior?.invoke()
+        if (behavior != null) {
+            behavior.invoke()
+        } else if (onClickEventName != null) {
+            println("Warning: Behavior for event \"$onClickEventName\" not found in LocalBehavior.")
+        }
     }
     val buttonContent: @Composable RowScope.() -> Unit = {
         child?.ToCompose()

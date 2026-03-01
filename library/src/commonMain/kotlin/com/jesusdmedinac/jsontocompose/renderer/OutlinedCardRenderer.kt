@@ -15,19 +15,6 @@ import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 
-fun String.toColorOrNull(): Color? = runCatching {
-    if (!startsWith("#")) {
-        null
-    } else {
-        var colorString = substring(1)
-        if (colorString.length == 6) {
-            colorString = "FF$colorString"
-        }
-        Color(colorString.toLong(16))
-    }
-}
-    .getOrNull()
-
 @Composable
 fun ComposeNode.ToOutlinedCard() {
     val props = properties as? NodeProperties.OutlinedCardProps ?: return
@@ -45,7 +32,7 @@ fun ComposeNode.ToOutlinedCard() {
         defaultValue = 0,
     )
 
-    val borderColor = borderColorString?.toColorOrNull()
+    val borderColor = borderColorString?.toColor()
     val borderStroke = if (borderColor != null) BorderStroke(1.dp, borderColor)
     else CardDefaults.outlinedCardBorder()
 

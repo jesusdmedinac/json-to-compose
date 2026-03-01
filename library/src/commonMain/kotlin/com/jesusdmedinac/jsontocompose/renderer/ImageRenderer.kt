@@ -69,6 +69,7 @@ fun ComposeNode.ToImage() {
                     modifier = modifier
                 )
             } else {
+                println("Warning: Image resource \"$resourceName\" not found in LocalDrawableResources.")
                 Box(modifier = modifier.background(Color.LightGray)) {
                     Text("Res not found: $resourceName", modifier = Modifier.padding(4.dp))
                 }

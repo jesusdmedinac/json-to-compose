@@ -37,7 +37,11 @@ fun ComposeNode.ToAlertDialog() {
         modifier = modifier,
         onDismissRequest = {
             visibilityStateHost?.onStateChange(false)
-            behavior?.invoke()
+            if (behavior != null) {
+                behavior.invoke()
+            } else if (onClickEventName != null) {
+                println("Warning: Behavior for event \"$onClickEventName\" not found in LocalBehavior.")
+            }
         },
         title = {
             props.title?.ToCompose()

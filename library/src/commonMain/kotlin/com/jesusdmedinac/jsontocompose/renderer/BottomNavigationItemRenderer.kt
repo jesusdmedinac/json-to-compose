@@ -41,7 +41,15 @@ fun ComposeNode.ToBottomNavigationItem() {
         BottomNavigationItem(
             selected = selected,
             onClick = {
-                props.onClickEventName?.let { behaviors[it]?.invoke() }
+                val eventName = props.onClickEventName
+                if (eventName != null) {
+                    val behavior = behaviors[eventName]
+                    if (behavior != null) {
+                        behavior.invoke()
+                    } else {
+                        println("Warning: Behavior for event \"$eventName\" not found in LocalBehavior.")
+                    }
+                }
             },
             modifier = (Modifier from composeModifier).testTag(type.name),
             enabled = enabled,
