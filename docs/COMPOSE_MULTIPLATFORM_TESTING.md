@@ -141,12 +141,23 @@ This ensures that the tests in `commonTest` are included in the Android instrume
 
 ## Running Tests
 
-| Platform | Command |
-|----------|---------|
-| Desktop | `./gradlew :library:desktopTest` |
-| iOS Simulator | `./gradlew :library:iosSimulatorArm64Test` |
-| Android (Unit) | `./gradlew :library:testDebugUnitTest` |
-| Wasm (Headless) | `./gradlew :library:wasmJsBrowserTest` |
+### Mandatory Testing Rules for Agents
+
+> [!CAUTION]
+> **DO NOT** use `./gradlew :library:test` to run UI tests. This command attempts to run tests as standard Android Unit Tests, which lacks a UI environment and will result in a `NullPointerException` (typically at the import or initialization level).
+
+To verify UI changes, you **must** use target-specific commands:
+
+| Platform | Command | Recommended Use |
+|----------|---------|-----------------|
+| **Desktop (JVM)** | `./gradlew :library:desktopTest` | **Primary validation.** Fast, headless-capable, and reliable for common logic. |
+| iOS Simulator | `./gradlew :library:iosSimulatorArm64Test` | Platform-specific UI validation. |
+| Android (Inst.) | `./gradlew :library:connectedDebugAndroidTest` | Real device/emulator validation. |
+| Wasm (Browser) | `./gradlew :library:wasmJsBrowserTest` | Web environment validation. |
+
+### Why `./gradlew :library:test` fails?
+
+In a Kotlin Multiplatform project, the `:library:test` task is a meta-task that triggers all platform unit tests. On Android, the `test` task (e.g., `testDebugUnitTest`) runs in a "headless" JVM environment without the Compose UI machinery or Android resources. When `runComposeUiTest` is invoked in this environment, it fails to initialize the UI host, leading to a `NullPointerException`.
 
 ## Best Practices for Agents
 

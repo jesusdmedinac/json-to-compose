@@ -319,6 +319,7 @@ This library prioritizes rigorous UI testing. Beyond basic existence checks, it 
 
 For detailed guidance, see:
 - [Compose Multiplatform UI Testing](docs/COMPOSE_MULTIPLATFORM_TESTING.md) - General overview and tutorial.
+  - **Note:** Do NOT use `./gradlew :library:test` for UI tests as it will cause a `NullPointerException` on Android Unit Tests. Use `./gradlew :library:desktopTest` instead.
 - [Testing Guide (Phase 1)](docs/projects/phase-1-solidify-library/TESTING_GUIDE.md) - Project-specific testing patterns.
 - [Semantics Phase](docs/projects/phase-4-semantics-testability/README.md) - Details on semantic-based testing.
 

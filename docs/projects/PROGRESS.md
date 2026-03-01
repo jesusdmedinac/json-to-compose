@@ -1,6 +1,10 @@
 # PROGRESS — json-to-compose Project Roadmap
 
-> Last updated: 2026-02-10
+> [!IMPORTANT]
+> **Mandatory Workflow Requirement:** To avoid a `NullPointerException` (NPE) in Android Unit Tests, agents **must NOT** run UI tests using `./gradlew :library:test`. Instead, always use `./gradlew :library:desktopTest` for primary validation.
+> See the [Compose Multiplatform UI Testing Guide](../COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
+
+> Last updated: 2026-02-28
 
 ## Overall Progress
 

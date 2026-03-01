@@ -521,26 +521,30 @@ json-to-compose/
 │       └── ...
 ```
 
+## Mandatory Testing Rules for Agents
+
+To avoid a `NullPointerException` (NPE) in Android Unit Tests, you **must NOT** run UI tests using `./gradlew :library:test`. Instead, always target a specific platform that supports the UI environment.
+
+- **Primary Validation:** Always use `./gradlew :library:desktopTest`.
+- **Target-Specific:** See [Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more commands.
+
 ## Useful Gradle Commands
 
 ```bash
 # Build library
 ./gradlew :library:build
 
-# Tests
-./gradlew :library:test
+# Recommended UI Tests (Desktop)
+./gradlew :library:desktopTest
 
-# Publish to Maven Local (for testing)
-./gradlew :library:publishToMavenLocal
+# Android Instrumented Tests (Real Device/Emulator)
+./gradlew :library:connectedDebugAndroidTest
 
-# Run demo app (Desktop)
-./gradlew :composeApp:run
+# iOS Simulator Tests
+./gradlew :library:iosSimulatorArm64Test
 
-# Run Composy editor (Desktop)
-./gradlew :composy:run
-
-# Ktor Server
-./gradlew :server:run
+# Wasm Browser Tests
+./gradlew :library:wasmJsBrowserTest
 ```
 
 ## Full JSON Example
