@@ -1,7 +1,6 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -10,7 +9,6 @@ import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals

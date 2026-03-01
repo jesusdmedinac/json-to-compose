@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonElement
  * A self-contained document that describes an entire interactive UI screen.
  *
  * Combines three concerns into a single serializable payload:
- * - [initialState]: named state values that become [com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost] instances at runtime
+ * - [initialState]: named state values that become [com.jesusdmedinac.jsontocompose.state.MutableStateHost] instances at runtime
  * - [actions]: named action lists that become [com.jesusdmedinac.jsontocompose.behavior.Behavior] instances at runtime
  * - [root]: the UI tree rendered via `ComposeNode.ToCompose()`
  *

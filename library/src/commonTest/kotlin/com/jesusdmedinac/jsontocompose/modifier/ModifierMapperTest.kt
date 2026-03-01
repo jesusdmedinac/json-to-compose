@@ -1,20 +1,17 @@
 package com.jesusdmedinac.jsontocompose.modifier
 
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
-import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.renderer.ToText
+import com.jesusdmedinac.jsontocompose.renderer.toColor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -176,33 +173,22 @@ class ModifierMapperTest {
     }
 
     @Test
-    fun backgroundColorWithInvalidColorFallsBackToWhite() {
-        // toColorInt with invalid hex should return Color.White
-        val color = "invalid".toColorInt()
+    fun backgroundColorWithInvalidColorFallsBackToUnspecified() {
+        // toColor with invalid hex should return Color.Unspecified
+        val color = "invalid".toColor()
         assertEquals(
-            expected = androidx.compose.ui.graphics.Color.White,
-            actual = color,
-            message = "Invalid hex color should fall back to Color.White"
-        )
-    }
-
-    @Test
-    fun backgroundColorWithShortHexFallsBackToWhite() {
-        // "#FF00FF" is only 7 chars, not 9 (#AARRGGBB)
-        val color = "#FF00FF".toColorInt()
-        assertEquals(
-            expected = androidx.compose.ui.graphics.Color.White,
-            actual = color,
-            message = "Short hex color should fall back to Color.White"
+            expected = Color.Unspecified.value,
+            actual = color.value,
+            message = "Invalid hex color should fall back to Color.Unspecified"
         )
     }
 
     @Test
     fun backgroundColorWithValidHexParsesCorrectly() {
         // #FF0000FF = alpha=FF, red=00, green=00, blue=FF
-        val color = "#FF0000FF".toColorInt()
+        val color = "#FF0000FF".toColor()
         assertEquals(
-            expected = androidx.compose.ui.graphics.Color(red = 0, green = 0, blue = 255, alpha = 255),
+            expected = Color(red = 0, green = 0, blue = 255, alpha = 255),
             actual = color,
             message = "Valid hex #FF0000FF should parse to blue with full alpha"
         )
@@ -211,9 +197,9 @@ class ModifierMapperTest {
     @Test
     fun backgroundColorRedParsesCorrectly() {
         // #FFFF0000 = alpha=FF, red=FF, green=00, blue=00
-        val color = "#FFFF0000".toColorInt()
+        val color = "#FFFF0000".toColor()
         assertEquals(
-            expected = androidx.compose.ui.graphics.Color(red = 255, green = 0, blue = 0, alpha = 255),
+            expected = Color(red = 255, green = 0, blue = 0, alpha = 255),
             actual = color,
             message = "Valid hex #FFFF0000 should parse to red with full alpha"
         )

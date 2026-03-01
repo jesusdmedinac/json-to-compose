@@ -17,9 +17,6 @@ object DemoPalette {
     const val surface = "#FFF5F5F5"
     const val divider = "#FFE0E0E0"
     const val background = "#FFFFFFFF"
-
-    val primaryArgb: Int = 0xFF1565C0.toInt()
-    val primaryDarkArgb: Int = 0xFF0D47A1.toInt()
 }
 
 fun sectionHeader(title: String): ComposeNode = ComposeNode(

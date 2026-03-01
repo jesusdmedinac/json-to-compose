@@ -1,5 +1,8 @@
 # AGENTS.md - Guide for AI Agents
 
+> [!IMPORTANT]
+> This file must always be kept in sync with `GEMINI.md`. Any changes made here must be reflected in `GEMINI.md` and vice-versa.
+
 This document provides essential context for AI agents to collaborate effectively on this project.
 
 ## Overview
@@ -22,6 +25,7 @@ json-to-compose/
 ### Main Module: `/library`
 
 Location of core code:
+
 ```
 library/src/commonMain/kotlin/com/jesusdmedinac/jsontocompose/
 ├── JsonToCompose.kt              → Entry point, CompositionLocals, router
@@ -89,22 +93,22 @@ fun ComposeNode.ToCompose() {
 
 ### Supported Components
 
-| Type | Props Class | Category |
-|------|-------------|-----------|
-| Text | TextProps | Leaf |
-| Image | ImageProps | Leaf |
-| TextField | TextFieldProps | Leaf |
-| Button | ButtonProps | Single Child |
-| Scaffold | ScaffoldProps | Single Child |
-| Card | CardProps | Single Child |
-| Column | ColumnProps | Container |
-| Row | RowProps | Container |
-| Box | BoxProps | Container |
-| LazyColumn | ColumnProps | Container (lazy) |
-| LazyRow | RowProps | Container (lazy) |
-| AlertDialog | AlertDialogProps | Dialog |
-| TopAppBar | TopAppBarProps | Navigation |
-| Custom | CustomProps | Extensible |
+| Type        | Props Class      | Category         |
+| ----------- | ---------------- | ---------------- |
+| Text        | TextProps        | Leaf             |
+| Image       | ImageProps       | Leaf             |
+| TextField   | TextFieldProps   | Leaf             |
+| Button      | ButtonProps      | Single Child     |
+| Scaffold    | ScaffoldProps    | Single Child     |
+| Card        | CardProps        | Single Child     |
+| Column      | ColumnProps      | Container        |
+| Row         | RowProps         | Container        |
+| Box         | BoxProps         | Container        |
+| LazyColumn  | ColumnProps      | Container (lazy) |
+| LazyRow     | RowProps         | Container (lazy) |
+| AlertDialog | AlertDialogProps | Dialog           |
+| TopAppBar   | TopAppBarProps   | Navigation       |
+| Custom      | CustomProps      | Extensible       |
 
 ## How to Add a New Component
 
@@ -223,19 +227,20 @@ ComposeNode(
 
 ### Available Operations
 
-| Operation | Parameters | Effect |
-|-----------|------------|--------|
-| Padding | `value: Int` | Padding in dp |
-| FillMaxSize | - | Fills width and height |
-| FillMaxWidth | - | Fills width |
-| FillMaxHeight | - | Fills height |
-| Width | `value: Int` | Fixed width in dp |
-| Height | `value: Int` | Fixed height in dp |
+| Operation       | Parameters         | Effect                 |
+| --------------- | ------------------ | ---------------------- |
+| Padding         | `value: Int`       | Padding in dp          |
+| FillMaxSize     | -                  | Fills width and height |
+| FillMaxWidth    | -                  | Fills width            |
+| FillMaxHeight   | -                  | Fills height           |
+| Width           | `value: Int`       | Fixed width in dp      |
+| Height          | `value: Int`       | Fixed height in dp     |
 | BackgroundColor | `hexColor: String` | ARGB Color (#AARRGGBB) |
 
 ### Add New Modifier Operation
 
 1. **Add to enum** (`modifier/ModifierMapper.kt:15-23`):
+
 ```kotlin
 enum class ModifierOperation {
     // ... existing
@@ -244,6 +249,7 @@ enum class ModifierOperation {
 ```
 
 2. **Create sealed class** (`model/ComposeModifier.kt`):
+
 ```kotlin
 @Serializable
 @SerialName("NewOperation")
@@ -253,6 +259,7 @@ data class NewOperation(val value: Int) : Operation(
 ```
 
 3. **Implement in mapper** (`modifier/ModifierMapper.kt:25-39`):
+
 ```kotlin
 is ComposeModifier.Operation.NewOperation -> result.newOperation(operation.value.dp)
 ```
@@ -260,11 +267,13 @@ is ComposeModifier.Operation.NewOperation -> result.newOperation(operation.value
 ## Dependency Injection (CompositionLocal)
 
 ### Drawable Resources
+
 ```kotlin
 val LocalDrawableResources = staticCompositionLocalOf<Map<String, DrawableResource>> { emptyMap() }
 ```
 
 ### Behaviors (Clicks)
+
 ```kotlin
 val LocalBehavior = staticCompositionLocalOf<Map<String, Behavior>> { emptyMap() }
 
@@ -274,16 +283,18 @@ interface Behavior {
 ```
 
 ### State (TextField)
+
 ```kotlin
 val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { emptyMap() }
 
 interface StateHost<T> {
     val state: T
-    fun onStateChange(newState: T)
+    fun onStateChange(state: T)
 }
 ```
 
 ### Usage in App
+
 ```kotlin
 CompositionLocalProvider(
     LocalDrawableResources provides mapOf("icon" to Res.drawable.icon),
@@ -294,21 +305,61 @@ CompositionLocalProvider(
 }
 ```
 
+## Testing & Semantics for Testability
+
+For detailed instructions on how to set up, write, and run UI tests for Compose Multiplatform, see [Compose Multiplatform UI Testing](docs/COMPOSE_MULTIPLATFORM_TESTING.md).
+
+To enable rigorous UI testing, visual properties that are not natively exposed by Compose semantics (like custom `fontSize`, `color`, `padding`, etc.) must be explicitly attached to the component's semantic tree using custom `SemanticsPropertyKey`s.
+
+### Pattern: Exposing Properties
+
+1. **Define Keys:** In the renderer or a dedicated semantics file:
+
+```kotlin
+val FontSizeKey = SemanticsPropertyKey<TextUnit>("FontSize")
+var SemanticsPropertyReceiver.fontSize by FontSizeKey
+```
+
+2. **Attach in Renderer:**
+
+```kotlin
+Text(
+    text = text,
+    modifier = modifier.semantics {
+        this.fontSize = resolvedFontSize
+    },
+    fontSize = resolvedFontSize
+)
+```
+
+3. **Verify in Tests:**
+
+```kotlin
+onNodeWithTag("Text").assert(SemanticsMatcher.expectValue(FontSizeKey, 24.sp))
+```
+
+Always prefer semantic assertions over simple existence checks (`assertExists`) when testing properties that affect visual correctness or dynamic state-driven updates.
+
 ## Alignment and Arrangement
 
 ### 2D Alignment (Box)
+
 `TopStart`, `TopCenter`, `TopEnd`, `CenterStart`, `Center`, `CenterEnd`, `BottomStart`, `BottomCenter`, `BottomEnd`
 
 ### Vertical Alignment (Row)
+
 `Top`, `CenterVertically`, `Bottom`
 
 ### Horizontal Alignment (Column)
+
 `Start`, `CenterHorizontally`, `End`
 
 ### Vertical Arrangement (Column/LazyColumn)
+
 `Top`, `Bottom`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
 
 ### Horizontal Arrangement (Row/LazyRow)
+
 `Start`, `End`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
 
 ## Type Mapping: Compose Parameters → NodeProperties
@@ -323,12 +374,14 @@ These values support **two modes**: static (inline value from JSON) and dynamic 
 - `val fooStateHostName: String? = null` — StateHost name for dynamic use cases
 
 **Resolution order** (implemented by `resolveStateHostValue()` in `state/StateHostResolver.kt`):
+
 1. StateHost registered with the given name → use its `.state` value
 2. StateHost name provided but not registered → log warning, fall back to inline value
 3. Inline value provided → use it
 4. Neither provided → use sensible default (same as the original Compose parameter default)
 
 **In the renderer**, use the helper:
+
 ```kotlin
 val (selected, _) = resolveStateHostValue(
     stateHostName = props.selectedStateHostName,
@@ -377,14 +430,14 @@ Non-composable lambdas (click handlers, change listeners) are mapped to **behavi
 
 These types belong to the Compose framework and cannot be serialized directly to JSON. Each requires its own mapping strategy:
 
-| Compose type | json-to-compose strategy |
-|---|---|
-| `Modifier` | Handled via `ComposeModifier` (list of serializable `Operation`s) |
-| `Color` | Mapped as `Int?` (ARGB integer, e.g. `0xFFFF0000`), converted in renderer with `Color(value)` |
-| `Dp` / `Dp.Elevation` | Mapped as `Int?` or `Float?`, converted with `.dp` |
-| `MutableInteractionSource` | **Not yet supported** — mark with `// TODO: Support interactionSource` |
-| `ContentColor` | Mapped as `Int?`, same as Color |
-| `TextStyle`, `FontWeight` | Require dedicated mapping (see existing `TextProps` for reference) |
+| Compose type               | json-to-compose strategy                                                                      |
+| -------------------------- | --------------------------------------------------------------------------------------------- |
+| `Modifier`                 | Handled via `ComposeModifier` (list of serializable `Operation`s)                             |
+| `Color`                    | Mapped as `Int?` (ARGB integer, e.g. `0xFFFF0000`), converted in renderer with `Color(value)` |
+| `Dp` / `Dp.Elevation`      | Mapped as `Int?` or `Float?`, converted with `.dp`                                            |
+| `MutableInteractionSource` | **Not yet supported** — mark with `// TODO: Support interactionSource`                        |
+| `ContentColor`             | Mapped as `Int?`, same as Color                                                               |
+| `TextStyle`, `FontWeight`  | Require dedicated mapping (see existing `TextProps` for reference)                            |
 
 ### 5. Summary decision tree
 
@@ -401,21 +454,26 @@ Compose parameter type?
 └── Other Compose types     → TODO / special implementation needed
 ```
 
+See [Local GitHub Management](docs/github-management.md) for instructions on how to manage issues and projects locally.
+
 See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for the full rationale behind the dual-property pattern.
 
 ## Code Conventions
 
 ### Naming
+
 - **Props:** `{ComponentName}Props` (e.g., `ColumnProps`, `TextProps`)
 - **Renderers:** `To{ComponentName}()` as `ComposeNode` extension function
 - **Mappers:** `to{TargetType}()` as String extension function
 
 ### Serialization
+
 - Use `@Serializable` in all data classes
 - Use `@SerialName("ExplicitName")` for JSON control
 - Use `@Transient` for fields that should not be serialized
 
 ### Patterns
+
 - Nullable props with default values: `val prop: Type? = null`
 - Early return if props don't match: `val props = properties as? Props ?: return`
 - Modifier always applied: `val modifier = Modifier from composeModifier`
@@ -424,23 +482,31 @@ See [ADR-003](docs/adr/ADR-003-optional-statehost-with-inline-defaults.md) for t
 
 This project follows a **5-step process** for AI-assisted planning and development. All agents collaborating on this project must follow this methodology. The full guide is located at [`docs/AI_PLANNING_PROCESS.md`](docs/AI_PLANNING_PROCESS.md).
 
+For guidelines on how to handle multiple concurrent features without branch conflicts, refer to the [Git Worktrees Guide](docs/GIT_WORKTREES_GUIDE.md).
+
 ### Process Summary
 
 1. **Define the idea in natural language** - Describe the milestone or functionality at a high level.
 2. **Generate Gherkin features and scenarios** - Ask the agent to propose features and scenarios in Gherkin format.
-3. **Persist in `.feature` files** - Create the files in `docs/features/` to free up conversation context.
+3. **Persist and Sync (Mandatory)**:
+   - Create the `.feature` files in `docs/features/`.
+   - **GitHub Sync:** Create a GitHub Issue for each feature using the `gh` CLI.
+   - **GitHub Project:** Add the issues to the project and set status to "In Progress".
+   - **GitHub Milestone:** Assign the issues to the active Milestone (Release target).
 4. **Maintain `PROGRESS.md`** - Use a development tracker with a checklist of completed scenarios.
 5. **Develop scenario by scenario** - Implement, test, and commit each scenario independently.
 
 ### CRITICAL Instructions for the Agent
 
-- **BEFORE STARTING:** Always read `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
-- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario.
-- **UPON COMPLETION:** **You MUST update BOTH** the specific phase `PROGRESS.md` AND the main `docs/projects/PROGRESS.md` file to ensure they stay in sync. This is mandatory for every completed task or scenario.
-- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/features/`, and update `PROGRESS.md`.
-- **When receiving "Develop the next scenario":** Read `PROGRESS.md`, identify the next pending scenario, read the corresponding `.feature`, implement the code, run the tests, and update `PROGRESS.md`.
+- **BEFORE STARTING:** Always read the main `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
+- **GIT WORKTREES:** When working on a new feature, ALWAYS create a new Git Worktree outside the main repository (e.g., `git worktree add ../json-to-compose-feat -b <feat-branch>`) as specified in the [Git Worktrees Guide](docs/GIT_WORKTREES_GUIDE.md).
+- **GITHUB MANDATE:** You MUST ensure that every feature being worked on has a corresponding GitHub Issue, is part of the Project, and is assigned to a Milestone. Use `gh issue list` and `gh issue create` to verify/sync.
+- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario. **CRITICALLY**, you MUST immediately update the matching numbers in the main `docs/projects/PROGRESS.md` file. The completed and total scenario counts and progress percentages of BOTH files must reflect EXACTLY the same reality.
+- **UPON COMPLETION:** Verify BOTH `PROGRESS.md` files are 100% synchronized. Close the corresponding GitHub Issue.
+- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/projects/<phase>/features/`, and update BOTH `PROGRESS.md` files.
+- **When receiving "Develop the next scenario":** Read BOTH `PROGRESS.md` files to identify the next pending scenario, read the corresponding `.feature`, implement the code, run tests, and update BOTH `PROGRESS.md` files to mark it completed.
 - **When completing a scenario:** Commit with a message referencing the scenario (e.g., `feat: render basic Text from JSON [text_rendering.feature:Scenario 1]`).
-- **If you lose context:** `PROGRESS.md` and `docs/features/*.feature` files contain everything needed to resume work.
+- **If you lose context:** Both `PROGRESS.md` files and `.feature` files contain everything needed to resume work.
 
 ### Planning Files Structure
 
@@ -455,26 +521,30 @@ json-to-compose/
 │       └── ...
 ```
 
+## Mandatory Testing Rules for Agents
+
+To avoid a `NullPointerException` (NPE) in Android Unit Tests, you **must NOT** run UI tests using `./gradlew :library:test`. Instead, always target a specific platform that supports the UI environment.
+
+- **Primary Validation:** Always use `./gradlew :library:desktopTest`.
+- **Target-Specific:** See [Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more commands.
+
 ## Useful Gradle Commands
 
 ```bash
 # Build library
 ./gradlew :library:build
 
-# Tests
-./gradlew :library:test
+# Recommended UI Tests (Desktop)
+./gradlew :library:desktopTest
 
-# Publish to Maven Local (for testing)
-./gradlew :library:publishToMavenLocal
+# Android Instrumented Tests (Real Device/Emulator)
+./gradlew :library:connectedDebugAndroidTest
 
-# Run demo app (Desktop)
-./gradlew :composeApp:run
+# iOS Simulator Tests
+./gradlew :library:iosSimulatorArm64Test
 
-# Run Composy editor (Desktop)
-./gradlew :composy:run
-
-# Ktor Server
-./gradlew :server:run
+# Wasm Browser Tests
+./gradlew :library:wasmJsBrowserTest
 ```
 
 ## Full JSON Example
@@ -492,9 +562,7 @@ json-to-compose/
           "text": "Hello World"
         },
         "composeModifier": {
-          "operations": [
-            { "type": "Padding", "value": 16 }
-          ]
+          "operations": [{ "type": "Padding", "value": 16 }]
         }
       },
       {
@@ -516,9 +584,7 @@ json-to-compose/
     "horizontalAlignment": "CenterHorizontally"
   },
   "composeModifier": {
-    "operations": [
-      { "type": "FillMaxSize" }
-    ]
+    "operations": [{ "type": "FillMaxSize" }]
   }
 }
 ```

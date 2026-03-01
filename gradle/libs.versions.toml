@@ -4,7 +4,7 @@ android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "34"
 filekitCompose = "0.8.8"
-iconsLucide = "1.1.0"
+iconsLucide = "2.2.1"
 kotlin = "2.2.21"
 androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.9.1"
@@ -23,37 +23,54 @@ coil = "3.3.0"
 dokka = "2.0.0"
 
 [libraries]
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
-material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }
-supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt" }
-filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
+# Testing
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version = "1.2.1" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version = "3.6.1" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version = "1.7.0" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.7.0" }
+
+# Icons & UI
+icons-lucide-cmp = { module = "com.composables:icons-lucide-cmp", version.ref = "iconsLucide" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+filekit-compose = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekitCompose" }
+
+# AndroidX
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+# Navigation & Voyager
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 voyager-bottom-sheet-navigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+
+# DI (Koin)
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
+
+# Network & Backend
+supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase-bom" }
+supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+
+# Utils
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "ktor" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

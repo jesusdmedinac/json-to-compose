@@ -1,7 +1,7 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer
+package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.layout.Arrangement
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.exception.ArrangementException
+import com.jesusdmedinac.jsontocompose.exception.ArrangementException
 
 /**
  * Maps this string to an arrangement usable for both horizontal and vertical axes.

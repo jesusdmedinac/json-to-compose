@@ -16,20 +16,18 @@ import com.jesusdmedinac.jsontocompose.LocalCustomRenderers
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
+import com.jesusdmedinac.jsontocompose.state.MutableStateHost
+import com.jesusdmedinac.jsontocompose.state.StateHost
 import json_to_compose.composeapp.generated.resources.Res
 import json_to_compose.composeapp.generated.resources.compose_multiplatform
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.jsonPrimitive
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -596,13 +594,13 @@ fun App() {
                                     type = ComposeType.Text,
                                     properties = NodeProperties.TextProps(text = "JSON to Compose"),
                                 ),
-                                backgroundColor = DemoPalette.primaryDarkArgb,
+                                backgroundColor = DemoPalette.primaryDark,
                             )
                         ),
                         bottomBar = ComposeNode(
                             type = ComposeType.BottomBar,
                             properties = NodeProperties.BottomBarProps(
-                                backgroundColor = DemoPalette.primaryArgb,
+                                backgroundColor = DemoPalette.primary,
                                 children = listOf(
                                     ComposeNode(
                                         type = ComposeType.BottomNavigationItem,

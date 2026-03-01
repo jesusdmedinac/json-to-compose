@@ -1,7 +1,7 @@
-package com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.renderer
+package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.ui.Alignment
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.exception.AlignmentException
+import com.jesusdmedinac.jsontocompose.exception.AlignmentException
 
 /**
  * Maps this string to a two-dimensional [Alignment].

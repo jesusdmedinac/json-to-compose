@@ -81,3 +81,13 @@ Feature: Navigation Components rendered from JSON
     Given JSON strings for NavigationBar, NavigationBarItem, NavigationRail, NavigationRailItem, ModalNavigationDrawer, TabRow, ScrollableTabRow, and Tab
     When each is deserialized to ComposeNode and serialized back
     Then each resulting JSON maintains all navigation component properties
+
+  Scenario: Update showcase with this feature
+    Given the demo app showcase
+    When the feature properties are added to the showcase
+    Then the demo app should render the feature correctly
+
+  Scenario: Update main README.md with this feature
+    Given the library documentation
+    When the feature properties are added to the README.md
+    Then the documentation should reflect the support for this feature

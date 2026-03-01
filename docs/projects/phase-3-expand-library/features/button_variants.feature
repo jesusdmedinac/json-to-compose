@@ -64,3 +64,13 @@ Feature: Button Variant Components rendered from JSON
     Given JSON strings for OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton, FloatingActionButton, and ExtendedFloatingActionButton
     When each is deserialized to ComposeNode and serialized back
     Then each resulting JSON maintains all button variant properties
+
+  Scenario: Update showcase with all button variants
+    Given the demo app showcase
+    When all button variants are added to the showcase
+    Then the demo app should render all button types correctly
+
+  Scenario: Update main README.md with all button variants
+    Given the library documentation
+    When all button variants are added to the README.md
+    Then the documentation should reflect the support for all button types

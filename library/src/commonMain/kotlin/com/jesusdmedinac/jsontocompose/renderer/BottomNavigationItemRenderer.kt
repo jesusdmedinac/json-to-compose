@@ -10,10 +10,10 @@ import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalRowScope
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
+import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 
 @Composable
 fun ComposeNode.ToBottomNavigationItem() {

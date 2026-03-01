@@ -73,7 +73,7 @@ kotlin {
             implementation(libs.supabase.auth)
             implementation(libs.ktor.client.core)
             implementation(libs.material.kolor)
-            implementation(libs.icons.lucide)
+            implementation(libs.icons.lucide.cmp)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

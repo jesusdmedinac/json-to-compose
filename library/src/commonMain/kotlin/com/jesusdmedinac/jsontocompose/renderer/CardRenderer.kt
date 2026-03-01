@@ -1,16 +1,17 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
+import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 
 @Composable
 fun ComposeNode.ToCard() {
@@ -30,7 +31,7 @@ fun ComposeNode.ToCard() {
 
     Card(
         modifier = modifier,
-        elevation = elevation.dp,
+        elevation = CardDefaults.cardElevation(defaultElevation = elevation.dp),
         shape = RoundedCornerShape(cornerRadius.dp),
     ) {
         props.child?.ToCompose()

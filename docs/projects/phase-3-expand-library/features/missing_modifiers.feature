@@ -123,3 +123,13 @@ Feature: Missing Modifier Operations
     Given JSON strings for Clickable, Weight, VerticalScroll, HorizontalScroll, Offset, Size, WrapContentWidth, WrapContentHeight, AspectRatio, ZIndex, MinWidth, MinHeight, MaxWidth, MaxHeight, AnimateContentSize, and TestTag modifiers
     When each is deserialized to ComposeModifier and serialized back
     Then each resulting JSON maintains all modifier properties
+
+  Scenario: Update showcase with this feature
+    Given the demo app showcase
+    When the feature properties are added to the showcase
+    Then the demo app should render the feature correctly
+
+  Scenario: Update main README.md with this feature
+    Given the library documentation
+    When the feature properties are added to the README.md
+    Then the documentation should reflect the support for this feature

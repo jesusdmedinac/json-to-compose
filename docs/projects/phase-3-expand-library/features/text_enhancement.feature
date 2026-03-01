@@ -83,3 +83,13 @@ Feature: Text Component Property Enhancement
     Given a JSON string with a Text node containing fontSize, fontWeight, color, textAlign, maxLines, and textDecoration
     When deserialized to ComposeNode and serialized back
     Then the resulting JSON maintains all Text typography properties
+
+  Scenario: Update showcase with Text property enhancements
+    Given the demo app showcase
+    When the text_enhancement properties are added to the showcase
+    Then the demo app should render text with the new typography properties
+
+  Scenario: Update main README.md with Text property enhancements
+    Given the library documentation
+    When the text_enhancement properties are added to the README.md
+    Then the documentation should reflect the new text properties support

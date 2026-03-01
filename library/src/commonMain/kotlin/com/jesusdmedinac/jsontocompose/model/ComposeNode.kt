@@ -48,6 +48,35 @@ data class ComposeNode(
         is NodeProperties.ColumnProps -> children
         is NodeProperties.RowProps -> children
         is NodeProperties.BoxProps -> children
+        is NodeProperties.TopAppBarProps -> buildList {
+            title?.let { add(it) }
+            navigationIcon?.let { add(it) }
+            actions?.let { addAll(it) }
+        }
+        is NodeProperties.BottomBarProps -> children
+        is NodeProperties.ExtendedFabProps -> buildList {
+            icon?.let { add(it) }
+            text?.let { add(it) }
+        }
+        is NodeProperties.ButtonProps -> listOfNotNull(child)
+        is NodeProperties.CardProps -> listOfNotNull(child)
+        is NodeProperties.OutlinedCardProps -> listOfNotNull(child)
+        is NodeProperties.FabProps -> listOfNotNull(icon)
+        is NodeProperties.ScaffoldProps -> buildList {
+            topBar?.let { add(it) }
+            bottomBar?.let { add(it) }
+            child?.let { add(it) }
+        }
+        is NodeProperties.AlertDialogProps -> buildList {
+            title?.let { add(it) }
+            text?.let { add(it) }
+            confirmButton?.let { add(it) }
+            dismissButton?.let { add(it) }
+        }
+        is NodeProperties.BottomNavigationItemProps -> buildList {
+            icon?.let { add(it) }
+            label?.let { add(it) }
+        }
         else -> null
     } ?: emptyList()
 
@@ -74,19 +103,11 @@ data class ComposeNode(
     /**
      * Flattens this node and all its descendants into a single list (pre-order traversal).
      *
-     * Includes children from container properties (Column, Row, Box) and single-child
-     * properties (Button, Card).
+     * Includes all children from any property that contains ComposeNode(s).
      */
     fun asList(): List<ComposeNode> {
         val list = mutableListOf<ComposeNode>()
         list.add(this)
-        val child = when (properties) {
-            is NodeProperties.ButtonProps -> properties.child
-            is NodeProperties.CardProps -> properties.child
-            is NodeProperties.AlertDialogProps -> null
-            else -> null
-        }
-        child?.let { list.add(it) }
         val children = properties.children()
         children.forEach {
             list.addAll(it.asList())

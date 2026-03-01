@@ -20,26 +20,127 @@ sealed interface NodeProperties {
      *
      * @property text The static text to display.
      * @property textStateHostName Name of a `StateHost<String>` that provides the text dynamically.
+     * @property fontSize The font size in sp.
+     * @property fontSizeStateHostName Name of a `StateHost<Double>` that provides the font size dynamically.
+     * @property fontWeight Font weight (e.g., "Bold", "Light", "Normal").
+     * @property fontWeightStateHostName Name of a `StateHost<String>` for dynamic font weight.
+     * @property fontStyle Font style ("Normal", "Italic").
+     * @property fontStyleStateHostName Name of a `StateHost<String>` for dynamic font style.
+     * @property color Text color as an ARGB integer.
+     * @property colorStateHostName Name of a `StateHost<Int>` for dynamic color.
+     * @property textAlign Text alignment ("Start", "Center", "End", "Justify").
+     * @property textAlignStateHostName Name of a `StateHost<String>` for dynamic text alignment.
+     * @property maxLines Maximum number of lines to display.
+     * @property maxLinesStateHostName Name of a `StateHost<Int>` for dynamic max lines.
+     * @property overflow Text overflow strategy ("Clip", "Ellipsis", "Visible").
+     * @property overflowStateHostName Name of a `StateHost<String>` for dynamic overflow.
+     * @property letterSpacing Letter spacing in sp.
+     * @property letterSpacingStateHostName Name of a `StateHost<Double>` for dynamic letter spacing.
+     * @property lineHeight Line height in sp.
+     * @property lineHeightStateHostName Name of a `StateHost<Double>` for dynamic line height.
+     * @property textDecoration Text decoration ("Underline", "LineThrough", "None").
+     * @property textDecorationStateHostName Name of a `StateHost<String>` for dynamic text decoration.
+     * @property minLines Minimum number of lines to display.
+     * @property minLinesStateHostName Name of a `StateHost<Int>` for dynamic min lines.
      */
     @Serializable
     @SerialName("TextProps")
     data class TextProps(
         val text: String? = null,
         val textStateHostName: String? = null,
+        val fontSize: Double? = null,
+        val fontSizeStateHostName: String? = null,
+        val fontWeight: String? = null,
+        val fontWeightStateHostName: String? = null,
+        val fontStyle: String? = null,
+        val fontStyleStateHostName: String? = null,
+        val color: String? = null,
+        val colorStateHostName: String? = null,
+        val textAlign: String? = null,
+        val textAlignStateHostName: String? = null,
+        val maxLines: Int? = null,
+        val maxLinesStateHostName: String? = null,
+        val overflow: String? = null,
+        val overflowStateHostName: String? = null,
+        val letterSpacing: Double? = null,
+        val letterSpacingStateHostName: String? = null,
+        val lineHeight: Double? = null,
+        val lineHeightStateHostName: String? = null,
+        val textDecoration: String? = null,
+        val textDecorationStateHostName: String? = null,
+        val minLines: Int? = null,
+        val minLinesStateHostName: String? = null,
     ) : NodeProperties
 
     /**
-     * Properties for a [ComposeType.Button] component.
+     * Properties for a [ComposeType.Icon] component.
+     *
+     * @property iconName The name of the icon.
+     * @property iconNameStateHostName Name of a `StateHost<String>` for dynamic icon selection.
+     * @property tint Tint color for the icon as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property tintStateHostName Name of a `StateHost<String>` for dynamic tint color.
+     * @property contentDescription Accessibility description for the icon.
+     */
+    @Serializable
+    @SerialName("IconProps")
+    data class IconProps(
+        val iconName: String? = null,
+        val iconNameStateHostName: String? = null,
+        val tint: String? = null,
+        val tintStateHostName: String? = null,
+        val contentDescription: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.Button] component and its variants (OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton).
      *
      * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
      *   invoked when the button is clicked.
      * @property child The single child node rendered inside the button.
+     * @property enabled Whether the button is enabled for interaction.
+     * @property enabledStateHostName Name of a `StateHost<Boolean>` for dynamic enabled state.
      */
     @Serializable
     @SerialName("ButtonProps")
     data class ButtonProps(
         val onClickEventName: String? = null,
         val child: ComposeNode? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.FloatingActionButton] component.
+     *
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the button is clicked.
+     * @property icon The icon node rendered inside the FAB.
+     * @property containerColor Background color of the FAB as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     */
+    @Serializable
+    @SerialName("FabProps")
+    data class FabProps(
+        val onClickEventName: String? = null,
+        val icon: ComposeNode? = null,
+        val containerColor: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.ExtendedFloatingActionButton] component.
+     *
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the button is clicked.
+     * @property icon The icon node rendered inside the FAB.
+     * @property text The text node rendered inside the FAB.
+     * @property containerColor Background color of the FAB as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     */
+    @Serializable
+    @SerialName("ExtendedFabProps")
+    data class ExtendedFabProps(
+        val onClickEventName: String? = null,
+        val icon: ComposeNode? = null,
+        val text: ComposeNode? = null,
+        val containerColor: String? = null,
     ) : NodeProperties
 
     /**
@@ -90,7 +191,7 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
-     * Singleton properties that represent a [Spacer] component. [Spacer] on compose just receive
+     * Singleton properties that represent a [ComposeType.Spacer] component. [ComposeType.Spacer] on compose just receive
      * a modifier, so SpacerProps is an empty object.
      */
     @Serializable
@@ -128,12 +229,40 @@ sealed interface NodeProperties {
      * @property value The initial text value of the field.
      * @property valueStateHostName Name of a `StateHost<String>` that provides and receives the text value.
      *   Required for the TextField to render — without it, the field is not displayed.
+     * @property placeholder The node rendered as the placeholder text.
+     * @property label The node rendered as the label text.
+     * @property leadingIcon The node rendered as the leading icon.
+     * @property trailingIcon The node rendered as the trailing icon.
+     * @property isError Whether the text field is in an error state.
+     * @property isErrorStateHostName Name of a `StateHost<Boolean>` for dynamic error state.
+     * @property supportingText The node rendered as supporting text.
+     * @property singleLine Whether the text field is a single line.
+     * @property maxLines The maximum height in terms of maximum number of visible lines.
+     * @property keyboardType The keyboard type (e.g., "Text", "Number", "Email", "Password").
+     * @property visualTransformation The visual transformation (e.g., "Password", "None").
+     * @property readOnly Whether the text field is read only.
+     * @property prefix The node rendered as the prefix text.
+     * @property suffix The node rendered as the suffix text.
      */
     @Serializable
     @SerialName("TextFieldProps")
     data class TextFieldProps(
         val value: String? = null,
         val valueStateHostName: String? = null,
+        val placeholder: ComposeNode? = null,
+        val label: ComposeNode? = null,
+        val leadingIcon: ComposeNode? = null,
+        val trailingIcon: ComposeNode? = null,
+        val isError: Boolean? = null,
+        val isErrorStateHostName: String? = null,
+        val supportingText: ComposeNode? = null,
+        val singleLine: Boolean? = null,
+        val maxLines: Int? = null,
+        val keyboardType: String? = null,
+        val visualTransformation: String? = null,
+        val readOnly: Boolean? = null,
+        val prefix: ComposeNode? = null,
+        val suffix: ComposeNode? = null,
     ) : NodeProperties
 
     /**
@@ -171,6 +300,25 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
+     * Properties for a [ComposeType.OutlinedCard] component.
+     *
+     * @property child The single child node rendered inside the card.
+     * @property borderColor Custom border color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property borderColorStateHostName Name of a `StateHost<String>` for dynamic border color.
+     * @property cornerRadius The corner radius in dp.
+     * @property cornerRadiusStateHostName Name of a `StateHost<Int>` for dynamic corner radius.
+     */
+    @Serializable
+    @SerialName("OutlinedCardProps")
+    data class OutlinedCardProps(
+        val child: ComposeNode? = null,
+        val borderColor: String? = null,
+        val borderColorStateHostName: String? = null,
+        val cornerRadius: Int? = null,
+        val cornerRadiusStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
      * Properties for a [ComposeType.AlertDialog] component.
      *
      * @property confirmButton The node rendered as the confirm action button.
@@ -192,8 +340,8 @@ sealed interface NodeProperties {
         val dismissButton: ComposeNode? = null,
         val title: ComposeNode? = null,
         val text: ComposeNode? = null,
-        val backgroundColor: Int? = null,
-        val contentColor: Int? = null,
+        val backgroundColor: String? = null,
+        val contentColor: String? = null,
         val visibilityStateHostName: String? = null,
         val onDismissRequestEventName: String? = null,
     ) : NodeProperties
@@ -204,8 +352,8 @@ sealed interface NodeProperties {
      * @property title The node rendered as the app bar title.
      * @property navigationIcon The node rendered as the navigation icon (typically an Image or Button).
      * @property actions List of nodes rendered as action items in the app bar.
-     * @property backgroundColor Background color as an ARGB integer.
-     * @property contentColor Content color as an ARGB integer.
+     * @property backgroundColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
      */
     @Serializable
     @SerialName("TopAppBarProps")
@@ -213,23 +361,23 @@ sealed interface NodeProperties {
         val title: ComposeNode? = null,
         val navigationIcon: ComposeNode? = null,
         val actions: List<ComposeNode>? = null,
-        val backgroundColor: Int? = null,
-        val contentColor: Int? = null,
+        val backgroundColor: String? = null,
+        val contentColor: String? = null,
     ) : NodeProperties
 
     /**
      * Properties for a [ComposeType.BottomBar] component.
      *
      * @property children List of child nodes (typically [ComposeType.BottomNavigationItem] nodes).
-     * @property backgroundColor Background color as an ARGB integer.
-     * @property contentColor Content color as an ARGB integer.
+     * @property backgroundColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
      */
     @Serializable
     @SerialName("BottomBarProps")
     data class BottomBarProps(
         val children: List<ComposeNode>? = null,
-        val backgroundColor: Int? = null,
-        val contentColor: Int? = null,
+        val backgroundColor: String? = null,
+        val contentColor: String? = null,
     ) : NodeProperties
 
     /**

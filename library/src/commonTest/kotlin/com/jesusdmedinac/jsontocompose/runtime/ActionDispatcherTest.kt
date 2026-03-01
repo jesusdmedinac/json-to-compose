@@ -1,9 +1,8 @@
 package com.jesusdmedinac.jsontocompose.runtime
 
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.MutableStateHost
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.model.ComposeAction
-import kotlinx.serialization.json.JsonObject
+import com.jesusdmedinac.jsontocompose.state.MutableStateHost
+import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlin.test.Test

@@ -5,15 +5,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.window.DialogProperties
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.ToCompose
-import com.jesusdmedinac.jsontocompose.com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
+import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 
 @Composable
 fun ComposeNode.ToAlertDialog() {
@@ -31,10 +30,8 @@ fun ComposeNode.ToAlertDialog() {
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onClickEventName]
 
-    val backgroundColor = props.backgroundColor?.let { Color(it) }
-        ?: MaterialTheme.colors.surface
-    val contentColor = props.contentColor?.let { Color(it) }
-        ?: contentColorFor(backgroundColor)
+    val backgroundColor = props.backgroundColor.toColor(MaterialTheme.colors.surface)
+    val contentColor = props.contentColor.toColor(contentColorFor(backgroundColor))
 
     AlertDialog(
         modifier = modifier,

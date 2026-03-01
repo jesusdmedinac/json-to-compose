@@ -17,12 +17,30 @@ enum class ComposeType {
     Spacer,
     /** Displays a text string. Uses [NodeProperties.TextProps]. */
     Text,
+    /** Displays an icon. Uses [NodeProperties.IconProps]. */
+    Icon,
     /** Clickable button with a single child. Uses [NodeProperties.ButtonProps]. */
     Button,
+    /** Outlined button with a single child. Uses [NodeProperties.ButtonProps]. */
+    OutlinedButton,
+    /** Text button with no background and a single child. Uses [NodeProperties.ButtonProps]. */
+    TextButton,
+    /** Elevated button with shadow and a single child. Uses [NodeProperties.ButtonProps]. */
+    ElevatedButton,
+    /** Filled tonal button with tonal color and a single child. Uses [NodeProperties.ButtonProps]. */
+    FilledTonalButton,
+    /** Icon button with an icon child. Uses [NodeProperties.ButtonProps]. */
+    IconButton,
+    /** Floating action button. Uses [NodeProperties.FabProps]. */
+    FloatingActionButton,
+    /** Extended floating action button. Uses [NodeProperties.ExtendedFabProps]. */
+    ExtendedFloatingActionButton,
     /** Displays an image from URL or local resource. Uses [NodeProperties.ImageProps]. */
     Image,
     /** Editable text input field. Uses [NodeProperties.TextFieldProps]. */
     TextField,
+    /** Outlined editable text input field. Uses [NodeProperties.TextFieldProps]. */
+    OutlinedTextField,
     /** Vertically scrolling lazy list. Uses [NodeProperties.ColumnProps]. */
     LazyColumn,
     /** Horizontally scrolling lazy list. Uses [NodeProperties.RowProps]. */
@@ -31,6 +49,10 @@ enum class ComposeType {
     Scaffold,
     /** Material Card container with elevation and shape. Uses [NodeProperties.CardProps]. */
     Card,
+    /** Material ElevatedCard container. Uses [NodeProperties.CardProps]. */
+    ElevatedCard,
+    /** Material OutlinedCard container. Uses [NodeProperties.OutlinedCardProps]. */
+    OutlinedCard,
     /** Material AlertDialog with confirm/dismiss buttons. Uses [NodeProperties.AlertDialogProps]. */
     AlertDialog,
     /** Material TopAppBar with title, navigation icon, and actions. Uses [NodeProperties.TopAppBarProps]. */
@@ -55,10 +77,20 @@ enum class ComposeType {
     }
 
     /**
-     * Returns `true` if this type holds a single child (Button or Card).
+     * Returns `true` if this type holds a single child (Button, Card, etc.).
      */
     fun hasChild(): Boolean = when (this) {
-        Button, Card -> true
+        Button,
+        OutlinedButton,
+        TextButton,
+        ElevatedButton,
+        FilledTonalButton,
+        IconButton,
+        FloatingActionButton,
+        Card,
+        ElevatedCard,
+        OutlinedCard -> true
+
         else -> false
     }
 }

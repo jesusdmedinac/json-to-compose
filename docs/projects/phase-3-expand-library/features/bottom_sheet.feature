@@ -45,3 +45,13 @@ Feature: ModalBottomSheet Component rendered from JSON
     Given a JSON string with a ModalBottomSheet containing all properties
     When deserialized to ComposeNode and serialized back
     Then the resulting JSON maintains all ModalBottomSheet properties
+
+  Scenario: Update showcase with this feature
+    Given the demo app showcase
+    When the feature properties are added to the showcase
+    Then the demo app should render the feature correctly
+
+  Scenario: Update main README.md with this feature
+    Given the library documentation
+    When the feature properties are added to the README.md
+    Then the documentation should reflect the support for this feature
