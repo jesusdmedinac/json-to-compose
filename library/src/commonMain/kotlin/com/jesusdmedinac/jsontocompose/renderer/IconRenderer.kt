@@ -6,7 +6,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalDrawableResources
+import com.jesusdmedinac.jsontocompose.model.ComposeAction
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
@@ -41,6 +43,7 @@ fun ComposeNode.ToIcon() {
                 tint = tint.toColor(LocalContentColor.current)
             )
         } else {
+            println("Warning: Icon resource \"$iconName\" not found in LocalDrawableResources. Falling back to Text.")
             Text(
                 text = iconName,
                 modifier = modifier

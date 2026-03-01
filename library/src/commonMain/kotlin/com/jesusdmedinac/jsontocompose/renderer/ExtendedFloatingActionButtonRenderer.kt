@@ -26,7 +26,11 @@ fun ComposeNode.ToExtendedFloatingActionButton() {
 
     ExtendedFloatingActionButton(
         onClick = {
-            behavior?.invoke()
+            if (behavior != null) {
+                behavior.invoke()
+            } else if (onClickEventName != null) {
+                println("Warning: Behavior for event \"$onClickEventName\" not found in LocalBehavior.")
+            }
         },
         modifier = modifier,
         containerColor = containerColor,

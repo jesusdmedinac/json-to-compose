@@ -31,7 +31,15 @@ fun ComposeNode.ToCheckbox() {
         checked = checked,
         onCheckedChange = { newValue ->
             checkedStateHost?.onStateChange(newValue)
-            props.onCheckedChangeEventName?.let { behaviors[it]?.invoke() }
+            val eventName = props.onCheckedChangeEventName
+            if (eventName != null) {
+                val behavior = behaviors[eventName]
+                if (behavior != null) {
+                    behavior.invoke()
+                } else {
+                    println("Warning: Behavior for event \"$eventName\" not found in LocalBehavior.")
+                }
+            }
         },
         modifier = modifier,
         enabled = enabled,
