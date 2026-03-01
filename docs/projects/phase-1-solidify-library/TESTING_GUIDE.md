@@ -232,7 +232,7 @@ fun textFieldReflectsState() = runComposeUiTest {
     var currentValue = "initial"
     val mockStateHost = object : StateHost<String> {
         override val state: String get() = currentValue
-        override fun onStateChange(newState: String) { currentValue = newState }
+        override fun onStateChange(state: String) { currentValue = state }
     }
 
     val node = ComposeNode(

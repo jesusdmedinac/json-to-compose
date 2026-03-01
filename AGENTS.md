@@ -289,7 +289,7 @@ val LocalStateHost = staticCompositionLocalOf<Map<String, StateHost<*>>> { empty
 
 interface StateHost<T> {
     val state: T
-    fun onStateChange(newState: T)
+    fun onStateChange(state: T)
 }
 ```
 

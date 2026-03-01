@@ -122,6 +122,23 @@ fun textFieldRendersAndEmitsStateChange() = runComposeUiTest {
 }
 ```
 
+## Platform-Specific Configuration
+
+### Android Instrumented Tests
+
+If you want your `commonTest` UI tests to run as instrumented tests on Android devices or emulators, you must configure the `androidTarget` in `build.gradle.kts`:
+
+```kotlin
+kotlin {
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
+    }
+}
+```
+
+This ensures that the tests in `commonTest` are included in the Android instrumented test variant.
+
 ## Running Tests
 
 | Platform | Command |
