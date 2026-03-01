@@ -352,3 +352,72 @@ If you have questions or suggestions, feel free to:
   - [Discord](https://discord.gg/v5jv8k5b)
   - [Twitch](https://www.twitch.tv/jesusdmedinac)
 - Send me an email at [hi@jesusdmedinac.com]
+
+### Advanced Action Types
+
+The library supports several advanced actions to help orchestrate more complex behavior directly from JSON.
+
+**Navigate**
+```json
+{
+  "action": "navigate",
+  "route": "profile",
+  "args": { "id": "123" }
+}
+```
+
+**NavigateBack**
+```json
+{
+  "action": "navigateBack"
+}
+```
+
+**Delay**
+```json
+{
+  "action": "delay",
+  "durationMs": 1500
+}
+```
+
+**Conditional**
+Evaluates a boolean state (identified by `conditionStateKey`). If true, it executes the `thenActions`; otherwise, it executes the `elseActions`.
+```json
+{
+  "action": "conditional",
+  "conditionStateKey": "isLoggedIn",
+  "thenActions": [{ "action": "navigate", "route": "home" }],
+  "elseActions": [{ "action": "navigate", "route": "login" }]
+}
+```
+
+**IncrementState** and **DecrementState**
+For numeric state values (Float, Int), increments or decrements by the specified `amount`.
+```json
+{
+  "action": "incrementState",
+  "stateKey": "counter",
+  "amount": 1.0
+}
+```
+
+**LaunchUrl**
+Opens an external URL.
+```json
+{
+  "action": "launchUrl",
+  "url": "https://example.com"
+}
+```
+
+**UpdateList**
+Adds or removes an item from a List state host. The `action` can be either `add` or `remove`.
+```json
+{
+  "action": "updateList",
+  "stateKey": "itemsList",
+  "action": "add",
+  "item": "New Item"
+}
+```
