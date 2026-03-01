@@ -1,10 +1,9 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.ToCompose
@@ -12,23 +11,22 @@ import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ComposeNode.ToRow() {
-    val props = properties as? NodeProperties.RowProps ?: return
+fun ComposeNode.ToFlowRow() {
+    val props = properties as? NodeProperties.FlowRowProps ?: return
     val children = props.children
-    val horizontalArrangement = if (props.spacedBy != null) {
-        Arrangement.spacedBy(props.spacedBy.dp)
-    } else {
-        props.horizontalArrangement?.toHorizontalArrangement() ?: Arrangement.Start
-    }
-    val verticalAlignment = props.verticalAlignment
-        ?.toVerticalAlignment()
-        ?: Alignment.Top
+    val horizontalArrangement = props.horizontalArrangement
+        ?.toHorizontalArrangement()
+        ?: Arrangement.Start
+    val verticalArrangement = props.verticalArrangement
+        ?.toVerticalArrangement()
+        ?: Arrangement.Top
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    Row(
+    FlowRow(
         modifier = modifier,
         horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment,
+        verticalArrangement = verticalArrangement,
     ) {
         children?.forEach {
             it.ToCompose()

@@ -65,6 +65,16 @@ enum class ComposeType {
     Switch,
     /** Material checkbox. Uses [NodeProperties.CheckboxProps]. */
     Checkbox,
+    /** Material horizontal divider. Uses [NodeProperties.HorizontalDividerProps]. */
+    HorizontalDivider,
+    /** Material vertical divider. Uses [NodeProperties.VerticalDividerProps]. */
+    VerticalDivider,
+    /** Flow layout horizontally. Uses [NodeProperties.FlowRowProps]. */
+    FlowRow,
+    /** Flow layout vertically. Uses [NodeProperties.FlowColumnProps]. */
+    FlowColumn,
+    /** Material Surface container. Uses [NodeProperties.SurfaceProps]. */
+    Surface,
     /** Custom component rendered by a user-provided composable. Uses [NodeProperties.CustomProps]. */
     Custom;
 
@@ -72,7 +82,7 @@ enum class ComposeType {
      * Returns `true` if this type is a layout container (Column, Row, or Box).
      */
     fun isLayout(): Boolean = when (this) {
-        Column, Row, Box -> true
+        Column, Row, Box, FlowRow, FlowColumn -> true
         else -> false
     }
 
@@ -87,6 +97,7 @@ enum class ComposeType {
         FilledTonalButton,
         IconButton,
         FloatingActionButton,
+        Surface,
         Card,
         ElevatedCard,
         OutlinedCard -> true

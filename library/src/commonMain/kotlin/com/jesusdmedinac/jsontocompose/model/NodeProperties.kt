@@ -155,6 +155,7 @@ sealed interface NodeProperties {
     data class ColumnProps(
         val children: List<ComposeNode>? = null,
         val verticalArrangement: String? = null,
+        val spacedBy: Int? = null,
         val horizontalAlignment: String? = null,
     ) : NodeProperties
 
@@ -170,6 +171,7 @@ sealed interface NodeProperties {
     data class RowProps(
         val children: List<ComposeNode>? = null,
         val verticalAlignment: String? = null,
+        val spacedBy: Int? = null,
         val horizontalArrangement: String? = null,
     ) : NodeProperties
 
@@ -446,6 +448,60 @@ sealed interface NodeProperties {
         val onCheckedChangeEventName: String? = null,
         val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.HorizontalDivider] component.
+     */
+    @Serializable
+    @SerialName("HorizontalDividerProps")
+    data class HorizontalDividerProps(
+        val thickness: Int? = null,
+        val color: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.VerticalDivider] component.
+     */
+    @Serializable
+    @SerialName("VerticalDividerProps")
+    data class VerticalDividerProps(
+        val thickness: Int? = null,
+        val color: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.FlowRow] component.
+     */
+    @Serializable
+    @SerialName("FlowRowProps")
+    data class FlowRowProps(
+        val children: List<ComposeNode>? = null,
+        val horizontalArrangement: String? = null,
+        val verticalArrangement: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.FlowColumn] component.
+     */
+    @Serializable
+    @SerialName("FlowColumnProps")
+    data class FlowColumnProps(
+        val children: List<ComposeNode>? = null,
+        val verticalArrangement: String? = null,
+        val horizontalArrangement: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.Surface] component.
+     */
+    @Serializable
+    @SerialName("SurfaceProps")
+    data class SurfaceProps(
+        val child: ComposeNode? = null,
+        val tonalElevation: Int? = null,
+        val shape: String? = null,
+        val color: String? = null,
     ) : NodeProperties
 
     /**

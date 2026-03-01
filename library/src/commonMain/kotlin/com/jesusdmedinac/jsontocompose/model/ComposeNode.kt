@@ -45,15 +45,18 @@ data class ComposeNode(
     }
 
     private fun NodeProperties?.children(): List<ComposeNode> = when(this) {
-        is NodeProperties.ColumnProps -> children
-        is NodeProperties.RowProps -> children
-        is NodeProperties.BoxProps -> children
+        is NodeProperties.ColumnProps -> children ?: emptyList()
+        is NodeProperties.RowProps -> children ?: emptyList()
+        is NodeProperties.BoxProps -> children ?: emptyList()
+        is NodeProperties.FlowRowProps -> children ?: emptyList()
+        is NodeProperties.FlowColumnProps -> children ?: emptyList()
+        is NodeProperties.SurfaceProps -> listOfNotNull(child)
         is NodeProperties.TopAppBarProps -> buildList {
             title?.let { add(it) }
             navigationIcon?.let { add(it) }
             actions?.let { addAll(it) }
         }
-        is NodeProperties.BottomBarProps -> children
+        is NodeProperties.BottomBarProps -> children ?: emptyList()
         is NodeProperties.ExtendedFabProps -> buildList {
             icon?.let { add(it) }
             text?.let { add(it) }

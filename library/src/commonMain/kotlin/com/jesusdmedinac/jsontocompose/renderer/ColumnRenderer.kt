@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.ToCompose
@@ -15,9 +16,11 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 fun ComposeNode.ToColumn() {
     val props = properties as? NodeProperties.ColumnProps ?: return
     val children = props.children
-    val verticalArrangement = props.verticalArrangement
-        ?.toVerticalArrangement()
-        ?: Arrangement.Top
+    val verticalArrangement = if (props.spacedBy != null) {
+        Arrangement.spacedBy(props.spacedBy.dp)
+    } else {
+        props.verticalArrangement?.toVerticalArrangement() ?: Arrangement.Top
+    }
     val horizontalAlignment = props.horizontalAlignment
         ?.toHorizontalsAlignment()
         ?: Alignment.Start

@@ -34,6 +34,12 @@ import com.jesusdmedinac.jsontocompose.renderer.ToSwitch
 import com.jesusdmedinac.jsontocompose.renderer.ToText
 import com.jesusdmedinac.jsontocompose.renderer.ToTextField
 import com.jesusdmedinac.jsontocompose.renderer.ToTopAppBar
+import com.jesusdmedinac.jsontocompose.renderer.ToFlowRow
+import com.jesusdmedinac.jsontocompose.renderer.ToFlowColumn
+import com.jesusdmedinac.jsontocompose.renderer.ToHorizontalDivider
+import com.jesusdmedinac.jsontocompose.renderer.ToVerticalDivider
+import com.jesusdmedinac.jsontocompose.renderer.ToSurface
+
 import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
@@ -126,6 +132,11 @@ fun ComposeNode.ToCompose() {
         ComposeType.BottomNavigationItem -> ToBottomNavigationItem()
         ComposeType.Switch -> ToSwitch()
         ComposeType.Checkbox -> ToCheckbox()
+                ComposeType.HorizontalDivider -> ToHorizontalDivider()
+        ComposeType.VerticalDivider -> ToVerticalDivider()
+        ComposeType.FlowRow -> ToFlowRow()
+        ComposeType.FlowColumn -> ToFlowColumn()
+        ComposeType.Surface -> ToSurface()
         ComposeType.Custom -> ToCustom()
     }
 }
