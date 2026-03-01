@@ -196,6 +196,12 @@ fun ComposeComponent(
                 ComposeType.OutlinedTextField -> Lucide.TextCursor
                 ComposeType.ElevatedCard -> Lucide.Layers
                 ComposeType.OutlinedCard -> Lucide.Layers
+                ComposeType.HorizontalDivider -> Lucide.SeparatorHorizontal
+                ComposeType.VerticalDivider -> Lucide.SeparatorHorizontal
+                ComposeType.FlowRow -> Lucide.Rows3
+                ComposeType.FlowColumn -> Lucide.Columns3
+                ComposeType.Surface -> Lucide.Layers
+
             },
             contentDescription = type.name
         )
