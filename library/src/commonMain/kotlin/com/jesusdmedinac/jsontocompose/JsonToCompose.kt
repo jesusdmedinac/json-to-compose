@@ -13,8 +13,6 @@ import com.jesusdmedinac.jsontocompose.renderer.ToBottomNavigationItem
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
 import com.jesusdmedinac.jsontocompose.renderer.ToButton
 import com.jesusdmedinac.jsontocompose.renderer.ToCard
-import com.jesusdmedinac.jsontocompose.renderer.ToElevatedCard
-import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToCheckbox
 import com.jesusdmedinac.jsontocompose.renderer.ToColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToCustom
@@ -26,11 +24,20 @@ import com.jesusdmedinac.jsontocompose.renderer.ToIconButton
 import com.jesusdmedinac.jsontocompose.renderer.ToImage
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyRow
+import com.jesusdmedinac.jsontocompose.renderer.ToModalNavigationDrawer
+import com.jesusdmedinac.jsontocompose.renderer.ToNavigationBar
+import com.jesusdmedinac.jsontocompose.renderer.ToNavigationBarItem
+import com.jesusdmedinac.jsontocompose.renderer.ToNavigationDrawerItem
+import com.jesusdmedinac.jsontocompose.renderer.ToNavigationRail
+import com.jesusdmedinac.jsontocompose.renderer.ToNavigationRailItem
 import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToRow
 import com.jesusdmedinac.jsontocompose.renderer.ToScaffold
+import com.jesusdmedinac.jsontocompose.renderer.ToScrollableTabRow
 import com.jesusdmedinac.jsontocompose.renderer.ToSpacer
 import com.jesusdmedinac.jsontocompose.renderer.ToSwitch
+import com.jesusdmedinac.jsontocompose.renderer.ToTab
+import com.jesusdmedinac.jsontocompose.renderer.ToTabRow
 import com.jesusdmedinac.jsontocompose.renderer.ToText
 import com.jesusdmedinac.jsontocompose.renderer.ToTextField
 import com.jesusdmedinac.jsontocompose.renderer.ToTopAppBar
@@ -122,6 +129,15 @@ fun ComposeNode.ToCompose() {
         ComposeType.OutlinedCard -> ToOutlinedCard()
         ComposeType.AlertDialog -> ToAlertDialog()
         ComposeType.TopAppBar -> ToTopAppBar()
+        ComposeType.NavigationBar -> ToNavigationBar()
+        ComposeType.NavigationBarItem -> ToNavigationBarItem()
+        ComposeType.NavigationRail -> ToNavigationRail()
+        ComposeType.NavigationRailItem -> ToNavigationRailItem()
+        ComposeType.ModalNavigationDrawer -> ToModalNavigationDrawer()
+        ComposeType.NavigationDrawerItem -> ToNavigationDrawerItem()
+        ComposeType.TabRow -> ToTabRow()
+        ComposeType.ScrollableTabRow -> ToScrollableTabRow()
+        ComposeType.Tab -> ToTab()
         ComposeType.BottomBar -> ToBottomBar()
         ComposeType.BottomNavigationItem -> ToBottomNavigationItem()
         ComposeType.Switch -> ToSwitch()
