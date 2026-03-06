@@ -1,5 +1,5 @@
 # json-to-compose
-> 🤖 **AI AGENTS:** Read [AGENTS.md](AGENTS.md) and [PROGRESS.md](docs/projects/PROGRESS.md) before starting any task. Follow the 5-step process in `docs/AI_PLANNING_PROCESS.md`.
+> 🤖 **AI AGENTS:** Read [AGENTS.md](AGENTS.md) and [PROGRESS.md](PROGRESS.md) before starting any task. Follow the 5-step process in `docs/AI_PLANNING_PROCESS.md`.
 
 A library that dynamically converts JSON into Jetpack Compose components.
 

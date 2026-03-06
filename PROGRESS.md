@@ -2,9 +2,9 @@
 
 > [!IMPORTANT]
 > **Mandatory Workflow Requirement:** To avoid a `NullPointerException` (NPE) in Android Unit Tests, agents **must NOT** run UI tests using `./gradlew :library:test`. Instead, always use `./gradlew :library:desktopTest` for primary validation.
-> See the [Compose Multiplatform UI Testing Guide](../COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
+> See the [Compose Multiplatform UI Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
 
-> Last updated: 2026-02-28
+> Last updated: 2025-03-05
 
 ## Overall Progress
 
@@ -52,7 +52,7 @@ phase-3-expand-library ← IN PROGRESS
 **Why after demo:**
 
 - The demo showcase proves the current 18 components work in a real app. Then this phase massively expands the library.
-- This is the **biggest phase** (206 scenarios) and the foundation for making the library production-ready.
+- This is the **biggest phase** (236 scenarios) and the foundation for making the library production-ready.
 - Adds 30+ new components, 16+ new modifiers, and 10+ new action types.
 - Every phase after this benefits from the expanded component set.
 - The editor (phase-2) should support ALL components, so expanding first avoids revisiting the property panel later.
@@ -65,7 +65,7 @@ phase-3-expand-library ← IN PROGRESS
 | Card Variants | 8 | ElevatedCard, OutlinedCard | ✅ Done |
 | TextField Enhancement | 18 | placeholder, label, icons, isError, keyboardType, password, OutlinedTextField | ✅ Done |
 | Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | 🔜 Pending |
-| Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
+| Input Components | 19 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
 | Layout Components | 16 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | 🔜 Pending |
 | Pager Components | 10 | HorizontalPager, VerticalPager | 🔜 Pending |
 | ModalBottomSheet | 10 | ModalBottomSheet with state, drag, shape, scrim | 🔜 Pending |
@@ -73,7 +73,7 @@ phase-3-expand-library ← IN PROGRESS
 | Snackbar | 10 | SnackbarHost, ShowSnackbar action | 🔜 Pending |
 | ListItem | 12 | Material 3 ListItem with all slots | 🔜 Pending |
 | Missing Modifiers | 24 | Clickable, Weight, Scroll, Offset, Size, AspectRatio, ZIndex, etc. | 🔜 Pending |
-| Existing Component Properties | 19 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | 🔜 Pending |
+| Existing Component Properties | 18 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | 🔜 Pending |
 | Advanced Actions | 16 | Navigate, Conditional, Delay, IncrementState, LaunchUrl, CopyToClipboard, UpdateList | 🔜 Pending |
 
 ### 2. phase-2-editor-mvp
