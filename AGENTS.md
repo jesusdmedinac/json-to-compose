@@ -497,6 +497,7 @@ For guidelines on how to handle multiple concurrent features without branch conf
 
 - **BEFORE STARTING:** Always read the main `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
 - **GIT WORKTREES:** When working on a new feature, ALWAYS create a new Git Worktree outside the main repository (e.g., `git worktree add ../json-to-compose-feat -b <feat-branch>`) as specified in the [Git Worktrees Guide](docs/GIT_WORKTREES_GUIDE.md).
+- **SWITCHING WORKTREES:** If the user asks to work on a feature that is already in a different worktree within the `workdir` folder, or explicitly requests to switch, you MUST change your current directory to that worktree. Use `git worktree list` to identify existing worktrees and their paths.
 - **GITHUB MANDATE:** You MUST ensure that every feature being worked on has a corresponding GitHub Issue, is part of the Project, and is assigned to a Milestone. Use `gh issue list` and `gh issue create` to verify/sync.
 - **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario. **CRITICALLY**, you MUST immediately update the matching numbers in the main `docs/projects/PROGRESS.md` file. The completed and total scenario counts and progress percentages of BOTH files must reflect EXACTLY the same reality.
 - **UPON COMPLETION:** Verify BOTH `PROGRESS.md` files are 100% synchronized. Close the corresponding GitHub Issue.
