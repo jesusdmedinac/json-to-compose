@@ -62,6 +62,9 @@ Commit your changes frequently as per the standard atomic commit guidelines. Pus
 git push -u origin <feature-branch-name>
 ```
 
+**CRITICAL: Create a Pull Request (PR)**
+After pushing, always use the GitHub CLI (`gh pr create`) to create a Pull Request linked to the original Issue. **The PR is a fundamental step** so the developer can review the implemented code before it is merged into the main branch. Do not merge it yourself.
+
 ### 4. Cleanup (Post-Merge or Post-Task)
 
 Once the feature is merged, or the worktree is no longer needed, it is crucial to clean it up to save disk space and remove dangling references.
