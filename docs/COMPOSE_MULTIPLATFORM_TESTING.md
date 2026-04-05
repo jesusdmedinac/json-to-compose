@@ -163,7 +163,7 @@ In a Kotlin Multiplatform project, the `:library:test` task is a meta-task that 
 
 1. **Always use `testTag`**: Every renderer must apply `.testTag(type.name)` to its root component to facilitate testing.
 2. **Prefer `commonTest`**: Write tests in `commonTest` so they validate logic across all targets.
-3. **Use Semantic Assertions**: Instead of just checking existence, check properties like font size or color using custom semantics if necessary (see `GEMINI.md`).
+3. **Use Semantic Assertions**: Instead of just checking existence, check properties like font size or color using custom semantics if necessary (see `AGENTS.md`).
 4. **Mock Behaviors and State**: Use the `CompositionLocalProvider` pattern to isolate components from real backend or navigation logic.
 
 For more details on the specific testing strategy of this project, see [Testing Guide (Phase 1)](projects/phase-1-solidify-library/TESTING_GUIDE.md).

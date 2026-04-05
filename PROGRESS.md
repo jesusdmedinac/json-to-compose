@@ -2,9 +2,9 @@
 
 > [!IMPORTANT]
 > **Mandatory Workflow Requirement:** To avoid a `NullPointerException` (NPE) in Android Unit Tests, agents **must NOT** run UI tests using `./gradlew :library:test`. Instead, always use `./gradlew :library:desktopTest` for primary validation.
-> See the [Compose Multiplatform UI Testing Guide](../COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
+> See the [Compose Multiplatform UI Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
 
-> Last updated: 2026-02-28
+> Last updated: 2025-03-05
 
 ## Overall Progress
 
@@ -13,14 +13,14 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 78        | **33%**  |
+| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 61        | **26%**  |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **613**   | **338**   | **55%**  |
+|     | **TOTAL**                                                         |               | **613**   | **321**   | **52%**  |
 
 ```
-Progress: [███████████████████████░░░░░░░░░░░░░░░░░░] 55%
+Progress: [█████████████████████░░░░░░░░░░░░░░░░░░░] 52%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
@@ -52,7 +52,7 @@ phase-3-expand-library ← IN PROGRESS
 **Why after demo:**
 
 - The demo showcase proves the current 18 components work in a real app. Then this phase massively expands the library.
-- This is the **biggest phase** (206 scenarios) and the foundation for making the library production-ready.
+- This is the **biggest phase** (236 scenarios) and the foundation for making the library production-ready.
 - Adds 30+ new components, 16+ new modifiers, and 10+ new action types.
 - Every phase after this benefits from the expanded component set.
 - The editor (phase-2) should support ALL components, so expanding first avoids revisiting the property panel later.
