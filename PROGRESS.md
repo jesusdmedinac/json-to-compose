@@ -13,14 +13,14 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 61        | **26%**  |
+| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 78        | **33%**  |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **613**   | **321**   | **52%**  |
+|     | **TOTAL**                                                         |               | **613**   | **338**   | **55%**  |
 
 ```
-Progress: [█████████████████████░░░░░░░░░░░░░░░░░░░] 52%
+Progress: [██████████████████████░░░░░░░░░░░░░░░░░░] 55%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
