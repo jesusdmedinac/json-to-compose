@@ -1,5 +1,11 @@
 # PROGRESS - Phase 3: Expand Library — Full Component & Modifier Coverage
 
+## Feature: Skeleton Bootstrap for Phase 3
+
+- [ ] Scenario: Scaffold pending Component Types
+- [ ] Scenario: Scaffold pending Modifier Operations
+- [ ] Scenario: Wire the main Router
+
 ## Feature: Text Component Property Enhancement
 
 - [x] Scenario: Render Text with fontSize

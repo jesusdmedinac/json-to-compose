@@ -13,11 +13,11 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 236       | 78        | **33%**  |
+| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 78        | **33%**  |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **613**   | **338**   | **55%**  |
+|     | **TOTAL**                                                         |               | **616**   | **338**   | **55%**  |
 
 ```
 Progress: [██████████████████████░░░░░░░░░░░░░░░░░░] 55%
@@ -45,7 +45,7 @@ phase-3-expand-library ← IN PROGRESS
 
 ### 1. phase-3-expand-library
 
-**Status:** 🏗️ In Progress (78/236 — 33%)
+**Status:** 🏗️ In Progress (78/239 — 33%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -60,6 +60,7 @@ phase-3-expand-library ← IN PROGRESS
 **Features:**
 | Feature | Scenarios | What it adds | Status |
 |---------|-----------|--------------|--------|
+| Skeleton Bootstrap | 3 | Base enum, properties and router switches for parallel work | 🔜 Pending |
 | Text Enhancement | 18 | fontSize, fontWeight, color, textAlign, maxLines, overflow, etc. | ✅ Done |
 | Button Variants | 14 | OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton, FAB | ✅ Done |
 | Card Variants | 8 | ElevatedCard, OutlinedCard | ✅ Done |
