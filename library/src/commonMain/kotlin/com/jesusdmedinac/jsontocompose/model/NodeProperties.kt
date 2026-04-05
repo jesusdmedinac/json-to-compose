@@ -623,13 +623,20 @@ sealed interface NodeProperties {
 
     // --- Phase 3: Input Components ---
 
+    /** Range of values for a [ComposeType.Slider] component. */
+    @Serializable
+    data class FloatRange(
+        val start: Float = 0f,
+        val endInclusive: Float = 1f,
+    )
+
     /** Properties for a [ComposeType.Slider] component. */
     @Serializable
     @SerialName("SliderProps")
     data class SliderProps(
         val value: Float? = null,
         val valueStateHostName: String? = null,
-        val valueRange: List<Float>? = null,
+        val valueRange: FloatRange? = null,
         val steps: Int? = null,
         val onValueChangeEventName: String? = null,
         val enabled: Boolean? = null,

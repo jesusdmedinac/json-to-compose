@@ -215,7 +215,7 @@ fun ComposeComponent(
                 ComposeType.TimePicker -> Lucide.Square
                 ComposeType.SearchBar -> Lucide.Search
                 ComposeType.HorizontalDivider -> Lucide.SeparatorHorizontal
-                ComposeType.VerticalDivider -> Lucide.SeparatorHorizontal
+                ComposeType.VerticalDivider -> Lucide.SeparatorVertical
                 ComposeType.FlowRow -> Lucide.Columns3
                 ComposeType.FlowColumn -> Lucide.Rows3
                 ComposeType.Surface -> Lucide.Square
