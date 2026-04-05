@@ -83,6 +83,77 @@ enum class ComposeType {
     Switch,
     /** Material checkbox. Uses [NodeProperties.CheckboxProps]. */
     Checkbox,
+
+    // --- Phase 3: Input Components ---
+    /** Material 3 Slider for selecting a value from a range. Uses [NodeProperties.SliderProps]. */
+    Slider,
+    /** Material 3 RadioButton for single selection. Uses [NodeProperties.RadioButtonProps]. */
+    RadioButton,
+    /** Material 3 SingleChoiceSegmentedButtonRow container. Uses [NodeProperties.SegmentedButtonRowProps]. */
+    SingleChoiceSegmentedButtonRow,
+    /** Material 3 MultiChoiceSegmentedButtonRow container. Uses [NodeProperties.SegmentedButtonRowProps]. */
+    MultiChoiceSegmentedButtonRow,
+    /** Material 3 SegmentedButton item. Uses [NodeProperties.SegmentedButtonProps]. */
+    SegmentedButton,
+    /** Material 3 DatePicker. Uses [NodeProperties.DatePickerProps]. */
+    DatePicker,
+    /** Material 3 TimePicker. Uses [NodeProperties.TimePickerProps]. */
+    TimePicker,
+    /** Material 3 SearchBar. Uses [NodeProperties.SearchBarProps]. */
+    SearchBar,
+
+    // --- Phase 3: Layout Components ---
+    /** Material 3 HorizontalDivider. Uses [NodeProperties.DividerProps]. */
+    HorizontalDivider,
+    /** Material 3 VerticalDivider. Uses [NodeProperties.DividerProps]. */
+    VerticalDivider,
+    /** Layout that arranges children horizontally and wraps to the next line. Uses [NodeProperties.FlowRowProps]. */
+    FlowRow,
+    /** Layout that arranges children vertically and wraps to the next column. Uses [NodeProperties.FlowColumnProps]. */
+    FlowColumn,
+    /** Material 3 Surface container. Uses [NodeProperties.SurfaceProps]. */
+    Surface,
+
+    // --- Phase 3: Pager Components ---
+    /** Horizontally scrolling pager. Uses [NodeProperties.PagerProps]. */
+    HorizontalPager,
+    /** Vertically scrolling pager. Uses [NodeProperties.PagerProps]. */
+    VerticalPager,
+
+    // --- Phase 3: ModalBottomSheet ---
+    /** Material 3 ModalBottomSheet. Uses [NodeProperties.ModalBottomSheetProps]. */
+    ModalBottomSheet,
+
+    // --- Phase 3: Display Components ---
+    /** Material 3 Badge. Uses [NodeProperties.BadgeProps]. */
+    Badge,
+    /** Material 3 BadgedBox. Uses [NodeProperties.BadgedBoxProps]. */
+    BadgedBox,
+    /** Material 3 AssistChip. Uses [NodeProperties.ChipProps]. */
+    AssistChip,
+    /** Material 3 FilterChip. Uses [NodeProperties.FilterChipProps]. */
+    FilterChip,
+    /** Material 3 InputChip. Uses [NodeProperties.InputChipProps]. */
+    InputChip,
+    /** Material 3 SuggestionChip. Uses [NodeProperties.ChipProps]. */
+    SuggestionChip,
+    /** Material 3 CircularProgressIndicator. Uses [NodeProperties.ProgressIndicatorProps]. */
+    CircularProgressIndicator,
+    /** Material 3 LinearProgressIndicator. Uses [NodeProperties.ProgressIndicatorProps]. */
+    LinearProgressIndicator,
+    /** Material 3 PlainTooltip. Uses [NodeProperties.PlainTooltipProps]. */
+    PlainTooltip,
+    /** Material 3 RichTooltip. Uses [NodeProperties.RichTooltipProps]. */
+    RichTooltip,
+
+    // --- Phase 3: Snackbar ---
+    /** Material 3 SnackbarHost. Uses [NodeProperties.SnackbarHostProps]. */
+    SnackbarHost,
+
+    // --- Phase 3: ListItem ---
+    /** Material 3 ListItem. Uses [NodeProperties.ListItemProps]. */
+    ListItem,
+
     /** Custom component rendered by a user-provided composable. Uses [NodeProperties.CustomProps]. */
     Custom;
 
@@ -90,7 +161,9 @@ enum class ComposeType {
      * Returns `true` if this type is a layout container (Column, Row, or Box).
      */
     fun isLayout(): Boolean = when (this) {
-        Column, Row, Box, NavigationBar, NavigationRail, TabRow, ScrollableTabRow -> true
+        Column, Row, Box, NavigationBar, NavigationRail, TabRow, ScrollableTabRow,
+        FlowRow, FlowColumn,
+        SingleChoiceSegmentedButtonRow, MultiChoiceSegmentedButtonRow -> true
         else -> false
     }
 
@@ -108,7 +181,10 @@ enum class ComposeType {
         Card,
         ElevatedCard,
         OutlinedCard,
-        ModalNavigationDrawer -> true
+        ModalNavigationDrawer,
+        Surface,
+        ModalBottomSheet,
+        BadgedBox -> true
 
         else -> false
     }
