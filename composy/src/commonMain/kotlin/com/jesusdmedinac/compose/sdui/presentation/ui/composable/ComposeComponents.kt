@@ -60,6 +60,7 @@ import com.composables.icons.lucide.Rows3
 import com.composables.icons.lucide.Rows4
 import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.SeparatorHorizontal
+import com.composables.icons.lucide.SeparatorVertical
 import com.composables.icons.lucide.Smile
 import com.composables.icons.lucide.Square
 import com.composables.icons.lucide.SquareCheck

@@ -125,7 +125,7 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
             // --- Phase 3: Missing Modifiers ---
             is ComposeModifier.Operation.Clickable -> {
                 val behavior = LocalBehavior.current[operation.onClickEventName]
-                result.clickable { behavior?.onClick() }
+                result.clickable { behavior?.invoke() }
             }
             is ComposeModifier.Operation.Weight -> result // Weight requiere RowScope/ColumnScope — aplicado contextualmente por renderizadores
             is ComposeModifier.Operation.VerticalScroll -> {
