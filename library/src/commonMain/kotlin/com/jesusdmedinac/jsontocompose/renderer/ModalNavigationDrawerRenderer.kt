@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.LocalBehavior
+import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -16,18 +17,41 @@ fun ComposeNode.ToModalNavigationDrawer() {
     val props = properties as? NodeProperties.NavigationDrawerProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
 
-    val (isOpen, _) = resolveStateHostValue(
+    val openState = resolveStateHostValue<Boolean>(
         stateHostName = props.isOpenStateHostName,
         inlineValue = props.isOpen,
         defaultValue = false,
     )
+    val isOpen = openState.value
+    val openStateHost = openState.stateHost
 
     val drawerState = rememberDrawerState(
         initialValue = if (isOpen) DrawerValue.Open else DrawerValue.Closed
     )
 
+    val behavior = LocalBehavior.current
+    val onDismiss = {
+        val eventName = props.onDismissRequestEventName
+        if (eventName != null) {
+            val b = behavior[eventName]
+            if (b != null) {
+                b()
+            }
+        }
+    }
+
     LaunchedEffect(isOpen) {
         if (isOpen) drawerState.open() else drawerState.close()
+    }
+
+    LaunchedEffect(drawerState.currentValue) {
+        val isDrawerOpen = drawerState.currentValue == DrawerValue.Open
+        if (isOpen != isDrawerOpen) {
+            openStateHost?.onStateChange(isDrawerOpen)
+            if (!isDrawerOpen) {
+                onDismiss()
+            }
+        }
     }
 
     ModalNavigationDrawer(
@@ -58,7 +82,13 @@ fun ComposeNode.ToNavigationDrawerItem() {
 
     val behavior = LocalBehavior.current
     val onClick = {
-        props.onClickEventName?.let { behavior[it]?.invoke() }
+        val eventName = props.onClickEventName
+        if (eventName != null) {
+            val b = behavior[eventName]
+            if (b != null) {
+                b()
+            }
+        }
     }
 
     NavigationDrawerItem(

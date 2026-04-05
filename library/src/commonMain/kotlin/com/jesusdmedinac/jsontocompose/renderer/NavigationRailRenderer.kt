@@ -61,7 +61,7 @@ fun ComposeNode.ToNavigationRailItem() {
         modifier = modifier,
         selected = selected,
         onClick = { onClick() },
-        icon = { props.icon?.ToCompose() },
+        icon = { props.icon?.ToCompose() ?: androidx.compose.material3.Text("") },
         label = props.label?.let { labelNode -> { labelNode.ToCompose() } },
         enabled = enabled,
         alwaysShowLabel = alwaysShowLabel,

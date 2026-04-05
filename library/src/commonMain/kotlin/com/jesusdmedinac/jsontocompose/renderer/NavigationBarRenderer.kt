@@ -57,7 +57,7 @@ fun ComposeNode.ToNavigationBarItem() {
 
     val behavior = LocalBehavior.current
     val onClick = {
-        props.onClickEventName?.let { behavior[it]?.invoke() }
+        props.onClickEventName?.let { eventName -> behavior[eventName]?.invoke() }
     }
 
     with(rowScope) {
@@ -65,7 +65,7 @@ fun ComposeNode.ToNavigationBarItem() {
             modifier = modifier,
             selected = selected,
             onClick = { onClick() },
-            icon = { props.icon?.ToCompose() },
+            icon = { props.icon?.ToCompose() ?: androidx.compose.material3.Text("") },
             label = props.label?.let { labelNode -> { labelNode.ToCompose() } },
             enabled = enabled,
             alwaysShowLabel = alwaysShowLabel,
