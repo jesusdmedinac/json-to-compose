@@ -2,9 +2,9 @@
 
 ## Feature: Skeleton Bootstrap for Phase 3
 
-- [ ] Scenario: Scaffold pending Component Types
-- [ ] Scenario: Scaffold pending Modifier Operations
-- [ ] Scenario: Wire the main Router
+- [x] Scenario: Scaffold pending Component Types
+- [x] Scenario: Scaffold pending Modifier Operations
+- [x] Scenario: Wire the main Router
 
 ## Feature: Text Component Property Enhancement
 
