@@ -53,7 +53,7 @@ fun ComposeNode.ToBottomNavigationItem() {
             },
             modifier = (Modifier from composeModifier).testTag(type.name),
             enabled = enabled,
-            label = props.label?.let { label -> { label.ToCompose() } },
+            label = props.label?.let { labelNode -> { labelNode.ToCompose() } },
             alwaysShowLabel = alwaysShowLabel,
             icon = { props.icon?.ToCompose() ?: Text("") },
             // TODO: Support interactionSource

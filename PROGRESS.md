@@ -45,7 +45,7 @@ phase-3-expand-library ← IN PROGRESS
 
 ### 1. phase-3-expand-library
 
-**Status:** 🏗️ In Progress (61/236 — 26%)
+**Status:** 🏗️ In Progress (78/236 — 33%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -64,8 +64,8 @@ phase-3-expand-library ← IN PROGRESS
 | Button Variants | 14 | OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton, FAB | ✅ Done |
 | Card Variants | 8 | ElevatedCard, OutlinedCard | ✅ Done |
 | TextField Enhancement | 18 | placeholder, label, icons, isError, keyboardType, password, OutlinedTextField | ✅ Done |
-| Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | 🔜 Pending |
-| Input Components | 19 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
+| Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | ✅ Done |
+| Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
 | Layout Components | 16 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | 🔜 Pending |
 | Pager Components | 10 | HorizontalPager, VerticalPager | 🔜 Pending |
 | ModalBottomSheet | 10 | ModalBottomSheet with state, drag, shape, scrim | 🔜 Pending |
@@ -73,7 +73,7 @@ phase-3-expand-library ← IN PROGRESS
 | Snackbar | 10 | SnackbarHost, ShowSnackbar action | 🔜 Pending |
 | ListItem | 12 | Material 3 ListItem with all slots | 🔜 Pending |
 | Missing Modifiers | 24 | Clickable, Weight, Scroll, Offset, Size, AspectRatio, ZIndex, etc. | 🔜 Pending |
-| Existing Component Properties | 18 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | 🔜 Pending |
+| Existing Component Properties | 19 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | 🔜 Pending |
 | Advanced Actions | 16 | Navigate, Conditional, Delay, IncrementState, LaunchUrl, CopyToClipboard, UpdateList | 🔜 Pending |
 
 ### 2. phase-2-editor-mvp

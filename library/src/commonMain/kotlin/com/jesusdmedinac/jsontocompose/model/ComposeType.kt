@@ -57,6 +57,24 @@ enum class ComposeType {
     AlertDialog,
     /** Material TopAppBar with title, navigation icon, and actions. Uses [NodeProperties.TopAppBarProps]. */
     TopAppBar,
+    /** Material 3 NavigationBar container. Uses [NodeProperties.NavigationBarProps]. */
+    NavigationBar,
+    /** Single item inside a NavigationBar. Uses [NodeProperties.NavigationBarItemProps]. */
+    NavigationBarItem,
+    /** Material 3 NavigationRail container. Uses [NodeProperties.NavigationRailProps]. */
+    NavigationRail,
+    /** Single item inside a NavigationRail. Uses [NodeProperties.NavigationRailItemProps]. */
+    NavigationRailItem,
+    /** Material 3 ModalNavigationDrawer. Uses [NodeProperties.NavigationDrawerProps]. */
+    ModalNavigationDrawer,
+    /** Single item inside a NavigationDrawer. Uses [NodeProperties.NavigationDrawerItemProps]. */
+    NavigationDrawerItem,
+    /** Material 3 TabRow container. Uses [NodeProperties.TabRowProps]. */
+    TabRow,
+    /** Material 3 ScrollableTabRow container. Uses [NodeProperties.TabRowProps]. */
+    ScrollableTabRow,
+    /** Single tab item. Uses [NodeProperties.TabProps]. */
+    Tab,
     /** Bottom navigation bar container. Uses [NodeProperties.BottomBarProps]. */
     BottomBar,
     /** Single item inside a bottom navigation bar. Uses [NodeProperties.BottomNavigationItemProps]. */
@@ -72,7 +90,7 @@ enum class ComposeType {
      * Returns `true` if this type is a layout container (Column, Row, or Box).
      */
     fun isLayout(): Boolean = when (this) {
-        Column, Row, Box -> true
+        Column, Row, Box, NavigationBar, NavigationRail, TabRow, ScrollableTabRow -> true
         else -> false
     }
 
@@ -89,7 +107,8 @@ enum class ComposeType {
         FloatingActionButton,
         Card,
         ElevatedCard,
-        OutlinedCard -> true
+        OutlinedCard,
+        ModalNavigationDrawer -> true
 
         else -> false
     }

@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.CaseSensitive
 import com.composables.icons.lucide.Circle
@@ -66,7 +67,6 @@ import com.composables.icons.lucide.TextCursor
 import com.composables.icons.lucide.ToggleRight
 import com.composables.icons.lucide.WholeWord
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
-import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 @Composable
 fun ComposeComponents(
@@ -196,6 +196,15 @@ fun ComposeComponent(
                 ComposeType.OutlinedTextField -> Lucide.TextCursor
                 ComposeType.ElevatedCard -> Lucide.Layers
                 ComposeType.OutlinedCard -> Lucide.Layers
+                ComposeType.NavigationBar -> Lucide.PanelBottom
+                ComposeType.NavigationBarItem -> Lucide.Square
+                ComposeType.NavigationRail -> Lucide.GalleryVertical
+                ComposeType.NavigationRailItem -> Lucide.Square
+                ComposeType.ModalNavigationDrawer -> Lucide.PanelTop
+                ComposeType.NavigationDrawerItem -> Lucide.Square
+                ComposeType.TabRow -> Lucide.Columns3
+                ComposeType.ScrollableTabRow -> Lucide.Columns4
+                ComposeType.Tab -> Lucide.Square
             },
             contentDescription = type.name
         )

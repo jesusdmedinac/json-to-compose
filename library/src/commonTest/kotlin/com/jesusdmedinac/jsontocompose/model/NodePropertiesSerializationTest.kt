@@ -311,4 +311,150 @@ class NodePropertiesSerializationTest {
         assertIs<NodeProperties.TextProps>(decoded)
         assertEquals("Poly", decoded.text)
     }
+
+    // --- Scenario: NavigationBarProps serialization ---
+    @Test
+    fun navigationBarPropsSerialization() {
+        val original = NodeProperties.NavigationBarProps(
+            children = listOf(
+                ComposeNode(type = ComposeType.NavigationBarItem, properties = NodeProperties.NavigationBarItemProps())
+            ),
+            containerColor = "#FF0000",
+            contentColor = "#FFFFFF"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.NavigationBarProps>(decoded)
+        assertEquals(1, decoded.children?.size)
+        assertEquals("#FF0000", decoded.containerColor)
+        assertEquals("#FFFFFF", decoded.contentColor)
+    }
+
+    // --- Scenario: NavigationBarItemProps serialization ---
+    @Test
+    fun navigationBarItemPropsSerialization() {
+        val original = NodeProperties.NavigationBarItemProps(
+            selected = true,
+            selectedStateHostName = "tab",
+            onClickEventName = "click",
+            label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Label")),
+            icon = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Icon")),
+            enabled = false,
+            enabledStateHostName = "enabled_state",
+            alwaysShowLabel = false,
+            alwaysShowLabelStateHostName = "show_label"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.NavigationBarItemProps>(decoded)
+        assertEquals(true, decoded.selected)
+        assertEquals("tab", decoded.selectedStateHostName)
+        assertEquals("click", decoded.onClickEventName)
+        assertEquals("Label", (decoded.label?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals(false, decoded.enabled)
+        assertEquals(false, decoded.alwaysShowLabel)
+    }
+
+    // --- Scenario: NavigationRailProps serialization ---
+    @Test
+    fun navigationRailPropsSerialization() {
+        val original = NodeProperties.NavigationRailProps(
+            children = listOf(ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "RailItem"))),
+            containerColor = "#00FF00",
+            contentColor = "#000000",
+            header = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Header"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.NavigationRailProps>(decoded)
+        assertEquals(1, decoded.children?.size)
+        assertEquals("#00FF00", decoded.containerColor)
+        assertEquals("Header", (decoded.header?.properties as? NodeProperties.TextProps)?.text)
+    }
+
+    // --- Scenario: NavigationRailItemProps serialization ---
+    @Test
+    fun navigationRailItemPropsSerialization() {
+        val original = NodeProperties.NavigationRailItemProps(selected = true, label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "RailItem")))
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.NavigationRailItemProps>(decoded)
+        assertEquals(true, decoded.selected)
+        assertEquals("RailItem", (decoded.label?.properties as? NodeProperties.TextProps)?.text)
+    }
+
+    // --- Scenario: NavigationDrawerProps serialization ---
+    @Test
+    fun navigationDrawerPropsSerialization() {
+        val original = NodeProperties.NavigationDrawerProps(
+            isOpen = true,
+            isOpenStateHostName = "drawer_open",
+            drawerContent = listOf(ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "DrawerItem"))),
+            child = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Main"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.NavigationDrawerProps>(decoded)
+        assertEquals(true, decoded.isOpen)
+        assertEquals("drawer_open", decoded.isOpenStateHostName)
+        assertEquals(1, decoded.drawerContent?.size)
+        assertEquals("Main", (decoded.child?.properties as? NodeProperties.TextProps)?.text)
+    }
+
+    // --- Scenario: NavigationDrawerItemProps serialization ---
+    @Test
+    fun navigationDrawerItemPropsSerialization() {
+        val original = NodeProperties.NavigationDrawerItemProps(
+            selected = true,
+            label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Item")),
+            badge = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Badge"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.NavigationDrawerItemProps>(decoded)
+        assertEquals(true, decoded.selected)
+        assertEquals("Item", (decoded.label?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("Badge", (decoded.badge?.properties as? NodeProperties.TextProps)?.text)
+    }
+
+    // --- Scenario: TabRowProps serialization ---
+    @Test
+    fun tabRowPropsSerialization() {
+        val original = NodeProperties.TabRowProps(
+            selectedTabIndex = 2,
+            selectedTabIndexStateHostName = "tab_index",
+            children = listOf(ComposeNode(type = ComposeType.Tab, properties = NodeProperties.TabProps())),
+            containerColor = "#0000FF",
+            contentColor = "#FFFFFF"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.TabRowProps>(decoded)
+        assertEquals(2, decoded.selectedTabIndex)
+        assertEquals("tab_index", decoded.selectedTabIndexStateHostName)
+        assertEquals(1, decoded.children?.size)
+        assertEquals("#0000FF", decoded.containerColor)
+    }
+
+    // --- Scenario: TabProps serialization ---
+    @Test
+    fun tabPropsSerialization() {
+        val original = NodeProperties.TabProps(
+            selected = true,
+            text = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Tab"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.TabProps>(decoded)
+        assertEquals(true, decoded.selected)
+        assertEquals("Tab", (decoded.text?.properties as? NodeProperties.TextProps)?.text)
+    }
 }
