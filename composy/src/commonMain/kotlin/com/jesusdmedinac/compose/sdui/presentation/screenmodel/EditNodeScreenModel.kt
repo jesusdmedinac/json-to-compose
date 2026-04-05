@@ -81,6 +81,23 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
                 ModifierOperation.Background -> ComposeModifier.Operation.Background("#FFFFFFFF", ComposeShape.Rectangle)
                 ModifierOperation.Alpha -> ComposeModifier.Operation.Alpha(1f)
                 ModifierOperation.Rotate -> ComposeModifier.Operation.Rotate(0f)
+                // --- Phase 3 modifiers ---
+                ModifierOperation.Clickable -> ComposeModifier.Operation.Clickable()
+                ModifierOperation.Weight -> ComposeModifier.Operation.Weight(1f)
+                ModifierOperation.VerticalScroll -> ComposeModifier.Operation.VerticalScroll
+                ModifierOperation.HorizontalScroll -> ComposeModifier.Operation.HorizontalScroll
+                ModifierOperation.Offset -> ComposeModifier.Operation.Offset(0, 0)
+                ModifierOperation.Size -> ComposeModifier.Operation.Size(0, 0)
+                ModifierOperation.WrapContentWidth -> ComposeModifier.Operation.WrapContentWidth
+                ModifierOperation.WrapContentHeight -> ComposeModifier.Operation.WrapContentHeight
+                ModifierOperation.AspectRatio -> ComposeModifier.Operation.AspectRatio(1f)
+                ModifierOperation.ZIndex -> ComposeModifier.Operation.ZIndex(0f)
+                ModifierOperation.MinWidth -> ComposeModifier.Operation.MinWidth(0)
+                ModifierOperation.MinHeight -> ComposeModifier.Operation.MinHeight(0)
+                ModifierOperation.MaxWidth -> ComposeModifier.Operation.MaxWidth(0)
+                ModifierOperation.MaxHeight -> ComposeModifier.Operation.MaxHeight(0)
+                ModifierOperation.AnimateContentSize -> ComposeModifier.Operation.AnimateContentSize
+                ModifierOperation.TestTag -> ComposeModifier.Operation.TestTag("")
             }
             val editingComposeNode = state.editingComposeNode?.copy(
                 composeModifier = state.editingComposeNode.composeModifier.copy(
