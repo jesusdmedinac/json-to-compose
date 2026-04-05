@@ -185,5 +185,173 @@ data class ComposeModifier(
         ) : Operation(
             modifierOperation = ModifierOperation.Rotate
         )
+
+        // --- Phase 3: Missing Modifiers ---
+
+        /** Makes the component clickable. Event resolved via LocalBehavior. */
+        @Serializable
+        @SerialName("Clickable")
+        data class Clickable(
+            val onClickEventName: String? = null
+        ) : Operation(
+            modifierOperation = ModifierOperation.Clickable
+        )
+
+        /** Assigns a weight within a Row or Column scope. */
+        @Serializable
+        @SerialName("Weight")
+        data class Weight(
+            val weight: Float
+        ) : Operation(
+            modifierOperation = ModifierOperation.Weight
+        )
+
+        /** Enables vertical scrolling on the component. */
+        @Serializable
+        @SerialName("VerticalScroll")
+        data object VerticalScroll : Operation(
+            modifierOperation = ModifierOperation.VerticalScroll
+        )
+
+        /** Enables horizontal scrolling on the component. */
+        @Serializable
+        @SerialName("HorizontalScroll")
+        data object HorizontalScroll : Operation(
+            modifierOperation = ModifierOperation.HorizontalScroll
+        )
+
+        /**
+         * Offsets the component by x and y dp.
+         *
+         * @property x Horizontal offset in dp (positive = right).
+         * @property y Vertical offset in dp (positive = down).
+         */
+        @Serializable
+        @SerialName("Offset")
+        data class Offset(
+            val x: Int = 0,
+            val y: Int = 0
+        ) : Operation(
+            modifierOperation = ModifierOperation.Offset
+        )
+
+        /**
+         * Sets explicit width and height for the component.
+         *
+         * @property width Width in dp.
+         * @property height Height in dp.
+         */
+        @Serializable
+        @SerialName("Size")
+        data class Size(
+            val width: Int,
+            val height: Int
+        ) : Operation(
+            modifierOperation = ModifierOperation.Size
+        )
+
+        /** Wraps the component's width to its content. */
+        @Serializable
+        @SerialName("WrapContentWidth")
+        data object WrapContentWidth : Operation(
+            modifierOperation = ModifierOperation.WrapContentWidth
+        )
+
+        /** Wraps the component's height to its content. */
+        @Serializable
+        @SerialName("WrapContentHeight")
+        data object WrapContentHeight : Operation(
+            modifierOperation = ModifierOperation.WrapContentHeight
+        )
+
+        /**
+         * Constrains the component to a specific aspect ratio.
+         *
+         * @property ratio Width-to-height ratio (e.g., 16f/9f for 16:9).
+         */
+        @Serializable
+        @SerialName("AspectRatio")
+        data class AspectRatio(
+            val ratio: Float
+        ) : Operation(
+            modifierOperation = ModifierOperation.AspectRatio
+        )
+
+        /**
+         * Sets the z-index for overlay ordering.
+         *
+         * @property zIndex Z-index value. Higher values are drawn on top.
+         */
+        @Serializable
+        @SerialName("ZIndex")
+        data class ZIndex(
+            val zIndex: Float
+        ) : Operation(
+            modifierOperation = ModifierOperation.ZIndex
+        )
+
+        /**
+         * Sets a minimum width for the component.
+         *
+         * @property value Minimum width in dp.
+         */
+        @Serializable
+        @SerialName("MinWidth")
+        data class MinWidth(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.MinWidth
+        )
+
+        /**
+         * Sets a minimum height for the component.
+         *
+         * @property value Minimum height in dp.
+         */
+        @Serializable
+        @SerialName("MinHeight")
+        data class MinHeight(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.MinHeight
+        )
+
+        /**
+         * Sets a maximum width for the component.
+         *
+         * @property value Maximum width in dp.
+         */
+        @Serializable
+        @SerialName("MaxWidth")
+        data class MaxWidth(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.MaxWidth
+        )
+
+        /**
+         * Sets a maximum height for the component.
+         *
+         * @property value Maximum height in dp.
+         */
+        @Serializable
+        @SerialName("MaxHeight")
+        data class MaxHeight(val value: Int) : Operation(
+            modifierOperation = ModifierOperation.MaxHeight
+        )
+
+        /** Animates size changes of the component's content. */
+        @Serializable
+        @SerialName("AnimateContentSize")
+        data object AnimateContentSize : Operation(
+            modifierOperation = ModifierOperation.AnimateContentSize
+        )
+
+        /**
+         * Applies a test tag for UI test identification.
+         *
+         * @property tag The tag string used for test identification.
+         */
+        @Serializable
+        @SerialName("TestTag")
+        data class TestTag(
+            val tag: String
+        ) : Operation(
+            modifierOperation = ModifierOperation.TestTag
+        )
     }
 }

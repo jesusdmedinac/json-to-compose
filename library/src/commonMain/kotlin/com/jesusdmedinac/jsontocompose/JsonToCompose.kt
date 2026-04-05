@@ -8,39 +8,67 @@ import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.renderer.ToAlertDialog
+import com.jesusdmedinac.jsontocompose.renderer.ToAssistChip
+import com.jesusdmedinac.jsontocompose.renderer.ToBadge
+import com.jesusdmedinac.jsontocompose.renderer.ToBadgedBox
 import com.jesusdmedinac.jsontocompose.renderer.ToBottomBar
 import com.jesusdmedinac.jsontocompose.renderer.ToBottomNavigationItem
 import com.jesusdmedinac.jsontocompose.renderer.ToBox
 import com.jesusdmedinac.jsontocompose.renderer.ToButton
 import com.jesusdmedinac.jsontocompose.renderer.ToCard
 import com.jesusdmedinac.jsontocompose.renderer.ToCheckbox
+import com.jesusdmedinac.jsontocompose.renderer.ToCircularProgressIndicator
 import com.jesusdmedinac.jsontocompose.renderer.ToColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToCustom
+import com.jesusdmedinac.jsontocompose.renderer.ToDatePicker
 import com.jesusdmedinac.jsontocompose.renderer.ToElevatedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToExtendedFloatingActionButton
+import com.jesusdmedinac.jsontocompose.renderer.ToFilterChip
 import com.jesusdmedinac.jsontocompose.renderer.ToFloatingActionButton
+import com.jesusdmedinac.jsontocompose.renderer.ToFlowColumn
+import com.jesusdmedinac.jsontocompose.renderer.ToFlowRow
+import com.jesusdmedinac.jsontocompose.renderer.ToHorizontalDivider
+import com.jesusdmedinac.jsontocompose.renderer.ToHorizontalPager
 import com.jesusdmedinac.jsontocompose.renderer.ToIcon
 import com.jesusdmedinac.jsontocompose.renderer.ToIconButton
 import com.jesusdmedinac.jsontocompose.renderer.ToImage
+import com.jesusdmedinac.jsontocompose.renderer.ToInputChip
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyColumn
 import com.jesusdmedinac.jsontocompose.renderer.ToLazyRow
+import com.jesusdmedinac.jsontocompose.renderer.ToLinearProgressIndicator
+import com.jesusdmedinac.jsontocompose.renderer.ToListItem
+import com.jesusdmedinac.jsontocompose.renderer.ToModalBottomSheet
 import com.jesusdmedinac.jsontocompose.renderer.ToModalNavigationDrawer
+import com.jesusdmedinac.jsontocompose.renderer.ToMultiChoiceSegmentedButtonRow
 import com.jesusdmedinac.jsontocompose.renderer.ToNavigationBar
 import com.jesusdmedinac.jsontocompose.renderer.ToNavigationBarItem
 import com.jesusdmedinac.jsontocompose.renderer.ToNavigationDrawerItem
 import com.jesusdmedinac.jsontocompose.renderer.ToNavigationRail
 import com.jesusdmedinac.jsontocompose.renderer.ToNavigationRailItem
 import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
+import com.jesusdmedinac.jsontocompose.renderer.ToPlainTooltip
+import com.jesusdmedinac.jsontocompose.renderer.ToRadioButton
+import com.jesusdmedinac.jsontocompose.renderer.ToRichTooltip
 import com.jesusdmedinac.jsontocompose.renderer.ToRow
 import com.jesusdmedinac.jsontocompose.renderer.ToScaffold
 import com.jesusdmedinac.jsontocompose.renderer.ToScrollableTabRow
+import com.jesusdmedinac.jsontocompose.renderer.ToSearchBar
+import com.jesusdmedinac.jsontocompose.renderer.ToSegmentedButton
+import com.jesusdmedinac.jsontocompose.renderer.ToSingleChoiceSegmentedButtonRow
+import com.jesusdmedinac.jsontocompose.renderer.ToSlider
+import com.jesusdmedinac.jsontocompose.renderer.ToSnackbarHost
 import com.jesusdmedinac.jsontocompose.renderer.ToSpacer
+import com.jesusdmedinac.jsontocompose.renderer.ToSuggestionChip
+import com.jesusdmedinac.jsontocompose.renderer.ToSurface
 import com.jesusdmedinac.jsontocompose.renderer.ToSwitch
 import com.jesusdmedinac.jsontocompose.renderer.ToTab
 import com.jesusdmedinac.jsontocompose.renderer.ToTabRow
 import com.jesusdmedinac.jsontocompose.renderer.ToText
 import com.jesusdmedinac.jsontocompose.renderer.ToTextField
+import com.jesusdmedinac.jsontocompose.renderer.ToTimePicker
 import com.jesusdmedinac.jsontocompose.renderer.ToTopAppBar
+import com.jesusdmedinac.jsontocompose.renderer.ToVerticalDivider
+import com.jesusdmedinac.jsontocompose.renderer.ToVerticalPager
 import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.DrawableResource
@@ -142,6 +170,38 @@ fun ComposeNode.ToCompose() {
         ComposeType.BottomNavigationItem -> ToBottomNavigationItem()
         ComposeType.Switch -> ToSwitch()
         ComposeType.Checkbox -> ToCheckbox()
+
+        // --- Phase 3: Stub routes ---
+        ComposeType.Slider -> ToSlider()
+        ComposeType.RadioButton -> ToRadioButton()
+        ComposeType.SingleChoiceSegmentedButtonRow -> ToSingleChoiceSegmentedButtonRow()
+        ComposeType.MultiChoiceSegmentedButtonRow -> ToMultiChoiceSegmentedButtonRow()
+        ComposeType.SegmentedButton -> ToSegmentedButton()
+        ComposeType.DatePicker -> ToDatePicker()
+        ComposeType.TimePicker -> ToTimePicker()
+        ComposeType.SearchBar -> ToSearchBar()
+        ComposeType.HorizontalDivider -> ToHorizontalDivider()
+        ComposeType.VerticalDivider -> ToVerticalDivider()
+        ComposeType.FlowRow -> ToFlowRow()
+        ComposeType.FlowColumn -> ToFlowColumn()
+        ComposeType.Surface -> ToSurface()
+        ComposeType.HorizontalPager -> ToHorizontalPager()
+        ComposeType.VerticalPager -> ToVerticalPager()
+        ComposeType.ModalBottomSheet -> ToModalBottomSheet()
+        ComposeType.Badge -> ToBadge()
+        ComposeType.BadgedBox -> ToBadgedBox()
+        ComposeType.AssistChip -> ToAssistChip()
+        ComposeType.FilterChip -> ToFilterChip()
+        ComposeType.InputChip -> ToInputChip()
+        ComposeType.SuggestionChip -> ToSuggestionChip()
+        ComposeType.CircularProgressIndicator -> ToCircularProgressIndicator()
+        ComposeType.LinearProgressIndicator -> ToLinearProgressIndicator()
+        ComposeType.PlainTooltip -> ToPlainTooltip()
+        ComposeType.RichTooltip -> ToRichTooltip()
+        ComposeType.SnackbarHost -> ToSnackbarHost()
+        ComposeType.ListItem -> ToListItem()
+
         ComposeType.Custom -> ToCustom()
     }
 }
+
