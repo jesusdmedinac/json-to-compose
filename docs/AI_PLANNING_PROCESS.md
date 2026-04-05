@@ -128,7 +128,7 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 1. The AI reads `PROGRESS.md` to identify the next pending scenario.
 2. The AI reads the corresponding `.feature` file to get the full context.
 3. The AI implements the code needed to satisfy the scenario.
-4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test).
+4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test). For library changes, run tests for `library` and **CRITICALLY** run `./gradlew :composy:compileKotlinDesktop` to ensure the editor app does not break due to unhandled enumerations.
 5. The code is reviewed.
 6. A commit is made with a message referencing the scenario and the issue (e.g., `feat: basic Text [text.feature:Scenario 1] #12`).
 7. The AI updates the specific phase `PROGRESS.md` marking the scenario as completed.
