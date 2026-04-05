@@ -948,6 +948,143 @@ private fun navigationDemos(): ComposeNode = ComposeNode(
         children = listOf(
             topAppBarDemo(),
             bottomBarDemo(),
+            navigationBarDemo(),
+            navigationRailDemo(),
+            tabRowDemo(),
+        )
+    )
+)
+
+private fun navigationBarDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Material 3 NavigationBar"),
+            ComposeNode(
+                type = ComposeType.NavigationBar,
+                properties = NodeProperties.NavigationBarProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.NavigationBarItem,
+                            properties = NodeProperties.NavigationBarItemProps(
+                                selected = true,
+                                label = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Home"),
+                                ),
+                                icon = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "H"),
+                                ),
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.NavigationBarItem,
+                            properties = NodeProperties.NavigationBarItemProps(
+                                selected = false,
+                                label = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Search"),
+                                ),
+                                icon = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "S"),
+                                ),
+                            )
+                        ),
+                    )
+                )
+            ),
+        )
+    )
+)
+
+private fun navigationRailDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Material 3 NavigationRail"),
+            ComposeNode(
+                type = ComposeType.NavigationRail,
+                properties = NodeProperties.NavigationRailProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.NavigationRailItem,
+                            properties = NodeProperties.NavigationRailItemProps(
+                                selected = true,
+                                label = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Menu 1"),
+                                ),
+                                icon = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "1"),
+                                ),
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.NavigationRailItem,
+                            properties = NodeProperties.NavigationRailItemProps(
+                                selected = false,
+                                label = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Menu 2"),
+                                ),
+                                icon = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "2"),
+                                ),
+                            )
+                        ),
+                    )
+                )
+            ),
+        )
+    )
+)
+
+private fun tabRowDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Material 3 TabRow"),
+            ComposeNode(
+                type = ComposeType.TabRow,
+                properties = NodeProperties.TabRowProps(
+                    selectedTabIndex = 0,
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Tab,
+                            properties = NodeProperties.TabProps(
+                                selected = true,
+                                text = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Tab 1"),
+                                ),
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Tab,
+                            properties = NodeProperties.TabProps(
+                                selected = false,
+                                text = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Tab 2"),
+                                ),
+                            )
+                        ),
+                    )
+                )
+            ),
         )
     )
 )

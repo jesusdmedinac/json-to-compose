@@ -14,16 +14,16 @@ import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 @Composable
 fun ComposeNode.ToNavigationRail() {
     val props = properties as? NodeProperties.NavigationRailProps ?: return
-    val children = props.children ?: return
+    val children = props.children ?: emptyList()
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val containerColor = props.containerColor.toColor(NavigationRailDefaults.containerColor)
+    val containerColor = props.containerColor.toColor(MaterialTheme.colorScheme.surface)
     val contentColor = props.contentColor.toColor(contentColorFor(containerColor))
 
     NavigationRail(
         modifier = modifier,
         containerColor = containerColor,
         contentColor = contentColor,
-        header = props.header?.let { { it.ToCompose() } }
+        header = props.header?.let { headerNode -> { headerNode.ToCompose() } }
     ) {
         children.forEach { child -> child.ToCompose() }
     }
@@ -62,7 +62,7 @@ fun ComposeNode.ToNavigationRailItem() {
         selected = selected,
         onClick = { onClick() },
         icon = { props.icon?.ToCompose() },
-        label = props.label?.let { { it.ToCompose() } },
+        label = props.label?.let { labelNode -> { labelNode.ToCompose() } },
         enabled = enabled,
         alwaysShowLabel = alwaysShowLabel,
     )

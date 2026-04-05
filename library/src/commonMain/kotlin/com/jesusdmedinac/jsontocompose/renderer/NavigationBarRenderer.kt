@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.jesusdmedinac.jsontocompose.LocalBehavior
+import com.jesusdmedinac.jsontocompose.LocalRowScope
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -24,7 +25,9 @@ fun ComposeNode.ToNavigationBar() {
         containerColor = containerColor,
         contentColor = contentColor,
     ) {
-        children.forEach { child -> child.ToCompose() }
+        CompositionLocalProvider(LocalRowScope provides this) {
+            children.forEach { child -> child.ToCompose() }
+        }
     }
 }
 
@@ -32,6 +35,7 @@ fun ComposeNode.ToNavigationBar() {
 fun ComposeNode.ToNavigationBarItem() {
     val props = properties as? NodeProperties.NavigationBarItemProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
+    val rowScope = LocalRowScope.current ?: return
 
     val (selected, _) = resolveStateHostValue(
         stateHostName = props.selectedStateHostName,
@@ -56,13 +60,15 @@ fun ComposeNode.ToNavigationBarItem() {
         props.onClickEventName?.let { behavior[it]?.invoke() }
     }
 
-    NavigationBarItem(
-        modifier = modifier,
-        selected = selected,
-        onClick = { onClick() },
-        icon = { props.icon?.ToCompose() },
-        label = props.label?.let { { it.ToCompose() } },
-        enabled = enabled,
-        alwaysShowLabel = alwaysShowLabel,
-    )
+    with(rowScope) {
+        NavigationBarItem(
+            modifier = modifier,
+            selected = selected,
+            onClick = { onClick() },
+            icon = { props.icon?.ToCompose() },
+            label = props.label?.let { labelNode -> { labelNode.ToCompose() } },
+            enabled = enabled,
+            alwaysShowLabel = alwaysShowLabel,
+        )
+    }
 }

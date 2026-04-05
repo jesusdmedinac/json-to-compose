@@ -109,23 +109,9 @@ buildkonfig {
 
 fun Project.getPropertiesFile(key: String, file: String = "local.properties"): String {
     val properties = Properties()
-    val localProperties = File(file)
-    when {
-        localProperties.isFile -> {
-            InputStreamReader(FileInputStream(localProperties), Charsets.UTF_8).use { reader ->
-                properties.load(reader)
-            }
-        }
-        key == "supabase.url" -> {
-            return ""
-        }
-        key == "supabase.key" -> {
-            return ""
-        }
-        else -> {
-            error("File from not found")
-        }
+    val localProperties = project.rootProject.file(file)
+    if (localProperties.exists()) {
+        localProperties.inputStream().use { properties.load(it) }
     }
-
-    return properties.getProperty(key)
+    return properties.getProperty(key) ?: ""
 }

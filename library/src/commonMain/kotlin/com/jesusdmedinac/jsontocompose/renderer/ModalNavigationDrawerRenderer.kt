@@ -66,7 +66,7 @@ fun ComposeNode.ToNavigationDrawerItem() {
         label = { props.label?.ToCompose() },
         selected = selected,
         onClick = { onClick() },
-        icon = props.icon?.let { { it.ToCompose() } },
-        badge = props.badge?.let { { it.ToCompose() } }
+        icon = props.icon?.let { iconNode -> { iconNode.ToCompose() } },
+        badge = props.badge?.let { badgeNode -> { badgeNode.ToCompose() } }
     )
 }

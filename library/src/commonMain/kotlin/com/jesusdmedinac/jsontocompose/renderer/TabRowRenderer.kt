@@ -87,8 +87,8 @@ fun ComposeNode.ToTab() {
         modifier = modifier,
         selected = selected,
         onClick = { onClick() },
-        text = props.text?.let { { it.ToCompose() } },
-        icon = props.icon?.let { { it.ToCompose() } },
+        text = props.text?.let { textNode -> { textNode.ToCompose() } },
+        icon = props.icon?.let { iconNode -> { iconNode.ToCompose() } },
         enabled = enabled
     )
 }
