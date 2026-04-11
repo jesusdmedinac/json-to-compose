@@ -61,6 +61,48 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             columnDemo(),
             rowDemo(),
             boxDemo(),
+            spacerDemo(),
+        )
+    )
+)
+
+private fun spacerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Spacer (Height 16)"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Top Text")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Spacer,
+                            properties = NodeProperties.SpacerProps,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Height(16))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Bottom Text (16dp below)")
+                        )
+                    )
+                )
+            )
         )
     )
 )

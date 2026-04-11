@@ -196,7 +196,7 @@ sealed interface NodeProperties {
      */
     @Serializable
     @SerialName("SpacerProps")
-    data object SpacerProps
+    data object SpacerProps : NodeProperties
 
     /**
      * Properties for a [ComposeType.Image] component.

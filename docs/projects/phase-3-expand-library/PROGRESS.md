@@ -121,9 +121,9 @@
 
 ## Feature: Layout Components
 
-- [ ] Scenario: Render a Spacer with fixed height
-- [ ] Scenario: Render a Spacer with fixed width in a Row
-- [ ] Scenario: Render a Spacer with weight modifier in a Column
+- [x] Scenario: Render a Spacer with fixed height
+- [x] Scenario: Render a Spacer with fixed width in a Row
+- [x] Scenario: Render a Spacer with weight modifier in a Column
 - [ ] Scenario: Render a HorizontalDivider
 - [ ] Scenario: Render a HorizontalDivider with custom thickness and color
 - [ ] Scenario: Render a VerticalDivider
