@@ -62,6 +62,85 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             rowDemo(),
             boxDemo(),
             spacerDemo(),
+            dividerDemo(),
+        )
+    )
+)
+
+private fun dividerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Dividers"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Horizontal Divider (Default)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.HorizontalDivider,
+                            properties = NodeProperties.DividerProps()
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Padding(0))
+                            ),
+                            properties = NodeProperties.TextProps(text = "Horizontal Divider (Red, 4dp)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.HorizontalDivider,
+                            properties = NodeProperties.DividerProps(
+                                thickness = 4,
+                                color = "#FFFF0000"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Row,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Height(40),
+                                    ComposeModifier.Operation.Padding(8)
+                                )
+                            ),
+                            properties = NodeProperties.RowProps(
+                                verticalAlignment = "CenterVertically",
+                                horizontalArrangement = "SpaceEvenly",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Left")
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.VerticalDivider,
+                                        properties = NodeProperties.DividerProps(
+                                            thickness = 2,
+                                            color = "#FF0000FF"
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Right")
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         )
     )
 )

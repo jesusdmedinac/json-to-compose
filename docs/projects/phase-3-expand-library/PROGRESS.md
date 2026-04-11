@@ -124,9 +124,9 @@
 - [x] Scenario: Render a Spacer with fixed height
 - [x] Scenario: Render a Spacer with fixed width in a Row
 - [x] Scenario: Render a Spacer with weight modifier in a Column
-- [ ] Scenario: Render a HorizontalDivider
-- [ ] Scenario: Render a HorizontalDivider with custom thickness and color
-- [ ] Scenario: Render a VerticalDivider
+- [x] Scenario: Render a HorizontalDivider
+- [x] Scenario: Render a HorizontalDivider with custom thickness and color
+- [x] Scenario: Render a VerticalDivider
 - [ ] Scenario: Render a FlowRow with wrapping children
 - [ ] Scenario: Render a FlowRow with horizontalArrangement and verticalArrangement
 - [ ] Scenario: Render a FlowColumn with wrapping children
