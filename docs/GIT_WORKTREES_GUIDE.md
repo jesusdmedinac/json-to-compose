@@ -40,6 +40,20 @@ cd ../<project-name>-<feature-name>
 
 **Important:** All standard Git commands (`add`, `commit`, `push`, `status`) work exactly the same way inside the worktree folder as they do in the main repository folder.
 
+### 2.5 Switching between Worktrees
+
+If you need to switch your current workspace to a different feature that already has a worktree set up:
+
+1. **List existing worktrees:**
+   ```bash
+   git worktree list
+   ```
+
+2. **Change directory to the desired worktree:**
+   ```bash
+   cd <path-from-list>
+   ```
+
 ### 3. Sync and Push
 
 Commit your changes frequently as per the standard atomic commit guidelines. Push the branch to the remote repository when ready for review or merging.
@@ -47,6 +61,9 @@ Commit your changes frequently as per the standard atomic commit guidelines. Pus
 ```bash
 git push -u origin <feature-branch-name>
 ```
+
+**CRITICAL: Create a Pull Request (PR)**
+After pushing, always use the GitHub CLI (`gh pr create`) to create a Pull Request linked to the original Issue. **The PR is a fundamental step** so the developer can review the implemented code before it is merged into the main branch. Do not merge it yourself.
 
 ### 4. Cleanup (Post-Merge or Post-Task)
 

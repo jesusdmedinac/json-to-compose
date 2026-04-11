@@ -1,6 +1,6 @@
 # Recommendation: Integrating GitHub with your Planning Process
 
-Based on your [5-Step AI Planning Process](docs/AI_PLANNING_PROCESS.md) and current [Roadmap](docs/projects/PROGRESS.md), here is the most efficient way to manage your work on GitHub as a solo developer.
+Based on your [5-Step AI Planning Process](docs/AI_PLANNING_PROCESS.md) and current [Roadmap](PROGRESS.md), here is the most efficient way to manage your work on GitHub as a solo developer.
 
 ## The Strategy: "High-Level Roadmap + Low-Level Execution"
 

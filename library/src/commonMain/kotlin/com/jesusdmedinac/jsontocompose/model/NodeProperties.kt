@@ -366,6 +366,179 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
+     * Properties for a [ComposeType.NavigationBar] component.
+     *
+     * @property children List of child nodes (typically [ComposeType.NavigationBarItem] nodes).
+     * @property containerColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     */
+    @Serializable
+    @SerialName("NavigationBarProps")
+    data class NavigationBarProps(
+        val children: List<ComposeNode>? = null,
+        val containerColor: String? = null,
+        val contentColor: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.NavigationBarItem] component.
+     *
+     * @property selected Whether this item is currently selected.
+     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the item is clicked.
+     * @property label The node rendered as the item label (typically a Text node).
+     * @property icon The node rendered as the item icon (typically an Image or Icon node).
+     * @property enabled Whether the item is enabled for interaction.
+     * @property enabledStateHostName Name of a `StateHost<Boolean>` for dynamic enabled state.
+     * @property alwaysShowLabel Whether to always show the label, even when not selected.
+     * @property alwaysShowLabelStateHostName Name of a `StateHost<Boolean>` for dynamic label visibility.
+     */
+    @Serializable
+    @SerialName("NavigationBarItemProps")
+    data class NavigationBarItemProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val onClickEventName: String? = null,
+        val label: ComposeNode? = null,
+        val icon: ComposeNode? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+        val alwaysShowLabel: Boolean? = null,
+        val alwaysShowLabelStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.NavigationRail] component.
+     *
+     * @property children List of child nodes (typically [ComposeType.NavigationRailItem] nodes).
+     * @property containerColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property header The node rendered at the top of the rail (typically a FAB).
+     */
+    @Serializable
+    @SerialName("NavigationRailProps")
+    data class NavigationRailProps(
+        val children: List<ComposeNode>? = null,
+        val containerColor: String? = null,
+        val contentColor: String? = null,
+        val header: ComposeNode? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.NavigationRailItem] component.
+     *
+     * @property selected Whether this item is currently selected.
+     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the item is clicked.
+     * @property label The node rendered as the item label (typically a Text node).
+     * @property icon The node rendered as the item icon (typically an Image or Icon node).
+     * @property enabled Whether the item is enabled for interaction.
+     * @property enabledStateHostName Name of a `StateHost<Boolean>` for dynamic enabled state.
+     * @property alwaysShowLabel Whether to always show the label, even when not selected.
+     * @property alwaysShowLabelStateHostName Name of a `StateHost<Boolean>` for dynamic label visibility.
+     */
+    @Serializable
+    @SerialName("NavigationRailItemProps")
+    data class NavigationRailItemProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val onClickEventName: String? = null,
+        val label: ComposeNode? = null,
+        val icon: ComposeNode? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+        val alwaysShowLabel: Boolean? = null,
+        val alwaysShowLabelStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.ModalNavigationDrawer] component.
+     *
+     * @property drawerContent List of nodes rendered inside the drawer sheet.
+     * @property isOpen Whether the drawer is currently open.
+     * @property isOpenStateHostName Name of a `StateHost<Boolean>` for dynamic open/close control.
+     * @property onDismissRequestEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the drawer is dismissed.
+     * @property child The main content node.
+     */
+    @Serializable
+    @SerialName("NavigationDrawerProps")
+    data class NavigationDrawerProps(
+        val drawerContent: List<ComposeNode>? = null,
+        val isOpen: Boolean? = null,
+        val isOpenStateHostName: String? = null,
+        val onDismissRequestEventName: String? = null,
+        val child: ComposeNode? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.NavigationDrawerItem] component.
+     *
+     * @property label The node rendered as the item label (typically a Text node).
+     * @property selected Whether this item is currently selected.
+     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the item is clicked.
+     * @property icon The node rendered as the item icon.
+     * @property badge The node rendered as the item badge.
+     */
+    @Serializable
+    @SerialName("NavigationDrawerItemProps")
+    data class NavigationDrawerItemProps(
+        val label: ComposeNode? = null,
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val onClickEventName: String? = null,
+        val icon: ComposeNode? = null,
+        val badge: ComposeNode? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.TabRow] or [ComposeType.ScrollableTabRow] component.
+     *
+     * @property selectedTabIndex The index of the currently selected tab.
+     * @property selectedTabIndexStateHostName Name of a `StateHost<Int>` for dynamic tab index.
+     * @property containerColor Background color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property contentColor Content color as an ARGB hex string (#AARRGGBB or #RRGGBB).
+     * @property children List of child nodes (typically [ComposeType.Tab] nodes).
+     */
+    @Serializable
+    @SerialName("TabRowProps")
+    data class TabRowProps(
+        val selectedTabIndex: Int? = null,
+        val selectedTabIndexStateHostName: String? = null,
+        val containerColor: String? = null,
+        val contentColor: String? = null,
+        val children: List<ComposeNode>? = null,
+    ) : NodeProperties
+
+    /**
+     * Properties for a [ComposeType.Tab] component.
+     *
+     * @property selected Whether this tab is currently selected.
+     * @property selectedStateHostName Name of a `StateHost<Boolean>` for dynamic selection state.
+     * @property onClickEventName Name of the [Behavior][com.jesusdmedinac.jsontocompose.behavior.Behavior]
+     *   invoked when the tab is clicked.
+     * @property text The node rendered as the tab text.
+     * @property icon The node rendered as the tab icon.
+     * @property enabled Whether the tab is enabled for interaction.
+     * @property enabledStateHostName Name of a `StateHost<Boolean>` for dynamic enabled state.
+     */
+    @Serializable
+    @SerialName("TabProps")
+    data class TabProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val onClickEventName: String? = null,
+        val text: ComposeNode? = null,
+        val icon: ComposeNode? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
      * Properties for a [ComposeType.BottomBar] component.
      *
      * @property children List of child nodes (typically [ComposeType.BottomNavigationItem] nodes).
@@ -448,18 +621,16 @@ sealed interface NodeProperties {
         val enabledStateHostName: String? = null,
     ) : NodeProperties
 
-    /**
-     * Range for a Slider.
-     */
+    // --- Phase 3: Input Components ---
+
+    /** Range of values for a [ComposeType.Slider] component. */
     @Serializable
     data class FloatRange(
         val start: Float = 0f,
         val endInclusive: Float = 1f,
     )
 
-    /**
-     * Properties for a [ComposeType.Slider] component.
-     */
+    /** Properties for a [ComposeType.Slider] component. */
     @Serializable
     @SerialName("SliderProps")
     data class SliderProps(
@@ -470,6 +641,248 @@ sealed interface NodeProperties {
         val onValueChangeEventName: String? = null,
         val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.RadioButton] component. */
+    @Serializable
+    @SerialName("RadioButtonProps")
+    data class RadioButtonProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val onClickEventName: String? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for [ComposeType.SingleChoiceSegmentedButtonRow] and [ComposeType.MultiChoiceSegmentedButtonRow]. */
+    @Serializable
+    @SerialName("SegmentedButtonRowProps")
+    data class SegmentedButtonRowProps(
+        val children: List<ComposeNode>? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.SegmentedButton] component. */
+    @Serializable
+    @SerialName("SegmentedButtonProps")
+    data class SegmentedButtonProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val onClickEventName: String? = null,
+        val label: ComposeNode? = null,
+        val icon: ComposeNode? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.DatePicker] component. */
+    @Serializable
+    @SerialName("DatePickerProps")
+    data class DatePickerProps(
+        val selectedDateMillis: Long? = null,
+        val selectedDateMillisStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.TimePicker] component. */
+    @Serializable
+    @SerialName("TimePickerProps")
+    data class TimePickerProps(
+        val hour: Int? = null,
+        val hourStateHostName: String? = null,
+        val minute: Int? = null,
+        val minuteStateHostName: String? = null,
+        val is24Hour: Boolean? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.SearchBar] component. */
+    @Serializable
+    @SerialName("SearchBarProps")
+    data class SearchBarProps(
+        val query: String? = null,
+        val queryStateHostName: String? = null,
+        val placeholder: ComposeNode? = null,
+        val leadingIcon: ComposeNode? = null,
+        val trailingIcon: ComposeNode? = null,
+        val active: Boolean? = null,
+        val activeStateHostName: String? = null,
+        val onQueryChangeEventName: String? = null,
+        val children: List<ComposeNode>? = null,
+    ) : NodeProperties
+
+    // --- Phase 3: Layout Components ---
+
+    /** Properties for [ComposeType.HorizontalDivider] and [ComposeType.VerticalDivider]. */
+    @Serializable
+    @SerialName("DividerProps")
+    data class DividerProps(
+        val thickness: Int? = null,
+        val color: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.FlowRow] component. */
+    @Serializable
+    @SerialName("FlowRowProps")
+    data class FlowRowProps(
+        val children: List<ComposeNode>? = null,
+        val horizontalArrangement: String? = null,
+        val verticalArrangement: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.FlowColumn] component. */
+    @Serializable
+    @SerialName("FlowColumnProps")
+    data class FlowColumnProps(
+        val children: List<ComposeNode>? = null,
+        val horizontalArrangement: String? = null,
+        val verticalArrangement: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.Surface] component. */
+    @Serializable
+    @SerialName("SurfaceProps")
+    data class SurfaceProps(
+        val child: ComposeNode? = null,
+        val tonalElevation: Int? = null,
+        val shadowElevation: Int? = null,
+        val color: String? = null,
+        val shape: String? = null,
+    ) : NodeProperties
+
+    // --- Phase 3: Pager Components ---
+
+    /** Properties for [ComposeType.HorizontalPager] and [ComposeType.VerticalPager]. */
+    @Serializable
+    @SerialName("PagerProps")
+    data class PagerProps(
+        val pages: List<ComposeNode>? = null,
+        val currentPage: Int? = null,
+        val currentPageStateHostName: String? = null,
+        val beyondViewportPageCount: Int? = null,
+        val userScrollEnabled: Boolean? = null,
+        val userScrollEnabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    // --- Phase 3: ModalBottomSheet ---
+
+    /** Properties for a [ComposeType.ModalBottomSheet] component. */
+    @Serializable
+    @SerialName("ModalBottomSheetProps")
+    data class ModalBottomSheetProps(
+        val child: ComposeNode? = null,
+        val visible: Boolean? = null,
+        val visibleStateHostName: String? = null,
+        val onDismissRequestEventName: String? = null,
+        val dragHandle: ComposeNode? = null,
+        val shape: String? = null,
+        val scrimColor: String? = null,
+    ) : NodeProperties
+
+    // --- Phase 3: Display Components ---
+
+    /** Properties for a [ComposeType.Badge] component. */
+    @Serializable
+    @SerialName("BadgeProps")
+    data class BadgeProps(
+        val text: String? = null,
+        val textStateHostName: String? = null,
+        val containerColor: String? = null,
+        val contentColor: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.BadgedBox] component. */
+    @Serializable
+    @SerialName("BadgedBoxProps")
+    data class BadgedBoxProps(
+        val badge: ComposeNode? = null,
+        val child: ComposeNode? = null,
+    ) : NodeProperties
+
+    /** Properties for [ComposeType.AssistChip] and [ComposeType.SuggestionChip]. */
+    @Serializable
+    @SerialName("ChipProps")
+    data class ChipProps(
+        val label: ComposeNode? = null,
+        val leadingIcon: ComposeNode? = null,
+        val onClickEventName: String? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.FilterChip] component. */
+    @Serializable
+    @SerialName("FilterChipProps")
+    data class FilterChipProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val label: ComposeNode? = null,
+        val leadingIcon: ComposeNode? = null,
+        val onClickEventName: String? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.InputChip] component. */
+    @Serializable
+    @SerialName("InputChipProps")
+    data class InputChipProps(
+        val selected: Boolean? = null,
+        val selectedStateHostName: String? = null,
+        val label: ComposeNode? = null,
+        val leadingIcon: ComposeNode? = null,
+        val trailingIcon: ComposeNode? = null,
+        val onClickEventName: String? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /** Properties for [ComposeType.CircularProgressIndicator] and [ComposeType.LinearProgressIndicator]. */
+    @Serializable
+    @SerialName("ProgressIndicatorProps")
+    data class ProgressIndicatorProps(
+        val progress: Float? = null,
+        val progressStateHostName: String? = null,
+        val color: String? = null,
+        val trackColor: String? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.PlainTooltip] component. */
+    @Serializable
+    @SerialName("PlainTooltipProps")
+    data class PlainTooltipProps(
+        val text: String? = null,
+        val anchor: ComposeNode? = null,
+    ) : NodeProperties
+
+    /** Properties for a [ComposeType.RichTooltip] component. */
+    @Serializable
+    @SerialName("RichTooltipProps")
+    data class RichTooltipProps(
+        val title: ComposeNode? = null,
+        val text: ComposeNode? = null,
+        val action: ComposeNode? = null,
+        val anchor: ComposeNode? = null,
+    ) : NodeProperties
+
+    // --- Phase 3: Snackbar ---
+
+    /** Properties for a [ComposeType.SnackbarHost] component. */
+    @Serializable
+    @SerialName("SnackbarHostProps")
+    data class SnackbarHostProps(
+        val snackbarHostStateHostName: String? = null,
+    ) : NodeProperties
+
+    // --- Phase 3: ListItem ---
+
+    /** Properties for a [ComposeType.ListItem] component. */
+    @Serializable
+    @SerialName("ListItemProps")
+    data class ListItemProps(
+        val headlineContent: ComposeNode? = null,
+        val supportingContent: ComposeNode? = null,
+        val overlineContent: ComposeNode? = null,
+        val leadingContent: ComposeNode? = null,
+        val trailingContent: ComposeNode? = null,
+        val onClickEventName: String? = null,
     ) : NodeProperties
 
     /**

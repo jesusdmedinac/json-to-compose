@@ -1,4 +1,5 @@
 # json-to-compose
+> 🤖 **AI AGENTS:** Read [AGENTS.md](AGENTS.md) and [PROGRESS.md](PROGRESS.md) before starting any task. Follow the 5-step process in `docs/AI_PLANNING_PROCESS.md`.
 
 A library that dynamically converts JSON into Jetpack Compose components.
 
@@ -178,6 +179,15 @@ fun App() {
 | **OutlinedCard**         | Card with border outline              | `borderColor`, `cornerRadius`, `child`                                                                                                                                                        |
 | **AlertDialog**          | Material Design alert dialog          | `title`, `text`, `confirmButton`, `dismissButton`, `visibilityState`                                                                                                                          |
 | **TopAppBar**            | Material Design top app bar           | `title`, `backgroundColor`                                                                                                                                                                    |
+| **NavigationBar**        | Material Design bottom navigation     | `children`, `containerColor`, `contentColor`                                                                                                                                                  |
+| **NavigationBarItem**    | Item for NavigationBar                | `selected`, `label`, `icon`, `enabled`, `alwaysShowLabel`, `onClickEventName`                                                                                                                 |
+| **NavigationRail**       | Material Design side navigation       | `children`, `header`, `containerColor`, `contentColor`                                                                                                                                        |
+| **NavigationRailItem**   | Item for NavigationRail               | `selected`, `label`, `icon`, `enabled`, `alwaysShowLabel`, `onClickEventName`                                                                                                                 |
+| **ModalNavigationDrawer**| Side drawer navigation                | `isOpen`, `drawerContent`, `child`                                                                                                                                                            |
+| **NavigationDrawerItem** | Item for NavigationDrawer             | `selected`, `label`, `badge`, `icon`, `onClickEventName`                                                                                                                                      |
+| **TabRow**               | Row of tabs                           | `selectedTabIndex`, `children`, `containerColor`, `contentColor`                                                                                                                              |
+| **ScrollableTabRow**     | Scrollable row of tabs                | `selectedTabIndex`, `children`, `containerColor`, `contentColor`                                                                                                                              |
+| **Tab**                  | Item for TabRow                       | `selected`, `text`, `icon`, `enabled`, `onClickEventName`                                                                                                                                     |
 | **Custom**               | User-defined components               | `customType`, `customData`                                                                                                                                                                    |
 
 ## 🧩 Custom Components

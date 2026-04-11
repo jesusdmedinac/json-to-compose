@@ -1,15 +1,31 @@
 package com.jesusdmedinac.jsontocompose.modifier
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -17,7 +33,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.renderer.toColor
@@ -41,7 +60,25 @@ enum class ModifierOperation {
     Clip,
     Background,
     Alpha,
-    Rotate;
+    Rotate,
+
+    // --- Phase 3: Missing Modifiers ---
+    Clickable,
+    Weight,
+    VerticalScroll,
+    HorizontalScroll,
+    Offset,
+    Size,
+    WrapContentWidth,
+    WrapContentHeight,
+    AspectRatio,
+    ZIndex,
+    MinWidth,
+    MinHeight,
+    MaxWidth,
+    MaxHeight,
+    AnimateContentSize,
+    TestTag;
 }
 
 /**
@@ -52,6 +89,7 @@ enum class ModifierOperation {
  * @param composeModifier The modifier descriptor containing the operations to apply.
  * @return A new [Modifier] with all operations applied.
  */
+@Composable
 infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
     var result = this
     composeModifier.operations.forEach { operation ->
@@ -83,6 +121,37 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
 
             is ComposeModifier.Operation.Alpha -> result.alpha(operation.value)
             is ComposeModifier.Operation.Rotate -> result.rotate(operation.degrees)
+
+            // --- Phase 3: Missing Modifiers ---
+            is ComposeModifier.Operation.Clickable -> {
+                val behavior = LocalBehavior.current[operation.onClickEventName]
+                result.clickable { behavior?.invoke() }
+            }
+            is ComposeModifier.Operation.Weight -> result // Weight requiere RowScope/ColumnScope — aplicado contextualmente por renderizadores
+            is ComposeModifier.Operation.VerticalScroll -> {
+                val scrollState = rememberSaveable(operation, saver = ScrollState.Saver) {
+                    ScrollState(0)
+                }
+                result.verticalScroll(scrollState)
+            }
+            is ComposeModifier.Operation.HorizontalScroll -> {
+                val scrollState = rememberSaveable(operation, saver = ScrollState.Saver) {
+                    ScrollState(0)
+                }
+                result.horizontalScroll(scrollState)
+            }
+            is ComposeModifier.Operation.Offset -> result.offset(x = operation.x.dp, y = operation.y.dp)
+            is ComposeModifier.Operation.Size -> result.size(operation.width.dp, operation.height.dp)
+            is ComposeModifier.Operation.WrapContentWidth -> result.wrapContentWidth()
+            is ComposeModifier.Operation.WrapContentHeight -> result.wrapContentHeight()
+            is ComposeModifier.Operation.AspectRatio -> result.aspectRatio(operation.ratio)
+            is ComposeModifier.Operation.ZIndex -> result.zIndex(operation.zIndex)
+            is ComposeModifier.Operation.MinWidth -> result.defaultMinSize(minWidth = operation.value.dp)
+            is ComposeModifier.Operation.MinHeight -> result.defaultMinSize(minHeight = operation.value.dp)
+            is ComposeModifier.Operation.MaxWidth -> result.widthIn(max = operation.value.dp)
+            is ComposeModifier.Operation.MaxHeight -> result.heightIn(max = operation.value.dp)
+            is ComposeModifier.Operation.AnimateContentSize -> result.animateContentSize()
+            is ComposeModifier.Operation.TestTag -> result.testTag(operation.tag)
         }
     }
     return result

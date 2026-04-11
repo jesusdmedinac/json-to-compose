@@ -128,12 +128,12 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 1. The AI reads `PROGRESS.md` to identify the next pending scenario.
 2. The AI reads the corresponding `.feature` file to get the full context.
 3. The AI implements the code needed to satisfy the scenario.
-4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test).
+4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test). For library changes, run tests for `library` and **CRITICALLY** run `./gradlew :composy:compileKotlinDesktop` to ensure the editor app does not break due to unhandled enumerations.
 5. The code is reviewed.
 6. A commit is made with a message referencing the scenario and the issue (e.g., `feat: basic Text [text.feature:Scenario 1] #12`).
 7. The AI updates the specific phase `PROGRESS.md` marking the scenario as completed.
-8. **CRITICAL:** The AI MUST immediately update the main `docs/projects/PROGRESS.md` file to reflect the new totals and percentages. Both files must ALWAYS remain in perfect sync.
-9. **Finalize:** Once all scenarios in a feature are checked off, close the corresponding GitHub Issue.
+8. **CRITICAL:** The AI MUST immediately update the main `PROGRESS.md` file to reflect the new totals and percentages. Both files must ALWAYS remain in perfect sync.
+9. **Finalize:** Once all scenarios in a feature are checked off, push the branch to the remote repository and **Create a Pull Request (PR)** linked to the issue using the GitHub CLI. **The PR is fundamental** for the developer to review the agent's implementation before merging. Close the issue only after the PR is reviewed and merged.
 
 ### Iterative prompt example
 
@@ -156,7 +156,7 @@ Ask the AI to develop the code **scenario by scenario**. Each scenario is review
 | 2    | Generate Gherkin | Scenarios Gherkin         | -                             |
 | 3    | Persist and Sync | `docs/features/*.feature` | **Create Issue + Milestone**  |
 | 4    | Create tracker   | `PROGRESS.md`             | **Add to Project**            |
-| 5    | Develop scenario | Code + atomic commits     | **Close Issue on completion** |
+| 5    | Develop scenario | Code + atomic commits     | **Push & Create PR**          |
 
 ---
 

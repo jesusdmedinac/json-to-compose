@@ -1,5 +1,11 @@
 # PROGRESS - Phase 3: Expand Library — Full Component & Modifier Coverage
 
+## Feature: Skeleton Bootstrap for Phase 3
+
+- [x] Scenario: Scaffold pending Component Types
+- [x] Scenario: Scaffold pending Modifier Operations
+- [x] Scenario: Wire the main Router
+
 ## Feature: Text Component Property Enhancement
 
 - [x] Scenario: Render Text with fontSize
@@ -72,23 +78,23 @@
 
 ## Feature: Navigation Components
 
-- [ ] Scenario: Render a NavigationBar with three items
-- [ ] Scenario: Render a NavigationBarItem with icon and label
-- [ ] Scenario: NavigationBarItem selection controlled by state
-- [ ] Scenario: NavigationBarItem onClick triggers action
-- [ ] Scenario: Render a NavigationRail with items
-- [ ] Scenario: Render a NavigationRailItem with icon and label
-- [ ] Scenario: Render a NavigationRail with header FAB
-- [ ] Scenario: Render a ModalNavigationDrawer with content
-- [ ] Scenario: ModalNavigationDrawer visibility controlled by state
-- [ ] Scenario: Render a TabRow with tabs
-- [ ] Scenario: Render a Tab with text and icon
-- [ ] Scenario: Tab selection controlled by state
-- [ ] Scenario: Render a ScrollableTabRow with many tabs
-- [ ] Scenario: Render NavigationBar inside Scaffold bottomBar
-- [ ] Scenario: Serialize and deserialize all navigation components
-- [ ] Scenario: Update showcase with navigation components
-- [ ] Scenario: Update main README.md with navigation components
+- [x] Scenario: Render a NavigationBar with three items
+- [x] Scenario: Render a NavigationBarItem with icon and label
+- [x] Scenario: NavigationBarItem selection controlled by state
+- [x] Scenario: NavigationBarItem onClick triggers action
+- [x] Scenario: Render a NavigationRail with items
+- [x] Scenario: Render a NavigationRailItem with icon and label
+- [x] Scenario: Render a NavigationRail with header FAB
+- [x] Scenario: Render a ModalNavigationDrawer with content
+- [x] Scenario: ModalNavigationDrawer visibility controlled by state
+- [x] Scenario: Render a TabRow with tabs
+- [x] Scenario: Render a Tab with text and icon
+- [x] Scenario: Tab selection controlled by state
+- [x] Scenario: Render a ScrollableTabRow with many tabs
+- [x] Scenario: Render NavigationBar inside Scaffold bottomBar
+- [x] Scenario: Serialize and deserialize all navigation components
+- [x] Scenario: Update showcase with navigation components
+- [x] Scenario: Update main README.md with navigation components
 
 ## Feature: Input Components
 

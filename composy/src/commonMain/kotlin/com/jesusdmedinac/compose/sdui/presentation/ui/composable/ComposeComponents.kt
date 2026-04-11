@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.CaseSensitive
 import com.composables.icons.lucide.Circle
@@ -59,6 +60,7 @@ import com.composables.icons.lucide.Rows3
 import com.composables.icons.lucide.Rows4
 import com.composables.icons.lucide.Search
 import com.composables.icons.lucide.SeparatorHorizontal
+import com.composables.icons.lucide.SeparatorVertical
 import com.composables.icons.lucide.Smile
 import com.composables.icons.lucide.Square
 import com.composables.icons.lucide.SquareCheck
@@ -66,7 +68,6 @@ import com.composables.icons.lucide.TextCursor
 import com.composables.icons.lucide.ToggleRight
 import com.composables.icons.lucide.WholeWord
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
-import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 @Composable
 fun ComposeComponents(
@@ -196,7 +197,44 @@ fun ComposeComponent(
                 ComposeType.OutlinedTextField -> Lucide.TextCursor
                 ComposeType.ElevatedCard -> Lucide.Layers
                 ComposeType.OutlinedCard -> Lucide.Layers
-                ComposeType.Slider -> Lucide.ToggleRight
+                ComposeType.NavigationBar -> Lucide.PanelBottom
+                ComposeType.NavigationBarItem -> Lucide.Square
+                ComposeType.NavigationRail -> Lucide.GalleryVertical
+                ComposeType.NavigationRailItem -> Lucide.Square
+                ComposeType.ModalNavigationDrawer -> Lucide.PanelTop
+                ComposeType.NavigationDrawerItem -> Lucide.Square
+                ComposeType.TabRow -> Lucide.Columns3
+                ComposeType.ScrollableTabRow -> Lucide.Columns4
+                ComposeType.Tab -> Lucide.Square
+                // --- Phase 3 stub icons ---
+                ComposeType.Slider -> Lucide.SeparatorHorizontal
+                ComposeType.RadioButton -> Lucide.Circle
+                ComposeType.SingleChoiceSegmentedButtonRow -> Lucide.Columns3
+                ComposeType.MultiChoiceSegmentedButtonRow -> Lucide.Columns3
+                ComposeType.SegmentedButton -> Lucide.Square
+                ComposeType.DatePicker -> Lucide.Square
+                ComposeType.TimePicker -> Lucide.Square
+                ComposeType.SearchBar -> Lucide.Search
+                ComposeType.HorizontalDivider -> Lucide.SeparatorHorizontal
+                ComposeType.VerticalDivider -> Lucide.SeparatorVertical
+                ComposeType.FlowRow -> Lucide.Columns3
+                ComposeType.FlowColumn -> Lucide.Rows3
+                ComposeType.Surface -> Lucide.Square
+                ComposeType.HorizontalPager -> Lucide.Columns4
+                ComposeType.VerticalPager -> Lucide.Rows4
+                ComposeType.ModalBottomSheet -> Lucide.PanelBottom
+                ComposeType.Badge -> Lucide.Circle
+                ComposeType.BadgedBox -> Lucide.Box
+                ComposeType.AssistChip -> Lucide.RectangleHorizontal
+                ComposeType.FilterChip -> Lucide.RectangleHorizontal
+                ComposeType.InputChip -> Lucide.RectangleHorizontal
+                ComposeType.SuggestionChip -> Lucide.RectangleHorizontal
+                ComposeType.CircularProgressIndicator -> Lucide.Circle
+                ComposeType.LinearProgressIndicator -> Lucide.SeparatorHorizontal
+                ComposeType.PlainTooltip -> Lucide.MessageSquare
+                ComposeType.RichTooltip -> Lucide.MessageSquare
+                ComposeType.SnackbarHost -> Lucide.PanelBottom
+                ComposeType.ListItem -> Lucide.Rows3
             },
             contentDescription = type.name
         )

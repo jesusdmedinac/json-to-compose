@@ -77,6 +77,33 @@ data class ComposeNode(
             icon?.let { add(it) }
             label?.let { add(it) }
         }
+        is NodeProperties.NavigationBarProps -> children
+        is NodeProperties.NavigationBarItemProps -> buildList {
+            icon?.let { add(it) }
+            label?.let { add(it) }
+        }
+        is NodeProperties.NavigationRailProps -> buildList {
+            header?.let { add(it) }
+            addAll(children ?: emptyList())
+        }
+        is NodeProperties.NavigationRailItemProps -> buildList {
+            icon?.let { add(it) }
+            label?.let { add(it) }
+        }
+        is NodeProperties.NavigationDrawerProps -> buildList {
+            addAll(drawerContent ?: emptyList())
+            child?.let { add(it) }
+        }
+        is NodeProperties.NavigationDrawerItemProps -> buildList {
+            icon?.let { add(it) }
+            label?.let { add(it) }
+            badge?.let { add(it) }
+        }
+        is NodeProperties.TabRowProps -> children
+        is NodeProperties.TabProps -> buildList {
+            icon?.let { add(it) }
+            text?.let { add(it) }
+        }
         else -> null
     } ?: emptyList()
 
