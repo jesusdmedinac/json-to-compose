@@ -92,11 +92,11 @@
 
 ## Feature: Input Components
 
-- [ ] Scenario: Render a Slider with default range 0 to 1
-- [ ] Scenario: Render a Slider with custom valueRange
-- [ ] Scenario: Render a Slider with steps
-- [ ] Scenario: Slider value controlled by state
-- [ ] Scenario: Slider onValueChange triggers state update
+- [x] Scenario: Render a Slider with default range 0 to 1
+- [x] Scenario: Render a Slider with custom valueRange
+- [x] Scenario: Render a Slider with steps
+- [x] Scenario: Slider value controlled by state
+- [x] Scenario: Slider onValueChange triggers state update
 - [ ] Scenario: Render a RadioButton selected
 - [ ] Scenario: Render a RadioButton unselected
 - [ ] Scenario: RadioButton selection controlled by state

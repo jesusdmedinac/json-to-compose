@@ -449,6 +449,30 @@ sealed interface NodeProperties {
     ) : NodeProperties
 
     /**
+     * Range for a Slider.
+     */
+    @Serializable
+    data class FloatRange(
+        val start: Float = 0f,
+        val endInclusive: Float = 1f,
+    )
+
+    /**
+     * Properties for a [ComposeType.Slider] component.
+     */
+    @Serializable
+    @SerialName("SliderProps")
+    data class SliderProps(
+        val value: Float? = null,
+        val valueStateHostName: String? = null,
+        val valueRange: FloatRange? = null,
+        val steps: Int? = null,
+        val onValueChangeEventName: String? = null,
+        val enabled: Boolean? = null,
+        val enabledStateHostName: String? = null,
+    ) : NodeProperties
+
+    /**
      * Properties for a [ComposeType.Custom] component.
      *
      * Custom components are rendered by user-provided composable functions registered

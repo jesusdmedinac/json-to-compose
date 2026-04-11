@@ -65,6 +65,8 @@ enum class ComposeType {
     Switch,
     /** Material checkbox. Uses [NodeProperties.CheckboxProps]. */
     Checkbox,
+    /** Material slider. Uses [NodeProperties.SliderProps]. */
+    Slider,
     /** Custom component rendered by a user-provided composable. Uses [NodeProperties.CustomProps]. */
     Custom;
 

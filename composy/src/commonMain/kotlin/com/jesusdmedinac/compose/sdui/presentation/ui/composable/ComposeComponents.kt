@@ -196,6 +196,7 @@ fun ComposeComponent(
                 ComposeType.OutlinedTextField -> Lucide.TextCursor
                 ComposeType.ElevatedCard -> Lucide.Layers
                 ComposeType.OutlinedCard -> Lucide.Layers
+                ComposeType.Slider -> Lucide.ToggleRight
             },
             contentDescription = type.name
         )

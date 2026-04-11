@@ -30,6 +30,7 @@ import com.jesusdmedinac.jsontocompose.renderer.ToOutlinedCard
 import com.jesusdmedinac.jsontocompose.renderer.ToRow
 import com.jesusdmedinac.jsontocompose.renderer.ToScaffold
 import com.jesusdmedinac.jsontocompose.renderer.ToSpacer
+import com.jesusdmedinac.jsontocompose.renderer.ToSlider
 import com.jesusdmedinac.jsontocompose.renderer.ToSwitch
 import com.jesusdmedinac.jsontocompose.renderer.ToText
 import com.jesusdmedinac.jsontocompose.renderer.ToTextField
@@ -126,6 +127,7 @@ fun ComposeNode.ToCompose() {
         ComposeType.BottomNavigationItem -> ToBottomNavigationItem()
         ComposeType.Switch -> ToSwitch()
         ComposeType.Checkbox -> ToCheckbox()
+        ComposeType.Slider -> ToSlider()
         ComposeType.Custom -> ToCustom()
     }
 }
