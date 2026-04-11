@@ -140,7 +140,7 @@
 
 ## Feature: Pager Components
 
-- [ ] Scenario: Render a HorizontalPager with pages
+- [x] Scenario: Render a HorizontalPager with pages
 - [ ] Scenario: HorizontalPager current page controlled by state
 - [ ] Scenario: HorizontalPager page change updates state
 - [ ] Scenario: Render a VerticalPager with pages
