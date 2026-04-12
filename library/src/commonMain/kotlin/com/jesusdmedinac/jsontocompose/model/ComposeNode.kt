@@ -106,6 +106,7 @@ data class ComposeNode(
         }
         is NodeProperties.FlowRowProps -> children
         is NodeProperties.FlowColumnProps -> children
+        is NodeProperties.SurfaceProps -> listOfNotNull(child)
         else -> null
     } ?: emptyList()
 

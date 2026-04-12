@@ -60,11 +60,6 @@ fun ComposeNode.ToSearchBar() {
 
 // --- Layout Components ---
 
-@Composable
-fun ComposeNode.ToSurface() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
 // --- Pager Components ---
 
 @Composable

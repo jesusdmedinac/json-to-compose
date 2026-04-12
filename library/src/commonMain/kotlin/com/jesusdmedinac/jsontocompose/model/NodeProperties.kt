@@ -744,7 +744,7 @@ sealed interface NodeProperties {
         val tonalElevation: Int? = null,
         val shadowElevation: Int? = null,
         val color: String? = null,
-        val shape: String? = null,
+        val shape: ComposeShape? = null,
     ) : NodeProperties
 
     // --- Phase 3: Pager Components ---

@@ -64,6 +64,84 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             spacerDemo(),
             dividerDemo(),
             flowLayoutDemos(),
+            surfaceDemo(),
+        )
+    )
+)
+
+private fun surfaceDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Surface"),
+            ComposeNode(
+                type = ComposeType.Surface,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.SurfaceProps(
+                    tonalElevation = 4,
+                    shadowElevation = 2,
+                    shape = ComposeShape.RoundedCorner(all = 12),
+                    child = ComposeNode(
+                        type = ComposeType.Column,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.ColumnProps(
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Surface with Tonal Elevation (4dp)",
+                                        fontWeight = "Bold"
+                                    )
+                                ),
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "And RoundedCorner(12)"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Surface,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.SurfaceProps(
+                    color = "#FFBBDEFB", // Light Blue
+                    shape = ComposeShape.Circle,
+                    child = ComposeNode(
+                        type = ComposeType.Box,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.BoxProps(
+                            contentAlignment = "Center",
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Circular Surface")
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         )
     )
 )

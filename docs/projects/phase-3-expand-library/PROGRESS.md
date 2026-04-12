@@ -130,8 +130,8 @@
 - [x] Scenario: Render a FlowRow with wrapping children
 - [x] Scenario: Render a FlowRow with horizontalArrangement and verticalArrangement
 - [x] Scenario: Render a FlowColumn with wrapping children
-- [ ] Scenario: Render a Surface with tonalElevation
-- [ ] Scenario: Render a Surface with custom shape and color
+- [x] Scenario: Render a Surface with tonalElevation
+- [x] Scenario: Render a Surface with custom shape and color
 - [ ] Scenario: Column with Arrangement.spacedBy
 - [ ] Scenario: Row with Arrangement.spacedBy
 - [ ] Scenario: Serialize and deserialize all layout components
