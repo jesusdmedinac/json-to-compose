@@ -149,7 +149,7 @@
 - [x] Scenario: HorizontalPager with userScrollEnabled = false
 - [x] Scenario: Serialize and deserialize pager components
 - [x] Scenario: Update showcase with pager components
-- [ ] Scenario: Update main README.md with pager components
+- [x] Scenario: Update main README.md with pager components
 
 ## Feature: ModalBottomSheet Component
 
