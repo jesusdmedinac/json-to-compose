@@ -19,11 +19,6 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 // --- Input Components ---
 
 @Composable
-fun ComposeNode.ToRadioButton() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
 fun ComposeNode.ToSingleChoiceSegmentedButtonRow() {
     Box(modifier = (Modifier from composeModifier).testTag(type.name))
 }

@@ -103,10 +103,10 @@
 - [x] Scenario: Render a Slider with steps
 - [x] Scenario: Slider value controlled by state
 - [x] Scenario: Slider onValueChange triggers state update
-- [ ] Scenario: Render a RadioButton selected
-- [ ] Scenario: Render a RadioButton unselected
-- [ ] Scenario: RadioButton selection controlled by state
-- [ ] Scenario: RadioButton onClick triggers action
+- [x] Scenario: Render a RadioButton selected
+- [x] Scenario: Render a RadioButton unselected
+- [x] Scenario: RadioButton selection controlled by state
+- [x] Scenario: RadioButton onClick triggers action
 - [ ] Scenario: Render a SingleChoiceSegmentedButtonRow
 - [ ] Scenario: Render a SegmentedButton with label and icon
 - [ ] Scenario: Render a MultiChoiceSegmentedButtonRow
