@@ -127,9 +127,9 @@
 - [x] Scenario: Render a HorizontalDivider
 - [x] Scenario: Render a HorizontalDivider with custom thickness and color
 - [x] Scenario: Render a VerticalDivider
-- [ ] Scenario: Render a FlowRow with wrapping children
-- [ ] Scenario: Render a FlowRow with horizontalArrangement and verticalArrangement
-- [ ] Scenario: Render a FlowColumn with wrapping children
+- [x] Scenario: Render a FlowRow with wrapping children
+- [x] Scenario: Render a FlowRow with horizontalArrangement and verticalArrangement
+- [x] Scenario: Render a FlowColumn with wrapping children
 - [ ] Scenario: Render a Surface with tonalElevation
 - [ ] Scenario: Render a Surface with custom shape and color
 - [ ] Scenario: Column with Arrangement.spacedBy

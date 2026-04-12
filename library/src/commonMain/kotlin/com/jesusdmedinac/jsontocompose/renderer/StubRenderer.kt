@@ -61,16 +61,6 @@ fun ComposeNode.ToSearchBar() {
 // --- Layout Components ---
 
 @Composable
-fun ComposeNode.ToFlowRow() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToFlowColumn() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
 fun ComposeNode.ToSurface() {
     Box(modifier = (Modifier from composeModifier).testTag(type.name))
 }

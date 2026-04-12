@@ -63,6 +63,87 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             boxDemo(),
             spacerDemo(),
             dividerDemo(),
+            flowLayoutDemos(),
+        )
+    )
+)
+
+private fun flowLayoutDemos(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Flow Layouts (FlowRow & FlowColumn)"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "FlowRow (Wrapping children)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.FlowRow,
+                            properties = NodeProperties.FlowRowProps(
+                                horizontalArrangement = "Start",
+                                verticalArrangement = "Top",
+                                children = (1..10).map { i ->
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        composeModifier = ComposeModifier(
+                                            operations = listOf(
+                                                ComposeModifier.Operation.Padding(4),
+                                                ComposeModifier.Operation.BackgroundColor("#FFE0E0E0")
+                                            )
+                                        ),
+                                        properties = NodeProperties.TextProps(text = "Item $i")
+                                    )
+                                }
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Spacer,
+                            properties = NodeProperties.SpacerProps,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Height(16))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "FlowColumn (Fixed height: 100dp)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.FlowColumn,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Height(100))
+                            ),
+                            properties = NodeProperties.FlowColumnProps(
+                                children = (1..6).map { i ->
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        composeModifier = ComposeModifier(
+                                            operations = listOf(
+                                                ComposeModifier.Operation.Padding(4),
+                                                ComposeModifier.Operation.BackgroundColor("#FFB2DFDB")
+                                            )
+                                        ),
+                                        properties = NodeProperties.TextProps(text = "Col $i")
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            )
         )
     )
 )
