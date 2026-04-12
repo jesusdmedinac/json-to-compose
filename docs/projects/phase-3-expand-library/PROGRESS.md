@@ -147,7 +147,7 @@
 - [x] Scenario: VerticalPager current page controlled by state
 - [x] Scenario: HorizontalPager with beyondViewportPageCount
 - [x] Scenario: HorizontalPager with userScrollEnabled = false
-- [ ] Scenario: Serialize and deserialize pager components
+- [x] Scenario: Serialize and deserialize pager components
 - [ ] Scenario: Update showcase with pager components
 - [ ] Scenario: Update main README.md with pager components
 
