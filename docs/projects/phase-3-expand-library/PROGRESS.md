@@ -115,9 +115,9 @@
 - [x] Scenario: Render a TimePicker
 - [x] Scenario: Render a SearchBar
 - [x] Scenario: SearchBar query updates state as user types
-- [ ] Scenario: Serialize and deserialize all input components
-- [ ] Scenario: Update showcase with input components
-- [ ] Scenario: Update main README.md with input components
+- [x] Scenario: Serialize and deserialize all input components
+- [x] Scenario: Update showcase with input components
+- [x] Scenario: Update main README.md with input components
 
 ## Feature: Layout Components
 
