@@ -104,6 +104,9 @@ data class ComposeNode(
             icon?.let { add(it) }
             text?.let { add(it) }
         }
+        is NodeProperties.FlowRowProps -> children
+        is NodeProperties.FlowColumnProps -> children
+        is NodeProperties.SurfaceProps -> listOfNotNull(child)
         else -> null
     } ?: emptyList()
 

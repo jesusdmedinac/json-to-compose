@@ -61,6 +61,364 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             columnDemo(),
             rowDemo(),
             boxDemo(),
+            spacerDemo(),
+            dividerDemo(),
+            flowLayoutDemos(),
+            surfaceDemo(),
+            spacedByDemo(),
+        )
+    )
+)
+
+private fun spacedByDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Arrangement.spacedBy"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    verticalArrangement = "SpacedBy:16",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Column with 16dp spacing")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Item 2")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Item 3")
+                        )
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Spacer,
+                properties = NodeProperties.SpacerProps,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Height(8))
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpacedBy:24",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Row")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "with")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "24dp")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "spacing")
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+private fun surfaceDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Surface"),
+            ComposeNode(
+                type = ComposeType.Surface,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.SurfaceProps(
+                    tonalElevation = 4,
+                    shadowElevation = 2,
+                    shape = ComposeShape.RoundedCorner(all = 12),
+                    child = ComposeNode(
+                        type = ComposeType.Column,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.ColumnProps(
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Surface with Tonal Elevation (4dp)",
+                                        fontWeight = "Bold"
+                                    )
+                                ),
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "And RoundedCorner(12)"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Surface,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.SurfaceProps(
+                    color = "#FFBBDEFB", // Light Blue
+                    shape = ComposeShape.Circle,
+                    child = ComposeNode(
+                        type = ComposeType.Box,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.BoxProps(
+                            contentAlignment = "Center",
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Circular Surface")
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+private fun flowLayoutDemos(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Flow Layouts (FlowRow & FlowColumn)"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "FlowRow (Wrapping children)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.FlowRow,
+                            properties = NodeProperties.FlowRowProps(
+                                horizontalArrangement = "Start",
+                                verticalArrangement = "Top",
+                                children = (1..10).map { i ->
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        composeModifier = ComposeModifier(
+                                            operations = listOf(
+                                                ComposeModifier.Operation.Padding(4),
+                                                ComposeModifier.Operation.BackgroundColor("#FFE0E0E0")
+                                            )
+                                        ),
+                                        properties = NodeProperties.TextProps(text = "Item $i")
+                                    )
+                                }
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Spacer,
+                            properties = NodeProperties.SpacerProps,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Height(16))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "FlowColumn (Fixed height: 100dp)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.FlowColumn,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Height(100))
+                            ),
+                            properties = NodeProperties.FlowColumnProps(
+                                children = (1..6).map { i ->
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        composeModifier = ComposeModifier(
+                                            operations = listOf(
+                                                ComposeModifier.Operation.Padding(4),
+                                                ComposeModifier.Operation.BackgroundColor("#FFB2DFDB")
+                                            )
+                                        ),
+                                        properties = NodeProperties.TextProps(text = "Col $i")
+                                    )
+                                }
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+private fun dividerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Dividers"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Horizontal Divider (Default)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.HorizontalDivider,
+                            properties = NodeProperties.DividerProps()
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Padding(0))
+                            ),
+                            properties = NodeProperties.TextProps(text = "Horizontal Divider (Red, 4dp)")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.HorizontalDivider,
+                            properties = NodeProperties.DividerProps(
+                                thickness = 4,
+                                color = "#FFFF0000"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Row,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Height(40),
+                                    ComposeModifier.Operation.Padding(8)
+                                )
+                            ),
+                            properties = NodeProperties.RowProps(
+                                verticalAlignment = "CenterVertically",
+                                horizontalArrangement = "SpaceEvenly",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Left")
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.VerticalDivider,
+                                        properties = NodeProperties.DividerProps(
+                                            thickness = 2,
+                                            color = "#FF0000FF"
+                                        )
+                                    ),
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Right")
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
+private fun spacerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Spacer (Height 16)"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Top Text")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Spacer,
+                            properties = NodeProperties.SpacerProps,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Height(16))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Bottom Text (16dp below)")
+                        )
+                    )
+                )
+            )
         )
     )
 )

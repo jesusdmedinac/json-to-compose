@@ -60,31 +60,6 @@ fun ComposeNode.ToSearchBar() {
 
 // --- Layout Components ---
 
-@Composable
-fun ComposeNode.ToHorizontalDivider() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToVerticalDivider() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToFlowRow() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToFlowColumn() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToSurface() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
 // --- Pager Components ---
 
 @Composable
