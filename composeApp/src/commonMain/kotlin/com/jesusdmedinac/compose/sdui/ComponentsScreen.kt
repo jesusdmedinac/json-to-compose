@@ -65,6 +65,84 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             dividerDemo(),
             flowLayoutDemos(),
             surfaceDemo(),
+            spacedByDemo(),
+        )
+    )
+)
+
+private fun spacedByDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Arrangement.spacedBy"),
+            ComposeNode(
+                type = ComposeType.Column,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.ColumnProps(
+                    verticalArrangement = "SpacedBy:16",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Column with 16dp spacing")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Item 2")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Item 3")
+                        )
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Spacer,
+                properties = NodeProperties.SpacerProps,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Height(8))
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpacedBy:24",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Row")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "with")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "24dp")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "spacing")
+                        )
+                    )
+                )
+            )
         )
     )
 )

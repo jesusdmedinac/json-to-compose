@@ -19,6 +19,11 @@ class ArrangementMapperTest {
         assertEquals(Arrangement.SpaceAround, "SpaceAround".toArrangement())
     }
 
+    @Test
+    fun toArrangementMapsSpacedBy() {
+        assertTrue("SpacedBy:8".toArrangement() is Arrangement.HorizontalOrVertical)
+    }
+
     // --- Scenario 2: toArrangement throws ArrangementException for invalid value ---
 
     @Test
@@ -39,6 +44,11 @@ class ArrangementMapperTest {
         assertEquals(Arrangement.SpaceEvenly, "SpaceEvenly".toHorizontalArrangement())
         assertEquals(Arrangement.SpaceBetween, "SpaceBetween".toHorizontalArrangement())
         assertEquals(Arrangement.SpaceAround, "SpaceAround".toHorizontalArrangement())
+    }
+
+    @Test
+    fun toHorizontalArrangementMapsSpacedBy() {
+        assertTrue("SpacedBy:12".toHorizontalArrangement() is Arrangement.Horizontal)
     }
 
     // --- Scenario 4: toHorizontalArrangement maps all 6 absolute arrangements ---
@@ -72,6 +82,11 @@ class ArrangementMapperTest {
         assertEquals(Arrangement.SpaceEvenly, "SpaceEvenly".toVerticalArrangement())
         assertEquals(Arrangement.SpaceBetween, "SpaceBetween".toVerticalArrangement())
         assertEquals(Arrangement.SpaceAround, "SpaceAround".toVerticalArrangement())
+    }
+
+    @Test
+    fun toVerticalArrangementMapsSpacedBy() {
+        assertTrue("SpacedBy:16".toVerticalArrangement() is Arrangement.Vertical)
     }
 
     // --- Scenario 7: toVerticalArrangement throws ArrangementException for invalid value ---

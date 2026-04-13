@@ -132,8 +132,8 @@
 - [x] Scenario: Render a FlowColumn with wrapping children
 - [x] Scenario: Render a Surface with tonalElevation
 - [x] Scenario: Render a Surface with custom shape and color
-- [ ] Scenario: Column with Arrangement.spacedBy
-- [ ] Scenario: Row with Arrangement.spacedBy
+- [x] Scenario: Column with Arrangement.spacedBy
+- [x] Scenario: Row with Arrangement.spacedBy
 - [ ] Scenario: Serialize and deserialize all layout components
 - [ ] Scenario: Update showcase with layout components
 - [ ] Scenario: Update main README.md with layout components
