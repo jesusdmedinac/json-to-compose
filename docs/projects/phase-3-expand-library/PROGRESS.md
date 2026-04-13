@@ -107,9 +107,9 @@
 - [x] Scenario: Render a RadioButton unselected
 - [x] Scenario: RadioButton selection controlled by state
 - [x] Scenario: RadioButton onClick triggers action
-- [ ] Scenario: Render a SingleChoiceSegmentedButtonRow
-- [ ] Scenario: Render a SegmentedButton with label and icon
-- [ ] Scenario: Render a MultiChoiceSegmentedButtonRow
+- [x] Scenario: Render a SingleChoiceSegmentedButtonRow
+- [x] Scenario: Render a SegmentedButton with label and icon
+- [x] Scenario: Render a MultiChoiceSegmentedButtonRow
 - [ ] Scenario: Render a DatePicker
 - [ ] Scenario: DatePicker selection updates state
 - [ ] Scenario: Render a TimePicker

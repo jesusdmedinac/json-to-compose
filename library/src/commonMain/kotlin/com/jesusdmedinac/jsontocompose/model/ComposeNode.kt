@@ -104,6 +104,11 @@ data class ComposeNode(
             icon?.let { add(it) }
             text?.let { add(it) }
         }
+        is NodeProperties.SegmentedButtonRowProps -> children
+        is NodeProperties.SegmentedButtonProps -> buildList {
+            label?.let { add(it) }
+            icon?.let { add(it) }
+        }
         else -> null
     } ?: emptyList()
 
