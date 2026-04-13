@@ -109,6 +109,12 @@ data class ComposeNode(
             label?.let { add(it) }
             icon?.let { add(it) }
         }
+        is NodeProperties.SearchBarProps -> buildList {
+            placeholder?.let { add(it) }
+            leadingIcon?.let { add(it) }
+            trailingIcon?.let { add(it) }
+            children?.let { addAll(it) }
+        }
         else -> null
     } ?: emptyList()
 

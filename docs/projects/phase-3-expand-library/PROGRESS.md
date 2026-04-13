@@ -110,11 +110,11 @@
 - [x] Scenario: Render a SingleChoiceSegmentedButtonRow
 - [x] Scenario: Render a SegmentedButton with label and icon
 - [x] Scenario: Render a MultiChoiceSegmentedButtonRow
-- [ ] Scenario: Render a DatePicker
-- [ ] Scenario: DatePicker selection updates state
-- [ ] Scenario: Render a TimePicker
-- [ ] Scenario: Render a SearchBar
-- [ ] Scenario: SearchBar query updates state as user types
+- [x] Scenario: Render a DatePicker
+- [x] Scenario: DatePicker selection updates state
+- [x] Scenario: Render a TimePicker
+- [x] Scenario: Render a SearchBar
+- [x] Scenario: SearchBar query updates state as user types
 - [ ] Scenario: Serialize and deserialize all input components
 - [ ] Scenario: Update showcase with input components
 - [ ] Scenario: Update main README.md with input components
