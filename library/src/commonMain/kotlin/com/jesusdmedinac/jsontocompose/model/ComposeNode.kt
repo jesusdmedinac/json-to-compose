@@ -104,6 +104,7 @@ data class ComposeNode(
             icon?.let { add(it) }
             text?.let { add(it) }
         }
+        is NodeProperties.PagerProps -> pages
         else -> null
     } ?: emptyList()
 

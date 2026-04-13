@@ -1161,6 +1161,165 @@ private fun bottomBarDemo(): ComposeNode = ComposeNode(
 
 // endregion
 
+// region Pager Demos
+
+private fun pagerDemos(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            horizontalPagerDemo(),
+            verticalPagerDemo(),
+        )
+    )
+)
+
+private fun horizontalPagerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("HorizontalPager (Swipe left/right)"),
+            ComposeNode(
+                type = ComposeType.HorizontalPager,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Height(150),
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                    )
+                ),
+                properties = NodeProperties.PagerProps(
+                    pages = listOf(
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxSize,
+                                    ComposeModifier.Operation.BackgroundColor("#FFE3F2FD")
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(
+                                contentAlignment = "Center",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Page 1"),
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxSize,
+                                    ComposeModifier.Operation.BackgroundColor("#FFF1F8E9")
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(
+                                contentAlignment = "Center",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Page 2"),
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxSize,
+                                    ComposeModifier.Operation.BackgroundColor("#FFFFF9C4")
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(
+                                contentAlignment = "Center",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Page 3"),
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+        )
+    )
+)
+
+private fun verticalPagerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("VerticalPager (Swipe up/down)"),
+            ComposeNode(
+                type = ComposeType.VerticalPager,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Height(150),
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                    )
+                ),
+                properties = NodeProperties.PagerProps(
+                    pages = listOf(
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxSize,
+                                    ComposeModifier.Operation.BackgroundColor("#FFF3E5F5")
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(
+                                contentAlignment = "Center",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Vertical Page 1"),
+                                    )
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.FillMaxSize,
+                                    ComposeModifier.Operation.BackgroundColor("#FFFBE9E7")
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(
+                                contentAlignment = "Center",
+                                children = listOf(
+                                    ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Vertical Page 2"),
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+        )
+    )
+)
+
+// endregion
+
 // region Custom Renderer Demos
 
 private fun customRendererDemos(): ComposeNode = ComposeNode(
