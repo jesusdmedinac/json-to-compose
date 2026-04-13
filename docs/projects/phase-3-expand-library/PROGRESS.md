@@ -134,7 +134,7 @@
 - [x] Scenario: Render a Surface with custom shape and color
 - [x] Scenario: Column with Arrangement.spacedBy
 - [x] Scenario: Row with Arrangement.spacedBy
-- [ ] Scenario: Serialize and deserialize all layout components
+- [x] Scenario: Serialize and deserialize all layout components
 - [ ] Scenario: Update showcase with layout components
 - [ ] Scenario: Update main README.md with layout components
 
