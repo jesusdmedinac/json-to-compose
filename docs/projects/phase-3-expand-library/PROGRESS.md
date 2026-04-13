@@ -135,7 +135,7 @@
 - [x] Scenario: Column with Arrangement.spacedBy
 - [x] Scenario: Row with Arrangement.spacedBy
 - [x] Scenario: Serialize and deserialize all layout components
-- [ ] Scenario: Update showcase with layout components
+- [x] Scenario: Update showcase with layout components
 - [ ] Scenario: Update main README.md with layout components
 
 ## Feature: Pager Components
