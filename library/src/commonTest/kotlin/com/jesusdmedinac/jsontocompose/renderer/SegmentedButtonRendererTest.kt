@@ -44,7 +44,8 @@ class SegmentedButtonRendererTest {
 
         onNodeWithText("Day").assertExists()
         onNodeWithText("Month").assertExists()
-        // Verify "Day" is selected
+        
+        // Verify selection on the node that contains the text
         onNodeWithText("Day", useUnmergedTree = true).onParent().assertIsSelected()
     }
 

@@ -27,11 +27,14 @@ fun ComposeNode.ToTimePicker() {
         defaultValue = 0,
     )
 
-    val timePickerState = rememberTimePickerState(
-        initialHour = hour,
-        initialMinute = minute,
-        is24Hour = props.is24Hour ?: false
-    )
+    // Recreate state if external values change from StateHost
+    val timePickerState = key(hour, minute) {
+        rememberTimePickerState(
+            initialHour = hour,
+            initialMinute = minute,
+            is24Hour = props.is24Hour ?: false
+        )
+    }
 
     // Sync from internal state to StateHost
     LaunchedEffect(timePickerState.hour, timePickerState.minute) {

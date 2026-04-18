@@ -21,21 +21,16 @@ fun ComposeNode.ToDatePicker() {
         defaultValue = null as Long?,
     )
 
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = selectedDateMillis
-    )
+    val datePickerState = key(selectedDateMillis) {
+        rememberDatePickerState(
+            initialSelectedDateMillis = selectedDateMillis
+        )
+    }
 
     // Sync from internal state to StateHost
     LaunchedEffect(datePickerState.selectedDateMillis) {
         if (datePickerState.selectedDateMillis != selectedDateMillis) {
             stateHost?.onStateChange(datePickerState.selectedDateMillis)
-        }
-    }
-    
-    // Sync from StateHost to internal state
-    LaunchedEffect(selectedDateMillis) {
-        if (selectedDateMillis != datePickerState.selectedDateMillis) {
-            datePickerState.selectedDateMillis = selectedDateMillis
         }
     }
     

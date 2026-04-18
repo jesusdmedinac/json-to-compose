@@ -16,31 +16,49 @@ import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposeNode.ToSingleChoiceSegmentedButtonRow() {
-    SegmentedButtonRowContent()
-}
-
-@Composable
-fun ComposeNode.ToMultiChoiceSegmentedButtonRow() {
-    SegmentedButtonRowContent()
-}
-
-@Composable
-private fun ComposeNode.SegmentedButtonRowContent() {
     val props = properties as? NodeProperties.SegmentedButtonRowProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
     val children = props.children ?: emptyList()
 
-    Row(
+    SingleChoiceSegmentedButtonRow(
         modifier = modifier
     ) {
         CompositionLocalProvider(
-            LocalSegmentedButtonRowScope provides this,
-            LocalSegmentedButtonCount provides children.size
+            LocalSegmentedButtonRowScope provides this
         ) {
             children.forEachIndexed { index, child ->
-                CompositionLocalProvider(LocalSegmentedButtonIndex provides index) {
+                CompositionLocalProvider(
+                    LocalSegmentedButtonIndex provides index,
+                    LocalSegmentedButtonCount provides children.size
+                ) {
+                    child.ToCompose()
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ComposeNode.ToMultiChoiceSegmentedButtonRow() {
+    val props = properties as? NodeProperties.SegmentedButtonRowProps ?: return
+    val modifier = (Modifier from composeModifier).testTag(type.name)
+    val children = props.children ?: emptyList()
+
+    MultiChoiceSegmentedButtonRow(
+        modifier = modifier
+    ) {
+        CompositionLocalProvider(
+            LocalSegmentedButtonRowScope provides this
+        ) {
+            children.forEachIndexed { index, child ->
+                CompositionLocalProvider(
+                    LocalSegmentedButtonIndex provides index,
+                    LocalSegmentedButtonCount provides children.size
+                ) {
                     child.ToCompose()
                 }
             }
