@@ -13,14 +13,15 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 81        | **34%**  |
+| 4   | [phase-3-expand-library](#1-phase-1-solidify-library)           | `library/`    | 239       | 88        | **37%**  |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **616**   | **341**   | **55%**  |
+|     | **TOTAL**                                                         |               | **616**   | **348**   | **56%**  |
+
 
 ```
-Progress: [██████████████████████░░░░░░░░░░░░░░░░░░] 55%
+Progress: [██████████████████████░░░░░░░░░░░░░░░░░░] 56%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
@@ -45,7 +46,7 @@ phase-3-expand-library ← IN PROGRESS
 
 ### 1. phase-3-expand-library
 
-**Status:** 🏗️ In Progress (81/239 — 34%)
+**Status:** 🏗️ In Progress (88/239 — 37%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -68,7 +69,7 @@ phase-3-expand-library ← IN PROGRESS
 | Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | ✅ Done |
 | Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
 | Layout Components | 16 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | 🔜 Pending |
-| Pager Components | 10 | HorizontalPager, VerticalPager | 🔜 Pending |
+| Pager Components | 10 | HorizontalPager, VerticalPager | ✅ Done |
 | ModalBottomSheet | 10 | ModalBottomSheet with state, drag, shape, scrim | 🔜 Pending |
 | Display Components | 24 | Icon, Badge, Chips (4 types), Progress indicators, Tooltip | 🏗️ In Progress |
 | Snackbar | 10 | SnackbarHost, ShowSnackbar action | 🔜 Pending |
