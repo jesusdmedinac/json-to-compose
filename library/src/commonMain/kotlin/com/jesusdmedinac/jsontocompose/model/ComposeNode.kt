@@ -115,6 +115,7 @@ data class ComposeNode(
             trailingIcon?.let { add(it) }
             children?.let { addAll(it) }
         }
+        is NodeProperties.PagerProps -> pages
         else -> null
     } ?: emptyList()
 
