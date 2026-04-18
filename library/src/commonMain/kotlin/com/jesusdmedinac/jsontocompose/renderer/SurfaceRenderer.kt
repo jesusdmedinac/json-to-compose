@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,7 +34,7 @@ fun ComposeNode.ToSurface() {
     
     val tonalElevation = props.tonalElevation?.dp ?: 0.dp
     val shadowElevation = props.shadowElevation?.dp ?: 0.dp
-    val color = props.color?.toColor() ?: Color.Unspecified
+    val color = props.color?.toColor() ?: MaterialTheme.colorScheme.surface
     val shape = props.shape?.toShape() ?: RectangleShape
 
     val modifier = (Modifier from composeModifier)

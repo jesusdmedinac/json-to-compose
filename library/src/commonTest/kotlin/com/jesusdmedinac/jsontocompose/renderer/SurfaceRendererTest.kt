@@ -1,5 +1,7 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
@@ -14,6 +16,35 @@ import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class SurfaceRendererTest {
+
+    @Test
+    fun renderASurfaceWithDefaultColor() = runComposeUiTest {
+        // Given a JSON with a Surface with no color specified
+        val node = ComposeNode(
+            type = ComposeType.Surface,
+            properties = NodeProperties.SurfaceProps(
+                child = ComposeNode(
+                    type = ComposeType.Text,
+                    properties = NodeProperties.TextProps(text = "Default Surface")
+                )
+            )
+        )
+
+        var expectedColor: Color = Color.Unspecified
+
+        // When the node is processed by the renderer
+        setContent {
+            MaterialTheme {
+                expectedColor = MaterialTheme.colorScheme.surface
+                node.ToSurface()
+            }
+        }
+
+        // Then Surface with default Material 3 surface color is shown
+        onNodeWithTag("Surface")
+            .assertExists()
+            .assert(SemanticsMatcher.expectValue(SurfaceColorKey, expectedColor))
+    }
 
     @Test
     fun renderASurfaceWithTonalElevation() = runComposeUiTest {
