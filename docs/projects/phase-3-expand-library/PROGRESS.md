@@ -121,22 +121,22 @@
 
 ## Feature: Layout Components
 
-- [ ] Scenario: Render a Spacer with fixed height
-- [ ] Scenario: Render a Spacer with fixed width in a Row
-- [ ] Scenario: Render a Spacer with weight modifier in a Column
-- [ ] Scenario: Render a HorizontalDivider
-- [ ] Scenario: Render a HorizontalDivider with custom thickness and color
-- [ ] Scenario: Render a VerticalDivider
-- [ ] Scenario: Render a FlowRow with wrapping children
-- [ ] Scenario: Render a FlowRow with horizontalArrangement and verticalArrangement
-- [ ] Scenario: Render a FlowColumn with wrapping children
-- [ ] Scenario: Render a Surface with tonalElevation
-- [ ] Scenario: Render a Surface with custom shape and color
-- [ ] Scenario: Column with Arrangement.spacedBy
-- [ ] Scenario: Row with Arrangement.spacedBy
-- [ ] Scenario: Serialize and deserialize all layout components
-- [ ] Scenario: Update showcase with layout components
-- [ ] Scenario: Update main README.md with layout components
+- [x] Scenario: Render a Spacer with fixed height
+- [x] Scenario: Render a Spacer with fixed width in a Row
+- [x] Scenario: Render a Spacer with weight modifier in a Column
+- [x] Scenario: Render a HorizontalDivider
+- [x] Scenario: Render a HorizontalDivider with custom thickness and color
+- [x] Scenario: Render a VerticalDivider
+- [x] Scenario: Render a FlowRow with wrapping children
+- [x] Scenario: Render a FlowRow with horizontalArrangement and verticalArrangement
+- [x] Scenario: Render a FlowColumn with wrapping children
+- [x] Scenario: Render a Surface with tonalElevation
+- [x] Scenario: Render a Surface with custom shape and color
+- [x] Scenario: Column with Arrangement.spacedBy
+- [x] Scenario: Row with Arrangement.spacedBy
+- [x] Scenario: Serialize and deserialize all layout components
+- [x] Scenario: Update showcase with layout components
+- [x] Scenario: Update main README.md with layout components
 
 ## Feature: Pager Components
 

@@ -168,6 +168,12 @@ fun App() {
 | **Column**               | Vertical layout container             | `verticalArrangement`, `horizontalAlignment`, `children`                                                                                                                                      |
 | **Row**                  | Horizontal layout container           | `horizontalArrangement`, `verticalAlignment`, `children`                                                                                                                                      |
 | **Box**                  | Stacking layout container             | `contentAlignment`, `children`                                                                                                                                                                |
+| **Spacer**               | Fixed size empty space                | *Used with `Width` or `Height` modifiers*                                                                                                                                                     |
+| **HorizontalDivider**    | Material 3 horizontal line            | `thickness`, `color`                                                                                                                                                                          |
+| **VerticalDivider**      | Material 3 vertical line              | `thickness`, `color`                                                                                                                                                                          |
+| **FlowRow**              | Wrapping horizontal layout            | `horizontalArrangement`, `verticalArrangement`, `children`                                                                                                                                    |
+| **FlowColumn**           | Wrapping vertical layout              | `horizontalArrangement`, `verticalArrangement`, `children`                                                                                                                                    |
+| **Surface**              | Material 3 surface container          | `tonalElevation`, `shadowElevation`, `color`, `shape`, `child`                                                                                                                                |
 | **Image**                | Display images                        | `url`, `resourceName`, `contentDescription`, `contentScale`                                                                                                                                   |
 | **TextField**            | Text input field                      | `value`, `placeholder`, `label`, `leadingIcon`, `trailingIcon`, `isError`, `supportingText`, `singleLine`, `maxLines`, `keyboardType`, `visualTransformation`, `readOnly`, `prefix`, `suffix` |
 | **OutlinedTextField**    | Outlined text input field             | `value`, `placeholder`, `label`, `leadingIcon`, `trailingIcon`, `isError`, `supportingText`, `singleLine`, `maxLines`, `keyboardType`, `visualTransformation`, `readOnly`, `prefix`, `suffix` |
@@ -302,7 +308,7 @@ Apply modifiers to any component using `composeModifier`:
 }
 ```
 
-**Vertical Arrangement:** `Top`, `Bottom`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`
+**Vertical Arrangement:** `Top`, `Bottom`, `Center`, `SpaceEvenly`, `SpaceBetween`, `SpaceAround`, `SpacedBy:X` (e.g. `SpacedBy:16`)
 
 **Horizontal Alignment:** `Start`, `CenterHorizontally`, `End`
 
