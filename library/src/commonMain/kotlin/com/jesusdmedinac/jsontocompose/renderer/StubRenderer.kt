@@ -62,16 +62,6 @@ fun ComposeNode.ToSearchBar() {
 
 // --- Pager Components ---
 
-@Composable
-fun ComposeNode.ToHorizontalPager() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToVerticalPager() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
 // --- ModalBottomSheet ---
 
 @Composable

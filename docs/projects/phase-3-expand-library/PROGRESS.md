@@ -140,16 +140,16 @@
 
 ## Feature: Pager Components
 
-- [ ] Scenario: Render a HorizontalPager with pages
-- [ ] Scenario: HorizontalPager current page controlled by state
-- [ ] Scenario: HorizontalPager page change updates state
-- [ ] Scenario: Render a VerticalPager with pages
-- [ ] Scenario: VerticalPager current page controlled by state
-- [ ] Scenario: HorizontalPager with beyondViewportPageCount
-- [ ] Scenario: HorizontalPager with userScrollEnabled = false
-- [ ] Scenario: Serialize and deserialize pager components
-- [ ] Scenario: Update showcase with pager components
-- [ ] Scenario: Update main README.md with pager components
+- [x] Scenario: Render a HorizontalPager with pages
+- [x] Scenario: HorizontalPager current page controlled by state
+- [x] Scenario: HorizontalPager page change updates state
+- [x] Scenario: Render a VerticalPager with pages
+- [x] Scenario: VerticalPager current page controlled by state
+- [x] Scenario: HorizontalPager with beyondViewportPageCount
+- [x] Scenario: HorizontalPager with userScrollEnabled = false
+- [x] Scenario: Serialize and deserialize pager components
+- [x] Scenario: Update showcase with pager components
+- [x] Scenario: Update main README.md with pager components
 
 ## Feature: ModalBottomSheet Component
 
