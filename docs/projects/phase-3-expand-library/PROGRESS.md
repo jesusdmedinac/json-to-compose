@@ -98,26 +98,26 @@
 
 ## Feature: Input Components
 
-- [ ] Scenario: Render a Slider with default range 0 to 1
-- [ ] Scenario: Render a Slider with custom valueRange
-- [ ] Scenario: Render a Slider with steps
-- [ ] Scenario: Slider value controlled by state
-- [ ] Scenario: Slider onValueChange triggers state update
-- [ ] Scenario: Render a RadioButton selected
-- [ ] Scenario: Render a RadioButton unselected
-- [ ] Scenario: RadioButton selection controlled by state
-- [ ] Scenario: RadioButton onClick triggers action
-- [ ] Scenario: Render a SingleChoiceSegmentedButtonRow
-- [ ] Scenario: Render a SegmentedButton with label and icon
-- [ ] Scenario: Render a MultiChoiceSegmentedButtonRow
-- [ ] Scenario: Render a DatePicker
-- [ ] Scenario: DatePicker selection updates state
-- [ ] Scenario: Render a TimePicker
-- [ ] Scenario: Render a SearchBar
-- [ ] Scenario: SearchBar query updates state as user types
-- [ ] Scenario: Serialize and deserialize all input components
-- [ ] Scenario: Update showcase with input components
-- [ ] Scenario: Update main README.md with input components
+- [x] Scenario: Render a Slider with default range 0 to 1
+- [x] Scenario: Render a Slider with custom valueRange
+- [x] Scenario: Render a Slider with steps
+- [x] Scenario: Slider value controlled by state
+- [x] Scenario: Slider onValueChange triggers state update
+- [x] Scenario: Render a RadioButton selected
+- [x] Scenario: Render a RadioButton unselected
+- [x] Scenario: RadioButton selection controlled by state
+- [x] Scenario: RadioButton onClick triggers action
+- [x] Scenario: Render a SingleChoiceSegmentedButtonRow
+- [x] Scenario: Render a SegmentedButton with label and icon
+- [x] Scenario: Render a MultiChoiceSegmentedButtonRow
+- [x] Scenario: Render a DatePicker
+- [x] Scenario: DatePicker selection updates state
+- [x] Scenario: Render a TimePicker
+- [x] Scenario: Render a SearchBar
+- [x] Scenario: SearchBar query updates state as user types
+- [x] Scenario: Serialize and deserialize all input components
+- [x] Scenario: Update showcase with input components
+- [x] Scenario: Update main README.md with input components
 
 ## Feature: Layout Components
 

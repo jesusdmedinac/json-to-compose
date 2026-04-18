@@ -191,6 +191,14 @@ fun App() {
 | **ScrollableTabRow**     | Scrollable row of tabs                | `selectedTabIndex`, `children`, `containerColor`, `contentColor`                                                                                                                              |
 | **Tab**                  | Item for TabRow                       | `selected`, `text`, `icon`, `enabled`, `onClickEventName`                                                                                                                                     |
 | **Custom**               | User-defined components               | `customType`, `customData`                                                                                                                                                                    |
+| **Switch**               | Material toggle switch                | `checked`, `onCheckedChange`, `enabled`                                                                                                                                                      |
+| **Checkbox**             | Material checkbox                     | `checked`, `onCheckedChange`, `enabled`                                                                                                                                                      |
+| **Slider**               | Range selection slider                | `value`, `valueRange`, `steps`, `onValueChange`, `enabled`                                                                                                                                    |
+| **RadioButton**          | Single choice button                  | `selected`, `onClick`, `enabled`                                                                                                                                                              |
+| **SegmentedButtonRow**   | Row of segmented buttons              | `children` (supports single and multi-choice)                                                                                                                                                |
+| **DatePicker**           | Material 3 date picker                | `selectedDateMillis`                                                                                                                                                                          |
+| **TimePicker**           | Material 3 time picker                | `hour`, `minute`, `is24Hour`                                                                                                                                                                  |
+| **SearchBar**            | Material 3 search bar                 | `query`, `placeholder`, `leadingIcon`, `trailingIcon`, `active`, `children`                                                                                                                   |
 
 ## 🧩 Custom Components
 

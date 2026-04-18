@@ -321,6 +321,171 @@ private fun inputDemos(): ComposeNode = ComposeNode(
             textFieldDemo(),
             switchDemo(),
             checkboxDemo(),
+            sliderDemo(),
+            radioButtonDemo(),
+            segmentedButtonDemo(),
+            datePickerDemo(),
+            timePickerDemo(),
+            searchBarDemo(),
+        )
+    )
+)
+
+private fun sliderDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Slider"),
+            ComposeNode(
+                type = ComposeType.Slider,
+                properties = NodeProperties.SliderProps(
+                    value = 0.5f
+                )
+            ),
+            demoLabel("Slider with Steps"),
+            ComposeNode(
+                type = ComposeType.Slider,
+                properties = NodeProperties.SliderProps(
+                    value = 25f,
+                    valueRange = NodeProperties.FloatRange(0f, 100f),
+                    steps = 3
+                )
+            ),
+        )
+    )
+)
+
+private fun radioButtonDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("RadioButton"),
+            ComposeNode(
+                type = ComposeType.Row,
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.RadioButton,
+                            properties = NodeProperties.RadioButtonProps(selected = true)
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Option A")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.RadioButton,
+                            properties = NodeProperties.RadioButtonProps(selected = false)
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(text = "Option B")
+                        ),
+                    )
+                )
+            ),
+        )
+    )
+)
+
+private fun segmentedButtonDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Single Choice Segmented Button"),
+            ComposeNode(
+                type = ComposeType.SingleChoiceSegmentedButtonRow,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.SegmentedButtonRowProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.SegmentedButton,
+                            properties = NodeProperties.SegmentedButtonProps(
+                                label = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Day")),
+                                selected = true
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.SegmentedButton,
+                            properties = NodeProperties.SegmentedButtonProps(
+                                label = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Week")),
+                                selected = false
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.SegmentedButton,
+                            properties = NodeProperties.SegmentedButtonProps(
+                                label = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Month")),
+                                selected = false
+                            )
+                        ),
+                    )
+                )
+            ),
+        )
+    )
+)
+
+private fun datePickerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("DatePicker"),
+            ComposeNode(
+                type = ComposeType.DatePicker,
+                properties = NodeProperties.DatePickerProps()
+            ),
+        )
+    )
+)
+
+private fun timePickerDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("TimePicker"),
+            ComposeNode(
+                type = ComposeType.TimePicker,
+                properties = NodeProperties.TimePickerProps()
+            ),
+        )
+    )
+)
+
+private fun searchBarDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("SearchBar"),
+            ComposeNode(
+                type = ComposeType.SearchBar,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.SearchBarProps(
+                    placeholder = ComposeNode(ComposeType.Text, NodeProperties.TextProps(text = "Search anything...")),
+                )
+            ),
         )
     )
 )
