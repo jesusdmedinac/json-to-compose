@@ -18,46 +18,6 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 
 // --- Input Components ---
 
-@Composable
-fun ComposeNode.ToSlider() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToRadioButton() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToSingleChoiceSegmentedButtonRow() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToMultiChoiceSegmentedButtonRow() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToSegmentedButton() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToDatePicker() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToTimePicker() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
-@Composable
-fun ComposeNode.ToSearchBar() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
 // --- Layout Components ---
 
 // --- Pager Components ---

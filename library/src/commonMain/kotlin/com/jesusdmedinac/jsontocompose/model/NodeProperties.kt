@@ -639,6 +639,7 @@ sealed interface NodeProperties {
         val valueRange: FloatRange? = null,
         val steps: Int? = null,
         val onValueChangeEventName: String? = null,
+        val onValueChangeFinishedEventName: String? = null,
         val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
     ) : NodeProperties
@@ -705,6 +706,7 @@ sealed interface NodeProperties {
         val active: Boolean? = null,
         val activeStateHostName: String? = null,
         val onQueryChangeEventName: String? = null,
+        val onSearchEventName: String? = null,
         val children: List<ComposeNode>? = null,
     ) : NodeProperties
 

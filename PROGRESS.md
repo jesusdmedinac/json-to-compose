@@ -13,14 +13,14 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 113       | **47%**  |
+| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 133       | **56%**  |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **616**   | **373**   | **60%**  |
+|     | **TOTAL**                                                         |               | **616**   | **393**   | **64%**  |
 
 ```
-Progress: [██████████████████████████░░░░░░░░░░░░░] 60%
+Progress: [████████████████████████████░░░░░░░░░░░] 64%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
 ```
@@ -32,7 +32,7 @@ Progress: [███████████████████████
 
 ### 1. phase-3-expand-library
 
-**Status:** 🏗️ In Progress (113/239 — 47%)
+**Status:** 🏗️ In Progress (133/239 — 56%)
   │
   └── phase-4-semantics-testability
         │
@@ -45,7 +45,7 @@ Progress: [███████████████████████
 
 ### 1. phase-3-expand-library
 
-**Status:** 🏗️ In Progress (113/239 — 47%)
+**Status:** 🏗️ In Progress (133/239 — 56%)
 **Module:** `library/`
 **Depends on:** phase-1 ✅, phase-actions-system ✅
 
@@ -66,7 +66,7 @@ Progress: [███████████████████████
 | Card Variants | 8 | ElevatedCard, OutlinedCard | ✅ Done |
 | TextField Enhancement | 18 | placeholder, label, icons, isError, keyboardType, password, OutlinedTextField | ✅ Done |
 | Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | ✅ Done |
-| Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
+| Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | ✅ Done |
 | Layout Components | 16 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | ✅ Done |
 | Pager Components | 10 | HorizontalPager, VerticalPager | ✅ Done |
 | ModalBottomSheet | 10 | ModalBottomSheet with state, drag, shape, scrim | 🔜 Pending |
@@ -131,7 +131,7 @@ Progress: [███████████████████████
 
 - AI generation needs to know ALL available components to generate valid JSON.
 - The demo server should serve the full component set.
-- The IDE plugin benefits from a complete, stable library API.
+- El IDE plugin benefits from a complete, stable library API.
 - The web playground IS composy — it should be feature-complete first (phase-2 fixes).
 - These are the advanced differentiators that make the project stand out, built on a solid foundation.
 

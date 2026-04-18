@@ -107,6 +107,17 @@ data class ComposeNode(
         is NodeProperties.FlowRowProps -> children
         is NodeProperties.FlowColumnProps -> children
         is NodeProperties.SurfaceProps -> listOfNotNull(child)
+        is NodeProperties.SegmentedButtonRowProps -> children
+        is NodeProperties.SegmentedButtonProps -> buildList {
+            label?.let { add(it) }
+            icon?.let { add(it) }
+        }
+        is NodeProperties.SearchBarProps -> buildList {
+            placeholder?.let { add(it) }
+            leadingIcon?.let { add(it) }
+            trailingIcon?.let { add(it) }
+            children?.let { addAll(it) }
+        }
         is NodeProperties.PagerProps -> pages
         else -> null
     } ?: emptyList()
