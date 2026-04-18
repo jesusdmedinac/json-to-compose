@@ -34,18 +34,12 @@ fun ComposeNode.ToTimePicker() {
     )
 
     // Sync from internal state to StateHost
-    val currentHour = timePickerState.hour
-    val currentMinute = timePickerState.minute
-    
-    LaunchedEffect(currentHour) {
-        if (currentHour != hour) {
-            hourStateHost?.onStateChange(currentHour)
+    LaunchedEffect(timePickerState.hour, timePickerState.minute) {
+        if (timePickerState.hour != hour) {
+            hourStateHost?.onStateChange(timePickerState.hour)
         }
-    }
-    
-    LaunchedEffect(currentMinute) {
-        if (currentMinute != minute) {
-            minuteStateHost?.onStateChange(currentMinute)
+        if (timePickerState.minute != minute) {
+            minuteStateHost?.onStateChange(timePickerState.minute)
         }
     }
 

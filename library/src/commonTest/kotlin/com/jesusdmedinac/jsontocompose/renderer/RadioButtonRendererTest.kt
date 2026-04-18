@@ -99,4 +99,30 @@ class RadioButtonRendererTest {
         onNodeWithTag(ComposeType.RadioButton.name).performClick()
         assertTrue(clicked)
     }
+
+    // --- Scenario: RadioButton does not toggle to unselected when clicked while selected ---
+    @Test
+    fun radioButtonDoesNotToggleToUnselectedWhenClickedWhileSelected() = runComposeUiTest {
+        val state = MutableStateHost(true)
+        val node = ComposeNode(
+            type = ComposeType.RadioButton,
+            properties = NodeProperties.RadioButtonProps(
+                selectedStateHostName = "option1Selected"
+            )
+        )
+
+        setContent {
+            CompositionLocalProvider(
+                LocalStateHost provides mapOf("option1Selected" to state)
+            ) {
+                node.ToRadioButton()
+            }
+        }
+
+        onNodeWithTag(ComposeType.RadioButton.name).assertIsSelected()
+
+        onNodeWithTag(ComposeType.RadioButton.name).performClick()
+        onNodeWithTag(ComposeType.RadioButton.name).assertIsSelected()
+        assertEquals(true, state.state, "State should remain true")
+    }
 }

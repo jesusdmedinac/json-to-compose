@@ -1,6 +1,9 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -15,28 +18,16 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 
 @Composable
 fun ComposeNode.ToSingleChoiceSegmentedButtonRow() {
-    val props = properties as? NodeProperties.SegmentedButtonRowProps ?: return
-    val modifier = (Modifier from composeModifier).testTag(type.name)
-    val children = props.children ?: emptyList()
-
-    Row(
-        modifier = modifier
-    ) {
-        CompositionLocalProvider(
-            LocalSegmentedButtonRowScope provides this,
-            LocalSegmentedButtonCount provides children.size
-        ) {
-            children.forEachIndexed { index, child ->
-                CompositionLocalProvider(LocalSegmentedButtonIndex provides index) {
-                    child.ToCompose()
-                }
-            }
-        }
-    }
+    SegmentedButtonRowContent()
 }
 
 @Composable
 fun ComposeNode.ToMultiChoiceSegmentedButtonRow() {
+    SegmentedButtonRowContent()
+}
+
+@Composable
+private fun ComposeNode.SegmentedButtonRowContent() {
     val props = properties as? NodeProperties.SegmentedButtonRowProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
     val children = props.children ?: emptyList()

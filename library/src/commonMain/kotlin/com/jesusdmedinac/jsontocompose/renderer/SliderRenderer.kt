@@ -45,6 +45,17 @@ fun ComposeNode.ToSlider() {
                 }
             }
         },
+        onValueChangeFinished = {
+            val eventName = props.onValueChangeFinishedEventName
+            if (eventName != null) {
+                val behavior = behaviors[eventName]
+                if (behavior != null) {
+                    behavior.invoke()
+                } else {
+                    println("Warning: Behavior for event \"$eventName\" not found in LocalBehavior.")
+                }
+            }
+        },
         modifier = modifier,
         enabled = enabled,
         valueRange = valueRange,

@@ -40,7 +40,12 @@ fun ComposeNode.ToSearchBar() {
                 behaviors[eventName]?.invoke()
             }
         },
-        onSearch = { /* Handle search if needed */ },
+        onSearch = { query ->
+            val eventName = props.onSearchEventName
+            if (eventName != null) {
+                behaviors[eventName]?.invoke()
+            }
+        },
         active = active,
         onActiveChange = { newActive ->
             activeStateHost?.onStateChange(newActive)

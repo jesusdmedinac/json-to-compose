@@ -1,11 +1,12 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import com.jesusdmedinac.jsontocompose.*
@@ -14,11 +15,14 @@ import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
 import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposeNode.ToSegmentedButton() {
     val props = properties as? NodeProperties.SegmentedButtonProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
     val behaviors = LocalBehavior.current
+    val index = LocalSegmentedButtonIndex.current
+    val count = LocalSegmentedButtonCount.current
 
     val (selected, selectedStateHost) = resolveStateHostValue(
         stateHostName = props.selectedStateHostName,
@@ -32,8 +36,9 @@ fun ComposeNode.ToSegmentedButton() {
         defaultValue = true,
     )
 
-    // Fallback implementation using Button for now as SegmentedButtonRowScope is missing in this version
-    Button(
+    val shape = SegmentedButtonDefaults.itemShape(index = index, count = count)
+
+    OutlinedButton(
         onClick = {
             selectedStateHost?.onStateChange(!selected)
             val eventName = props.onClickEventName
@@ -46,12 +51,25 @@ fun ComposeNode.ToSegmentedButton() {
                 }
             }
         },
+        shape = shape,
         modifier = modifier.semantics {
             this.selected = selected
         },
         enabled = enabled,
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+            contentColor = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface
+        ),
+        border = BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outline
+        )
     ) {
-        props.icon?.ToCompose()
+        if (selected && props.icon == null) {
+            SegmentedButtonDefaults.Icon(selected)
+        } else {
+            props.icon?.ToCompose()
+        }
         props.label?.ToCompose()
     }
 }

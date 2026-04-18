@@ -26,17 +26,18 @@ fun ComposeNode.ToDatePicker() {
     )
 
     // Sync from internal state to StateHost
-    val currentSelectedDateMillis = datePickerState.selectedDateMillis
-    LaunchedEffect(currentSelectedDateMillis) {
-        if (currentSelectedDateMillis != selectedDateMillis) {
-            stateHost?.onStateChange(currentSelectedDateMillis)
+    LaunchedEffect(datePickerState.selectedDateMillis) {
+        if (datePickerState.selectedDateMillis != selectedDateMillis) {
+            stateHost?.onStateChange(datePickerState.selectedDateMillis)
         }
     }
     
-    // Sync from StateHost to internal state (if needed, but rememberDatePickerState initial value is used)
-    // Actually, if selectedDateMillis changes from outside, we should update datePickerState.
-    // However, DatePickerState.selectedDateMillis is a property we can't easily set after creation without a new state object.
-    // Most M3 states are like this.
+    // Sync from StateHost to internal state
+    LaunchedEffect(selectedDateMillis) {
+        if (selectedDateMillis != datePickerState.selectedDateMillis) {
+            datePickerState.selectedDateMillis = selectedDateMillis
+        }
+    }
     
     DatePicker(
         state = datePickerState,

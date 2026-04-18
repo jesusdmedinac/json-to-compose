@@ -31,7 +31,9 @@ fun ComposeNode.ToRadioButton() {
     RadioButton(
         selected = selected,
         onClick = {
-            selectedStateHost?.onStateChange(!selected)
+            if (!selected) {
+                selectedStateHost?.onStateChange(true)
+            }
             val eventName = props.onClickEventName
             if (eventName != null) {
                 val behavior = behaviors[eventName]
