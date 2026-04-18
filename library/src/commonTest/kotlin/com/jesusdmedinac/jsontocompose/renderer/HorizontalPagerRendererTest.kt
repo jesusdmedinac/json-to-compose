@@ -189,4 +189,28 @@ class HorizontalPagerRendererTest {
         assertEquals(0, lastReportedPage)
         onNodeWithText("Page 1").assertExists()
     }
+
+    @Test
+    fun horizontalPagerHandlesOutOfBoundsValues() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.HorizontalPager,
+            properties = NodeProperties.PagerProps(
+                currentPage = 10, // Way out of bounds
+                beyondViewportPageCount = -5, // Negative value
+                pages = listOf(
+                    ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Page 1")
+                    )
+                )
+            )
+        )
+
+        setContent {
+            node.ToHorizontalPager()
+        }
+
+        // Should not crash and should show the only available page (index 0)
+        onNodeWithText("Page 1").assertExists()
+    }
 }

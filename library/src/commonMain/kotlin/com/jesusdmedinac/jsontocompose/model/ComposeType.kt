@@ -163,7 +163,8 @@ enum class ComposeType {
     fun isLayout(): Boolean = when (this) {
         Column, Row, Box, NavigationBar, NavigationRail, TabRow, ScrollableTabRow,
         FlowRow, FlowColumn,
-        SingleChoiceSegmentedButtonRow, MultiChoiceSegmentedButtonRow -> true
+        SingleChoiceSegmentedButtonRow, MultiChoiceSegmentedButtonRow,
+        HorizontalPager, VerticalPager -> true
         else -> false
     }
 

@@ -68,7 +68,7 @@ phase-3-expand-library ← IN PROGRESS
 | Navigation Components | 17 | NavigationBar, NavigationRail, ModalNavigationDrawer, TabRow, Tab | ✅ Done |
 | Input Components | 20 | Slider, RadioButton, SegmentedButton, DatePicker, TimePicker, SearchBar | 🔜 Pending |
 | Layout Components | 16 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | 🔜 Pending |
-| Pager Components | 10 | HorizontalPager, VerticalPager | 🔜 Pending |
+| Pager Components | 10 | HorizontalPager, VerticalPager | ✅ Done |
 | ModalBottomSheet | 10 | ModalBottomSheet with state, drag, shape, scrim | 🔜 Pending |
 | Display Components | 24 | Icon, Badge, Chips (4 types), Progress indicators, Tooltip | 🏗️ In Progress |
 | Snackbar | 10 | SnackbarHost, ShowSnackbar action | 🔜 Pending |
