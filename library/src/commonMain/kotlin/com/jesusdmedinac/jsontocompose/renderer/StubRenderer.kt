@@ -22,13 +22,6 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 
 // --- Pager Components ---
 
-// --- ModalBottomSheet ---
-
-@Composable
-fun ComposeNode.ToModalBottomSheet() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}
-
 // --- Display Components ---
 
 @Composable

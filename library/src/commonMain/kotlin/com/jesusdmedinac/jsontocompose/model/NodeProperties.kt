@@ -774,7 +774,8 @@ sealed interface NodeProperties {
         val visibleStateHostName: String? = null,
         val onDismissRequestEventName: String? = null,
         val dragHandle: ComposeNode? = null,
-        val shape: String? = null,
+        val showDragHandle: Boolean? = null,
+        val shape: ComposeShape? = null,
         val scrimColor: String? = null,
     ) : NodeProperties
 
