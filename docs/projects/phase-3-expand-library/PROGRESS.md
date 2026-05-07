@@ -153,15 +153,15 @@
 
 ## Feature: ModalBottomSheet Component
 
-- [ ] Scenario: Render a ModalBottomSheet with content
-- [ ] Scenario: ModalBottomSheet hidden when state is false
-- [ ] Scenario: ModalBottomSheet dismiss updates state
-- [ ] Scenario: ModalBottomSheet with dragHandle
-- [ ] Scenario: ModalBottomSheet with custom shape
+- [x] Scenario: Render a ModalBottomSheet with content
+- [x] Scenario: ModalBottomSheet hidden when state is false
+- [x] Scenario: ModalBottomSheet dismiss updates state
+- [x] Scenario: ModalBottomSheet with dragHandle
+- [x] Scenario: ModalBottomSheet with custom shape
 - [ ] Scenario: ModalBottomSheet with scrimColor
 - [ ] Scenario: Scaffold with ModalBottomSheet integration
-- [ ] Scenario: Serialize and deserialize ModalBottomSheet
-- [ ] Scenario: Update showcase with ModalBottomSheet
+- [x] Scenario: Serialize and deserialize ModalBottomSheet
+- [x] Scenario: Update showcase with ModalBottomSheet
 - [ ] Scenario: Update main README.md with ModalBottomSheet
 
 ## Feature: Display Components
