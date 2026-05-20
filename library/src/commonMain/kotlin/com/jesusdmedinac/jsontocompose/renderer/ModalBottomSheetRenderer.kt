@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
@@ -57,7 +58,7 @@ fun ComposeNode.ToModalBottomSheet() {
         }
     }
 
-    val scrimColor = props.scrimColor.toColor()
+    val scrimColor = props.scrimColor.toColor(BottomSheetDefaults.ScrimColor)
     val shape: Shape = props.shape?.toShape() ?: RectangleShape
 
     ModalBottomSheet(
@@ -71,6 +72,7 @@ fun ComposeNode.ToModalBottomSheet() {
         modifier = modifier,
         sheetState = sheetState,
         shape = shape,
+        scrimColor = scrimColor,
         dragHandle = if (props.showDragHandle == true) {
             { /* Default drag handle will be shown by Material 3 */ }
         } else {

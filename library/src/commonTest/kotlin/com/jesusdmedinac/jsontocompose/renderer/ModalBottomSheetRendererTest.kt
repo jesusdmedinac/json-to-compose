@@ -2,6 +2,7 @@ package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -213,7 +214,67 @@ class ModalBottomSheetRendererTest {
         onNodeWithText("Content").assertExists()
     }
 
-    // --- Scenario 7: Serialize and deserialize ModalBottomSheet ---
+    // --- Scenario 7: Scaffold with ModalBottomSheet integration ---
+
+    @Test
+    fun scaffoldWithModalBottomSheetIntegration() = runComposeUiTest {
+        val sheetVisible = mutableStateOf(false)
+        val mockStateHost = object : StateHost<Boolean> {
+            override val state: Boolean get() = sheetVisible.value
+            override fun onStateChange(state: Boolean) {
+                sheetVisible.value = state
+            }
+        }
+
+        val node = ComposeNode(
+            type = ComposeType.Scaffold,
+            properties = NodeProperties.ScaffoldProps(
+                child = ComposeNode(
+                    type = ComposeType.Column,
+                    properties = NodeProperties.ColumnProps(
+                        children = listOf(
+                            ComposeNode(
+                                type = ComposeType.Text,
+                                properties = NodeProperties.TextProps(text = "Scaffold Content")
+                            ),
+                            ComposeNode(
+                                type = ComposeType.ModalBottomSheet,
+                                properties = NodeProperties.ModalBottomSheetProps(
+                                    visibleStateHostName = "sheet_visibility",
+                                    child = ComposeNode(
+                                        type = ComposeType.Text,
+                                        properties = NodeProperties.TextProps(text = "Sheet Content")
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+
+        setContent {
+            CompositionLocalProvider(
+                LocalStateHost provides mapOf("sheet_visibility" to mockStateHost)
+            ) {
+                node.ToCompose()
+            }
+        }
+
+        // Initially sheet is not visible
+        onNodeWithTag("ModalBottomSheet").assertDoesNotExist()
+        onNodeWithText("Sheet Content").assertDoesNotExist()
+
+        // Toggle state to true
+        sheetVisible.value = true
+        waitForIdle()
+
+        // Sheet should exist and be displayed
+        onNodeWithTag("ModalBottomSheet").assertExists()
+        onNodeWithText("Sheet Content").assertExists()
+    }
+
+    // --- Scenario 8: Serialize and deserialize ModalBottomSheet ---
 
     @Test
     fun modalBottomSheetSerializationRoundtrip() {
