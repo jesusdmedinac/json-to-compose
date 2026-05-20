@@ -1120,6 +1120,7 @@ private fun containerDemos(): ComposeNode = ComposeNode(
             cardDemo(),
             scaffoldDemo(),
             alertDialogDemo(),
+            modalBottomSheetDemo(),
         )
     )
 )
@@ -1371,6 +1372,61 @@ private fun alertDialogDemo(): ComposeNode = ComposeNode(
                         )
                     ),
                     visibilityStateHostName = "dialog_visibility",
+                )
+            ),
+        )
+    )
+)
+
+private fun modalBottomSheetDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("ModalBottomSheet"),
+            ComposeNode(
+                type = ComposeType.Button,
+                properties = NodeProperties.ButtonProps(
+                    onClickEventName = "show_sheet",
+                    child = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Show Bottom Sheet"),
+                    )
+                ),
+            ),
+            ComposeNode(
+                type = ComposeType.ModalBottomSheet,
+                properties = NodeProperties.ModalBottomSheetProps(
+                    visibleStateHostName = "sheet_visibility",
+                    onDismissRequestEventName = "dismiss_sheet",
+                    showDragHandle = true,
+                    shape = ComposeShape.RoundedCorner(topStart = 28, topEnd = 28),
+                    child = ComposeNode(
+                        type = ComposeType.Column,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.Padding(16))
+                        ),
+                        properties = NodeProperties.ColumnProps(
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Bottom Sheet Content",
+                                        fontSize = 20.0,
+                                        fontWeight = "Bold"
+                                    )
+                                ),
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "This is a modal bottom sheet with rounded corners and a drag handle."
+                                    )
+                                ),
+                            )
+                        )
+                    )
                 )
             ),
         )

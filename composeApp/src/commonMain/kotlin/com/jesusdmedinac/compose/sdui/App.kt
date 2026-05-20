@@ -454,6 +454,7 @@ fun App() {
 
     val textFieldHost = remember { MutableStateHost("") }
     val dialogHost = remember { MutableStateHost(false) }
+    val sheetHost = remember { MutableStateHost(false) }
     val switchStateHost = remember { MutableStateHost(false) }
     val switchEnabledHost = remember { MutableStateHost(true) }
     val checkboxCheckedHost = remember { MutableStateHost(false) }
@@ -490,6 +491,17 @@ fun App() {
             override fun invoke() {
                 println("Dialog dismissed")
                 dialogHost.onStateChange(false)
+            }
+        },
+        "show_sheet" to object : Behavior {
+            override fun invoke() {
+                sheetHost.onStateChange(true)
+            }
+        },
+        "dismiss_sheet" to object : Behavior {
+            override fun invoke() {
+                println("Sheet dismissed")
+                sheetHost.onStateChange(false)
             }
         },
         "switch_toggled" to object : Behavior {
@@ -534,6 +546,7 @@ fun App() {
     val stateHosts = mapOf<String, StateHost<*>>(
         "text_field_value" to textFieldHost,
         "dialog_visibility" to dialogHost,
+        "sheet_visibility" to sheetHost,
         "switch_state" to switchStateHost,
         "checkbox_checked" to checkboxCheckedHost,
         "checkbox_enabled" to checkboxEnabledHost,
