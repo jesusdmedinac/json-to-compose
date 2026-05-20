@@ -46,7 +46,7 @@ fun ComposeNode.ToCircularProgressIndicator() {
 
     if (progress != null) {
         CircularProgressIndicator(
-            progress = progress,
+            progress = { progress },
             modifier = modifier,
             color = color,
             trackColor = trackColor
@@ -72,7 +72,7 @@ fun ComposeNode.ToLinearProgressIndicator() {
 
     if (progress != null) {
         LinearProgressIndicator(
-            progress = progress,
+            progress = { progress },
             modifier = modifier,
             color = color,
             trackColor = trackColor
