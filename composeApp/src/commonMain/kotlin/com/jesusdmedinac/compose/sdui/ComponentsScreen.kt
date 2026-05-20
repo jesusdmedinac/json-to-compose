@@ -8,6 +8,23 @@ import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 
+private object DemoColors {
+    const val lightBlue = "#FFBBDEFB"
+    const val red = "#FFFF0000"
+    const val blue = "#FF0000FF"
+    const val deepBlue = "#FF1A237E"
+    const val indigo = "#FF3F51B5"
+    const val purple = "#FF6200EE"
+    const val lightGrey = "#FFE0E0E0"
+    const val teal = "#FF03DAC6"
+    const val mint = "#FFB2DFDB"
+    const val veryLightBlue = "#FFE3F2FD"
+    const val veryLightGreen = "#FFF1F8E9"
+    const val veryLightYellow = "#FFFFF9C4"
+    const val veryLightPurple = "#FFF3E5F5"
+    const val veryLightOrange = "#FFFBE9E7"
+}
+
 // region Components Screen
 
 fun componentsScreen(): ComposeNode = ComposeNode(
@@ -204,7 +221,7 @@ private fun surfaceDemo(): ComposeNode = ComposeNode(
                     )
                 ),
                 properties = NodeProperties.SurfaceProps(
-                    color = "#FFBBDEFB", // Light Blue
+                    color = DemoColors.lightBlue,
                     shape = ComposeShape.Circle,
                     child = ComposeNode(
                         type = ComposeType.Box,
@@ -261,7 +278,7 @@ private fun flowLayoutDemos(): ComposeNode = ComposeNode(
                                         composeModifier = ComposeModifier(
                                             operations = listOf(
                                                 ComposeModifier.Operation.Padding(4),
-                                                ComposeModifier.Operation.BackgroundColor("#FFE0E0E0")
+                                                ComposeModifier.Operation.BackgroundColor(DemoColors.lightGrey)
                                             )
                                         ),
                                         properties = NodeProperties.TextProps(text = "Item $i")
@@ -292,7 +309,7 @@ private fun flowLayoutDemos(): ComposeNode = ComposeNode(
                                         composeModifier = ComposeModifier(
                                             operations = listOf(
                                                 ComposeModifier.Operation.Padding(4),
-                                                ComposeModifier.Operation.BackgroundColor("#FFB2DFDB")
+                                                ComposeModifier.Operation.BackgroundColor(DemoColors.mint)
                                             )
                                         ),
                                         properties = NodeProperties.TextProps(text = "Col $i")
@@ -345,7 +362,7 @@ private fun dividerDemo(): ComposeNode = ComposeNode(
                             type = ComposeType.HorizontalDivider,
                             properties = NodeProperties.DividerProps(
                                 thickness = 4,
-                                color = "#FFFF0000"
+                                color = DemoColors.red
                             )
                         ),
                         ComposeNode(
@@ -368,7 +385,7 @@ private fun dividerDemo(): ComposeNode = ComposeNode(
                                         type = ComposeType.VerticalDivider,
                                         properties = NodeProperties.DividerProps(
                                             thickness = 2,
-                                            color = "#FF0000FF"
+                                            color = DemoColors.blue
                                         )
                                     ),
                                     ComposeNode(
@@ -572,7 +589,7 @@ private fun textDemo(): ComposeNode = ComposeNode(
                     text = "Large Bold Title",
                     fontSize = 24.0,
                     fontWeight = "Bold",
-                    color = "#FF1A237E"
+                    color = DemoColors.deepBlue
                 ),
             ),
             ComposeNode(
@@ -581,7 +598,7 @@ private fun textDemo(): ComposeNode = ComposeNode(
                     text = "Medium Italic Subtitle",
                     fontSize = 18.0,
                     fontStyle = "Italic",
-                    color = "#FF3F51B5"
+                    color = DemoColors.indigo
                 ),
             ),
             ComposeNode(
@@ -793,8 +810,8 @@ private fun displayComponentsDemo(): ComposeNode = ComposeNode(
                             type = ComposeType.CircularProgressIndicator,
                             properties = NodeProperties.ProgressIndicatorProps(
                                 progress = 0.7f,
-                                color = "#FF6200EE",
-                                trackColor = "#FFE0E0E0"
+                                color = DemoColors.purple,
+                                trackColor = DemoColors.lightGrey
                             )
                         ),
                         ComposeNode(
@@ -811,8 +828,8 @@ private fun displayComponentsDemo(): ComposeNode = ComposeNode(
                             ),
                             properties = NodeProperties.ProgressIndicatorProps(
                                 progress = 0.4f,
-                                color = "#FF03DAC6",
-                                trackColor = "#FFE0E0E0"
+                                color = DemoColors.teal,
+                                trackColor = DemoColors.lightGrey
                             )
                         )
                     )
@@ -1679,7 +1696,7 @@ private fun lazyRowDemo(): ComposeNode = ComposeNode(
                             composeModifier = ComposeModifier(
                                 operations = listOf(
                                     ComposeModifier.Operation.Padding(8),
-                                    ComposeModifier.Operation.BackgroundColor("#FFE3F2FD"),
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightBlue),
                                 )
                             ),
                             properties = NodeProperties.TextProps(text = "Item $i"),
@@ -1956,7 +1973,7 @@ private fun horizontalPagerDemo(): ComposeNode = ComposeNode(
                             composeModifier = ComposeModifier(
                                 operations = listOf(
                                     ComposeModifier.Operation.FillMaxSize,
-                                    ComposeModifier.Operation.BackgroundColor("#FFE3F2FD")
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightBlue)
                                 )
                             ),
                             properties = NodeProperties.BoxProps(
@@ -1974,7 +1991,7 @@ private fun horizontalPagerDemo(): ComposeNode = ComposeNode(
                             composeModifier = ComposeModifier(
                                 operations = listOf(
                                     ComposeModifier.Operation.FillMaxSize,
-                                    ComposeModifier.Operation.BackgroundColor("#FFF1F8E9")
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightGreen)
                                 )
                             ),
                             properties = NodeProperties.BoxProps(
@@ -1992,7 +2009,7 @@ private fun horizontalPagerDemo(): ComposeNode = ComposeNode(
                             composeModifier = ComposeModifier(
                                 operations = listOf(
                                     ComposeModifier.Operation.FillMaxSize,
-                                    ComposeModifier.Operation.BackgroundColor("#FFFFF9C4")
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightYellow)
                                 )
                             ),
                             properties = NodeProperties.BoxProps(
@@ -2036,7 +2053,7 @@ private fun verticalPagerDemo(): ComposeNode = ComposeNode(
                             composeModifier = ComposeModifier(
                                 operations = listOf(
                                     ComposeModifier.Operation.FillMaxSize,
-                                    ComposeModifier.Operation.BackgroundColor("#FFF3E5F5")
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightPurple)
                                 )
                             ),
                             properties = NodeProperties.BoxProps(
@@ -2054,7 +2071,7 @@ private fun verticalPagerDemo(): ComposeNode = ComposeNode(
                             composeModifier = ComposeModifier(
                                 operations = listOf(
                                     ComposeModifier.Operation.FillMaxSize,
-                                    ComposeModifier.Operation.BackgroundColor("#FFFBE9E7")
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightOrange)
                                 )
                             ),
                             properties = NodeProperties.BoxProps(

@@ -28,7 +28,9 @@ fun ComposeNode.ToPlainTooltip() {
             },
             state = tooltipState
         ) {
-            props.anchor?.ToCompose()
+            Box(modifier = Modifier) {
+                props.anchor?.ToCompose()
+            }
         }
     }
 }
@@ -53,7 +55,10 @@ fun ComposeNode.ToRichTooltip() {
             },
             state = tooltipState
         ) {
-            props.anchor?.ToCompose()
+            Box(modifier = Modifier) {
+                props.anchor?.ToCompose()
+            }
         }
     }
 }
+

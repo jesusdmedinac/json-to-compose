@@ -2,9 +2,12 @@ package com.jesusdmedinac.jsontocompose.renderer
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.runComposeUiTest
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalStateHost
@@ -279,14 +282,28 @@ class DisplayComponentsRendererTest {
             plainTooltip.ToPlainTooltip()
         }
         onNodeWithTag("PlainTooltip").assertExists()
-        onNodeWithTag("Icon", useUnmergedTree = true).assertExists()
-        onNodeWithText("info", useUnmergedTree = true).assertExists()
+        
+        // Simular pulsación larga sobre el ancla del Plain Tooltip
+        onNodeWithTag("Icon", useUnmergedTree = true).performTouchInput {
+            longClick()
+        }
+        
+        // Assert de que el contenido del Plain Tooltip se renderiza
+        onNodeWithText("Plain Tooltip Content", useUnmergedTree = true).assertExists()
 
         setContent {
             richTooltip.ToRichTooltip()
         }
         onNodeWithTag("RichTooltip").assertExists()
-        onNodeWithTag("Icon", useUnmergedTree = true).assertExists()
-        onNodeWithText("settings", useUnmergedTree = true).assertExists()
+        
+        // Simular pulsación larga sobre el ancla del Rich Tooltip
+        onNodeWithTag("Icon", useUnmergedTree = true).performTouchInput {
+            longClick()
+        }
+        
+        // Assert de que el contenido del Rich Tooltip se renderiza
+        onNodeWithText("Rich Title", useUnmergedTree = true).assertExists()
+        onNodeWithText("Rich Body", useUnmergedTree = true).assertExists()
+        onNodeWithText("Action", useUnmergedTree = true).assertExists()
     }
 }

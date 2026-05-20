@@ -9,21 +9,64 @@ import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
+import com.jesusdmedinac.jsontocompose.state.StateHost
 import com.jesusdmedinac.jsontocompose.state.resolveStateHostValue
+
+@Composable
+private fun resolveEnabled(
+    enabledStateHostName: String?,
+    enabledInline: Boolean?
+): Boolean {
+    val (enabled, _) = resolveStateHostValue(
+        stateHostName = enabledStateHostName,
+        inlineValue = enabledInline,
+        defaultValue = true,
+    )
+    return enabled
+}
+
+@Composable
+private fun resolveOnClick(
+    onClickEventName: String?
+): () -> Unit {
+    val behavior = LocalBehavior.current[onClickEventName]
+    return { behavior?.invoke() }
+}
+
+@Composable
+private fun resolveSelected(
+    selectedStateHostName: String?,
+    selectedInline: Boolean?
+) = resolveStateHostValue(
+    stateHostName = selectedStateHostName,
+    inlineValue = selectedInline,
+    defaultValue = false,
+)
+
+@Composable
+private fun resolveSelectableOnClick(
+    selected: Boolean,
+    selectedStateHost: StateHost<Boolean>?,
+    onClickEventName: String?
+): () -> Unit {
+    val behavior = LocalBehavior.current[onClickEventName]
+    return {
+        val nextSelected = !selected
+        selectedStateHost?.onStateChange(nextSelected)
+        behavior?.invoke()
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComposeNode.ToAssistChip() {
     val props = properties as? NodeProperties.ChipProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val (enabled, _) = resolveStateHostValue(
-        stateHostName = props.enabledStateHostName,
-        inlineValue = props.enabled,
-        defaultValue = true,
-    )
-    val behavior = LocalBehavior.current[props.onClickEventName]
+    val enabled = resolveEnabled(props.enabledStateHostName, props.enabled)
+    val onClick = resolveOnClick(props.onClickEventName)
+
     AssistChip(
-        onClick = { behavior?.invoke() },
+        onClick = onClick,
         label = { props.label?.ToCompose() },
         modifier = modifier,
         enabled = enabled,
@@ -36,14 +79,11 @@ fun ComposeNode.ToAssistChip() {
 fun ComposeNode.ToSuggestionChip() {
     val props = properties as? NodeProperties.ChipProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val (enabled, _) = resolveStateHostValue(
-        stateHostName = props.enabledStateHostName,
-        inlineValue = props.enabled,
-        defaultValue = true,
-    )
-    val behavior = LocalBehavior.current[props.onClickEventName]
+    val enabled = resolveEnabled(props.enabledStateHostName, props.enabled)
+    val onClick = resolveOnClick(props.onClickEventName)
+
     SuggestionChip(
-        onClick = { behavior?.invoke() },
+        onClick = onClick,
         label = { props.label?.ToCompose() },
         modifier = modifier,
         enabled = enabled,
@@ -56,24 +96,13 @@ fun ComposeNode.ToSuggestionChip() {
 fun ComposeNode.ToFilterChip() {
     val props = properties as? NodeProperties.FilterChipProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val (selected, selectedStateHost) = resolveStateHostValue(
-        stateHostName = props.selectedStateHostName,
-        inlineValue = props.selected,
-        defaultValue = false,
-    )
-    val (enabled, _) = resolveStateHostValue(
-        stateHostName = props.enabledStateHostName,
-        inlineValue = props.enabled,
-        defaultValue = true,
-    )
-    val behavior = LocalBehavior.current[props.onClickEventName]
+    val (selected, selectedStateHost) = resolveSelected(props.selectedStateHostName, props.selected)
+    val enabled = resolveEnabled(props.enabledStateHostName, props.enabled)
+    val onClick = resolveSelectableOnClick(selected, selectedStateHost, props.onClickEventName)
+
     FilterChip(
         selected = selected,
-        onClick = {
-            val nextSelected = !selected
-            selectedStateHost?.onStateChange(nextSelected)
-            behavior?.invoke()
-        },
+        onClick = onClick,
         label = { props.label?.ToCompose() },
         modifier = modifier,
         enabled = enabled,
@@ -86,24 +115,13 @@ fun ComposeNode.ToFilterChip() {
 fun ComposeNode.ToInputChip() {
     val props = properties as? NodeProperties.InputChipProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val (selected, selectedStateHost) = resolveStateHostValue(
-        stateHostName = props.selectedStateHostName,
-        inlineValue = props.selected,
-        defaultValue = false,
-    )
-    val (enabled, _) = resolveStateHostValue(
-        stateHostName = props.enabledStateHostName,
-        inlineValue = props.enabled,
-        defaultValue = true,
-    )
-    val behavior = LocalBehavior.current[props.onClickEventName]
+    val (selected, selectedStateHost) = resolveSelected(props.selectedStateHostName, props.selected)
+    val enabled = resolveEnabled(props.enabledStateHostName, props.enabled)
+    val onClick = resolveSelectableOnClick(selected, selectedStateHost, props.onClickEventName)
+
     InputChip(
         selected = selected,
-        onClick = {
-            val nextSelected = !selected
-            selectedStateHost?.onStateChange(nextSelected)
-            behavior?.invoke()
-        },
+        onClick = onClick,
         label = { props.label?.ToCompose() },
         modifier = modifier,
         enabled = enabled,
