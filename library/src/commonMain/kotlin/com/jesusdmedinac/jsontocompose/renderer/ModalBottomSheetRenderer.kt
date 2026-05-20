@@ -32,15 +32,15 @@ fun ComposeNode.ToModalBottomSheet() {
         defaultValue = false,
     )
 
-    if (!isVisible) return
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
+
+    if (!isVisible && sheetState.currentValue == SheetValue.Hidden) return
 
     val onDismissRequestEventName = props.onDismissRequestEventName
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onDismissRequestEventName]
-
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false
-    )
 
     // Sync sheet visibility with state
     LaunchedEffect(isVisible) {
