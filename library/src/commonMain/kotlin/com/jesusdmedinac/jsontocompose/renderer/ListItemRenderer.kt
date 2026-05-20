@@ -16,18 +16,13 @@ fun ComposeNode.ToListItem() {
     val props = properties as? NodeProperties.ListItemProps ?: return
     val onClickEventName = props.onClickEventName
     val currentBehavior = LocalBehavior.current
-    val behavior = currentBehavior[onClickEventName]
+    val behavior = onClickEventName?.let { currentBehavior[it] }
 
     val baseModifier = Modifier from composeModifier
-    val modifier = if (onClickEventName != null) {
-        baseModifier
-            .clickable {
-                if (behavior != null) {
-                    behavior.invoke()
-                } else {
-                    println("Warning: Behavior for event \"$onClickEventName\" not found in LocalBehavior.")
-                }
-            }
+    val modifier = if (behavior != null) {
+        baseModifier.clickable {
+            behavior.invoke()
+        }
     } else {
         baseModifier
     }.testTag(type.name)
