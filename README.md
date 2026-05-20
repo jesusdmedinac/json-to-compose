@@ -289,6 +289,25 @@ Apply modifiers to any component using `composeModifier`:
 - `Width` - Set specific width (value in dp)
 - `Height` - Set specific height (value in dp)
 - `BackgroundColor` - Set background color (hex color)
+- `Border` - Add border (width, color, shape)
+- `Shadow` - Add shadow (elevation, shape, clip)
+- `Clip` - Clip to shape
+- `Background` - Set background (color, shape)
+- `Alpha` - Set opacity (value)
+- `Rotate` - Set rotation (degrees)
+- `Clickable` - Handle click events (`onClickEventName`)
+- `Weight` - Assign weight in Row/Column (`weight`)
+- `VerticalScroll` - Enable vertical scrolling
+- `HorizontalScroll` - Enable horizontal scrolling
+- `Offset` - Offset position (`x`, `y` in dp)
+- `Size` - Set exact size (`width`, `height` in dp)
+- `WrapContentWidth` - Wrap width to content
+- `WrapContentHeight` - Wrap height to content
+- `AspectRatio` - Constrain to ratio (`ratio`)
+- `ZIndex` - Adjust drawing order (`zIndex`)
+- `MinWidth` / `MinHeight` / `MaxWidth` / `MaxHeight` - Set constraints (`value` in dp)
+- `AnimateContentSize` - Animate size changes
+- `TestTag` - Apply tag for UI testing (`tag`)
 
 ## 📐 Alignment & Arrangement
 

@@ -3,9 +3,11 @@ package com.jesusdmedinac.jsontocompose.renderer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import com.jesusdmedinac.jsontocompose.LocalColumnScope
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
@@ -27,8 +29,10 @@ fun ComposeNode.ToColumn() {
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
     ) {
-        children?.forEach {
-            it.ToCompose()
+        CompositionLocalProvider(LocalColumnScope provides this) {
+            children?.forEach {
+                it.ToCompose()
+            }
         }
     }
 }

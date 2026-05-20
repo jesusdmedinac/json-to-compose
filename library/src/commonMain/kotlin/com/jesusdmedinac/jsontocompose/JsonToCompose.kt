@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
@@ -47,6 +48,13 @@ val LocalCustomRenderers = staticCompositionLocalOf<Map<String, @Composable (Com
  * Used internally by renderers that need Row-specific modifiers (e.g., `Modifier.weight()`).
  */
 val LocalRowScope = compositionLocalOf<RowScope?> { null }
+
+/**
+ * Provides the current [ColumnScope] to child components inside a Column.
+ *
+ * Used internally by renderers that need Column-specific modifiers (e.g., `Modifier.weight()`).
+ */
+val LocalColumnScope = compositionLocalOf<ColumnScope?> { null }
 
 /**
  * Provides the current index of a SegmentedButton within its row.

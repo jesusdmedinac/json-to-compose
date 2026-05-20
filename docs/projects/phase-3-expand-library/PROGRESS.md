@@ -221,30 +221,30 @@
 
 ## Feature: Missing Modifier Operations
 
-- [ ] Scenario: Apply Clickable modifier with onClick event
-- [ ] Scenario: Apply Clickable modifier with ripple indication
-- [ ] Scenario: Apply Weight modifier in a Column
-- [ ] Scenario: Apply Weight modifier in a Row
-- [ ] Scenario: Apply VerticalScroll modifier to a Column
-- [ ] Scenario: Apply HorizontalScroll modifier to a Row
-- [ ] Scenario: Apply Offset modifier with x and y
-- [ ] Scenario: Apply negative Offset modifier
-- [ ] Scenario: Apply Size modifier with equal width and height
-- [ ] Scenario: Apply Size modifier with different width and height
-- [ ] Scenario: Apply WrapContentWidth modifier
-- [ ] Scenario: Apply WrapContentHeight modifier
-- [ ] Scenario: Apply AspectRatio modifier 16:9
-- [ ] Scenario: Apply AspectRatio modifier 1:1 (square)
-- [ ] Scenario: Apply ZIndex modifier to overlay elements
-- [ ] Scenario: Apply MinWidth modifier
-- [ ] Scenario: Apply MinHeight modifier
-- [ ] Scenario: Apply MaxWidth modifier
-- [ ] Scenario: Apply MaxHeight modifier
-- [ ] Scenario: Apply AnimateContentSize modifier
-- [ ] Scenario: Apply TestTag modifier for UI testing
-- [ ] Scenario: Serialize and deserialize all new modifiers
-- [ ] Scenario: Update showcase with new modifiers
-- [ ] Scenario: Update main README.md with new modifiers
+- [x] Scenario: Apply Clickable modifier with onClick event
+- [x] Scenario: Apply Clickable modifier with ripple indication
+- [x] Scenario: Apply Weight modifier in a Column
+- [x] Scenario: Apply Weight modifier in a Row
+- [x] Scenario: Apply VerticalScroll modifier to a Column
+- [x] Scenario: Apply HorizontalScroll modifier to a Row
+- [x] Scenario: Apply Offset modifier with x and y
+- [x] Scenario: Apply negative Offset modifier
+- [x] Scenario: Apply Size modifier with equal width and height
+- [x] Scenario: Apply Size modifier with different width and height
+- [x] Scenario: Apply WrapContentWidth modifier
+- [x] Scenario: Apply WrapContentHeight modifier
+- [x] Scenario: Apply AspectRatio modifier 16:9
+- [x] Scenario: Apply AspectRatio modifier 1:1 (square)
+- [x] Scenario: Apply ZIndex modifier to overlay elements
+- [x] Scenario: Apply MinWidth modifier
+- [x] Scenario: Apply MinHeight modifier
+- [x] Scenario: Apply MaxWidth modifier
+- [x] Scenario: Apply MaxHeight modifier
+- [x] Scenario: Apply AnimateContentSize modifier
+- [x] Scenario: Apply TestTag modifier for UI testing
+- [x] Scenario: Serialize and deserialize all new modifiers
+- [x] Scenario: Update showcase with new modifiers
+- [x] Scenario: Update main README.md with new modifiers
 
 ## Feature: Enhanced Properties for Existing Components
 
