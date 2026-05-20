@@ -24,6 +24,56 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 
 // --- Display Components ---
 
+@Composable
+fun ComposeNode.ToBadge() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToBadgedBox() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToAssistChip() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToFilterChip() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToInputChip() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToSuggestionChip() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToCircularProgressIndicator() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToLinearProgressIndicator() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToPlainTooltip() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
+@Composable
+fun ComposeNode.ToRichTooltip() {
+    Box(modifier = (Modifier from composeModifier).testTag(type.name))
+}
+
 // --- Snackbar ---
 
 @Composable
