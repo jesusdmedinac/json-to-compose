@@ -729,6 +729,69 @@ private fun contentDemos(): ComposeNode = ComposeNode(
             textDemo(),
             imageUrlDemo(),
             imageResourceDemo(),
+            listItemDemo(),
+        )
+    )
+)
+
+private fun listItemDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("ListItem Component"),
+            ComposeNode(
+                type = ComposeType.ListItem,
+                properties = NodeProperties.ListItemProps(
+                    headlineContent = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Two-line list item")
+                    ),
+                    supportingContent = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Secondary text")
+                    ),
+                    leadingContent = ComposeNode(
+                        type = ComposeType.Icon,
+                        properties = NodeProperties.IconProps(iconName = "Filled.AccountCircle")
+                    ),
+                    trailingContent = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "100+")
+                    ),
+                    onClickEventName = "list_item_clicked"
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Spacer,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Height(8))
+                ),
+                properties = NodeProperties.SpacerProps
+            ),
+            ComposeNode(
+                type = ComposeType.ListItem,
+                properties = NodeProperties.ListItemProps(
+                    headlineContent = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Three-line list item")
+                    ),
+                    supportingContent = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Secondary text that is long and maybe wraps to a third line")
+                    ),
+                    overlineContent = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "OVERLINE")
+                    ),
+                    trailingContent = ComposeNode(
+                        type = ComposeType.Checkbox,
+                        properties = NodeProperties.CheckboxProps(checked = true)
+                    )
+                )
+            )
         )
     )
 )
