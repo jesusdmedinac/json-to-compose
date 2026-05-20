@@ -168,28 +168,28 @@
 
 - [x] Scenario: Render an Icon by name
 - [x] Scenario: Render an Icon with custom tint color
-- [x] Scenario: Render an Icon with custom size via modifier
+- [ ] Scenario: Render an Icon with custom size via modifier
 - [x] Scenario: Icon name controlled by state
-- [x] Scenario: Render a Badge with no content
-- [x] Scenario: Render a Badge with count text
-- [x] Scenario: Render a BadgedBox with icon and badge
-- [x] Scenario: Render an AssistChip
-- [x] Scenario: Render a FilterChip selected
-- [x] Scenario: FilterChip selection controlled by state
-- [x] Scenario: FilterChip onClick toggles selection
-- [x] Scenario: Render an InputChip with trailing delete icon
-- [x] Scenario: Render a SuggestionChip
-- [x] Scenario: Render a CircularProgressIndicator indeterminate
-- [x] Scenario: Render a CircularProgressIndicator with progress value
-- [x] Scenario: CircularProgressIndicator progress controlled by state
-- [x] Scenario: Render a LinearProgressIndicator indeterminate
-- [x] Scenario: Render a LinearProgressIndicator with progress value
-- [x] Scenario: Render a LinearProgressIndicator with custom colors
-- [x] Scenario: Render a PlainTooltip on an Icon
-- [x] Scenario: Render a RichTooltip with title and action
-- [x] Scenario: Serialize and deserialize all display components
-- [x] Scenario: Update showcase with display components
-- [x] Scenario: Update main README.md with display components
+- [ ] Scenario: Render a Badge with no content
+- [ ] Scenario: Render a Badge with count text
+- [ ] Scenario: Render a BadgedBox with icon and badge
+- [ ] Scenario: Render an AssistChip
+- [ ] Scenario: Render a FilterChip selected
+- [ ] Scenario: FilterChip selection controlled by state
+- [ ] Scenario: FilterChip onClick toggles selection
+- [ ] Scenario: Render an InputChip with trailing delete icon
+- [ ] Scenario: Render a SuggestionChip
+- [ ] Scenario: Render a CircularProgressIndicator indeterminate
+- [ ] Scenario: Render a CircularProgressIndicator with progress value
+- [ ] Scenario: CircularProgressIndicator progress controlled by state
+- [ ] Scenario: Render a LinearProgressIndicator indeterminate
+- [ ] Scenario: Render a LinearProgressIndicator with progress value
+- [ ] Scenario: Render a LinearProgressIndicator with custom colors
+- [ ] Scenario: Render a PlainTooltip on an Icon
+- [ ] Scenario: Render a RichTooltip with title and action
+- [ ] Scenario: Serialize and deserialize all display components
+- [ ] Scenario: Update showcase with display components
+- [ ] Scenario: Update main README.md with display components
 
 ## Feature: Snackbar Component and Integration
 
