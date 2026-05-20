@@ -37,6 +37,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.jesusdmedinac.jsontocompose.LocalBehavior
+import com.jesusdmedinac.jsontocompose.LocalColumnScope
+import com.jesusdmedinac.jsontocompose.LocalRowScope
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeShape
 import com.jesusdmedinac.jsontocompose.renderer.toColor
@@ -127,7 +129,15 @@ infix fun Modifier.from(composeModifier: ComposeModifier): Modifier {
                 val behavior = LocalBehavior.current[operation.onClickEventName]
                 result.clickable { behavior?.invoke() }
             }
-            is ComposeModifier.Operation.Weight -> result // Weight requiere RowScope/ColumnScope — aplicado contextualmente por renderizadores
+            is ComposeModifier.Operation.Weight -> {
+                val columnScope = LocalColumnScope.current
+                val rowScope = LocalRowScope.current
+                when {
+                    columnScope != null -> with(columnScope) { result.weight(operation.weight) }
+                    rowScope != null -> with(rowScope) { result.weight(operation.weight) }
+                    else -> result
+                }
+            }
             is ComposeModifier.Operation.VerticalScroll -> {
                 val scrollState = rememberSaveable(operation, saver = ScrollState.Saver) {
                     ScrollState(0)
