@@ -15,10 +15,14 @@ import com.jesusdmedinac.jsontocompose.modifier.from
 fun ComposeNode.ToPlainTooltip() {
     val props = properties as? NodeProperties.PlainTooltipProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
-    val text = props.text ?: ""
+    val text = props.text
     val tooltipState = rememberTooltipState()
 
-    Box(modifier = modifier) {
+    if (text == null) {
+        Box(modifier = modifier) {
+            props.anchor?.ToCompose()
+        }
+    } else {
         TooltipBox(
             positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
             tooltip = {
@@ -26,11 +30,10 @@ fun ComposeNode.ToPlainTooltip() {
                     Text(text = text)
                 }
             },
-            state = tooltipState
+            state = tooltipState,
+            modifier = modifier
         ) {
-            Box(modifier = Modifier) {
-                props.anchor?.ToCompose()
-            }
+            props.anchor?.ToCompose()
         }
     }
 }
@@ -42,23 +45,20 @@ fun ComposeNode.ToRichTooltip() {
     val modifier = (Modifier from composeModifier).testTag(type.name)
     val tooltipState = rememberTooltipState()
 
-    Box(modifier = modifier) {
-        TooltipBox(
-            positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-            tooltip = {
-                RichTooltip(
-                    title = props.title?.let { { it.ToCompose() } },
-                    action = props.action?.let { { it.ToCompose() } }
-                ) {
-                    props.text?.ToCompose()
-                }
-            },
-            state = tooltipState
-        ) {
-            Box(modifier = Modifier) {
-                props.anchor?.ToCompose()
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+        tooltip = {
+            RichTooltip(
+                title = props.title?.let { { it.ToCompose() } },
+                action = props.action?.let { { it.ToCompose() } }
+            ) {
+                props.text?.ToCompose()
             }
-        }
+        },
+        state = tooltipState,
+        modifier = modifier
+    ) {
+        props.anchor?.ToCompose()
     }
 }
 

@@ -728,7 +728,7 @@ private fun displayComponentsDemo(): ComposeNode = ComposeNode(
                     children = listOf(
                         ComposeNode(
                             type = ComposeType.Badge,
-                            properties = NodeProperties.BadgeProps(text = "Empty Badge")
+                            properties = NodeProperties.BadgeProps(text = null)
                         ),
                         ComposeNode(
                             type = ComposeType.Badge,
