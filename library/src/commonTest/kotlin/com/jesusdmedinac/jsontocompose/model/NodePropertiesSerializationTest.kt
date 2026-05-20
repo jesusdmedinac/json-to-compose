@@ -617,4 +617,27 @@ class NodePropertiesSerializationTest {
         assertEquals("action", (decoded.action?.properties as? NodeProperties.ButtonProps)?.onClickEventName)
         assertEquals("settings", (decoded.anchor?.properties as? NodeProperties.IconProps)?.iconName)
     }
+
+    // --- Scenario: ListItemProps serialization ---
+    @Test
+    fun listItemPropsSerialization() {
+        val original = NodeProperties.ListItemProps(
+            headlineContent = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Headline")),
+            supportingContent = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Supporting")),
+            overlineContent = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Overline")),
+            leadingContent = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "star")),
+            trailingContent = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Trailing")),
+            onClickEventName = "list_item_click"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.ListItemProps>(decoded)
+        assertEquals("Headline", (decoded.headlineContent?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("Supporting", (decoded.supportingContent?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("Overline", (decoded.overlineContent?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("star", (decoded.leadingContent?.properties as? NodeProperties.IconProps)?.iconName)
+        assertEquals("Trailing", (decoded.trailingContent?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("list_item_click", decoded.onClickEventName)
+    }
 }

@@ -125,6 +125,13 @@ data class ComposeNode(
         is NodeProperties.InputChipProps -> listOfNotNull(label, leadingIcon, trailingIcon)
         is NodeProperties.PlainTooltipProps -> listOfNotNull(anchor)
         is NodeProperties.RichTooltipProps -> listOfNotNull(title, text, action, anchor)
+        is NodeProperties.ListItemProps -> buildList {
+            headlineContent?.let { add(it) }
+            supportingContent?.let { add(it) }
+            overlineContent?.let { add(it) }
+            leadingContent?.let { add(it) }
+            trailingContent?.let { add(it) }
+        }
         else -> null
     } ?: emptyList()
 

@@ -206,18 +206,18 @@
 
 ## Feature: ListItem Component
 
-- [ ] Scenario: Render a ListItem with headline text
-- [ ] Scenario: Render a ListItem with headline and supporting text
-- [ ] Scenario: Render a ListItem with overline text
-- [ ] Scenario: Render a ListItem with leading icon
-- [ ] Scenario: Render a ListItem with leading image
-- [ ] Scenario: Render a ListItem with trailing content
-- [ ] Scenario: Render a ListItem with trailing text
-- [ ] Scenario: ListItem onClick triggers action
-- [ ] Scenario: Render a LazyColumn of ListItems
-- [ ] Scenario: Serialize and deserialize ListItem with all slots
-- [ ] Scenario: Update showcase with ListItem
-- [ ] Scenario: Update main README.md with ListItem
+- [x] Scenario: Render a ListItem with headline text
+- [x] Scenario: Render a ListItem with headline and supporting text
+- [x] Scenario: Render a ListItem with overline text
+- [x] Scenario: Render a ListItem with leading icon
+- [x] Scenario: Render a ListItem with leading image
+- [x] Scenario: Render a ListItem with trailing content
+- [x] Scenario: Render a ListItem with trailing text
+- [x] Scenario: ListItem onClick triggers action
+- [x] Scenario: Render a LazyColumn of ListItems
+- [x] Scenario: Serialize and deserialize ListItem with all slots
+- [x] Scenario: Update showcase with ListItem
+- [x] Scenario: Update main README.md with ListItem
 
 ## Feature: Missing Modifier Operations
 

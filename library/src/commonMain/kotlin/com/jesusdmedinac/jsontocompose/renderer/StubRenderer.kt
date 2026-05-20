@@ -31,9 +31,4 @@ fun ComposeNode.ToSnackbarHost() {
     Box(modifier = (Modifier from composeModifier).testTag(type.name))
 }
 
-// --- ListItem ---
 
-@Composable
-fun ComposeNode.ToListItem() {
-    Box(modifier = (Modifier from composeModifier).testTag(type.name))
-}

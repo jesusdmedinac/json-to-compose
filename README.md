@@ -216,6 +216,7 @@ fun App() {
 | **DatePicker**                | Material 3 date picker                | `selectedDateMillis`                                                                                                                                                                          |
 | **TimePicker**                | Material 3 time picker                | `hour`, `minute`, `is24Hour`                                                                                                                                                                  |
 | **SearchBar**                 | Material 3 search bar                 | `query`, `placeholder`, `leadingIcon`, `trailingIcon`, `active`, `children`                                                                                                                   |
+| **ListItem**                  | Material 3 list item component        | `headlineContent`, `supportingContent`, `overlineContent`, `leadingContent`, `trailingContent`, `onClickEventName`                                                                            |
 
 ## 🧩 Custom Components
 
