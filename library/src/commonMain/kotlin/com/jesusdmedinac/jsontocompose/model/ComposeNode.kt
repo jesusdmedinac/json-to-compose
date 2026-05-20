@@ -119,6 +119,12 @@ data class ComposeNode(
             children?.let { addAll(it) }
         }
         is NodeProperties.PagerProps -> pages
+        is NodeProperties.BadgedBoxProps -> listOfNotNull(badge, child)
+        is NodeProperties.ChipProps -> listOfNotNull(label, leadingIcon)
+        is NodeProperties.FilterChipProps -> listOfNotNull(label, leadingIcon)
+        is NodeProperties.InputChipProps -> listOfNotNull(label, leadingIcon, trailingIcon)
+        is NodeProperties.PlainTooltipProps -> listOfNotNull(anchor)
+        is NodeProperties.RichTooltipProps -> listOfNotNull(title, text, action, anchor)
         else -> null
     } ?: emptyList()
 
