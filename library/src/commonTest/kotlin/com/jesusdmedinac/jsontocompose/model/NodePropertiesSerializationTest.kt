@@ -457,4 +457,164 @@ class NodePropertiesSerializationTest {
         assertEquals(true, decoded.selected)
         assertEquals("Tab", (decoded.text?.properties as? NodeProperties.TextProps)?.text)
     }
+
+    // --- Scenario: BadgeProps serialization ---
+    @Test
+    fun badgePropsSerialization() {
+        val original = NodeProperties.BadgeProps(
+            text = "3",
+            textStateHostName = "badge_text",
+            containerColor = "#FF0000",
+            contentColor = "#FFFFFF"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.BadgeProps>(decoded)
+        assertEquals("3", decoded.text)
+        assertEquals("badge_text", decoded.textStateHostName)
+        assertEquals("#FF0000", decoded.containerColor)
+        assertEquals("#FFFFFF", decoded.contentColor)
+    }
+
+    // --- Scenario: BadgedBoxProps serialization ---
+    @Test
+    fun badgedBoxPropsSerialization() {
+        val original = NodeProperties.BadgedBoxProps(
+            badge = ComposeNode(type = ComposeType.Badge, properties = NodeProperties.BadgeProps(text = "New")),
+            child = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "mail"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.BadgedBoxProps>(decoded)
+        assertEquals("New", (decoded.badge?.properties as? NodeProperties.BadgeProps)?.text)
+        assertEquals("mail", (decoded.child?.properties as? NodeProperties.IconProps)?.iconName)
+    }
+
+    // --- Scenario: ChipProps serialization ---
+    @Test
+    fun chipPropsSerialization() {
+        val original = NodeProperties.ChipProps(
+            label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Assist")),
+            leadingIcon = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "star")),
+            onClickEventName = "assist_click",
+            enabled = false,
+            enabledStateHostName = "assist_enabled"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.ChipProps>(decoded)
+        assertEquals("Assist", (decoded.label?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("star", (decoded.leadingIcon?.properties as? NodeProperties.IconProps)?.iconName)
+        assertEquals("assist_click", decoded.onClickEventName)
+        assertEquals(false, decoded.enabled)
+        assertEquals("assist_enabled", decoded.enabledStateHostName)
+    }
+
+    // --- Scenario: FilterChipProps serialization ---
+    @Test
+    fun filterChipPropsSerialization() {
+        val original = NodeProperties.FilterChipProps(
+            selected = true,
+            selectedStateHostName = "selected_state",
+            label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Filter")),
+            leadingIcon = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "check")),
+            onClickEventName = "filter_click",
+            enabled = true,
+            enabledStateHostName = "filter_enabled"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.FilterChipProps>(decoded)
+        assertEquals(true, decoded.selected)
+        assertEquals("selected_state", decoded.selectedStateHostName)
+        assertEquals("Filter", (decoded.label?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("check", (decoded.leadingIcon?.properties as? NodeProperties.IconProps)?.iconName)
+        assertEquals("filter_click", decoded.onClickEventName)
+        assertEquals(true, decoded.enabled)
+        assertEquals("filter_enabled", decoded.enabledStateHostName)
+    }
+
+    // --- Scenario: InputChipProps serialization ---
+    @Test
+    fun inputChipPropsSerialization() {
+        val original = NodeProperties.InputChipProps(
+            selected = false,
+            selectedStateHostName = "input_selected",
+            label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Input")),
+            leadingIcon = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "avatar")),
+            trailingIcon = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "close")),
+            onClickEventName = "input_click",
+            enabled = false,
+            enabledStateHostName = "input_enabled"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.InputChipProps>(decoded)
+        assertEquals(false, decoded.selected)
+        assertEquals("input_selected", decoded.selectedStateHostName)
+        assertEquals("Input", (decoded.label?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("avatar", (decoded.leadingIcon?.properties as? NodeProperties.IconProps)?.iconName)
+        assertEquals("close", (decoded.trailingIcon?.properties as? NodeProperties.IconProps)?.iconName)
+        assertEquals("input_click", decoded.onClickEventName)
+        assertEquals(false, decoded.enabled)
+        assertEquals("input_enabled", decoded.enabledStateHostName)
+    }
+
+    // --- Scenario: ProgressIndicatorProps serialization ---
+    @Test
+    fun progressIndicatorPropsSerialization() {
+        val original = NodeProperties.ProgressIndicatorProps(
+            progress = 0.6f,
+            progressStateHostName = "progress_state",
+            color = "#0000FF",
+            trackColor = "#CCCCCC"
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.ProgressIndicatorProps>(decoded)
+        assertEquals(0.6f, decoded.progress)
+        assertEquals("progress_state", decoded.progressStateHostName)
+        assertEquals("#0000FF", decoded.color)
+        assertEquals("#CCCCCC", decoded.trackColor)
+    }
+
+    // --- Scenario: PlainTooltipProps serialization ---
+    @Test
+    fun plainTooltipPropsSerialization() {
+        val original = NodeProperties.PlainTooltipProps(
+            text = "Tooltip hint",
+            anchor = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "help"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.PlainTooltipProps>(decoded)
+        assertEquals("Tooltip hint", decoded.text)
+        assertEquals("help", (decoded.anchor?.properties as? NodeProperties.IconProps)?.iconName)
+    }
+
+    // --- Scenario: RichTooltipProps serialization ---
+    @Test
+    fun richTooltipPropsSerialization() {
+        val original = NodeProperties.RichTooltipProps(
+            title = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Title")),
+            text = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Description")),
+            action = ComposeNode(type = ComposeType.Button, properties = NodeProperties.ButtonProps(onClickEventName = "action")),
+            anchor = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "settings"))
+        )
+        val encoded = json.encodeToString<NodeProperties>(original)
+        val decoded = json.decodeFromString<NodeProperties>(encoded)
+
+        assertIs<NodeProperties.RichTooltipProps>(decoded)
+        assertEquals("Title", (decoded.title?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("Description", (decoded.text?.properties as? NodeProperties.TextProps)?.text)
+        assertEquals("action", (decoded.action?.properties as? NodeProperties.ButtonProps)?.onClickEventName)
+        assertEquals("settings", (decoded.anchor?.properties as? NodeProperties.IconProps)?.iconName)
+    }
 }
