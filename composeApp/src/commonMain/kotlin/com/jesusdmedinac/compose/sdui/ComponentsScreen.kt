@@ -37,6 +37,9 @@ fun componentsScreen(): ComposeNode = ComposeNode(
             sectionHeader("Layout Components"),
             layoutDemos(),
             sectionDivider(),
+            sectionHeader("Modifier Demos"),
+            modifierDemos(),
+            sectionDivider(),
             sectionHeader("Content Components"),
             contentDemos(),
             sectionDivider(),
@@ -86,6 +89,161 @@ private fun layoutDemos(): ComposeNode = ComposeNode(
             flowLayoutDemos(),
             surfaceDemo(),
             spacedByDemo(),
+        )
+    )
+)
+
+private fun modifierDemos(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Missing Modifiers"),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8),
+                        ComposeModifier.Operation.HorizontalScroll
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpacedBy:8",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Size(60, 60),
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.red),
+                                    ComposeModifier.Operation.Clickable(onClickEventName = "red_clicked")
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Click"))
+                            ))
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Size(60, 60),
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.blue),
+                                    ComposeModifier.Operation.Offset(x = 10, y = 10)
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Offset"))
+                            ))
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Width(60),
+                                    ComposeModifier.Operation.AspectRatio(1.5f),
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.teal),
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Aspect"))
+                            ))
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.WrapContentWidth,
+                                    ComposeModifier.Operation.WrapContentHeight,
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.purple),
+                                    ComposeModifier.Operation.Padding(8)
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Wrap", color = "#FFFFFFFF"))
+                            ))
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.MinWidth(80),
+                                    ComposeModifier.Operation.MinHeight(80),
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.deepBlue),
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "MinSize", color = "#FFFFFFFF"))
+                            ))
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Size(60, 60),
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.mint),
+                                    ComposeModifier.Operation.ZIndex(2f)
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "ZIndex2"))
+                            ))
+                        ),
+                    )
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Spacer,
+                properties = NodeProperties.SpacerProps,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Height(8))
+                )
+            ),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Height(80),
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Weight(1f),
+                                    ComposeModifier.Operation.FillMaxHeight,
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.lightBlue)
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Weight 1"))
+                            ))
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Box,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(
+                                    ComposeModifier.Operation.Weight(2f),
+                                    ComposeModifier.Operation.FillMaxHeight,
+                                    ComposeModifier.Operation.BackgroundColor(DemoColors.veryLightBlue)
+                                )
+                            ),
+                            properties = NodeProperties.BoxProps(contentAlignment = "Center", children = listOf(
+                                ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Weight 2"))
+                            ))
+                        )
+                    )
+                )
+            )
         )
     )
 )
