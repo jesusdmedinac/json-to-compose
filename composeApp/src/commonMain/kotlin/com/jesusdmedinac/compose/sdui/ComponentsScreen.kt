@@ -685,6 +685,180 @@ private fun inputDemos(): ComposeNode = ComposeNode(
             datePickerDemo(),
             timePickerDemo(),
             searchBarDemo(),
+            displayComponentsDemo(),
+        )
+    )
+)
+
+private fun displayComponentsDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Display Components (Badge, BadgedBox, Tooltips, Chips, Progress)"),
+            
+            // Row for Badges and BadgedBox
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Padding(8))
+                ),
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    horizontalArrangement = "SpaceAround",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Badge,
+                            properties = NodeProperties.BadgeProps(text = "Empty Badge")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Badge,
+                            properties = NodeProperties.BadgeProps(text = "99+")
+                        ),
+                        ComposeNode(
+                            type = ComposeType.BadgedBox,
+                            properties = NodeProperties.BadgedBoxProps(
+                                badge = ComposeNode(
+                                    type = ComposeType.Badge,
+                                    properties = NodeProperties.BadgeProps(text = "8")
+                                ),
+                                child = ComposeNode(
+                                    type = ComposeType.Icon,
+                                    properties = NodeProperties.IconProps(iconName = "mail")
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+
+            // Row for Chips
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Padding(8))
+                ),
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    horizontalArrangement = "SpaceAround",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.AssistChip,
+                            properties = NodeProperties.ChipProps(
+                                label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Assist")),
+                                leadingIcon = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "star"))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.SuggestionChip,
+                            properties = NodeProperties.ChipProps(
+                                label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Suggest"))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.FilterChip,
+                            properties = NodeProperties.FilterChipProps(
+                                selected = true,
+                                label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Filter"))
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.InputChip,
+                            properties = NodeProperties.InputChipProps(
+                                label = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Input")),
+                                trailingIcon = ComposeNode(type = ComposeType.Icon, properties = NodeProperties.IconProps(iconName = "close"))
+                            )
+                        )
+                    )
+                )
+            ),
+
+            // Row for Progress Indicators
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Padding(8))
+                ),
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    horizontalArrangement = "SpaceAround",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.CircularProgressIndicator,
+                            properties = NodeProperties.ProgressIndicatorProps(progress = null)
+                        ),
+                        ComposeNode(
+                            type = ComposeType.CircularProgressIndicator,
+                            properties = NodeProperties.ProgressIndicatorProps(
+                                progress = 0.7f,
+                                color = "#FF6200EE",
+                                trackColor = "#FFE0E0E0"
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.LinearProgressIndicator,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Width(100))
+                            ),
+                            properties = NodeProperties.ProgressIndicatorProps(progress = null)
+                        ),
+                        ComposeNode(
+                            type = ComposeType.LinearProgressIndicator,
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Width(100))
+                            ),
+                            properties = NodeProperties.ProgressIndicatorProps(
+                                progress = 0.4f,
+                                color = "#FF03DAC6",
+                                trackColor = "#FFE0E0E0"
+                            )
+                        )
+                    )
+                )
+            ),
+
+            // Row for Tooltips
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.Padding(8))
+                ),
+                properties = NodeProperties.RowProps(
+                    verticalAlignment = "CenterVertically",
+                    horizontalArrangement = "SpaceAround",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.PlainTooltip,
+                            properties = NodeProperties.PlainTooltipProps(
+                                text = "Simple Tooltip Hint",
+                                anchor = ComposeNode(
+                                    type = ComposeType.Icon,
+                                    properties = NodeProperties.IconProps(iconName = "info")
+                                )
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.RichTooltip,
+                            properties = NodeProperties.RichTooltipProps(
+                                title = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Title")),
+                                text = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "This is a rich tooltip containing detailed action guidance.")),
+                                action = ComposeNode(
+                                    type = ComposeType.Button,
+                                    properties = NodeProperties.ButtonProps(
+                                        child = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(text = "Action"))
+                                    )
+                                ),
+                                anchor = ComposeNode(
+                                    type = ComposeType.Icon,
+                                    properties = NodeProperties.IconProps(iconName = "settings")
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         )
     )
 )
