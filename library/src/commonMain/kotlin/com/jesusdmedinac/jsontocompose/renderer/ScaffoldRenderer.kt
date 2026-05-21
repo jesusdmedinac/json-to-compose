@@ -16,6 +16,7 @@ import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.from
+import com.jesusdmedinac.jsontocompose.state.StateHost
 
 @Composable
 fun ComposeNode.ToScaffold() {
@@ -25,11 +26,20 @@ fun ComposeNode.ToScaffold() {
 
     // Resolve or create a SnackbarHostState shared via StateHosts
     val stateHosts = LocalStateHost.current
-    val snackbarHostState = remember(props.snackbarHostStateHostName) {
-        val hostName = props.snackbarHostStateHostName
-        val stateHost = if (hostName != null) stateHosts[hostName] else null
-        @Suppress("UNCHECKED_CAST")
-        (stateHost?.state as? SnackbarHostState) ?: SnackbarHostState()
+    val snackbarHostState = remember(props.snackbarHostStateHostName, stateHosts) {
+        val hostName = props.snackbarHostStateHostName ?: "snackbarState"
+        val stateHost = stateHosts[hostName]
+        val existing = stateHost?.state as? SnackbarHostState
+        if (existing != null) {
+            existing
+        } else {
+            val newHostState = SnackbarHostState()
+            if (stateHost != null) {
+                @Suppress("UNCHECKED_CAST")
+                (stateHost as? StateHost<Any>)?.onStateChange(newHostState)
+            }
+            newHostState
+        }
     }
 
     val fabPosition = when (props.floatingActionButtonPosition?.lowercase()) {
@@ -46,9 +56,7 @@ fun ComposeNode.ToScaffold() {
             props.bottomBar?.ToCompose()
         },
         snackbarHost = {
-            if (props.snackbarHostStateHostName != null) {
-                SnackbarHost(hostState = snackbarHostState)
-            }
+            SnackbarHost(hostState = snackbarHostState)
         },
         floatingActionButton = {
             props.floatingActionButton?.ToCompose()

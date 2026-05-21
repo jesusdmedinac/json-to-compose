@@ -12,7 +12,7 @@ class ShowSnackbarActionSerializationTest {
         val original = ComposeAction.ShowSnackbar(
             message = "Item saved",
             actionLabel = "Undo",
-            duration = "Short",
+            duration = SnackbarDuration.Short,
             withDismissAction = true,
             onActionEventName = "undoDelete",
             snackbarHostStateHostName = "snackbarState"

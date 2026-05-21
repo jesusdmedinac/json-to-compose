@@ -1531,6 +1531,7 @@ private fun containerDemos(): ComposeNode = ComposeNode(
         children = listOf(
             cardDemo(),
             scaffoldDemo(),
+            snackbarDemo(),
             alertDialogDemo(),
             modalBottomSheetDemo(),
         )

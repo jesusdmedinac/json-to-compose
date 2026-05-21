@@ -1,6 +1,7 @@
 package com.jesusdmedinac.jsontocompose.runtime
 
 import com.jesusdmedinac.jsontocompose.model.ComposeAction
+import com.jesusdmedinac.jsontocompose.model.SnackbarDuration
 import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -19,7 +20,7 @@ class ShowSnackbarActionDispatcherTest {
         val action = ComposeAction.ShowSnackbar(
             message = "Item saved",
             actionLabel = "Undo",
-            duration = "Short",
+            duration = SnackbarDuration.Short,
             withDismissAction = false
         )
 
@@ -27,7 +28,7 @@ class ShowSnackbarActionDispatcherTest {
 
         assertEquals("Item saved", receivedAction?.message)
         assertEquals("Undo", receivedAction?.actionLabel)
-        assertEquals("Short", receivedAction?.duration)
+        assertEquals(SnackbarDuration.Short, receivedAction?.duration)
     }
 
     @Test

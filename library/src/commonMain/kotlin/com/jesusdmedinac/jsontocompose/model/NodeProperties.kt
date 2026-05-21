@@ -271,7 +271,7 @@ sealed interface NodeProperties {
      * @property topBar The node rendered in the top app bar slot.
      * @property bottomBar The node rendered in the bottom bar slot.
      * @property child The main content node.
-     * @property snackbarHostStateHostName Name of a `StateHost<String?>` that controls Snackbar messages.
+     * @property snackbarHostStateHostName Name of a `StateHost<SnackbarHostState>` that controls Snackbar messages.
      * @property floatingActionButton The node rendered in the FAB slot.
      * @property containerColor Optional background color for the Scaffold (hex string).
      * @property floatingActionButtonPosition Position of the FAB: "End" (default) or "Center".

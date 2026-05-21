@@ -102,7 +102,7 @@ sealed class ComposeAction {
      *
      * @property message The text to display in the Snackbar.
      * @property actionLabel Optional label for the Snackbar action button.
-     * @property duration Snackbar duration: "Short", "Long", or "Indefinite". Defaults to "Short".
+     * @property duration Snackbar duration: Short, Long, or Indefinite. Defaults to Short.
      * @property withDismissAction Whether to show a dismiss (X) icon. Defaults to false.
      * @property onActionEventName Event name to trigger when the action button is clicked.
      * @property snackbarHostStateHostName Name of the StateHost that holds the SnackbarHostState. Defaults to "snackbarState".
@@ -112,9 +112,19 @@ sealed class ComposeAction {
     data class ShowSnackbar(
         val message: String,
         val actionLabel: String? = null,
-        val duration: String? = null,
+        val duration: SnackbarDuration = SnackbarDuration.Short,
         val withDismissAction: Boolean = false,
         val onActionEventName: String? = null,
         val snackbarHostStateHostName: String = "snackbarState",
     ) : ComposeAction()
+}
+
+/**
+ * Represents the duration for displaying a Snackbar.
+ */
+@Serializable
+enum class SnackbarDuration {
+    Short,
+    Long,
+    Indefinite
 }

@@ -1,16 +1,20 @@
 package com.jesusdmedinac.jsontocompose.runtime
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
 import com.jesusdmedinac.jsontocompose.model.ComposeAction
 import com.jesusdmedinac.jsontocompose.model.ComposeDocument
+import com.jesusdmedinac.jsontocompose.model.SnackbarDuration
 import com.jesusdmedinac.jsontocompose.state.MutableStateHost
 import com.jesusdmedinac.jsontocompose.state.StateHost
+import kotlinx.coroutines.launch
 
 /**
  * Provides named custom action handlers for [ComposeAction.Custom] actions.
@@ -40,6 +44,7 @@ fun ComposeDocument.ToCompose() {
     val existingBehaviors = LocalBehavior.current
     val existingStateHosts = LocalStateHost.current
 
+    val defaultSnackbarStateHost = remember { MutableStateHost(SnackbarHostState()) }
     val autoStateHosts: Map<String, StateHost<*>> = remember(initialState) {
         initialState.mapValues { (_, jsonElement) ->
             val nativeValue: Any? = jsonElement.toNativeValue()
@@ -47,13 +52,43 @@ fun ComposeDocument.ToCompose() {
         }
     }
 
-    // Merge: existing manual entries + auto-wired (auto-wired wins on conflict)
-    val mergedStateHosts = existingStateHosts + autoStateHosts
+    // Merge: existing manual entries + auto-wired + default snackbar host (auto-wired/manual wins)
+    val mergedStateHosts = remember(existingStateHosts, autoStateHosts, defaultSnackbarStateHost) {
+        val base = existingStateHosts + autoStateHosts
+        if ("snackbarState" !in base) {
+            base + ("snackbarState" to defaultSnackbarStateHost)
+        } else {
+            base
+        }
+    }
 
-    val dispatcher = remember(mergedStateHosts, customActionHandlers) {
+    val coroutineScope = rememberCoroutineScope()
+    val dispatcher = remember(mergedStateHosts, customActionHandlers, coroutineScope) {
         ActionDispatcher(
             stateHosts = mergedStateHosts,
             customActionHandlers = customActionHandlers,
+            snackbarHandler = { action ->
+                val hostName = action.snackbarHostStateHostName
+                val stateHost = mergedStateHosts[hostName]
+                val snackbarHostState = stateHost?.state as? SnackbarHostState
+                if (snackbarHostState != null) {
+                    coroutineScope.launch {
+                        val composeDuration = when (action.duration) {
+                            SnackbarDuration.Short -> androidx.compose.material3.SnackbarDuration.Short
+                            SnackbarDuration.Long -> androidx.compose.material3.SnackbarDuration.Long
+                            SnackbarDuration.Indefinite -> androidx.compose.material3.SnackbarDuration.Indefinite
+                        }
+                        snackbarHostState.showSnackbar(
+                            message = action.message,
+                            actionLabel = action.actionLabel,
+                            withDismissAction = action.withDismissAction,
+                            duration = composeDuration,
+                        )
+                    }
+                } else {
+                    println("Warning: SnackbarHostState not found under key \"$hostName\". ShowSnackbar action ignored.")
+                }
+            }
         )
     }
 
