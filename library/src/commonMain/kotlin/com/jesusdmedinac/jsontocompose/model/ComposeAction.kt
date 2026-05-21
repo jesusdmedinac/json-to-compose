@@ -80,8 +80,7 @@ sealed class ComposeAction {
      * A consumer-defined action delegated to a registered handler.
      *
      * The library does not interpret this action directly. Instead, it looks up a handler
-     * registered under [customType] in `LocalCustomActionHandlers` and invokes it with [params].
-     *
+     * registered under [customType] in `LocalCustomActionHandlers` and invokes it with [params].\n     *
      * Use this for domain-specific actions like navigation, HTTP requests, or analytics.
      *
      * @property customType The action type identifier (e.g., "navigate", "httpRequest").
@@ -92,5 +91,29 @@ sealed class ComposeAction {
     data class Custom(
         val customType: String,
         val params: JsonObject = JsonObject(emptyMap()),
+    ) : ComposeAction()
+
+    /**
+     * Displays a Material 3 Snackbar message via the [SnackbarHost] in the current Scaffold.
+     *
+     * At runtime, the dispatcher finds the `SnackbarHostState` registered under
+     * [snackbarHostStateHostName] (or the default "snackbarState") and calls `showSnackbar()`.
+     *
+     * @property message The text to display in the Snackbar.
+     * @property actionLabel Optional label for the Snackbar action button.
+     * @property duration Snackbar duration: "Short", "Long", or "Indefinite". Defaults to "Short".
+     * @property withDismissAction Whether to show a dismiss (X) icon. Defaults to false.
+     * @property onActionEventName Event name to trigger when the action button is clicked.
+     * @property snackbarHostStateHostName Name of the StateHost that holds the SnackbarHostState. Defaults to "snackbarState".
+     */
+    @Serializable
+    @SerialName("showSnackbar")
+    data class ShowSnackbar(
+        val message: String,
+        val actionLabel: String? = null,
+        val duration: String? = null,
+        val withDismissAction: Boolean = false,
+        val onActionEventName: String? = null,
+        val snackbarHostStateHostName: String = "snackbarState",
     ) : ComposeAction()
 }

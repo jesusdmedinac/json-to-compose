@@ -1732,7 +1732,60 @@ private fun scaffoldDemo(): ComposeNode = ComposeNode(
     )
 )
 
+private fun snackbarDemo(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Snackbar via ShowSnackbar Action"),
+            ComposeNode(
+                type = ComposeType.Scaffold,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Height(180),
+                        ComposeModifier.Operation.Border(
+                            1, DemoPalette.divider, ComposeShape.RoundedCorner(all = 4)
+                        ),
+                    )
+                ),
+                properties = NodeProperties.ScaffoldProps(
+                    snackbarHostStateHostName = "snackbarState",
+                    floatingActionButton = ComposeNode(
+                        type = ComposeType.FloatingActionButton,
+                        properties = NodeProperties.FabProps(
+                            icon = ComposeNode(
+                                type = ComposeType.Icon,
+                                properties = NodeProperties.IconProps(iconName = "Filled.Add")
+                            ),
+                            onClickEventName = "showSnackbar"
+                        )
+                    ),
+                    child = ComposeNode(
+                        type = ComposeType.Box,
+                        composeModifier = ComposeModifier(
+                            operations = listOf(ComposeModifier.Operation.FillMaxSize)
+                        ),
+                        properties = NodeProperties.BoxProps(
+                            contentAlignment = "Center",
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Click FAB to show Snackbar")
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+
 private fun alertDialogDemo(): ComposeNode = ComposeNode(
+
     type = ComposeType.Column,
     composeModifier = ComposeModifier(
         operations = listOf(ComposeModifier.Operation.Padding(8))

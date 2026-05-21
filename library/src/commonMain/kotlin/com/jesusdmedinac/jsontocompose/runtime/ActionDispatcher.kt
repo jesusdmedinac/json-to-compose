@@ -15,11 +15,14 @@ import kotlinx.serialization.json.intOrNull
  *
  * @property stateHosts Map of state key names to their [StateHost] instances.
  * @property customActionHandlers Map of custom action type names to their handler functions.
+ * @property snackbarHandler Optional handler for [ComposeAction.ShowSnackbar] actions. Should call
+ *   `SnackbarHostState.showSnackbar()` in a coroutine scope.
  * @property logger Function used for log output. Defaults to [println]. Override for testing.
  */
 class ActionDispatcher(
     private val stateHosts: Map<String, StateHost<*>>,
     private val customActionHandlers: Map<String, (ComposeAction.Custom) -> Unit> = emptyMap(),
+    private val snackbarHandler: ((ComposeAction.ShowSnackbar) -> Unit)? = null,
     private val logger: (String) -> Unit = ::println,
 ) {
 
@@ -31,6 +34,7 @@ class ActionDispatcher(
      * - [ComposeAction.Log]: Outputs the message via [logger].
      * - [ComposeAction.Sequence]: Executes each child action in order.
      * - [ComposeAction.Custom]: Delegates to the registered handler for the action's `customType`.
+     * - [ComposeAction.ShowSnackbar]: Delegates to [snackbarHandler] if registered.
      */
     fun dispatch(action: ComposeAction) {
         when (action) {
@@ -39,6 +43,7 @@ class ActionDispatcher(
             is ComposeAction.Log -> executeLog(action)
             is ComposeAction.Sequence -> executeSequence(action)
             is ComposeAction.Custom -> executeCustom(action)
+            is ComposeAction.ShowSnackbar -> executeShowSnackbar(action)
         }
     }
 
@@ -80,6 +85,15 @@ class ActionDispatcher(
         val handler = customActionHandlers[action.customType]
         if (handler == null) {
             logger("Warning: No custom action handler registered for type \"${action.customType}\". Custom action ignored.")
+            return
+        }
+        handler(action)
+    }
+
+    private fun executeShowSnackbar(action: ComposeAction.ShowSnackbar) {
+        val handler = snackbarHandler
+        if (handler == null) {
+            logger("Warning: No snackbarHandler registered. ShowSnackbar ignored for message: \"${action.message}\".")
             return
         }
         handler(action)
