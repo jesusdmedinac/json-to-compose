@@ -193,16 +193,16 @@
 
 ## Feature: Snackbar Component and Integration
 
-- [ ] Scenario: Render a Scaffold with SnackbarHost
-- [ ] Scenario: Show a Snackbar via ShowSnackbar action
-- [ ] Scenario: Show a Snackbar with action button
-- [ ] Scenario: Snackbar action button triggers follow-up action
-- [ ] Scenario: Snackbar with duration Short
-- [ ] Scenario: Snackbar with duration Indefinite
-- [ ] Scenario: Snackbar with withDismissAction = true
-- [ ] Scenario: Serialize and deserialize ShowSnackbar action
-- [ ] Scenario: Update showcase with Snackbar integration
-- [ ] Scenario: Update main README.md with Snackbar integration
+- [x] Scenario: Render a Scaffold with SnackbarHost
+- [x] Scenario: Show a Snackbar via ShowSnackbar action
+- [x] Scenario: Show a Snackbar with action button
+- [x] Scenario: Snackbar action button triggers follow-up action
+- [x] Scenario: Snackbar with duration Short
+- [x] Scenario: Snackbar with duration Indefinite
+- [x] Scenario: Snackbar with withDismissAction = true
+- [x] Scenario: Serialize and deserialize ShowSnackbar action
+- [x] Scenario: Update showcase with Snackbar integration
+- [x] Scenario: Update main README.md with Snackbar integration
 
 ## Feature: ListItem Component
 
