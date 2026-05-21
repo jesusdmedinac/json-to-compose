@@ -1,5 +1,7 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
@@ -24,9 +26,10 @@ fun ComposeNode.ToScaffold() {
     // Resolve or create a SnackbarHostState shared via StateHosts
     val stateHosts = LocalStateHost.current
     val snackbarHostState = remember(props.snackbarHostStateHostName) {
+        val hostName = props.snackbarHostStateHostName
+        val stateHost = if (hostName != null) stateHosts[hostName] else null
         @Suppress("UNCHECKED_CAST")
-        (stateHosts[props.snackbarHostStateHostName]?.state as? SnackbarHostState)
-            ?: SnackbarHostState()
+        (stateHost?.state as? SnackbarHostState) ?: SnackbarHostState()
     }
 
     val fabPosition = when (props.floatingActionButtonPosition?.lowercase()) {
@@ -52,7 +55,9 @@ fun ComposeNode.ToScaffold() {
         },
         floatingActionButtonPosition = fabPosition,
         containerColor = containerColor ?: androidx.compose.material3.MaterialTheme.colorScheme.background,
-    ) { paddingValues: PaddingValues ->
-        props.child?.ToCompose()
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            props.child?.ToCompose()
+        }
     }
 }

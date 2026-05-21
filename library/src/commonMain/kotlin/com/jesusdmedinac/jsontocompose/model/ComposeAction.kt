@@ -80,7 +80,8 @@ sealed class ComposeAction {
      * A consumer-defined action delegated to a registered handler.
      *
      * The library does not interpret this action directly. Instead, it looks up a handler
-     * registered under [customType] in `LocalCustomActionHandlers` and invokes it with [params].\n     *
+     * registered under [customType] in `LocalCustomActionHandlers` and invokes it with [params].
+     *
      * Use this for domain-specific actions like navigation, HTTP requests, or analytics.
      *
      * @property customType The action type identifier (e.g., "navigate", "httpRequest").
