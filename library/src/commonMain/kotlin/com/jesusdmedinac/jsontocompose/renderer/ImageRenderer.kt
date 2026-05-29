@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -45,8 +47,20 @@ fun ComposeNode.ToImage() {
         inlineValue = props.contentScale,
         defaultValue = "Fit",
     )
+    val (alignmentStr, _) = resolveStateHostValue(
+        stateHostName = props.alignmentStateHostName,
+        inlineValue = props.alignment,
+        defaultValue = "Center",
+    )
+    val (colorFilterHex, _) = resolveStateHostValue(
+        stateHostName = props.colorFilterStateHostName,
+        inlineValue = props.colorFilter,
+        defaultValue = null,
+    )
 
     val resolvedContentScale = contentScale.toContentScale()
+    val resolvedAlignment = alignmentStr.toAlignment()
+    val resolvedColorFilter = colorFilterHex?.toColor()?.let { ColorFilter.tint(it) }
 
     when {
         url != null -> {
@@ -54,6 +68,8 @@ fun ComposeNode.ToImage() {
                 model = url,
                 contentDescription = contentDescription,
                 contentScale = resolvedContentScale,
+                alignment = resolvedAlignment,
+                colorFilter = resolvedColorFilter,
                 modifier = modifier
             )
         }
@@ -66,6 +82,8 @@ fun ComposeNode.ToImage() {
                     painter = painterResource(resource),
                     contentDescription = contentDescription,
                     contentScale = resolvedContentScale,
+                    alignment = resolvedAlignment,
+                    colorFilter = resolvedColorFilter,
                     modifier = modifier
                 )
             } else {

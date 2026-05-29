@@ -107,6 +107,9 @@ sealed interface NodeProperties {
         val child: ComposeNode? = null,
         val enabled: Boolean? = null,
         val enabledStateHostName: String? = null,
+        val shape: ComposeShape? = null,
+        val containerColor: String? = null,
+        val contentColor: String? = null,
     ) : NodeProperties
 
     /**
@@ -221,6 +224,10 @@ sealed interface NodeProperties {
         val contentDescriptionStateHostName: String? = null,
         val contentScale: String? = null,
         val contentScaleStateHostName: String? = null,
+        val alignment: String? = null,
+        val alignmentStateHostName: String? = null,
+        val colorFilter: String? = null,
+        val colorFilterStateHostName: String? = null,
     ) : NodeProperties
 
     /**
@@ -305,6 +312,12 @@ sealed interface NodeProperties {
         val elevationStateHostName: String? = null,
         val cornerRadius: Int? = null,
         val cornerRadiusStateHostName: String? = null,
+        val containerColor: String? = null,
+        val containerColorStateHostName: String? = null,
+        val borderColor: String? = null,
+        val borderColorStateHostName: String? = null,
+        val borderWidth: Int? = null,
+        val borderWidthStateHostName: String? = null,
     ) : NodeProperties
 
     /**
@@ -324,6 +337,10 @@ sealed interface NodeProperties {
         val borderColorStateHostName: String? = null,
         val cornerRadius: Int? = null,
         val cornerRadiusStateHostName: String? = null,
+        val containerColor: String? = null,
+        val containerColorStateHostName: String? = null,
+        val borderWidth: Int? = null,
+        val borderWidthStateHostName: String? = null,
     ) : NodeProperties
 
     /**
@@ -352,6 +369,9 @@ sealed interface NodeProperties {
         val contentColor: String? = null,
         val visibilityStateHostName: String? = null,
         val onDismissRequestEventName: String? = null,
+        val icon: ComposeNode? = null,
+        val tonalElevation: Int? = null,
+        val tonalElevationStateHostName: String? = null,
     ) : NodeProperties
 
     /**

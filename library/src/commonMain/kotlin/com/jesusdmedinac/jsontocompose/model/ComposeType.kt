@@ -57,6 +57,12 @@ enum class ComposeType {
     AlertDialog,
     /** Material TopAppBar with title, navigation icon, and actions. Uses [NodeProperties.TopAppBarProps]. */
     TopAppBar,
+    /** Material 3 CenterAlignedTopAppBar. Uses [NodeProperties.TopAppBarProps]. */
+    CenterAlignedTopAppBar,
+    /** Material 3 MediumTopAppBar. Uses [NodeProperties.TopAppBarProps]. */
+    MediumTopAppBar,
+    /** Material 3 LargeTopAppBar. Uses [NodeProperties.TopAppBarProps]. */
+    LargeTopAppBar,
     /** Material 3 NavigationBar container. Uses [NodeProperties.NavigationBarProps]. */
     NavigationBar,
     /** Single item inside a NavigationBar. Uses [NodeProperties.NavigationBarItemProps]. */
