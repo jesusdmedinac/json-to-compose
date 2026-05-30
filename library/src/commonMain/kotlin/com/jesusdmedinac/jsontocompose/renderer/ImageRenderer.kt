@@ -59,7 +59,18 @@ fun ComposeNode.ToImage() {
     )
 
     val resolvedContentScale = contentScale.toContentScale()
-    val resolvedAlignment = alignmentStr.toAlignment()
+    val resolvedAlignment = when (alignmentStr) {
+        "TopStart" -> Alignment.TopStart
+        "TopCenter" -> Alignment.TopCenter
+        "TopEnd" -> Alignment.TopEnd
+        "CenterStart" -> Alignment.CenterStart
+        "Center" -> Alignment.Center
+        "CenterEnd" -> Alignment.CenterEnd
+        "BottomStart" -> Alignment.BottomStart
+        "BottomCenter" -> Alignment.BottomCenter
+        "BottomEnd" -> Alignment.BottomEnd
+        else -> Alignment.Center
+    }
     val resolvedColorFilter = colorFilterHex?.toColor()?.let { ColorFilter.tint(it) }
 
     when {

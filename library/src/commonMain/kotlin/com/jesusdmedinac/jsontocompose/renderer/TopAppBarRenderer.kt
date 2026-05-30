@@ -23,7 +23,7 @@ fun ComposeNode.ToTopAppBar() {
     val props = properties as? NodeProperties.TopAppBarProps ?: return
     val modifier = (Modifier from composeModifier).testTag(type.name)
 
-    val backgroundColor = props.backgroundColor.toColor(Color.Transparent)
+    val backgroundColor = props.backgroundColor.toColor(Color.Unspecified)
     val contentColor = props.contentColor.toColor(Color.Unspecified)
 
     val colors = TopAppBarDefaults.topAppBarColors(
