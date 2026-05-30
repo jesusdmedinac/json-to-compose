@@ -58,6 +58,9 @@ fun componentsScreen(): ComposeNode = ComposeNode(
             sectionHeader("Navigation Components"),
             navigationDemos(),
             sectionDivider(),
+            sectionHeader("Advanced Actions Demos"),
+            advancedActionsDemos(),
+            sectionDivider(),
             sectionHeader("Custom Renderer Demo"),
             customRendererDemos(),
             ComposeNode(
@@ -2511,6 +2514,99 @@ private fun verticalPagerDemo(): ComposeNode = ComposeNode(
                     )
                 )
             ),
+        )
+    )
+)
+
+// endregion
+
+// region Advanced Actions Demos
+
+private fun advancedActionsDemos(): ComposeNode = ComposeNode(
+    type = ComposeType.Column,
+    composeModifier = ComposeModifier(
+        operations = listOf(ComposeModifier.Operation.Padding(8))
+    ),
+    properties = NodeProperties.ColumnProps(
+        children = listOf(
+            demoLabel("Numerical Counter, Branching Conditional, Clipboard & Notification"),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Increment & Evaluate",
+                                        color = "#FFFFFFFF"
+                                    )
+                                ),
+                                onClickEventName = "action_increment_counter",
+                                containerColor = DemoColors.indigo
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(
+                                text = "Count: 0",
+                                textStateHostName = "demo_counter_text"
+                            ),
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Padding(8))
+                            )
+                        )
+                    )
+                )
+            ),
+            demoLabel("Asynchronous Delayed Loading Chain"),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8)
+                    )
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(
+                                        text = "Simulate 2s Async Delay",
+                                        color = "#FFFFFFFF"
+                                    )
+                                ),
+                                onClickEventName = "action_async_delay",
+                                containerColor = DemoColors.teal
+                            )
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Text,
+                            properties = NodeProperties.TextProps(
+                                text = "Click to run...",
+                                textStateHostName = "delay_text"
+                            ),
+                            composeModifier = ComposeModifier(
+                                operations = listOf(ComposeModifier.Operation.Padding(8))
+                            )
+                        )
+                    )
+                )
+            )
         )
     )
 )

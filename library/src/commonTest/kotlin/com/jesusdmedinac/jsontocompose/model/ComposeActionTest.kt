@@ -196,4 +196,68 @@ class ComposeActionTest {
         assertEquals("navigate", decoded.customType)
         assertEquals("home", decoded.params["route"]?.jsonPrimitive?.content)
     }
+
+    @Test
+    fun advancedActionsRoundTripSerialization() {
+        val original: ComposeAction = ComposeAction.Sequence(
+            actions = listOf(
+                ComposeAction.Navigate(route = "/details", args = mapOf("id" to JsonPrimitive(123))),
+                ComposeAction.NavigateBack,
+                ComposeAction.Delay(durationMillis = 2000L),
+                ComposeAction.Conditional(
+                    stateKey = "count",
+                    operator = ConditionOperator.GreaterThan,
+                    value = JsonPrimitive(5),
+                    thenAction = ComposeAction.Log("greater"),
+                    elseAction = ComposeAction.Log("smaller")
+                ),
+                ComposeAction.IncrementState(stateKey = "count", by = 2.0),
+                ComposeAction.DecrementState(stateKey = "count", by = 1.0),
+                ComposeAction.LaunchUrl(url = "https://google.com"),
+                ComposeAction.CopyToClipboard(text = "clip"),
+                ComposeAction.UpdateList(
+                    stateKey = "items",
+                    operation = ListOperation.Add,
+                    item = JsonPrimitive("item1")
+                )
+            )
+        )
+        val encoded = json.encodeToString(original)
+        val decoded = json.decodeFromString<ComposeAction>(encoded)
+
+        assertIs<ComposeAction.Sequence>(decoded)
+        assertEquals(9, decoded.actions.size)
+        
+        assertIs<ComposeAction.Navigate>(decoded.actions[0])
+        assertEquals("/details", (decoded.actions[0] as ComposeAction.Navigate).route)
+        assertEquals(JsonPrimitive(123), (decoded.actions[0] as ComposeAction.Navigate).args["id"])
+
+        assertIs<ComposeAction.NavigateBack>(decoded.actions[1])
+
+        assertIs<ComposeAction.Delay>(decoded.actions[2])
+        assertEquals(2000L, (decoded.actions[2] as ComposeAction.Delay).durationMillis)
+
+        assertIs<ComposeAction.Conditional>(decoded.actions[3])
+        assertEquals("count", (decoded.actions[3] as ComposeAction.Conditional).stateKey)
+        assertEquals(ConditionOperator.GreaterThan, (decoded.actions[3] as ComposeAction.Conditional).operator)
+
+        assertIs<ComposeAction.IncrementState>(decoded.actions[4])
+        assertEquals("count", (decoded.actions[4] as ComposeAction.IncrementState).stateKey)
+        assertEquals(2.0, (decoded.actions[4] as ComposeAction.IncrementState).by)
+
+        assertIs<ComposeAction.DecrementState>(decoded.actions[5])
+        assertEquals("count", (decoded.actions[5] as ComposeAction.DecrementState).stateKey)
+        assertEquals(1.0, (decoded.actions[5] as ComposeAction.DecrementState).by)
+
+        assertIs<ComposeAction.LaunchUrl>(decoded.actions[6])
+        assertEquals("https://google.com", (decoded.actions[6] as ComposeAction.LaunchUrl).url)
+
+        assertIs<ComposeAction.CopyToClipboard>(decoded.actions[7])
+        assertEquals("clip", (decoded.actions[7] as ComposeAction.CopyToClipboard).text)
+
+        assertIs<ComposeAction.UpdateList>(decoded.actions[8])
+        assertEquals("items", (decoded.actions[8] as ComposeAction.UpdateList).stateKey)
+        assertEquals(ListOperation.Add, (decoded.actions[8] as ComposeAction.UpdateList).operation)
+        assertEquals(JsonPrimitive("item1"), (decoded.actions[8] as ComposeAction.UpdateList).item)
+    }
 }

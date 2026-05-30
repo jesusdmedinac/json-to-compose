@@ -63,10 +63,15 @@ fun ComposeDocument.ToCompose() {
     }
 
     val coroutineScope = rememberCoroutineScope()
-    val dispatcher = remember(mergedStateHosts, customActionHandlers, coroutineScope) {
+    val navigationHandler = LocalNavigationHandler.current
+    val platformHandler = LocalPlatformHandler.current
+    val dispatcher = remember(mergedStateHosts, customActionHandlers, coroutineScope, navigationHandler, platformHandler) {
         ActionDispatcher(
             stateHosts = mergedStateHosts,
             customActionHandlers = customActionHandlers,
+            navigationHandler = navigationHandler,
+            platformHandler = platformHandler,
+            coroutineScope = coroutineScope,
             snackbarHandler = { action ->
                 val hostName = action.snackbarHostStateHostName
                 val stateHost = mergedStateHosts[hostName]
