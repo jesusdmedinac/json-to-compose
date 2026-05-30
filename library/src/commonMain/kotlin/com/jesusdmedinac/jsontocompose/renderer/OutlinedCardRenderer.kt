@@ -32,13 +32,30 @@ fun ComposeNode.ToOutlinedCard() {
         defaultValue = 0,
     )
 
+    val (containerColorHex, _) = resolveStateHostValue(
+        stateHostName = props.containerColorStateHostName,
+        inlineValue = props.containerColor,
+        defaultValue = null,
+    )
+
+    val (borderWidthVal, _) = resolveStateHostValue(
+        stateHostName = props.borderWidthStateHostName,
+        inlineValue = props.borderWidth,
+        defaultValue = null,
+    )
+
+    val containerColor = containerColorHex?.toColor()
+    val cardColors = if (containerColor != null) CardDefaults.outlinedCardColors(containerColor = containerColor)
+                     else CardDefaults.outlinedCardColors()
+
     val borderColor = borderColorString?.toColor()
-    val borderStroke = if (borderColor != null) BorderStroke(1.dp, borderColor)
+    val borderStroke = if (borderColor != null) BorderStroke((borderWidthVal ?: 1).dp, borderColor)
     else CardDefaults.outlinedCardBorder()
 
     OutlinedCard(
         modifier = modifier,
         shape = RoundedCornerShape(cornerRadius.dp),
+        colors = cardColors,
         border = borderStroke
     ) {
         props.child?.ToCompose()

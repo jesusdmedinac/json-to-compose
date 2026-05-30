@@ -1,11 +1,11 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.jesusdmedinac.jsontocompose.LocalBehavior
 import com.jesusdmedinac.jsontocompose.ToCompose
@@ -30,8 +30,14 @@ fun ComposeNode.ToAlertDialog() {
     val currentBehavior = LocalBehavior.current
     val behavior = currentBehavior[onClickEventName]
 
-    val backgroundColor = props.backgroundColor.toColor(MaterialTheme.colors.surface)
-    val contentColor = props.contentColor.toColor(contentColorFor(backgroundColor))
+    val backgroundColor = props.backgroundColor.toColor(AlertDialogDefaults.containerColor)
+    val contentColor = props.contentColor.toColor(AlertDialogDefaults.textContentColor)
+
+    val (tonalElevationVal, _) = resolveStateHostValue(
+        stateHostName = props.tonalElevationStateHostName,
+        inlineValue = props.tonalElevation,
+        defaultValue = 6, // default M3 dialog elevation is 6dp
+    )
 
     AlertDialog(
         modifier = modifier,
@@ -43,23 +49,16 @@ fun ComposeNode.ToAlertDialog() {
                 println("Warning: Behavior for event \"$onClickEventName\" not found in LocalBehavior.")
             }
         },
-        title = {
-            props.title?.ToCompose()
-        },
-        text = {
-            props.text?.ToCompose()
-        },
+        title = props.title?.let { t -> { t.ToCompose() } },
+        text = props.text?.let { t -> { t.ToCompose() } },
+        icon = props.icon?.let { i -> { i.ToCompose() } },
         confirmButton = {
             props.confirmButton?.ToCompose()
         },
-        dismissButton = {
-            props.dismissButton?.ToCompose()
-        },
-        backgroundColor = backgroundColor,
-        contentColor = contentColor,
-        // TODO: Support DialogProperties
-        properties = DialogProperties(),
-        // TODO: Support Shape
-        shape = MaterialTheme.shapes.medium,
+        dismissButton = props.dismissButton?.let { d -> { d.ToCompose() } },
+        containerColor = backgroundColor,
+        textContentColor = contentColor,
+        tonalElevation = tonalElevationVal.dp,
+        properties = DialogProperties()
     )
 }

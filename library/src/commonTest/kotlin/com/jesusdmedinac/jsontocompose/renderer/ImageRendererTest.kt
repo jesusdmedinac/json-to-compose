@@ -48,4 +48,21 @@ class ImageRendererTest {
         // the renderer shows a fallback Box with "Res not found: {name}"
         onNodeWithText("Res not found: nonexistent_logo").assertExists()
     }
+
+    @Test
+    fun imageWithInvalidAlignmentDoesNotCrash() = runComposeUiTest {
+        val node = ComposeNode(
+            type = ComposeType.Image,
+            properties = NodeProperties.ImageProps(
+                url = "https://example.com/img.png",
+                alignment = "InvalidAlignment",
+                contentDescription = "Example image"
+            )
+        )
+
+        setContent {
+            node.ToImage()
+        }
+        // Should compile and run without throwing AlignmentException
+    }
 }

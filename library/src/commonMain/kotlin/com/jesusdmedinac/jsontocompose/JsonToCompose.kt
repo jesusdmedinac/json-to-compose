@@ -119,7 +119,10 @@ fun ComposeNode.ToCompose() {
         ComposeType.ElevatedCard -> ToElevatedCard()
         ComposeType.OutlinedCard -> ToOutlinedCard()
         ComposeType.AlertDialog -> ToAlertDialog()
-        ComposeType.TopAppBar -> ToTopAppBar()
+        ComposeType.TopAppBar,
+        ComposeType.CenterAlignedTopAppBar,
+        ComposeType.MediumTopAppBar,
+        ComposeType.LargeTopAppBar -> ToTopAppBar()
         ComposeType.NavigationBar -> ToNavigationBar()
         ComposeType.NavigationBarItem -> ToNavigationBarItem()
         ComposeType.NavigationRail -> ToNavigationRail()

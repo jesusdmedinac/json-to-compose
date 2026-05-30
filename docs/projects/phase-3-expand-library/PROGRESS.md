@@ -248,25 +248,25 @@
 
 ## Feature: Enhanced Properties for Existing Components
 
-- [ ] Scenario: Render Image with alignment
-- [ ] Scenario: Render Image with colorFilter tint
-- [ ] Scenario: Render Button with custom shape
-- [ ] Scenario: Render Button with containerColor and contentColor
-- [ ] Scenario: Render Scaffold with floatingActionButton
-- [ ] Scenario: Render Scaffold with containerColor
-- [ ] Scenario: Render Scaffold with floatingActionButtonPosition
-- [ ] Scenario: Render Card with custom containerColor
-- [ ] Scenario: Render Card with border
-- [ ] Scenario: Render AlertDialog with icon
-- [ ] Scenario: Render AlertDialog with tonalElevation
-- [ ] Scenario: Render TopAppBar with colors
-- [ ] Scenario: Render CenterAlignedTopAppBar
-- [ ] Scenario: Render MediumTopAppBar with larger title
-- [ ] Scenario: Render LargeTopAppBar with prominent title
-- [ ] Scenario: Render Box with propagateMinConstraints controlled by state
-- [ ] Scenario: Serialize and deserialize all enhanced properties
-- [ ] Scenario: Update showcase with enhanced properties
-- [ ] Scenario: Update main README.md with enhanced properties
+- [x] Scenario: Render Image with alignment
+- [x] Scenario: Render Image with colorFilter tint
+- [x] Scenario: Render Button with custom shape
+- [x] Scenario: Render Button with containerColor and contentColor
+- [x] Scenario: Render Scaffold with floatingActionButton
+- [x] Scenario: Render Scaffold with containerColor
+- [x] Scenario: Render Scaffold with floatingActionButtonPosition
+- [x] Scenario: Render Card with custom containerColor
+- [x] Scenario: Render Card with border
+- [x] Scenario: Render AlertDialog with icon
+- [x] Scenario: Render AlertDialog with tonalElevation
+- [x] Scenario: Render TopAppBar with colors
+- [x] Scenario: Render CenterAlignedTopAppBar
+- [x] Scenario: Render MediumTopAppBar with larger title
+- [x] Scenario: Render LargeTopAppBar with prominent title
+- [x] Scenario: Render Box with propagateMinConstraints controlled by state
+- [x] Scenario: Serialize and deserialize all enhanced properties
+- [x] Scenario: Update showcase with enhanced properties
+- [x] Scenario: Update main README.md with enhanced properties
 
 ## Feature: Advanced Action Types
 

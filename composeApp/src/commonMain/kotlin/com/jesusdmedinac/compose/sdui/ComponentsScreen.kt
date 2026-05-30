@@ -710,6 +710,32 @@ private fun boxDemo(): ComposeNode = ComposeNode(
                         ),
                     )
                 )
+            ),
+            demoLabel("Box with propagateMinConstraints = true"),
+            ComposeNode(
+                type = ComposeType.Box,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Height(80),
+                        ComposeModifier.Operation.BackgroundColor(DemoPalette.surface),
+                    )
+                ),
+                properties = NodeProperties.BoxProps(
+                    contentAlignment = "Center",
+                    propagateMinConstraints = true,
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Propagated Constraints Button"),
+                                )
+                            ),
+                        ),
+                    )
+                )
             )
         )
     )
@@ -870,6 +896,23 @@ private fun imageUrlDemo(): ComposeNode = ComposeNode(
                     url = "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
                     contentDescription = "Image loaded from URL",
                     contentScale = "Fit"
+                ),
+            ),
+            demoLabel("Image with Alignment (BottomEnd) and ColorFilter Tint (Red Tint)"),
+            ComposeNode(
+                type = ComposeType.Image,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.Width(200),
+                        ComposeModifier.Operation.Height(150),
+                    )
+                ),
+                properties = NodeProperties.ImageProps(
+                    url = "https://relatos.jesusdmedinac.com/_astro/carta-al-lector.OLllKYCu_Z1cdMQV.webp",
+                    contentDescription = "Image with alignment and tint",
+                    contentScale = "Fit",
+                    alignment = "BottomEnd",
+                    colorFilter = "#80FF0000"
                 ),
             ),
         )
@@ -1362,6 +1405,42 @@ private fun buttonDemo(): ComposeNode = ComposeNode(
                     )
                 )
             ),
+            demoLabel("Styled Buttons & Color/Shape Enhancements"),
+            ComposeNode(
+                type = ComposeType.Row,
+                composeModifier = ComposeModifier(
+                    operations = listOf(ComposeModifier.Operation.FillMaxWidth)
+                ),
+                properties = NodeProperties.RowProps(
+                    horizontalArrangement = "SpaceEvenly",
+                    children = listOf(
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                containerColor = "#FF3F51B5",
+                                contentColor = "#FFFFFFFF",
+                                shape = ComposeShape.RoundedCorner(all = 16),
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Indigo Rounded"),
+                                )
+                            ),
+                        ),
+                        ComposeNode(
+                            type = ComposeType.Button,
+                            properties = NodeProperties.ButtonProps(
+                                containerColor = "#FF009688",
+                                contentColor = "#FFFFFFFF",
+                                shape = ComposeShape.Circle,
+                                child = ComposeNode(
+                                    type = ComposeType.Text,
+                                    properties = NodeProperties.TextProps(text = "Circular Teal"),
+                                )
+                            ),
+                        ),
+                    )
+                )
+            ),
             demoLabel("Floating Action Buttons"),
             ComposeNode(
                 type = ComposeType.Row,
@@ -1642,6 +1721,38 @@ private fun cardDemo(): ComposeNode = ComposeNode(
                     )
                 )
             ),
+            demoLabel("Card with Custom containerColor & Border"),
+            ComposeNode(
+                type = ComposeType.Card,
+                composeModifier = ComposeModifier(
+                    operations = listOf(
+                        ComposeModifier.Operation.FillMaxWidth,
+                        ComposeModifier.Operation.Padding(8),
+                    )
+                ),
+                properties = NodeProperties.CardProps(
+                    containerColor = "#FFE8F5E9",
+                    borderColor = "#FF4CAF50",
+                    borderWidth = 2,
+                    cornerRadius = 16,
+                    child = ComposeNode(
+                        type = ComposeType.Column,
+                        properties = NodeProperties.ColumnProps(
+                            children = listOf(
+                                ComposeNode(
+                                    type = ComposeType.Text,
+                                    composeModifier = ComposeModifier(
+                                        operations = listOf(ComposeModifier.Operation.Padding(16))
+                                    ),
+                                    properties = NodeProperties.TextProps(
+                                        text = "Custom styled Card with Mint Green background and 2dp Green Border!"
+                                    ),
+                                ),
+                            )
+                        )
+                    )
+                )
+            ),
         )
     )
 )
@@ -1817,6 +1928,11 @@ private fun alertDialogDemo(): ComposeNode = ComposeNode(
                             text = "Do you want to proceed with this action?"
                         ),
                     ),
+                    icon = ComposeNode(
+                        type = ComposeType.Icon,
+                        properties = NodeProperties.IconProps(iconName = "Filled.Warning")
+                    ),
+                    tonalElevation = 8,
                     confirmButton = ComposeNode(
                         type = ComposeType.Button,
                         properties = NodeProperties.ButtonProps(
@@ -2150,9 +2266,42 @@ private fun topAppBarDemo(): ComposeNode = ComposeNode(
                 properties = NodeProperties.TopAppBarProps(
                     title = ComposeNode(
                         type = ComposeType.Text,
-                        properties = NodeProperties.TextProps(text = "My App"),
+                        properties = NodeProperties.TextProps(text = "Small TopAppBar"),
                     ),
                     backgroundColor = DemoPalette.primary,
+                )
+            ),
+            demoLabel("CenterAlignedTopAppBar"),
+            ComposeNode(
+                type = ComposeType.CenterAlignedTopAppBar,
+                properties = NodeProperties.TopAppBarProps(
+                    title = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Center Aligned"),
+                    ),
+                    backgroundColor = DemoPalette.secondary,
+                )
+            ),
+            demoLabel("MediumTopAppBar"),
+            ComposeNode(
+                type = ComposeType.MediumTopAppBar,
+                properties = NodeProperties.TopAppBarProps(
+                    title = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Medium Title"),
+                    ),
+                    backgroundColor = DemoPalette.surface,
+                )
+            ),
+            demoLabel("LargeTopAppBar"),
+            ComposeNode(
+                type = ComposeType.LargeTopAppBar,
+                properties = NodeProperties.TopAppBarProps(
+                    title = ComposeNode(
+                        type = ComposeType.Text,
+                        properties = NodeProperties.TextProps(text = "Large Prominent Title"),
+                    ),
+                    backgroundColor = DemoPalette.primaryDark,
                 )
             ),
         )

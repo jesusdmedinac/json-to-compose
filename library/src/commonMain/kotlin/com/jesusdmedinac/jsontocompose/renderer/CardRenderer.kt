@@ -1,5 +1,6 @@
 package com.jesusdmedinac.jsontocompose.renderer
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,11 +29,37 @@ fun ComposeNode.ToCard() {
         inlineValue = props.cornerRadius,
         defaultValue = 0,
     )
+    val (containerColorHex, _) = resolveStateHostValue(
+        stateHostName = props.containerColorStateHostName,
+        inlineValue = props.containerColor,
+        defaultValue = null,
+    )
+    val (borderColorHex, _) = resolveStateHostValue(
+        stateHostName = props.borderColorStateHostName,
+        inlineValue = props.borderColor,
+        defaultValue = null,
+    )
+    val (borderWidthVal, _) = resolveStateHostValue(
+        stateHostName = props.borderWidthStateHostName,
+        inlineValue = props.borderWidth,
+        defaultValue = null,
+    )
+
+    val containerColor = containerColorHex?.toColor()
+    val cardColors = if (containerColor != null) CardDefaults.cardColors(containerColor = containerColor)
+                     else CardDefaults.cardColors()
+
+    val borderColor = borderColorHex?.toColor()
+    val borderStroke = if (borderColor != null) {
+        BorderStroke((borderWidthVal ?: 1).dp, borderColor)
+    } else null
 
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = elevation.dp),
         shape = RoundedCornerShape(cornerRadius.dp),
+        colors = cardColors,
+        border = borderStroke,
     ) {
         props.child?.ToCompose()
     }
