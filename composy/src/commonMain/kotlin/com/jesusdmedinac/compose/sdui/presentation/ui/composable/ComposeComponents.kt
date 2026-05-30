@@ -182,6 +182,9 @@ fun ComposeComponent(
                 ComposeType.Custom -> Lucide.Puzzle
                 ComposeType.Spacer -> Lucide.SeparatorHorizontal
                 ComposeType.TopAppBar -> Lucide.PanelTop
+                ComposeType.CenterAlignedTopAppBar -> Lucide.PanelTop
+                ComposeType.MediumTopAppBar -> Lucide.PanelTop
+                ComposeType.LargeTopAppBar -> Lucide.PanelTop
                 ComposeType.BottomBar -> Lucide.PanelBottom
                 ComposeType.BottomNavigationItem -> Lucide.Square
                 ComposeType.Switch -> Lucide.ToggleRight
