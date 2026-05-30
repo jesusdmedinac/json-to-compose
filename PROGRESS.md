@@ -13,16 +13,16 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 143       | **60%**  |
+| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
 | 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **616**   | **403**   | **65%**  |
+|     | **TOTAL**                                                         |               | **616**   | **499**   | **81%**  |
 
 ```
-Progress: [██████████████████████████████░░░░░░░░░] 65%
+Progress: [████████████████████████████████░░░░░░░] 81%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-           phase-1 ✅  actions ✅  demo ✅  expand  editor  sem  diff
+           phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
 ```
 
 ---
@@ -70,12 +70,12 @@ Progress: [███████████████████████
 | Layout Components | 16 | Spacer, Divider, FlowRow, FlowColumn, Surface, Arrangement.spacedBy | ✅ Done |
 | Pager Components | 10 | HorizontalPager, VerticalPager | ✅ Done |
 | ModalBottomSheet | 10 | ModalBottomSheet with state, drag, shape, scrim | ✅ Done |
-| Display Components | 24 | Icon, Badge, Chips (4 types), Progress indicators, Tooltip | 🏗️ In Progress |
-| Snackbar | 10 | SnackbarHost, ShowSnackbar action | 🔜 Pending |
-| ListItem | 12 | Material 3 ListItem with all slots | 🔜 Pending |
-| Missing Modifiers | 24 | Clickable, Weight, Scroll, Offset, Size, AspectRatio, ZIndex, etc. | 🔜 Pending |
-| Existing Component Properties | 19 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | 🔜 Pending |
-| Advanced Actions | 16 | Navigate, Conditional, Delay, IncrementState, LaunchUrl, CopyToClipboard, UpdateList | 🔜 Pending |
+| Display Components | 24 | Icon, Badge, Chips (4 types), Progress indicators, Tooltip | ✅ Done |
+| Snackbar | 10 | SnackbarHost, ShowSnackbar action | ✅ Done |
+| ListItem | 12 | Material 3 ListItem with all slots | ✅ Done |
+| Missing Modifiers | 24 | Clickable, Weight, Scroll, Offset, Size, AspectRatio, ZIndex, etc. | ✅ Done |
+| Existing Component Properties | 19 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | ✅ Done |
+| Advanced Actions | 16 | Navigate, Conditional, Delay, IncrementState, LaunchUrl, CopyToClipboard, UpdateList | ✅ Done |
 
 ### 2. phase-2-editor-mvp
 
