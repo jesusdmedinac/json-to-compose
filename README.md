@@ -151,6 +151,56 @@ fun App() {
 }
 ```
 
+### With Advanced Actions (Navigation & Platform Abstractions)
+
+json-to-compose supports advanced declarative action chains natively without writing custom behavior lambdas. Provide platform and navigation handlers via `LocalNavigationHandler` and `LocalPlatformHandler` CompositionLocals:
+
+```kotlin
+@Composable
+fun App() {
+    val navHandler = remember {
+        object : NavigationHandler {
+            override fun navigate(route: String, args: Map<String, Any?>) {
+                println("Navigate to $route with args: $args")
+            }
+            override fun navigateBack() {
+                println("Navigate Back")
+            }
+        }
+    }
+
+    val platformHandler = remember {
+        object : PlatformHandler {
+            override fun launchUrl(url: String) {
+                // Open external browser URL
+            }
+            override fun copyToClipboard(text: String) {
+                // Copy text to system clipboard
+            }
+        }
+    }
+
+    CompositionLocalProvider(
+        LocalNavigationHandler provides navHandler,
+        LocalPlatformHandler provides platformHandler
+    ) {
+        JSON_AS_STRING.ToCompose()
+    }
+}
+```
+
+#### Supported Advanced Actions
+
+* **`navigate`**: Navigates to a specific screen route.
+* **`navigateBack`**: Pops the current navigation stack.
+* **`delay`**: Asynchronously waits for `durationMillis` before executing the next action in a sequence.
+* **`conditional`**: Compares a state value using `operator` (`Equals`, `NotEquals`, `GreaterThan`, `LessThan`, `Contains`) and executes `thenAction` or optional `elseAction`.
+* **`incrementState` / `decrementState`**: Safely increments or decrements a numeric state.
+* **`launchUrl`**: Opens an external URL.
+* **`copyToClipboard`**: Copies text to the device clipboard.
+* **`updateList`**: Adds or removes items from a list state.
+
+
 ## 🔧 Supported Components
 
 | Component                     | Description                           | Properties                                                                                                                                                                                    |

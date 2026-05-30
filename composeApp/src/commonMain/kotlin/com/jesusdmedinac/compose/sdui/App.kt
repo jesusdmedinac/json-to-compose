@@ -17,6 +17,13 @@ import com.jesusdmedinac.jsontocompose.LocalDrawableResources
 import com.jesusdmedinac.jsontocompose.LocalStateHost
 import com.jesusdmedinac.jsontocompose.ToCompose
 import com.jesusdmedinac.jsontocompose.behavior.Behavior
+import com.jesusdmedinac.jsontocompose.runtime.ActionDispatcher
+import com.jesusdmedinac.jsontocompose.runtime.LocalNavigationHandler
+import com.jesusdmedinac.jsontocompose.runtime.LocalPlatformHandler
+import com.jesusdmedinac.jsontocompose.runtime.NavigationHandler
+import com.jesusdmedinac.jsontocompose.runtime.PlatformHandler
+import com.jesusdmedinac.jsontocompose.model.ComposeAction
+import com.jesusdmedinac.jsontocompose.model.ConditionOperator
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeShape
@@ -27,6 +34,8 @@ import com.jesusdmedinac.jsontocompose.state.StateHost
 import json_to_compose.composeapp.generated.resources.Res
 import json_to_compose.composeapp.generated.resources.compose_multiplatform
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -464,10 +473,78 @@ fun App() {
     val componentsSelectedHost = remember { MutableStateHost(false) }
     val stylesSelectedHost = remember { MutableStateHost(false) }
 
+    val demoCounterTextHost = remember { MutableStateHost("Count: 0") }
+    val demoCounterValHost = remember { MutableStateHost(0.0) }
+    val delayTextHost = remember { MutableStateHost("Click to run...") }
+
     fun updateTabSelection(tab: String) {
         catalogSelectedHost.onStateChange(tab == "catalog")
         componentsSelectedHost.onStateChange(tab == "components")
         stylesSelectedHost.onStateChange(tab == "styles")
+    }
+
+    val navHandler = remember(navController) {
+        object : NavigationHandler {
+            override fun navigate(route: String, args: Map<String, Any?>) {
+                println("Showcase navigation: navigating to $route with args $args")
+                if (route == "catalog") {
+                    updateTabSelection("catalog")
+                    navController.navigate(CatalogRoute)
+                } else if (route == "components") {
+                    updateTabSelection("components")
+                    navController.navigate(ComponentsRoute)
+                } else if (route == "styles") {
+                    updateTabSelection("styles")
+                    navController.navigate(StylesRoute)
+                }
+            }
+            override fun navigateBack() {
+                navController.popBackStack()
+            }
+        }
+    }
+
+    val platformHandler = remember {
+        object : PlatformHandler {
+            override fun launchUrl(url: String) {
+                println("Showcase platform: launching URL: $url")
+            }
+            override fun copyToClipboard(text: String) {
+                println("Showcase platform: copying text to clipboard: $text")
+            }
+        }
+    }
+
+    val mergedStateHostsForDispatcher = remember(
+        textFieldHost, dialogHost, sheetHost, switchStateHost, checkboxCheckedHost, checkboxEnabledHost,
+        switchEnabledHost, catalogSelectedHost, componentsSelectedHost, stylesSelectedHost,
+        demoCounterTextHost, demoCounterValHost, delayTextHost
+    ) {
+        mapOf<String, StateHost<*>>(
+            "text_field_value" to textFieldHost,
+            "dialog_visibility" to dialogHost,
+            "sheet_visibility" to sheetHost,
+            "switch_state" to switchStateHost,
+            "checkbox_checked" to checkboxCheckedHost,
+            "checkbox_enabled" to checkboxEnabledHost,
+            "switch_enabled" to switchEnabledHost,
+            "catalog_selected" to catalogSelectedHost,
+            "components_selected" to componentsSelectedHost,
+            "styles_selected" to stylesSelectedHost,
+            "demo_counter_text" to demoCounterTextHost,
+            "demo_counter_val" to demoCounterValHost,
+            "delay_text" to delayTextHost
+        )
+    }
+
+    val coroutineScope = androidx.compose.runtime.rememberCoroutineScope()
+    val dispatcher = remember(mergedStateHostsForDispatcher, navHandler, platformHandler, coroutineScope) {
+        ActionDispatcher(
+            stateHosts = mergedStateHostsForDispatcher,
+            navigationHandler = navHandler,
+            platformHandler = platformHandler,
+            coroutineScope = coroutineScope
+        )
     }
 
     val behaviors = mapOf(
@@ -541,6 +618,42 @@ fun App() {
                 }
             }
         },
+        "action_increment_counter" to object : Behavior {
+            override fun invoke() {
+                dispatcher.dispatch(
+                    ComposeAction.Sequence(
+                        listOf(
+                            ComposeAction.IncrementState(stateKey = "demo_counter_val", by = 1.0),
+                            ComposeAction.Conditional(
+                                stateKey = "demo_counter_val",
+                                operator = ConditionOperator.GreaterThan,
+                                value = JsonPrimitive(5),
+                                thenAction = ComposeAction.SetState("demo_counter_text", JsonPrimitive("High Count (>5)!")),
+                                elseAction = ComposeAction.Sequence(
+                                    listOf(
+                                        ComposeAction.CopyToClipboard(text = "Low Count copy"),
+                                        ComposeAction.SetState("demo_counter_text", JsonPrimitive("Count incremented safely!"))
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            }
+        },
+        "action_async_delay" to object : Behavior {
+            override fun invoke() {
+                dispatcher.dispatch(
+                    ComposeAction.Sequence(
+                        listOf(
+                            ComposeAction.SetState("delay_text", JsonPrimitive("Starting delay (2s)...")),
+                            ComposeAction.Delay(durationMillis = 2000L),
+                            ComposeAction.SetState("delay_text", JsonPrimitive("Delay complete! 🎉"))
+                        )
+                    )
+                )
+            }
+        },
     )
 
     val stateHosts = mapOf<String, StateHost<*>>(
@@ -554,6 +667,9 @@ fun App() {
         "catalog_selected" to catalogSelectedHost,
         "components_selected" to componentsSelectedHost,
         "styles_selected" to stylesSelectedHost,
+        "demo_counter_text" to demoCounterTextHost,
+        "demo_counter_val" to demoCounterValHost,
+        "delay_text" to delayTextHost,
     )
 
     val customRenderers: Map<String, @Composable (ComposeNode) -> Unit> = mapOf(
@@ -586,7 +702,11 @@ fun App() {
         },
     )
 
-    CompositionLocalProvider(LocalNavController provides navController) {
+    CompositionLocalProvider(
+        LocalNavController provides navController,
+        LocalNavigationHandler provides navHandler,
+        LocalPlatformHandler provides platformHandler
+    ) {
         CompositionProviders(
             drawableResources = drawableResources,
             behaviors = behaviors,

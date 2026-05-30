@@ -270,19 +270,19 @@
 
 ## Feature: Advanced Action Types
 
-- [ ] Scenario: Navigate action changes current route
-- [ ] Scenario: Navigate action with arguments
-- [ ] Scenario: NavigateBack action pops the navigation stack
-- [ ] Scenario: Delay action waits before executing next action in sequence
-- [ ] Scenario: Conditional action executes then-branch when condition is true
-- [ ] Scenario: Conditional action executes else-branch when condition is false
-- [ ] Scenario: IncrementState action increments numeric state
-- [ ] Scenario: DecrementState action decrements numeric state
-- [ ] Scenario: ShowSnackbar action displays message
-- [ ] Scenario: LaunchUrl action opens external URL
-- [ ] Scenario: CopyToClipboard action copies text
-- [ ] Scenario: UpdateList action adds item to list state
-- [ ] Scenario: UpdateList action removes item from list state
-- [ ] Scenario: Serialize and deserialize all advanced actions
-- [ ] Scenario: Update showcase with advanced actions
-- [ ] Scenario: Update main README.md with advanced actions
+- [x] Scenario: Navigate action changes current route
+- [x] Scenario: Navigate action with arguments
+- [x] Scenario: NavigateBack action pops the navigation stack
+- [x] Scenario: Delay action waits before executing next action in sequence
+- [x] Scenario: Conditional action executes then-branch when condition is true
+- [x] Scenario: Conditional action executes else-branch when condition is false
+- [x] Scenario: IncrementState action increments numeric state
+- [x] Scenario: DecrementState action decrements numeric state
+- [x] Scenario: ShowSnackbar action displays message
+- [x] Scenario: LaunchUrl action opens external URL
+- [x] Scenario: CopyToClipboard action copies text
+- [x] Scenario: UpdateList action adds item to list state
+- [x] Scenario: UpdateList action removes item from list state
+- [x] Scenario: Serialize and deserialize all advanced actions
+- [x] Scenario: Update showcase with advanced actions
+- [x] Scenario: Update main README.md with advanced actions

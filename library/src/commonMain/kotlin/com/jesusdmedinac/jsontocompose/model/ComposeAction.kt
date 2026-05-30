@@ -117,6 +117,95 @@ sealed class ComposeAction {
         val onActionEventName: String? = null,
         val snackbarHostStateHostName: String = "snackbarState",
     ) : ComposeAction()
+
+    /**
+     * Navigates to a specific route with optional arguments.
+     */
+    @Serializable
+    @SerialName("navigate")
+    data class Navigate(
+        val route: String,
+        val args: Map<String, JsonElement> = emptyMap(),
+    ) : ComposeAction()
+
+    /**
+     * Pops the current destination from the navigation stack.
+     */
+    @Serializable
+    @SerialName("navigateBack")
+    data object NavigateBack : ComposeAction()
+
+    /**
+     * Suspends execution for the given [durationMillis] before continuing.
+     */
+    @Serializable
+    @SerialName("delay")
+    data class Delay(
+        val durationMillis: Long,
+    ) : ComposeAction()
+
+    /**
+     * Evaluates a state value against a target value using [operator].
+     * Executes [thenAction] if true, or [elseAction] if false.
+     */
+    @Serializable
+    @SerialName("conditional")
+    data class Conditional(
+        val stateKey: String,
+        val operator: ConditionOperator = ConditionOperator.Equals,
+        val value: JsonElement,
+        val thenAction: ComposeAction,
+        val elseAction: ComposeAction? = null,
+    ) : ComposeAction()
+
+    /**
+     * Increments a numeric state value.
+     */
+    @Serializable
+    @SerialName("incrementState")
+    data class IncrementState(
+        val stateKey: String,
+        val by: Double = 1.0,
+    ) : ComposeAction()
+
+    /**
+     * Decrements a numeric state value.
+     */
+    @Serializable
+    @SerialName("decrementState")
+    data class DecrementState(
+        val stateKey: String,
+        val by: Double = 1.0,
+    ) : ComposeAction()
+
+    /**
+     * Launches an external browser URL.
+     */
+    @Serializable
+    @SerialName("launchUrl")
+    data class LaunchUrl(
+        val url: String,
+    ) : ComposeAction()
+
+    /**
+     * Copies the given text to the device clipboard.
+     */
+    @Serializable
+    @SerialName("copyToClipboard")
+    data class CopyToClipboard(
+        val text: String,
+    ) : ComposeAction()
+
+    /**
+     * Mutates a state holding a list by adding or removing [item].
+     */
+    @Serializable
+    @SerialName("updateList")
+    data class UpdateList(
+        val stateKey: String,
+        val operation: ListOperation,
+        val item: JsonElement,
+    ) : ComposeAction()
 }
 
 /**
@@ -127,4 +216,25 @@ enum class SnackbarDuration {
     Short,
     Long,
     Indefinite
+}
+
+/**
+ * Comparison operators for Conditional actions.
+ */
+@Serializable
+enum class ConditionOperator {
+    Equals,
+    NotEquals,
+    GreaterThan,
+    LessThan,
+    Contains
+}
+
+/**
+ * Operations for mutating list states.
+ */
+@Serializable
+enum class ListOperation {
+    Add,
+    Remove
 }
