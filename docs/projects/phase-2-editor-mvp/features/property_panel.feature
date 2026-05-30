@@ -66,3 +66,28 @@ Feature: Full Property Panel per Component
     When the user attempts to change the type to Text (which does not support children)
     Then a warning is shown indicating that children will be lost
     And the user must confirm before proceeding
+
+  Scenario: Edit properties for new Card components
+    Given a selected ElevatedCard node
+    When the property panel is shown
+    Then I see editable fields for: tonalElevation, cornerRadius, containerColor, borderColor
+
+  Scenario: Edit properties for dynamic Input components
+    Given a selected Slider node
+    When the property panel is shown
+    Then I see editable fields for: value, valueRange.start, valueRange.endInclusive, steps
+
+  Scenario: Edit properties for custom Display components
+    Given a selected Chip node
+    When the property panel is shown
+    Then I see editable fields for: label, leadingIcon, trailingIcon
+
+  Scenario: Edit properties for Navigation components
+    Given a selected NavigationBarItem node
+    When the property panel is shown
+    Then I see editable fields for: selected, alwaysShowLabel, label, icon
+
+  Scenario: Edit properties for new Modifier operations
+    Given a selected node with Clickable and Weight modifiers
+    When the property panel is shown in the right panel
+    Then I see editable inputs for all modifier operations including Clickable.onClickEventName and Weight.value

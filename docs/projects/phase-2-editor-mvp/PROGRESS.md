@@ -20,9 +20,9 @@
 - [ ] Scenario: Move node down within the same parent
 - [ ] Scenario: Cannot move first node up
 - [ ] Scenario: Cannot move last node down
-- [ ] Scenario: Drag and drop to reorder nodes
-- [ ] Scenario: Drag and drop between different parents
-- [ ] Scenario: Drag and drop with visual position indicator
+- [ ] Scenario: Sibling reordering with hover buttons
+- [ ] Scenario: Sibling reordering with keyboard shortcut
+- [ ] Scenario: Cannot reorder node beyond parent bounds
 - [ ] Scenario: Preview updates when reordering nodes
 
 ## Feature: Full Property Panel per Component
@@ -37,6 +37,11 @@
 - [ ] Scenario: Edit Scaffold properties
 - [ ] Scenario: Change component type maintains compatible children
 - [ ] Scenario: Change component type with incompatible children shows warning
+- [ ] Scenario: Edit properties for new Card components
+- [ ] Scenario: Edit properties for dynamic Input components
+- [ ] Scenario: Edit properties for custom Display components
+- [ ] Scenario: Edit properties for Navigation components
+- [ ] Scenario: Edit properties for new Modifier operations
 
 ## Feature: Improved Real-time Preview
 - [ ] Scenario: Preview updates when adding a node
@@ -56,7 +61,7 @@
 - [ ] Scenario: Import JSON from file
 - [ ] Scenario: Import invalid JSON shows error
 - [ ] Scenario: Import JSON with unknown types shows warning
-- [ ] Scenario: Full export-import cycle maintains fidelity
+- [ ] Scenario: Full export-import cycle maintains fidelity for ComposeDocument
 
 ## Feature: Critical Editor Bug Fixes
 - [ ] Scenario: Node collapse state is maintained when editing
@@ -66,4 +71,4 @@
 - [ ] Scenario: Hex color validation for BackgroundColor modifier
 - [ ] Scenario: Visual feedback when trying to add child to non-container node
 - [ ] Scenario: Fixed width panels are responsive
-- [ ] Scenario: Clean up dead code and stub panels
+- [ ] Scenario: Verify AI Chat dependencies (ChatPanel, ProjectGeneratorPanel, PreviewPanel) compilation and imports
