@@ -1,6 +1,8 @@
 package com.jesusdmedinac.jsontocompose.runtime
 
-import com.jesusdmedinac.jsontocompose.model.*
+import com.jesusdmedinac.jsontocompose.model.ComposeAction
+import com.jesusdmedinac.jsontocompose.model.ConditionOperator
+import com.jesusdmedinac.jsontocompose.model.ListOperation
 import com.jesusdmedinac.jsontocompose.state.MutableStateHost
 import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,6 +41,28 @@ class AdvancedActionsTest {
     }
 
     @Test
+    fun incrementStateIncrementsFloat() {
+        val valueHost = MutableStateHost(5.5f)
+        val stateHosts = mapOf<String, StateHost<*>>("val" to valueHost)
+        val dispatcher = ActionDispatcher(stateHosts = stateHosts)
+
+        dispatcher.dispatch(ComposeAction.IncrementState(stateKey = "val", by = 1.5))
+
+        assertEquals(7.0f, valueHost.state)
+    }
+
+    @Test
+    fun incrementStateIncrementsLong() {
+        val valueHost = MutableStateHost(5L)
+        val stateHosts = mapOf<String, StateHost<*>>("val" to valueHost)
+        val dispatcher = ActionDispatcher(stateHosts = stateHosts)
+
+        dispatcher.dispatch(ComposeAction.IncrementState(stateKey = "val", by = 2.0))
+
+        assertEquals(7L, valueHost.state)
+    }
+
+    @Test
     fun decrementStateDecrementsInt() {
         val counterHost = MutableStateHost(10)
         val stateHosts = mapOf<String, StateHost<*>>("counter" to counterHost)
@@ -65,6 +89,28 @@ class AdvancedActionsTest {
             stateKey = "name",
             operator = ConditionOperator.Equals,
             value = JsonPrimitive("Antigravity"),
+            thenAction = ComposeAction.SetState("result", JsonPrimitive("matched")),
+            elseAction = ComposeAction.SetState("result", JsonPrimitive("failed"))
+        )
+
+        dispatcher.dispatch(conditionalAction)
+        assertEquals("matched", resultHost.state)
+    }
+
+    @Test
+    fun conditionalExecutesThenBranchWhenEqualsHeterogeneousNumeric() {
+        val valueHost = MutableStateHost(5)
+        val resultHost = MutableStateHost("initial")
+        val stateHosts = mapOf<String, StateHost<*>>(
+            "val" to valueHost,
+            "result" to resultHost
+        )
+        val dispatcher = ActionDispatcher(stateHosts = stateHosts)
+
+        val conditionalAction = ComposeAction.Conditional(
+            stateKey = "val",
+            operator = ConditionOperator.Equals,
+            value = JsonPrimitive(5.0),
             thenAction = ComposeAction.SetState("result", JsonPrimitive("matched")),
             elseAction = ComposeAction.SetState("result", JsonPrimitive("failed"))
         )

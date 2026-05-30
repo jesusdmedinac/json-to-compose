@@ -1,9 +1,15 @@
 package com.jesusdmedinac.jsontocompose.runtime
 
-import com.jesusdmedinac.jsontocompose.model.*
+import com.jesusdmedinac.jsontocompose.model.ComposeAction
+import com.jesusdmedinac.jsontocompose.model.ConditionOperator
+import com.jesusdmedinac.jsontocompose.model.ListOperation
 import com.jesusdmedinac.jsontocompose.state.StateHost
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.floatOrNull
+import kotlinx.serialization.json.intOrNull
 
 /**
  * Executes [ComposeAction]s by modifying state, logging, or delegating to custom handlers.
@@ -187,16 +193,32 @@ class ActionDispatcher(
 
     private fun evaluateCondition(current: Any?, operator: ConditionOperator, target: Any?): Boolean {
         return when (operator) {
-            ConditionOperator.Equals -> current == target
-            ConditionOperator.NotEquals -> current != target
+            ConditionOperator.Equals -> {
+                val curNum = current.toSafeDoubleOrNull()
+                val tarNum = target.toSafeDoubleOrNull()
+                if (curNum != null && tarNum != null) {
+                    curNum == tarNum
+                } else {
+                    current == target
+                }
+            }
+            ConditionOperator.NotEquals -> {
+                val curNum = current.toSafeDoubleOrNull()
+                val tarNum = target.toSafeDoubleOrNull()
+                if (curNum != null && tarNum != null) {
+                    curNum != tarNum
+                } else {
+                    current != target
+                }
+            }
             ConditionOperator.GreaterThan -> {
-                val curNum = current.toDoubleOrNull() ?: return false
-                val tarNum = target.toDoubleOrNull() ?: return false
+                val curNum = current.toSafeDoubleOrNull() ?: return false
+                val tarNum = target.toSafeDoubleOrNull() ?: return false
                 curNum > tarNum
             }
             ConditionOperator.LessThan -> {
-                val curNum = current.toDoubleOrNull() ?: return false
-                val tarNum = target.toDoubleOrNull() ?: return false
+                val curNum = current.toSafeDoubleOrNull() ?: return false
+                val tarNum = target.toSafeDoubleOrNull() ?: return false
                 curNum < tarNum
             }
             ConditionOperator.Contains -> {
@@ -214,13 +236,17 @@ class ActionDispatcher(
             return
         }
         val current = stateHost.state
-        val currentNum = current.toDoubleOrNull() ?: 0.0
+        val currentNum = current.toSafeDoubleOrNull() ?: 0.0
         val newValue = currentNum + action.by
 
-        val resolvedNewValue: Any = if (current is Int) {
-            newValue.toInt()
-        } else {
-            newValue
+        val resolvedNewValue: Any = when (current) {
+            is Int -> newValue.toInt()
+            is Long -> newValue.toLong()
+            is Float -> newValue.toFloat()
+            is Double -> newValue
+            is Short -> newValue.toInt().toShort()
+            is Byte -> newValue.toInt().toByte()
+            else -> newValue
         }
 
         @Suppress("UNCHECKED_CAST")
@@ -234,13 +260,17 @@ class ActionDispatcher(
             return
         }
         val current = stateHost.state
-        val currentNum = current.toDoubleOrNull() ?: 0.0
+        val currentNum = current.toSafeDoubleOrNull() ?: 0.0
         val newValue = currentNum - action.by
 
-        val resolvedNewValue: Any = if (current is Int) {
-            newValue.toInt()
-        } else {
-            newValue
+        val resolvedNewValue: Any = when (current) {
+            is Int -> newValue.toInt()
+            is Long -> newValue.toLong()
+            is Float -> newValue.toFloat()
+            is Double -> newValue
+            is Short -> newValue.toInt().toShort()
+            is Byte -> newValue.toInt().toByte()
+            else -> newValue
         }
 
         @Suppress("UNCHECKED_CAST")
@@ -305,7 +335,7 @@ class ActionDispatcher(
         }
     }
 
-    private fun Any?.toDoubleOrNull(): Double? {
+    private fun Any?.toSafeDoubleOrNull(): Double? {
         return when (this) {
             is Number -> this.toDouble()
             is String -> this.toDoubleOrNull()
