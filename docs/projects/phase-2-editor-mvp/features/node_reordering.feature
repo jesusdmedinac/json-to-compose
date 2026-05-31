@@ -47,7 +47,8 @@ Feature: Tree Node Reordering
     Given a tree with Column > [Text("First"), Text("Second")]
     And the Text("First") node is selected
     Then the Move Up hover button for Text("First") is hidden
-    And pressing Ctrl + Up arrow does nothing
+    When the user presses Ctrl + Up arrow
+    Then the tree remains unchanged
 
   Scenario: Preview updates when reordering nodes
     Given a tree with Column > [Text("First"), Text("Second")]

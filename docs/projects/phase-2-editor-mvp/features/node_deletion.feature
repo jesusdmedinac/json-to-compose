@@ -37,8 +37,8 @@ Feature: Tree Node Deletion
     Given a tree with Column as root node
     And the root Column node is selected
     Then the delete button for the root node is hidden
-    And the delete node keyboard shortcut is ignored on the root node
-    And the tree remains unchanged
+    When the user presses the delete node keyboard shortcut
+    Then the tree remains unchanged
 
   Scenario: Delete node with keyboard shortcut
     Given a selected Text node
