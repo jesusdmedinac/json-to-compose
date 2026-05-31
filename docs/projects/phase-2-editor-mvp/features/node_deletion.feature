@@ -36,9 +36,9 @@ Feature: Tree Node Deletion
   Scenario: Root node cannot be deleted
     Given a tree with Column as root node
     And the root Column node is selected
-    When the user presses the delete node button
-    Then a message is shown indicating that the root node cannot be deleted
-    And the tree remains unchanged
+    Then the delete button for the root node is hidden
+    When the user presses the delete node keyboard shortcut
+    Then the tree remains unchanged
 
   Scenario: Delete node with keyboard shortcut
     Given a selected Text node

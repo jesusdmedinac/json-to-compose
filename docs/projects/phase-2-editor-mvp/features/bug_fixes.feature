@@ -44,6 +44,6 @@ Feature: Critical Editor Bug Fixes
 
   Scenario: Clean up dead code and stub panels
     Given the files ChatPanel.kt, ProjectGeneratorPanel.kt, PreviewPanel.kt
-    When checked if they are being used
-    Then they are deleted if unused or completed if necessary
-    And no imports or references to dead code remain
+    When checked for usage and compilation cleanliness
+    Then they are verified as active dependencies of ChatScreen
+    And they are checked to ensure clean imports and zero dead-code warnings

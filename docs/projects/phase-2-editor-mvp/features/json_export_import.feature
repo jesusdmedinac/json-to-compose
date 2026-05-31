@@ -45,7 +45,8 @@ Feature: JSON Export and Import
     And recognized nodes are imported correctly
 
   Scenario: Full export-import cycle maintains fidelity
-    Given a complex tree with multiple levels, modifiers, and properties
+    Given a complex ComposeDocument with multiple levels, modifiers, properties, state hosts, and actions
     When exported to JSON and then the same file is imported
     Then the resulting tree is identical to the original
-    And the preview shows the same interface
+    And the imported document retains identical state host maps and action definitions
+    And the live preview continues to behave correctly with all defined action triggers

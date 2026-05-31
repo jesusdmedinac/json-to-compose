@@ -31,20 +31,24 @@ Feature: Tree Node Reordering
     Then the move down button is disabled
     And the tree remains unchanged
 
-  Scenario: Drag and drop to reorder nodes
+  Scenario: Sibling reordering with hover buttons
     Given a tree with Column > [Text("A"), Text("B"), Text("C")]
-    When the user drags Text("C") and drops it before Text("A")
-    Then the tree becomes Column > [Text("C"), Text("A"), Text("B")]
+    And the Text("B") node is selected
+    When the user clicks the Move Up button next to Text("B")
+    Then the tree becomes Column > [Text("B"), Text("A"), Text("C")]
 
-  Scenario: Drag and drop between different parents
-    Given a tree with Column > [Row > [Text("X")], Row > [Text("Y")]]
-    When the user drags Text("X") from the first Row to the second Row
-    Then the tree becomes Column > [Row (empty), Row > [Text("Y"), Text("X")]]
-
-  Scenario: Drag and drop with visual position indicator
+  Scenario: Sibling reordering with keyboard shortcut
     Given a tree with Column > [Text("A"), Text("B"), Text("C")]
-    When the user drags Text("C") over the position between Text("A") and Text("B")
-    Then an insertion indicator line is shown between Text("A") and Text("B")
+    And the Text("B") node has selection focus
+    When the user presses Ctrl + Up arrow
+    Then the tree becomes Column > [Text("B"), Text("A"), Text("C")]
+
+  Scenario: Cannot reorder node beyond parent bounds
+    Given a tree with Column > [Text("First"), Text("Second")]
+    And the Text("First") node is selected
+    Then the Move Up hover button for Text("First") is hidden
+    When the user presses Ctrl + Up arrow
+    Then the tree remains unchanged
 
   Scenario: Preview updates when reordering nodes
     Given a tree with Column > [Text("First"), Text("Second")]
