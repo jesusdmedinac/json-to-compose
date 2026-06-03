@@ -14,10 +14,10 @@
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
-| 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 54        | 0         | **0%**   |
+| 5   | [phase-2-editor-mvp](#5-phase-2-editor-mvp)                       | `composy/`    | 58        | 8         | **13%**  |
 | 6   | [phase-4-semantics-testability](#6-phase-4-semantics-testability) | `library/`    | 26        | 0         | **0%**   |
 | 7   | [phase-3-differentiators](#7-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **616**   | **499**   | **81%**  |
+|     | **TOTAL**                                                         |               | **620**   | **507**   | **81%**  |
 
 ```
 Progress: [████████████████████████████████░░░░░░░] 81%
@@ -79,7 +79,7 @@ Progress: [███████████████████████
 
 ### 2. phase-2-editor-mvp
 
-**Status:** 📋 Planned (0/54 — 0%)
+**Status:** 🏗️ In Progress (8/58 — 13%)
 **Module:** `composy/`
 **Depends on:** Benefits from phase-3-expand-library.
 
@@ -100,6 +100,7 @@ Progress: [███████████████████████
 | Improved Real-time Preview | 8 |
 | JSON Export and Import | 8 |
 | Critical Editor Bug Fixes | 8 |
+| Composy Unit Testing | 4 |
 
 ### 3. phase-4-semantics-testability
 

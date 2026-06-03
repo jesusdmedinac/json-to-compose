@@ -112,24 +112,13 @@ data object MainScreen : Screen {
             when (val sideEffect = composeComponentsSideEffect) {
                 ComposeComponentsSideEffect.Idle -> Unit
                 is ComposeComponentsSideEffect.ComposeTypeClicked -> {
-                    when (selectedComposeNode?.type) {
-                        ComposeType.Column, ComposeType.Row, ComposeType.Box -> {
-                            composeTreeScreenModel.onAddNewNodeToChildren(
-                                ComposeNode(
-                                    type = sideEffect.type,
-                                    parent = selectedComposeNode,
-                                )
+                    selectedComposeNode?.let { node ->
+                        composeTreeScreenModel.onAddNewNodeToChildren(
+                            ComposeNode(
+                                type = sideEffect.type,
+                                parent = node,
                             )
-                        }
-                        ComposeType.Button -> {
-                            composeTreeScreenModel.onAddNewNodeAsChild(
-                                ComposeNode(
-                                    type = sideEffect.type,
-                                    parent = selectedComposeNode,
-                                )
-                            )
-                        }
-                        else -> Unit
+                        )
                     }
                 }
             }

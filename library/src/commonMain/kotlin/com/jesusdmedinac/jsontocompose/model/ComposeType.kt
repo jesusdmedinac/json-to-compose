@@ -195,4 +195,62 @@ enum class ComposeType {
 
         else -> false
     }
+
+    /**
+     * Creates a default, non-null properties instance for this component type.
+     */
+    fun createDefaultProperties(): NodeProperties = when (this) {
+        Column, LazyColumn -> NodeProperties.ColumnProps()
+        Row, LazyRow -> NodeProperties.RowProps()
+        Box -> NodeProperties.BoxProps()
+        Spacer -> NodeProperties.SpacerProps
+        Text -> NodeProperties.TextProps()
+        Icon -> NodeProperties.IconProps()
+        Button, OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton -> NodeProperties.ButtonProps()
+        FloatingActionButton -> NodeProperties.FabProps()
+        ExtendedFloatingActionButton -> NodeProperties.ExtendedFabProps()
+        Image -> NodeProperties.ImageProps()
+        TextField, OutlinedTextField -> NodeProperties.TextFieldProps()
+        Scaffold -> NodeProperties.ScaffoldProps()
+        Card, ElevatedCard -> NodeProperties.CardProps()
+        OutlinedCard -> NodeProperties.OutlinedCardProps()
+        AlertDialog -> NodeProperties.AlertDialogProps()
+        TopAppBar, CenterAlignedTopAppBar, MediumTopAppBar, LargeTopAppBar -> NodeProperties.TopAppBarProps()
+        NavigationBar -> NodeProperties.NavigationBarProps()
+        NavigationBarItem -> NodeProperties.NavigationBarItemProps()
+        NavigationRail -> NodeProperties.NavigationRailProps()
+        NavigationRailItem -> NodeProperties.NavigationRailItemProps()
+        ModalNavigationDrawer -> NodeProperties.NavigationDrawerProps()
+        NavigationDrawerItem -> NodeProperties.NavigationDrawerItemProps()
+        TabRow, ScrollableTabRow -> NodeProperties.TabRowProps()
+        Tab -> NodeProperties.TabProps()
+        BottomBar -> NodeProperties.BottomBarProps()
+        BottomNavigationItem -> NodeProperties.BottomNavigationItemProps()
+        Switch -> NodeProperties.SwitchProps()
+        Checkbox -> NodeProperties.CheckboxProps()
+        Slider -> NodeProperties.SliderProps()
+        RadioButton -> NodeProperties.RadioButtonProps()
+        SingleChoiceSegmentedButtonRow, MultiChoiceSegmentedButtonRow -> NodeProperties.SegmentedButtonRowProps()
+        SegmentedButton -> NodeProperties.SegmentedButtonProps()
+        DatePicker -> NodeProperties.DatePickerProps()
+        TimePicker -> NodeProperties.TimePickerProps()
+        SearchBar -> NodeProperties.SearchBarProps()
+        HorizontalDivider, VerticalDivider -> NodeProperties.DividerProps()
+        FlowRow -> NodeProperties.FlowRowProps()
+        FlowColumn -> NodeProperties.FlowColumnProps()
+        Surface -> NodeProperties.SurfaceProps()
+        HorizontalPager, VerticalPager -> NodeProperties.PagerProps()
+        ModalBottomSheet -> NodeProperties.ModalBottomSheetProps()
+        Badge -> NodeProperties.BadgeProps()
+        BadgedBox -> NodeProperties.BadgedBoxProps()
+        AssistChip, SuggestionChip -> NodeProperties.ChipProps()
+        FilterChip -> NodeProperties.FilterChipProps()
+        InputChip -> NodeProperties.InputChipProps()
+        CircularProgressIndicator, LinearProgressIndicator -> NodeProperties.ProgressIndicatorProps()
+        PlainTooltip -> NodeProperties.PlainTooltipProps()
+        RichTooltip -> NodeProperties.RichTooltipProps()
+        SnackbarHost -> NodeProperties.SnackbarHostProps()
+        ListItem -> NodeProperties.ListItemProps()
+        Custom -> NodeProperties.CustomProps(customType = "")
+    }
 }

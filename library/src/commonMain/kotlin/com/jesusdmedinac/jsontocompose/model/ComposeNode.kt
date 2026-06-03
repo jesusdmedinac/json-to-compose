@@ -24,11 +24,10 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
-    val properties: NodeProperties? = null,
-
+    val properties: NodeProperties = type.createDefaultProperties(),
+    val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
     val parent: ComposeNode? = null,
-    val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
     val editMode: Boolean = true,
 ) {
@@ -43,8 +42,12 @@ data class ComposeNode(
             parent.id + "_" + type.name + "_" + (properties.children().size + 1)
         }
     }
+    /**
+     * Helper to retrieve all child nodes regardless of their property container type.
+     */
+    fun children(): List<ComposeNode> = properties.children()
 
-    private fun NodeProperties?.children(): List<ComposeNode> = when(this) {
+    private fun NodeProperties.children(): List<ComposeNode> = when(this) {
         is NodeProperties.ColumnProps -> children
         is NodeProperties.RowProps -> children
         is NodeProperties.BoxProps -> children
