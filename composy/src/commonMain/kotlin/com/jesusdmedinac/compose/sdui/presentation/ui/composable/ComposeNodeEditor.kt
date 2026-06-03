@@ -20,6 +20,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
@@ -43,6 +45,7 @@ import com.composables.icons.lucide.ArrowLeft
 import com.composables.icons.lucide.Delete
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
@@ -58,6 +61,10 @@ fun ComposeNodeEditor(
     val navigator = LocalNavigator.currentOrThrow
     val editNodeScreenModel: EditNodeScreenModel = navigator.koinNavigatorScreenModel()
     val editNodeState by editNodeScreenModel.state.collectAsState()
+    val composeTreeScreenModel: ComposeTreeScreenModel = navigator.koinNavigatorScreenModel()
+    val composeTreeState by composeTreeScreenModel.state.collectAsState()
+    
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     val selectedComposeNode = editNodeState.selectedComposeNode
     val editingComposeNode = editNodeState.editingComposeNode
@@ -68,13 +75,36 @@ fun ComposeNodeEditor(
         )
         return
     }
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text("Delete Node") },
+            text = { Text("Are you sure you want to delete this node? All its children will also be deleted.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        composeTreeScreenModel.deleteNode(selectedComposeNode)
+                        showDeleteDialog = false
+                    }
+                ) {
+                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
     LazyColumn(
         modifier = modifier
     ) {
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(
@@ -90,6 +120,28 @@ fun ComposeNodeEditor(
                         imageVector = Lucide.ArrowLeft,
                         contentDescription = null,
                     )
+                }
+                
+                if (composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
+                    IconButton(
+                        onClick = {
+                            if (selectedComposeNode.asList().size > 1) {
+                                showDeleteDialog = true
+                            } else {
+                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                            }
+                        },
+                        modifier = Modifier
+                            .pointerHoverIcon(
+                                icon = PointerIcon.Hand
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Lucide.Delete,
+                            contentDescription = "Delete Node",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
             }
         }

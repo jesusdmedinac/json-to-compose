@@ -40,6 +40,20 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         }
     }
 
+    override fun deleteNode(composeNode: ComposeNode) {
+        _state.update { state ->
+            if (state.composeNodeRoot.id == composeNode.id) return@update state
+            
+            val nextSelection = findNextSelection(composeNode)
+            val updatedRoot = deleteNodeRecursive(state.composeNodeRoot, composeNode.id)
+            
+            state.copy(
+                composeNodeRoot = updatedRoot ?: state.composeNodeRoot,
+                selectedComposeNode = nextSelection
+            )
+        }
+    }
+
     override fun onNodeExpanded(composeNode: ComposeNode) {
         _state.update { state ->
             val updatedCollapsedNodes = if (state.collapsedNodes.contains(composeNode)) {
@@ -74,6 +88,57 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         
         return currentNode.copy(properties = updatedProps)
     }
+
+    private fun deleteNodeRecursive(
+        currentNode: ComposeNode,
+        targetId: String
+    ): ComposeNode? {
+        if (currentNode.id == targetId) {
+            return null
+        }
+        val updatedProps = when (val props = currentNode.properties) {
+            is NodeProperties.ColumnProps -> {
+                val updatedChildren = props.children?.mapNotNull { child ->
+                    deleteNodeRecursive(child, targetId)
+                } ?: emptyList()
+                props.copy(children = updatedChildren)
+            }
+            is NodeProperties.RowProps -> {
+                val updatedChildren = props.children?.mapNotNull { child ->
+                    deleteNodeRecursive(child, targetId)
+                } ?: emptyList()
+                props.copy(children = updatedChildren)
+            }
+            is NodeProperties.BoxProps -> {
+                val updatedChildren = props.children?.mapNotNull { child ->
+                    deleteNodeRecursive(child, targetId)
+                } ?: emptyList()
+                props.copy(children = updatedChildren)
+            }
+            else -> return currentNode
+        }
+        return currentNode.copy(properties = updatedProps)
+    }
+
+    private fun findNextSelection(targetNode: ComposeNode): ComposeNode? {
+        val parent = targetNode.parent ?: return null
+        
+        val siblings = when (val props = parent.properties) {
+            is NodeProperties.ColumnProps -> props.children ?: emptyList()
+            is NodeProperties.RowProps -> props.children ?: emptyList()
+            is NodeProperties.BoxProps -> props.children ?: emptyList()
+            else -> emptyList()
+        }
+        
+        val targetIndex = siblings.indexOfFirst { it.id == targetNode.id }
+        
+        return when {
+            targetIndex < 0 -> parent
+            targetIndex + 1 < siblings.size -> siblings[targetIndex + 1]
+            targetIndex - 1 >= 0 -> siblings[targetIndex - 1]
+            else -> parent
+        }
+    }
 }
 
 data class ComposeTreeState(
@@ -97,6 +162,7 @@ interface ComposeTreeBehavior {
     fun onAddNewNodeToChildren(composeNode: ComposeNode)
     fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun saveNode(composeNode: ComposeNode)
+    fun deleteNode(composeNode: ComposeNode)
     fun onNodeExpanded(composeNode: ComposeNode)
 
     companion object {
@@ -111,6 +177,10 @@ interface ComposeTreeBehavior {
 
             override fun saveNode(composeNode: ComposeNode) {
                 TODO("saveNode is not yet implemented")
+            }
+
+            override fun deleteNode(composeNode: ComposeNode) {
+                TODO("deleteNode is not yet implemented")
             }
 
             override fun onNodeExpanded(composeNode: ComposeNode) {
