@@ -141,6 +141,74 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
                 navigationIcon = props.navigationIcon?.let { updateNodeRecursive(it, updatedNode) },
                 actions = props.actions?.map { updateNodeRecursive(it, updatedNode) }
             )
+            is NodeProperties.ExtendedFabProps -> props.copy(
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) },
+                text = props.text?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.TextFieldProps -> props.copy(
+                placeholder = props.placeholder?.let { updateNodeRecursive(it, updatedNode) },
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                leadingIcon = props.leadingIcon?.let { updateNodeRecursive(it, updatedNode) },
+                trailingIcon = props.trailingIcon?.let { updateNodeRecursive(it, updatedNode) },
+                supportingText = props.supportingText?.let { updateNodeRecursive(it, updatedNode) },
+                prefix = props.prefix?.let { updateNodeRecursive(it, updatedNode) },
+                suffix = props.suffix?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.ListItemProps -> props.copy(
+                headlineContent = props.headlineContent?.let { updateNodeRecursive(it, updatedNode) },
+                supportingContent = props.supportingContent?.let { updateNodeRecursive(it, updatedNode) },
+                overlineContent = props.overlineContent?.let { updateNodeRecursive(it, updatedNode) },
+                leadingContent = props.leadingContent?.let { updateNodeRecursive(it, updatedNode) },
+                trailingContent = props.trailingContent?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.ChipProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                leadingIcon = props.leadingIcon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.FilterChipProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                leadingIcon = props.leadingIcon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.InputChipProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                leadingIcon = props.leadingIcon?.let { updateNodeRecursive(it, updatedNode) },
+                trailingIcon = props.trailingIcon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.PlainTooltipProps -> props.copy(
+                anchor = props.anchor?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.RichTooltipProps -> props.copy(
+                anchor = props.anchor?.let { updateNodeRecursive(it, updatedNode) },
+                title = props.title?.let { updateNodeRecursive(it, updatedNode) },
+                text = props.text?.let { updateNodeRecursive(it, updatedNode) },
+                action = props.action?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.NavigationBarItemProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.NavigationRailItemProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.NavigationDrawerItemProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) },
+                badge = props.badge?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.TabProps -> props.copy(
+                text = props.text?.let { updateNodeRecursive(it, updatedNode) },
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.BottomNavigationItemProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.SegmentedButtonProps -> props.copy(
+                label = props.label?.let { updateNodeRecursive(it, updatedNode) },
+                icon = props.icon?.let { updateNodeRecursive(it, updatedNode) }
+            )
+            is NodeProperties.BadgeProps -> props
             else -> return currentNode
         }
         return currentNode.copy(properties = updatedProps)

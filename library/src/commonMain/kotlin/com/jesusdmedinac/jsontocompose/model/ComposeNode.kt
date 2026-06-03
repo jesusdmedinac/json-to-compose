@@ -30,16 +30,12 @@ data class ComposeNode(
     val parent: ComposeNode? = null,
     @Transient
     val editMode: Boolean = true,
+    val id: String = generateId(type, parent)
 ) {
-    /**
-     * Auto-generated identifier based on the node's position in the tree.
-     * Root nodes use their depth level; child nodes combine the parent ID,
-     * type name, and sibling index.
-     */
-    val id: String = when {
-        parent == null -> "${countLevels()}"
-        else -> {
-            parent.id + "_" + type.name + "_" + (properties.children().size + 1)
+    companion object {
+        private var idCounter = 0
+        fun generateId(type: ComposeType, parent: ComposeNode?): String {
+            return parent?.let { "${it.id}_${type.name}_${idCounter++}" } ?: "root_${idCounter++}"
         }
     }
     /**
