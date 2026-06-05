@@ -54,6 +54,26 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         }
     }
 
+    override fun deleteModifier(composeNode: ComposeNode, modifierOperationIndex: Int) {
+        _state.update { state ->
+            val oldOperations = composeNode.composeModifier.operations
+            if (modifierOperationIndex !in oldOperations.indices) return@update state
+
+            val newOperations = oldOperations.toMutableList().apply {
+                removeAt(modifierOperationIndex)
+            }
+            val updatedNode = composeNode.copy(
+                composeModifier = composeNode.composeModifier.copy(operations = newOperations)
+            )
+            val updatedRoot = updateNodeRecursive(state.composeNodeRoot, updatedNode)
+
+            state.copy(
+                composeNodeRoot = updatedRoot,
+                selectedComposeNode = if (state.selectedComposeNode?.id == composeNode.id) updatedNode else state.selectedComposeNode
+            )
+        }
+    }
+
     override fun onNodeExpanded(composeNode: ComposeNode) {
         _state.update { state ->
             val updatedCollapsedNodes = if (state.collapsedNodes.contains(composeNode)) {
@@ -96,47 +116,23 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         if (currentNode.id == targetId) {
             return null
         }
-        val updatedProps = when (val props = currentNode.properties) {
-            is NodeProperties.ColumnProps -> {
-                val updatedChildren = props.children?.mapNotNull { child ->
-                    deleteNodeRecursive(child, targetId)
-                } ?: emptyList()
-                props.copy(children = updatedChildren)
-            }
-            is NodeProperties.RowProps -> {
-                val updatedChildren = props.children?.mapNotNull { child ->
-                    deleteNodeRecursive(child, targetId)
-                } ?: emptyList()
-                props.copy(children = updatedChildren)
-            }
-            is NodeProperties.BoxProps -> {
-                val updatedChildren = props.children?.mapNotNull { child ->
-                    deleteNodeRecursive(child, targetId)
-                } ?: emptyList()
-                props.copy(children = updatedChildren)
-            }
-            else -> return currentNode
-        }
+        val visitor = DeleteChildVisitor(targetId, ::deleteNodeRecursive)
+        val updatedProps = currentNode.properties.accept(visitor)
         return currentNode.copy(properties = updatedProps)
     }
 
     private fun findNextSelection(targetNode: ComposeNode): ComposeNode? {
         val parent = targetNode.parent ?: return null
         
-        val siblings = when (val props = parent.properties) {
-            is NodeProperties.ColumnProps -> props.children ?: emptyList()
-            is NodeProperties.RowProps -> props.children ?: emptyList()
-            is NodeProperties.BoxProps -> props.children ?: emptyList()
-            else -> emptyList()
-        }
-        
+        val siblings = parent.children()
         val targetIndex = siblings.indexOfFirst { it.id == targetNode.id }
         
-        return when {
-            targetIndex < 0 -> parent
-            targetIndex + 1 < siblings.size -> siblings[targetIndex + 1]
-            targetIndex - 1 >= 0 -> siblings[targetIndex - 1]
-            else -> parent
+        return if (targetIndex > 0) {
+            siblings[targetIndex - 1]
+        } else if (siblings.size > 1) {
+            siblings[targetIndex + 1]
+        } else {
+            parent
         }
     }
 }
@@ -163,6 +159,7 @@ interface ComposeTreeBehavior {
     fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun saveNode(composeNode: ComposeNode)
     fun deleteNode(composeNode: ComposeNode)
+    fun deleteModifier(composeNode: ComposeNode, modifierOperationIndex: Int)
     fun onNodeExpanded(composeNode: ComposeNode)
 
     companion object {
@@ -181,6 +178,10 @@ interface ComposeTreeBehavior {
 
             override fun deleteNode(composeNode: ComposeNode) {
                 TODO("deleteNode is not yet implemented")
+            }
+
+            override fun deleteModifier(composeNode: ComposeNode, modifierOperationIndex: Int) {
+                TODO("deleteModifier is not yet implemented")
             }
 
             override fun onNodeExpanded(composeNode: ComposeNode) {

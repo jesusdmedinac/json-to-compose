@@ -10,10 +10,10 @@
 - [x] Scenario: Preview updates after deleting a node
 
 ## Feature: Modifier Deletion in Node Editor
-- [ ] Scenario: Delete a modifier from the list
-- [ ] Scenario: Delete the last modifier of a node
-- [ ] Scenario: Delete modifier and verify JSON reflects the change
-- [ ] Scenario: Modifier delete button has visual confirmation
+- [x] Scenario: Delete a modifier from the list
+- [x] Scenario: Delete the last modifier of a node
+- [x] Scenario: Delete modifier and verify JSON reflects the change
+- [x] Scenario: Modifier delete button has visual confirmation
 
 ## Feature: Tree Node Reordering
 - [ ] Scenario: Move node up within the same parent

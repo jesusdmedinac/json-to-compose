@@ -155,7 +155,8 @@ fun ComposeNodeEditor(
         )
         composeModifierFields(
             editNodeState = editNodeState,
-            editNodeBehavior = editNodeScreenModel
+            editNodeBehavior = editNodeScreenModel,
+            composeTreeBehavior = composeTreeScreenModel,
         )
     }
 }
@@ -287,6 +288,7 @@ private fun LazyListScope.composeTextTextField(
 private fun LazyListScope.composeModifierFields(
     editNodeState: EditNodeScreenState,
     editNodeBehavior: EditNodeBehavior,
+    composeTreeBehavior: com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior,
 ) {
     item {
         Text(
@@ -301,6 +303,11 @@ private fun LazyListScope.composeModifierFields(
         operation.ToComposeModifierOperation(
             editNodeBehavior = editNodeBehavior,
             operationIndex = index,
+            onDelete = {
+                editNodeState.editingComposeNode?.let { node ->
+                    composeTreeBehavior.deleteModifier(node, index)
+                }
+            }
         )
     }
 
@@ -361,6 +368,7 @@ private fun ComposeModifier.Operation.ToComposeModifierOperation(
     operationIndex: Int,
     modifier: Modifier = Modifier,
     editNodeBehavior: EditNodeBehavior,
+    onDelete: () -> Unit,
 ) {
     val value = when (this) {
         is ComposeModifier.Operation.BackgroundColor -> this.hexColor
@@ -391,9 +399,7 @@ private fun ComposeModifier.Operation.ToComposeModifierOperation(
         },
         trailingIcon = {
             OutlinedIconButton(
-                onClick = {
-
-                },
+                onClick = onDelete,
                 colors = IconButtonDefaults.outlinedIconButtonColors(
                     contentColor = MaterialTheme.colorScheme.error,
                 ),
