@@ -25,6 +25,8 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -172,18 +174,34 @@ data object MainScreen : Screen {
                 .focusRequester(focusRequester)
                 .focusable()
                 .onKeyEvent { event ->
-                    if (event.type == KeyEventType.KeyUp && 
-                        (event.key == Key.Delete || event.key == Key.Backspace)) {
-                        
-                        if (selectedComposeNode != null && composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
-                            if (selectedComposeNode.children().isNotEmpty()) {
-                                showDeleteDialog = true
-                            } else {
-                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                    if (event.type == KeyEventType.KeyUp) {
+                        if (event.key == Key.Delete || event.key == Key.Backspace) {
+                            if (selectedComposeNode != null && composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
+                                if (selectedComposeNode.children().isNotEmpty()) {
+                                    showDeleteDialog = true
+                                } else {
+                                    composeTreeScreenModel.deleteNode(selectedComposeNode)
+                                }
+                                return@onKeyEvent true
                             }
-                            true
-                        } else false
-                    } else false
+                        }
+                        
+                        if (event.isCtrlPressed || event.isMetaPressed) {
+                            if (event.key == Key.DirectionUp && selectedComposeNode != null) {
+                                if (composeTreeState.canMoveUp(selectedComposeNode)) {
+                                    composeTreeScreenModel.moveNodeUp(selectedComposeNode)
+                                    return@onKeyEvent true
+                                }
+                            }
+                            if (event.key == Key.DirectionDown && selectedComposeNode != null) {
+                                if (composeTreeState.canMoveDown(selectedComposeNode)) {
+                                    composeTreeScreenModel.moveNodeDown(selectedComposeNode)
+                                    return@onKeyEvent true
+                                }
+                            }
+                        }
+                    }
+                    false
                 }
         ) {
             MainScreenLayout(

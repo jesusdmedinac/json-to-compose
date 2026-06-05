@@ -16,14 +16,14 @@
 - [x] Scenario: Modifier delete button has visual confirmation
 
 ## Feature: Tree Node Reordering
-- [ ] Scenario: Move node up within the same parent
-- [ ] Scenario: Move node down within the same parent
-- [ ] Scenario: Cannot move first node up
-- [ ] Scenario: Cannot move last node down
-- [ ] Scenario: Sibling reordering with hover buttons
-- [ ] Scenario: Sibling reordering with keyboard shortcut
-- [ ] Scenario: Cannot reorder node beyond parent bounds
-- [ ] Scenario: Preview updates when reordering nodes
+- [x] Scenario: Move node up within the same parent
+- [x] Scenario: Move node down within the same parent
+- [x] Scenario: Cannot move first node up
+- [x] Scenario: Cannot move last node down
+- [x] Scenario: Sibling reordering with hover buttons
+- [x] Scenario: Sibling reordering with keyboard shortcut
+- [x] Scenario: Cannot reorder node beyond parent bounds
+- [x] Scenario: Preview updates when reordering nodes
 
 ## Feature: Full Property Panel per Component
 - [ ] Scenario: Edit Text properties
