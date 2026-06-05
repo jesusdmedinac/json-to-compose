@@ -23,16 +23,6 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         }
     }
 
-    override fun onAddNewNodeAsChild(composeNode: ComposeNode) {
-        _state.update { state ->
-            val updatedParent = addNodeToChild(composeNode)
-            val updatedRoot = updateNode(updatedParent)
-            state.copy(
-                composeNodeRoot = updatedRoot,
-            )
-        }
-    }
-
     override fun onComposeNodeSelected(composeNode: ComposeNode?) {
         _state.update { state ->
             state.copy(
@@ -64,82 +54,32 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
     }
 
     private fun addNodeToChildren(composeNode: ComposeNode): ComposeNode {
-        val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
-        val parentNode = updatedNode.parent
-            ?: return updatedNode
-        val updatedProperties = when (val props = parentNode.properties) {
-            is NodeProperties.ColumnProps -> {
-                val updatedChildren = props.children?.plus(updatedNode) ?: listOf(updatedNode)
-                props.copy(children = updatedChildren)
-            }
-            is NodeProperties.RowProps -> {
-                val updatedChildren = props.children?.plus(updatedNode) ?: listOf(updatedNode)
-                props.copy(children = updatedChildren)
-            }
-            is NodeProperties.BoxProps -> {
-                val updatedChildren = props.children?.plus(updatedNode) ?: listOf(updatedNode)
-                props.copy(children = updatedChildren)
-            }
-            else -> return updatedNode
-        }
-        return parentNode.copy(properties = updatedProperties)
-    }
-
-    private fun addNodeToChild(composeNode: ComposeNode): ComposeNode {
-        val updatedNode = composeNode.applyDefaultTextIfComposeTypeIsText()
+        val updatedNode = composeNode // Removed applyDefaultTextIfComposeTypeIsText
         val parentNode = updatedNode.parent ?: return updatedNode
-        val props = parentNode.properties as? NodeProperties.ButtonProps
-            ?: return updatedNode
-        val updatedProperties = props.copy(child = updatedNode)
+        
+        val visitor = AppendChildVisitor(updatedNode)
+        val updatedProperties = parentNode.properties.accept(visitor)
+        
         return parentNode.copy(properties = updatedProperties)
-    }
-
-    private fun ComposeNode.applyDefaultTextIfComposeTypeIsText(): ComposeNode {
-        val props = properties as? NodeProperties.TextProps
-        val text = props?.text ?: "New Text Node"
-        val updatedProps = props?.copy(text = text)
-        val updatedNode = copy(properties = updatedProps)
-        return updatedNode
     }
 
     private fun updateNode(updatedNode: ComposeNode): ComposeNode =
         updateNodeRecursive(_state.value.composeNodeRoot, updatedNode)
 
-    private fun updateNodeRecursive(
-        currentNode: ComposeNode,
-        updatedNode: ComposeNode
-    ): ComposeNode {
-        if (currentNode.id == updatedNode.id) {
-            return updatedNode
-        }
-        val updatedProps = when (val props = currentNode.properties) {
-            is NodeProperties.ColumnProps -> {
-                val updatedChildren = props.children?.map { child ->
-                    updateNodeRecursive(child, updatedNode)
-                } ?: emptyList()
-                props.copy(children = updatedChildren)
-            }
-            is NodeProperties.RowProps -> {
-                val updatedChildren = props.children?.map { child ->
-                    updateNodeRecursive(child, updatedNode)
-                } ?: emptyList()
-                props.copy(children = updatedChildren)
-            }
-            is NodeProperties.BoxProps -> {
-                val updatedChildren = props.children?.map { child ->
-                    updateNodeRecursive(child, updatedNode)
-                } ?: emptyList()
-                props.copy(children = updatedChildren)
-            }
-            else -> return currentNode
-        }
+    private fun updateNodeRecursive(currentNode: ComposeNode, updatedNode: ComposeNode): ComposeNode {
+        if (currentNode.id == updatedNode.id) return updatedNode
+        
+        val visitor = UpdateChildrenVisitor(updatedNode, ::updateNodeRecursive)
+        val updatedProps = currentNode.properties.accept(visitor)
+        
         return currentNode.copy(properties = updatedProps)
     }
 }
 
 data class ComposeTreeState(
     val composeNodeRoot: ComposeNode = ComposeNode(
-        ComposeType.Column,
+        type = ComposeType.Box,
+        properties = ComposeType.Box.createDefaultProperties()
     ),
     val selectedComposeNode: ComposeNode? = null,
     val collapsedNodes: List<ComposeNode> = emptyList(),
@@ -155,7 +95,6 @@ data class ComposeTreeState(
 
 interface ComposeTreeBehavior {
     fun onAddNewNodeToChildren(composeNode: ComposeNode)
-    fun onAddNewNodeAsChild(composeNode: ComposeNode)
     fun onComposeNodeSelected(composeNode: ComposeNode?)
     fun saveNode(composeNode: ComposeNode)
     fun onNodeExpanded(composeNode: ComposeNode)
@@ -164,10 +103,6 @@ interface ComposeTreeBehavior {
         val Default = object : ComposeTreeBehavior {
             override fun onAddNewNodeToChildren(composeNode: ComposeNode) {
                 TODO("onAddNewNodeToChildren is not implemented")
-            }
-
-            override fun onAddNewNodeAsChild(composeNode: ComposeNode) {
-                TODO("onAddNewNodeAsChild is not implemented")
             }
 
             override fun onComposeNodeSelected(composeNode: ComposeNode?) {

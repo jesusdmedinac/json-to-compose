@@ -24,27 +24,26 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
-    val properties: NodeProperties? = null,
-
-    @Transient
-    val parent: ComposeNode? = null,
+    val properties: NodeProperties,
     val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
+    val parent: ComposeNode? = null,
+    @Transient
     val editMode: Boolean = true,
+    val id: String = generateId(type, parent)
 ) {
-    /**
-     * Auto-generated identifier based on the node's position in the tree.
-     * Root nodes use their depth level; child nodes combine the parent ID,
-     * type name, and sibling index.
-     */
-    val id: String = when {
-        parent == null -> "${countLevels()}"
-        else -> {
-            parent.id + "_" + type.name + "_" + (properties.children().size + 1)
+    companion object {
+        private var idCounter = 0
+        fun generateId(type: ComposeType, parent: ComposeNode?): String {
+            return parent?.let { "${it.id}_${type.name}_${idCounter++}" } ?: "root_${idCounter++}"
         }
     }
+    /**
+     * Helper to retrieve all child nodes regardless of their property container type.
+     */
+    fun children(): List<ComposeNode> = properties.children()
 
-    private fun NodeProperties?.children(): List<ComposeNode> = when(this) {
+    private fun NodeProperties.children(): List<ComposeNode> = when(this) {
         is NodeProperties.ColumnProps -> children
         is NodeProperties.RowProps -> children
         is NodeProperties.BoxProps -> children

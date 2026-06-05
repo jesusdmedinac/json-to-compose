@@ -47,6 +47,7 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenMod
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.createDefaultProperties
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeComponents
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeEditor
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeTree
@@ -112,24 +113,14 @@ data object MainScreen : Screen {
             when (val sideEffect = composeComponentsSideEffect) {
                 ComposeComponentsSideEffect.Idle -> Unit
                 is ComposeComponentsSideEffect.ComposeTypeClicked -> {
-                    when (selectedComposeNode?.type) {
-                        ComposeType.Column, ComposeType.Row, ComposeType.Box -> {
-                            composeTreeScreenModel.onAddNewNodeToChildren(
-                                ComposeNode(
-                                    type = sideEffect.type,
-                                    parent = selectedComposeNode,
-                                )
+                    selectedComposeNode?.let { node ->
+                        composeTreeScreenModel.onAddNewNodeToChildren(
+                            ComposeNode(
+                                type = sideEffect.type,
+                                parent = node,
+                                properties = sideEffect.type.createDefaultProperties()
                             )
-                        }
-                        ComposeType.Button -> {
-                            composeTreeScreenModel.onAddNewNodeAsChild(
-                                ComposeNode(
-                                    type = sideEffect.type,
-                                    parent = selectedComposeNode,
-                                )
-                            )
-                        }
-                        else -> Unit
+                        )
                     }
                 }
             }

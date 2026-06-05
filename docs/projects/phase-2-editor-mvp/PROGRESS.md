@@ -72,3 +72,9 @@
 - [ ] Scenario: Visual feedback when trying to add child to non-container node
 - [ ] Scenario: Fixed width panels are responsive
 - [ ] Scenario: Verify AI Chat dependencies (ChatPanel, ProjectGeneratorPanel, PreviewPanel) compilation and imports
+
+## Feature: Composy Unit Testing
+- [x] Scenario: Test adding nodes to various container types
+- [ ] Scenario: Test updating nodes recursively
+- [ ] Scenario: Test deleting nodes and selection behavior
+- [ ] Scenario: Test node selection and expansion state
