@@ -42,6 +42,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.composables.icons.lucide.ArrowDown
 import com.composables.icons.lucide.ArrowLeft
+import com.composables.icons.lucide.ArrowUp
 import com.composables.icons.lucide.Delete
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
@@ -122,25 +123,55 @@ fun ComposeNodeEditor(
                     )
                 }
                 
-                if (composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
-                    IconButton(
-                        onClick = {
-                            if (selectedComposeNode.children().isNotEmpty()) {
-                                showDeleteDialog = true
-                            } else {
-                                composeTreeScreenModel.deleteNode(selectedComposeNode)
-                            }
-                        },
-                        modifier = Modifier
-                            .pointerHoverIcon(
-                                icon = PointerIcon.Hand
+                Row {
+                    if (composeTreeState.canMoveUp(selectedComposeNode)) {
+                        IconButton(
+                            onClick = {
+                                composeTreeScreenModel.moveNodeUp(selectedComposeNode)
+                            },
+                            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
+                        ) {
+                            Icon(
+                                imageVector = Lucide.ArrowUp,
+                                contentDescription = "Move Node Up"
                             )
-                    ) {
-                        Icon(
-                            imageVector = Lucide.Delete,
-                            contentDescription = "Delete Node",
-                            tint = MaterialTheme.colorScheme.error
-                        )
+                        }
+                    }
+                    
+                    if (composeTreeState.canMoveDown(selectedComposeNode)) {
+                        IconButton(
+                            onClick = {
+                                composeTreeScreenModel.moveNodeDown(selectedComposeNode)
+                            },
+                            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
+                        ) {
+                            Icon(
+                                imageVector = Lucide.ArrowDown,
+                                contentDescription = "Move Node Down"
+                            )
+                        }
+                    }
+
+                    if (composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
+                        IconButton(
+                            onClick = {
+                                if (selectedComposeNode.children().isNotEmpty()) {
+                                    showDeleteDialog = true
+                                } else {
+                                    composeTreeScreenModel.deleteNode(selectedComposeNode)
+                                }
+                            },
+                            modifier = Modifier
+                                .pointerHoverIcon(
+                                    icon = PointerIcon.Hand
+                                )
+                        ) {
+                            Icon(
+                                imageVector = Lucide.Delete,
+                                contentDescription = "Delete Node",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
                     }
                 }
             }

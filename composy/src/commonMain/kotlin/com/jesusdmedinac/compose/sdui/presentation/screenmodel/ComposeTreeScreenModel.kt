@@ -67,6 +67,32 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
         }
     }
 
+    override fun moveNodeUp(composeNode: ComposeNode) {
+        reorderNode(composeNode, ReorderDirection.UP)
+    }
+
+    override fun moveNodeDown(composeNode: ComposeNode) {
+        reorderNode(composeNode, ReorderDirection.DOWN)
+    }
+
+    private fun reorderNode(composeNode: ComposeNode, direction: ReorderDirection) {
+        _state.update { state ->
+            if (state.composeNodeRoot.id == composeNode.id) return@update state
+
+            val parent = findParent(state.composeNodeRoot, composeNode.id) ?: return@update state
+            val visitor = ReorderChildVisitor(composeNode.id, direction)
+            val updatedParentProps = parent.properties.accept(visitor)
+            val updatedParent = parent.copy(properties = updatedParentProps)
+
+            val updatedRoot = updateNodeRecursive(state.composeNodeRoot, updatedParent)
+            
+            state.copy(
+                composeNodeRoot = updatedRoot,
+                selectedComposeNode = findNodeById(updatedRoot, composeNode.id) ?: state.selectedComposeNode
+            )
+        }
+    }
+
     override fun deleteModifier(composeNode: ComposeNode, modifierOperationIndex: Int) {
         _state.update { state ->
             val oldOperations = composeNode.composeModifier.operations
@@ -174,6 +200,35 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
             findNodeById(child, nodeId)
         }
     }
+
+    companion object {
+        fun canMoveUp(root: ComposeNode, targetNode: ComposeNode): Boolean {
+            val parent = findParentNode(root, targetNode.id) ?: return false
+            val siblings = parent.children()
+            val index = siblings.indexOfFirst { it.id == targetNode.id }
+            return index > 0
+        }
+
+        fun canMoveDown(root: ComposeNode, targetNode: ComposeNode): Boolean {
+            val parent = findParentNode(root, targetNode.id) ?: return false
+            val siblings = parent.children()
+            val index = siblings.indexOfFirst { it.id == targetNode.id }
+            return index >= 0 && index < siblings.size - 1
+        }
+
+        private fun findParentNode(currentNode: ComposeNode, targetId: String): ComposeNode? {
+            for (child in currentNode.children()) {
+                if (child.id == targetId) {
+                    return currentNode
+                }
+                val found = findParentNode(child, targetId)
+                if (found != null) {
+                    return found
+                }
+            }
+            return null
+        }
+    }
 }
 
 data class ComposeTreeState(
@@ -188,6 +243,14 @@ data class ComposeTreeState(
         val parents = composeNode.parents()
         return parents.none { parent -> collapsedNodes.any { it.id == parent.id } }
     }
+    fun canMoveUp(composeNode: ComposeNode): Boolean {
+        if (composeNodeRoot.id == composeNode.id) return false
+        return ComposeTreeScreenModel.canMoveUp(composeNodeRoot, composeNode)
+    }
+    fun canMoveDown(composeNode: ComposeNode): Boolean {
+        if (composeNodeRoot.id == composeNode.id) return false
+        return ComposeTreeScreenModel.canMoveDown(composeNodeRoot, composeNode)
+    }
 }
 
 interface ComposeTreeBehavior {
@@ -197,6 +260,8 @@ interface ComposeTreeBehavior {
     fun deleteNode(composeNode: ComposeNode)
     fun deleteModifier(composeNode: ComposeNode, modifierOperationIndex: Int)
     fun onNodeExpanded(composeNode: ComposeNode)
+    fun moveNodeUp(composeNode: ComposeNode)
+    fun moveNodeDown(composeNode: ComposeNode)
 
     companion object {
         val Default = object : ComposeTreeBehavior {
@@ -222,6 +287,14 @@ interface ComposeTreeBehavior {
 
             override fun onNodeExpanded(composeNode: ComposeNode) {
                 TODO("onNodeExpanded is not implemented")
+            }
+
+            override fun moveNodeUp(composeNode: ComposeNode) {
+                TODO("moveNodeUp is not implemented")
+            }
+
+            override fun moveNodeDown(composeNode: ComposeNode) {
+                TODO("moveNodeDown is not implemented")
             }
         }
     }
