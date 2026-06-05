@@ -35,8 +35,8 @@
 - [ ] Scenario: Edit Image properties
 - [ ] Scenario: Edit TextField properties
 - [ ] Scenario: Edit Scaffold properties
-- [ ] Scenario: Change component type maintains compatible children
-- [ ] Scenario: Change component type with incompatible children shows warning
+- [x] Scenario: Change component type maintains compatible children
+- [x] Scenario: Change component type with incompatible children shows warning
 - [ ] Scenario: Edit properties for new Card components
 - [ ] Scenario: Edit properties for dynamic Input components
 - [ ] Scenario: Edit properties for custom Display components

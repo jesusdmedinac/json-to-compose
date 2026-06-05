@@ -26,8 +26,10 @@ class EditNodeScreenModel : ScreenModel, EditNodeBehavior {
 
     override fun onComposeTypeSelected(type: ComposeType) {
         _state.update { state ->
+            val mappedProperties = state.editingComposeNode?.properties?.mapTo(type)
             val editingComposeNode = state.editingComposeNode?.copy(
-                type = type
+                type = type,
+                properties = mappedProperties ?: type.createDefaultProperties()
             )
             state.copy(
                 isComposeTypeMenuExpanded = false,

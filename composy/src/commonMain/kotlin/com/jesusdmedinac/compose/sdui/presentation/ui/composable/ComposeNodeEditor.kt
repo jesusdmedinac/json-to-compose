@@ -229,7 +229,16 @@ private fun LazyListScope.composeTypeDropdownMenu(
                             .onComposeTypeMenuExpandedChange(false)
                     }
                 ) {
-                    ComposeType.entries.forEach { type ->
+                    val currentType = editingComposeNode?.type
+                    val compatibleTypes = ComposeType.entries.filter { type ->
+                        when {
+                            currentType == null -> true
+                            currentType.isLayout() -> type.isLayout()
+                            currentType.hasChild() -> type.hasChild()
+                            else -> !type.isLayout() && !type.hasChild()
+                        }
+                    }
+                    compatibleTypes.forEach { type ->
                         DropdownMenuItem(
                             onClick = {
                                 editNodeBehavior.onComposeTypeSelected(type)
