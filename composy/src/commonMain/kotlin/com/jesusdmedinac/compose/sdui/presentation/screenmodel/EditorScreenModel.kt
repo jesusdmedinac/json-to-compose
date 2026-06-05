@@ -10,51 +10,67 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class EditorScreenModel : ScreenModel {
+class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     private val _state = MutableStateFlow(EditorState())
     val state: StateFlow<EditorState> = _state.asStateFlow()
 
     fun onIntent(intent: EditorIntent) {
-        when (intent) {
-            is EditorIntent.SelectNode -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.AddNode -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.DeleteNode -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.UpdateNodeType -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.UpdateNodeText -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.AddModifier -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.UpdateModifier -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.DeleteModifier -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.SetLeftPanelDisplayed -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.SetRightPanelDisplayed -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.SetDeviceType -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.SetDeviceOrientation -> {
-                // To be implemented in next features
-            }
-            is EditorIntent.SetSearchKeyword -> {
-                // To be implemented in next features
-            }
-        }
+        intent.accept(this)
+    }
+
+    private fun reduce(block: (EditorState) -> EditorState) {
+        _state.update(block)
+    }
+
+    override fun visit(intent: EditorIntent.SelectNode) {
+        reduce { it.copy(selectedNodeId = intent.id) }
+    }
+
+    override fun visit(intent: EditorIntent.AddNode) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.DeleteNode) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.UpdateNodeType) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.UpdateNodeText) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.AddModifier) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.UpdateModifier) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.DeleteModifier) {
+        // To be implemented in next features
+    }
+
+    override fun visit(intent: EditorIntent.SetLeftPanelDisplayed) {
+        reduce { it.copy(isLeftPanelDisplayed = intent.displayed) }
+    }
+
+    override fun visit(intent: EditorIntent.SetRightPanelDisplayed) {
+        reduce { it.copy(isRightPanelDisplayed = intent.displayed) }
+    }
+
+    override fun visit(intent: EditorIntent.SetDeviceType) {
+        reduce { it.copy(deviceType = intent.deviceType) }
+    }
+
+    override fun visit(intent: EditorIntent.SetDeviceOrientation) {
+        reduce { it.copy(deviceOrientation = intent.deviceOrientation) }
+    }
+
+    override fun visit(intent: EditorIntent.SetSearchKeyword) {
+        reduce { it.copy(searchKeyword = intent.keyword) }
     }
 }

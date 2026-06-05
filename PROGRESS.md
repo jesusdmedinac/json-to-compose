@@ -13,15 +13,15 @@
 | 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
-| 5   | [phase-1.5-mvi-architecture](#5-phase-15-mvi-architecture)        | `composy/`    | 12        | 3         | **25%**  |
-| 6   | [phase-2-editor-mvp](#6-phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
-| 7   | [phase-4-semantics-testability](#3-phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
-| 8   | [phase-3-differentiators](#4-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
+| 4   | [phase-3-expand-library](#phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
+| 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 12        | 3         | **25%**  |
+| 6   | [phase-2-editor-mvp](#phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
+| 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
+| 8   | [phase-3-differentiators](#phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
 |     | **TOTAL**                                                         |               | **632**   | **521**   | **82%**  |
 
 ```text
-Progress: [█████████████████████████████████░░░░░░] 83%
+Progress: [█████████████████████████████████░░░░░░] 82%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
 ```
@@ -44,7 +44,7 @@ Progress: [███████████████████████
 
 ## Recommended Development Order
 
-### 1. phase-3-expand-library
+### phase-3-expand-library
 
 **Status:** 🏗️ In Progress (143/239 — 60%)
 **Module:** `library/`
@@ -78,14 +78,14 @@ Progress: [███████████████████████
 | Existing Component Properties | 19 | Enhanced Image, Button, Scaffold, Card, AlertDialog, TopAppBar variants | ✅ Done |
 | Advanced Actions | 16 | Navigate, Conditional, Delay, IncrementState, LaunchUrl, CopyToClipboard, UpdateList | ✅ Done |
 
-### 5. phase-1.5-mvi-architecture
+### phase-1.5-mvi-architecture
 
 **Status:** 🏗️ In Progress (3/12 — 25%)
 **Module:** `composy/`
 **Depends on:** Initial Editor MVP work.
 **Description:** Refactors scattered ScreenModels into a centralized MVI architecture (EditorState + EditorIntent) to solve state desynchronization bugs and enable predictable data flow.
 
-### 6. phase-2-editor-mvp
+### phase-2-editor-mvp
 
 **Status:** 🏗️ In Progress (19/58 — 32%)
 **Module:** `composy/`
@@ -110,7 +110,7 @@ Progress: [███████████████████████
 | Critical Editor Bug Fixes | 8 |
 | Composy Unit Testing | 4 |
 
-### 3. phase-4-semantics-testability
+### phase-4-semantics-testability
 
 **Status:** 📋 Planned (0/26 — 0%)
 **Module:** `library/`
@@ -130,7 +130,7 @@ Progress: [███████████████████████
 | Layout Semantics | 5 |
 | Component Semantics | 6 |
 
-### 4. phase-3-differentiators
+### phase-3-differentiators
 
 **Status:** 📋 Planned (0/37 — 0%)
 **Module:** `composy/`, `server/`, `intellij-plugin/` (new), deployment
