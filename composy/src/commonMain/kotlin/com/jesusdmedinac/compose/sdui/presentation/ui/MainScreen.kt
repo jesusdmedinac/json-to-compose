@@ -176,7 +176,7 @@ data object MainScreen : Screen {
                         (event.key == Key.Delete || event.key == Key.Backspace)) {
                         
                         if (selectedComposeNode != null && composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
-                            if (selectedComposeNode.asList().size > 1) {
+                            if (selectedComposeNode.children().isNotEmpty()) {
                                 showDeleteDialog = true
                             } else {
                                 composeTreeScreenModel.deleteNode(selectedComposeNode)

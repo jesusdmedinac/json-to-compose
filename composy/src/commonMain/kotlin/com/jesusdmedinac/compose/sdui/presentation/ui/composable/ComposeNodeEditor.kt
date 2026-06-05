@@ -125,7 +125,7 @@ fun ComposeNodeEditor(
                 if (composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
                     IconButton(
                         onClick = {
-                            if (selectedComposeNode.asList().size > 1) {
+                            if (selectedComposeNode.children().isNotEmpty()) {
                                 showDeleteDialog = true
                             } else {
                                 composeTreeScreenModel.deleteNode(selectedComposeNode)
