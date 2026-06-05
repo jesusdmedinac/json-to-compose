@@ -24,10 +24,11 @@ class ComposeTreeScreenModelTest {
         // Add a Text node
         val newTextNode = ComposeNode(
             type = ComposeType.Text,
+            properties = NodeProperties.TextProps(),
             parent = rootNode
         )
         
-        // Verify that default properties were created automatically (non-null)
+        // Verify properties
         val textProps = newTextNode.properties
         assertIs<NodeProperties.TextProps>(textProps)
         
@@ -54,6 +55,7 @@ class ComposeTreeScreenModelTest {
         // 1. Add a Column to the root Box
         val columnNode = ComposeNode(
             type = ComposeType.Column,
+            properties = NodeProperties.ColumnProps(),
             parent = rootNode
         )
         screenModel.onAddNewNodeToChildren(columnNode)
@@ -66,6 +68,7 @@ class ComposeTreeScreenModelTest {
         // 2. Add a Text node to the Column
         val newTextNode = ComposeNode(
             type = ComposeType.Text,
+            properties = NodeProperties.TextProps(),
             parent = addedColumn
         )
         screenModel.onAddNewNodeToChildren(newTextNode)

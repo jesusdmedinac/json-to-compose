@@ -16,6 +16,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.AlertDialog
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.foundation.focusable
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -127,14 +136,65 @@ data object MainScreen : Screen {
         }
 
         // UI Layer
-        MainScreenLayout(
-            composeTreeState = composeTreeState,
-            mainScreenBehavior = mainScreenModel,
-            isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed,
-            isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed,
-            onLeftPanelClosed = { mainScreenModel.onDisplayLeftPanelChange(false) },
-            onRightPanelClosed = { mainScreenModel.onDisplayRightPanelChange(false) }
-        )
+        var showDeleteDialog by remember { mutableStateOf(false) }
+        
+        if (showDeleteDialog) {
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text("Delete Node") },
+                text = { Text("Are you sure you want to delete this node? All its children will also be deleted.") },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            if (selectedComposeNode != null) {
+                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                            }
+                            showDeleteDialog = false
+                        }
+                    ) {
+                        Text("Delete", color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDeleteDialog = false }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+
+        val focusRequester = remember { FocusRequester() }
+        LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .focusRequester(focusRequester)
+                .focusable()
+                .onKeyEvent { event ->
+                    if (event.type == KeyEventType.KeyUp && 
+                        (event.key == Key.Delete || event.key == Key.Backspace)) {
+                        
+                        if (selectedComposeNode != null && composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
+                            if (selectedComposeNode.children().isNotEmpty()) {
+                                showDeleteDialog = true
+                            } else {
+                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                            }
+                            true
+                        } else false
+                    } else false
+                }
+        ) {
+            MainScreenLayout(
+                composeTreeState = composeTreeState,
+                mainScreenBehavior = mainScreenModel,
+                isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed,
+                isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed,
+                onLeftPanelClosed = { mainScreenModel.onDisplayLeftPanelChange(false) },
+                onRightPanelClosed = { mainScreenModel.onDisplayRightPanelChange(false) }
+            )
+        }
     }
 }
 

@@ -1,19 +1,19 @@
 # PROGRESS - Phase 2: Functional Editor (MVP)
 
 ## Feature: Tree Node Deletion
-- [ ] Scenario: Delete a leaf node (Text) from the tree
-- [ ] Scenario: Delete a node with children (Nested Column)
-- [ ] Scenario: Cancel deletion of node with children
-- [ ] Scenario: Delete the last child of a container
-- [ ] Scenario: Root node cannot be deleted
-- [ ] Scenario: Delete node with keyboard shortcut
-- [ ] Scenario: Preview updates after deleting a node
+- [x] Scenario: Delete a leaf node (Text) from the tree
+- [x] Scenario: Delete a node with children (Nested Column)
+- [x] Scenario: Cancel deletion of node with children
+- [x] Scenario: Delete the last child of a container
+- [x] Scenario: Root node cannot be deleted
+- [x] Scenario: Delete node with keyboard shortcut
+- [x] Scenario: Preview updates after deleting a node
 
 ## Feature: Modifier Deletion in Node Editor
-- [ ] Scenario: Delete a modifier from the list
-- [ ] Scenario: Delete the last modifier of a node
-- [ ] Scenario: Delete modifier and verify JSON reflects the change
-- [ ] Scenario: Modifier delete button has visual confirmation
+- [x] Scenario: Delete a modifier from the list
+- [x] Scenario: Delete the last modifier of a node
+- [x] Scenario: Delete modifier and verify JSON reflects the change
+- [x] Scenario: Modifier delete button has visual confirmation
 
 ## Feature: Tree Node Reordering
 - [ ] Scenario: Move node up within the same parent
