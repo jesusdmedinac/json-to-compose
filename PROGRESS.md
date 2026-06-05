@@ -14,11 +14,11 @@
 | 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
-| 5   | [phase-1.5-mvi-architecture](#5-phase-15-mvi-architecture)        | `composy/`    | 12        | 0         | **0%**   |
+| 5   | [phase-1.5-mvi-architecture](#5-phase-15-mvi-architecture)        | `composy/`    | 12        | 3         | **25%**  |
 | 6   | [phase-2-editor-mvp](#6-phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
 | 7   | [phase-4-semantics-testability](#3-phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
 | 8   | [phase-3-differentiators](#4-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **632**   | **518**   | **81%**  |
+|     | **TOTAL**                                                         |               | **632**   | **521**   | **82%**  |
 
 ```text
 Progress: [█████████████████████████████████░░░░░░] 83%
@@ -80,7 +80,7 @@ Progress: [███████████████████████
 
 ### 5. phase-1.5-mvi-architecture
 
-**Status:** 📝 Planning (0/12 — 0%)
+**Status:** 🏗️ In Progress (3/12 — 25%)
 **Module:** `composy/`
 **Depends on:** Initial Editor MVP work.
 **Description:** Refactors scattered ScreenModels into a centralized MVI architecture (EditorState + EditorIntent) to solve state desynchronization bugs and enable predictable data flow.

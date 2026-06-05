@@ -3,9 +3,9 @@
 This phase focuses on migrating the scattered ScreenModels to a single, unidirectional data flow (MVI) architecture using a centralized `EditorState` and `EditorIntent`.
 
 ## Feature: MVI Architecture Foundation
-- [ ] Scenario: Define central EditorState
-- [ ] Scenario: Define EditorIntent hierarchy
-- [ ] Scenario: Create central EditorScreenModel
+- [x] Scenario: Define central EditorState
+- [x] Scenario: Define EditorIntent hierarchy
+- [x] Scenario: Create central EditorScreenModel
 
 ## Feature: MVI Tree Operations
 - [ ] Scenario: Migrate Add Node
