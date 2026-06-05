@@ -79,6 +79,7 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
 data class ComposeTreeState(
     val composeNodeRoot: ComposeNode = ComposeNode(
         type = ComposeType.Box,
+        properties = ComposeType.Box.createDefaultProperties()
     ),
     val selectedComposeNode: ComposeNode? = null,
     val collapsedNodes: List<ComposeNode> = emptyList(),

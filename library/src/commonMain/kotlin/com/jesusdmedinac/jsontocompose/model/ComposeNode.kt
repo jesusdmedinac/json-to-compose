@@ -24,7 +24,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
-    val properties: NodeProperties = type.createDefaultProperties(),
+    val properties: NodeProperties,
     val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
     val parent: ComposeNode? = null,

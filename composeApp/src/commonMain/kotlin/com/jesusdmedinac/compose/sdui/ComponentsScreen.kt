@@ -68,6 +68,7 @@ fun componentsScreen(): ComposeNode = ComposeNode(
                 composeModifier = ComposeModifier(
                     operations = listOf(ComposeModifier.Operation.Height(56))
                 ),
+                properties = NodeProperties.SpacerProps
             )
         )
     )

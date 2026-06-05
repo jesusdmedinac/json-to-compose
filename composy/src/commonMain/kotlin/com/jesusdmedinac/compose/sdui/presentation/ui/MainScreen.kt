@@ -47,6 +47,7 @@ import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenMod
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.createDefaultProperties
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeComponents
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeEditor
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeTree
@@ -117,6 +118,7 @@ data object MainScreen : Screen {
                             ComposeNode(
                                 type = sideEffect.type,
                                 parent = node,
+                                properties = sideEffect.type.createDefaultProperties()
                             )
                         )
                     }
