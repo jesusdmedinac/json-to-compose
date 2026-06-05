@@ -10,7 +10,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
-    private val _state = MutableStateFlow(ComposeTreeState())
+    private val composeNodeRoot = ComposeNode(
+        type = ComposeType.Box,
+        properties = ComposeType.Box.createDefaultProperties()
+    )
+    private val _state = MutableStateFlow(
+        ComposeTreeState(
+            composeNodeRoot = composeNodeRoot,
+            selectedComposeNode = null,
+            collapsedNodes = emptyList()
+        )
+    )
     val state: StateFlow<ComposeTreeState> = _state.asStateFlow()
 
     override fun onAddNewNodeToChildren(composeNode: ComposeNode) {
@@ -138,12 +148,9 @@ class ComposeTreeScreenModel : ScreenModel, ComposeTreeBehavior {
 }
 
 data class ComposeTreeState(
-    val composeNodeRoot: ComposeNode = ComposeNode(
-        type = ComposeType.Box,
-        properties = ComposeType.Box.createDefaultProperties()
-    ),
-    val selectedComposeNode: ComposeNode? = null,
-    val collapsedNodes: List<ComposeNode> = emptyList(),
+    val composeNodeRoot: ComposeNode,
+    val selectedComposeNode: ComposeNode?,
+    val collapsedNodes: List<ComposeNode>,
 ) {
     fun isSelected(composeNode: ComposeNode): Boolean {
         return selectedComposeNode?.id == composeNode.id

@@ -49,7 +49,9 @@ import com.composables.icons.lucide.Lucide
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.createDefaultProperties
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 
 @Composable
@@ -70,7 +72,14 @@ fun ComposeNodeTree(
 @Composable
 private fun ComposeNode.ToComposeTree(
     modifier: Modifier = Modifier,
-    state: ComposeTreeState = ComposeTreeState(),
+    state: ComposeTreeState = ComposeTreeState(
+        composeNodeRoot = ComposeNode(
+            type = ComposeType.Box,
+            properties = ComposeType.Box.createDefaultProperties()
+        ),
+        selectedComposeNode = null,
+        collapsedNodes = emptyList()
+    ),
     behavior: ComposeTreeBehavior = ComposeTreeBehavior.Default,
 ) {
     val horizontalScrollState = rememberScrollState()
@@ -92,7 +101,7 @@ private fun ComposeNode.ToComposeTree(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun ComposeNode.ComposeTreeItem(
-    state: ComposeTreeState = ComposeTreeState(),
+    state: ComposeTreeState,
     behavior: ComposeTreeBehavior = ComposeTreeBehavior.Default,
     modifier: Modifier = Modifier,
 ) {
