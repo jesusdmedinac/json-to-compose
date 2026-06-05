@@ -16,8 +16,8 @@
 | 4   | [phase-3-expand-library](#4-phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
 | 5   | [phase-1.5-mvi-architecture](#5-phase-15-mvi-architecture)        | `composy/`    | 12        | 0         | **0%**   |
 | 6   | [phase-2-editor-mvp](#6-phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
-| 7   | [phase-4-semantics-testability](#7-phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
-| 8   | [phase-3-differentiators](#8-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
+| 7   | [phase-4-semantics-testability](#3-phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
+| 8   | [phase-3-differentiators](#4-phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
 |     | **TOTAL**                                                         |               | **632**   | **518**   | **81%**  |
 
 ```text

@@ -38,7 +38,7 @@ sealed interface EditorIntent {
     // Modifier CRUD...
 
     // UI Actions
-    data class ToggleLeftPanel(val displayed: Boolean) : EditorIntent
+    data class SetLeftPanelDisplayed(val displayed: Boolean) : EditorIntent
     // Viewport Mode changes...
 }
 ```
