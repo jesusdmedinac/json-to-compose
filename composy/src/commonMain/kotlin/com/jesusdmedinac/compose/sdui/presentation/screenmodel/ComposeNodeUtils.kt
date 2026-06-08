@@ -7,7 +7,8 @@ import com.jesusdmedinac.jsontocompose.model.ComposeNode
  */
 fun ComposeNode.addNodeRecursive(parentId: String, child: ComposeNode): ComposeNode {
     if (this.id == parentId) {
-        val visitor = AppendChildVisitor(child)
+        val childWithParent = child.copy(parent = this, id = ComposeNode.generateId(child.type, this))
+        val visitor = AppendChildVisitor(childWithParent)
         val updatedProps = this.properties.accept(visitor)
         return this.copy(properties = updatedProps)
     }
@@ -40,4 +41,12 @@ fun ComposeNode.reorderNodeRecursive(targetId: String, direction: EditorIntent.R
     }
     val updatedProps = this.properties.accept(visitor)
     return this.copy(properties = updatedProps)
+}
+
+/**
+ * Recursively checks if a node with the given [targetId] exists in the tree.
+ */
+fun ComposeNode.nodeExists(targetId: String): Boolean {
+    if (this.id == targetId) return true
+    return this.children().any { it.nodeExists(targetId) }
 }

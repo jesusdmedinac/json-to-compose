@@ -31,17 +31,24 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
             type = intent.type,
             properties = intent.type.createDefaultProperties()
         )
-        val updatedRoot = _state.value.rootNode.addNodeRecursive(intent.parentId, newNode)
-        reduce { it.copy(rootNode = updatedRoot) }
+        reduce { state ->
+            val updatedRoot = state.rootNode.addNodeRecursive(intent.parentId, newNode)
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.DeleteNode) {
-        if (intent.id == "root") return // Cannot delete root
-        
-        val updatedRoot = _state.value.rootNode.deleteNodeRecursive(intent.id) ?: return
-        
         reduce { state ->
-            val newSelectedId = if (state.selectedNodeId == intent.id) null else state.selectedNodeId
+            if (intent.id == state.rootNode.id) return@reduce state // Cannot delete root
+            
+            val updatedRoot = state.rootNode.deleteNodeRecursive(intent.id) ?: return@reduce state
+            
+            val newSelectedId = if (state.selectedNodeId != null && !updatedRoot.nodeExists(state.selectedNodeId)) {
+                null
+            } else {
+                state.selectedNodeId
+            }
+            
             state.copy(
                 rootNode = updatedRoot,
                 selectedNodeId = newSelectedId
@@ -50,8 +57,10 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     }
 
     override fun visit(intent: EditorIntent.ReorderNode) {
-        val updatedRoot = _state.value.rootNode.reorderNodeRecursive(intent.id, intent.direction)
-        reduce { it.copy(rootNode = updatedRoot) }
+        reduce { state ->
+            val updatedRoot = state.rootNode.reorderNodeRecursive(intent.id, intent.direction)
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.UpdateNodeType) {
