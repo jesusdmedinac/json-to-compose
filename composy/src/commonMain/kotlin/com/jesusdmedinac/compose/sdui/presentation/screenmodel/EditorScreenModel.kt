@@ -2,7 +2,7 @@ package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import cafe.adriel.voyager.core.model.ScreenModel
 
-import com.jesusdmedinac.jsontocompose.model.ComposeModifier
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,11 +27,40 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     }
 
     override fun visit(intent: EditorIntent.AddNode) {
-        // To be implemented in next features
+        val newNode = ComposeNode(
+            type = intent.type,
+            properties = intent.type.createDefaultProperties()
+        )
+        reduce { state ->
+            val updatedRoot = state.rootNode.addNodeRecursive(intent.parentId, newNode)
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.DeleteNode) {
-        // To be implemented in next features
+        reduce { state ->
+            if (intent.id == state.rootNode.id) return@reduce state // Cannot delete root
+            
+            val updatedRoot = state.rootNode.deleteNodeRecursive(intent.id) ?: return@reduce state
+            
+            val newSelectedId = if (state.selectedNodeId != null && !updatedRoot.nodeExists(state.selectedNodeId)) {
+                null
+            } else {
+                state.selectedNodeId
+            }
+            
+            state.copy(
+                rootNode = updatedRoot,
+                selectedNodeId = newSelectedId
+            )
+        }
+    }
+
+    override fun visit(intent: EditorIntent.ReorderNode) {
+        reduce { state ->
+            val updatedRoot = state.rootNode.reorderNodeRecursive(intent.id, intent.direction)
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.UpdateNodeType) {

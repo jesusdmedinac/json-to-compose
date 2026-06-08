@@ -8,9 +8,9 @@ This phase focuses on migrating the scattered ScreenModels to a single, unidirec
 - [x] Scenario: Create central EditorScreenModel
 
 ## Feature: MVI Tree Operations
-- [ ] Scenario: Migrate Add Node
-- [ ] Scenario: Migrate Delete Node
-- [ ] Scenario: Migrate Reorder Node
+- [x] Scenario: Migrate Add Node
+- [x] Scenario: Migrate Delete Node
+- [x] Scenario: Migrate Reorder Node
 
 ## Feature: MVI Editor Operations
 - [ ] Scenario: Migrate Update Node Type
