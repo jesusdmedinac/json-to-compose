@@ -50,3 +50,12 @@ fun ComposeNode.nodeExists(targetId: String): Boolean {
     if (this.id == targetId) return true
     return this.children().any { it.nodeExists(targetId) }
 }
+
+/**
+ * Traverses the tree and applies [transform] to the node with [targetId].
+ */
+fun ComposeNode.updateNodeRecursive(targetId: String, transform: (ComposeNode) -> ComposeNode): ComposeNode {
+    if (this.id == targetId) return transform(this)
+    val newProps = this.properties.mapChildren { it.updateNodeRecursive(targetId, transform) }
+    return this.copy(properties = newProps)
+}

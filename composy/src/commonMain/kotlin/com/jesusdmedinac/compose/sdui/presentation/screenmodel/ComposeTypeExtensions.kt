@@ -71,15 +71,20 @@ import com.jesusdmedinac.jsontocompose.model.ComposeType.TimePicker
 import com.jesusdmedinac.jsontocompose.model.ComposeType.TopAppBar
 import com.jesusdmedinac.jsontocompose.model.ComposeType.VerticalDivider
 import com.jesusdmedinac.jsontocompose.model.ComposeType.VerticalPager
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 
 /**
  * Creates a default, non-null properties instance for this component type.
+ * Optionally preserves existing children when changing a node's type.
  */
-fun ComposeType.createDefaultProperties(): NodeProperties = when (this) {
-    Column, LazyColumn -> NodeProperties.ColumnProps()
-    Row, LazyRow -> NodeProperties.RowProps()
-    Box -> NodeProperties.BoxProps()
+fun ComposeType.createDefaultProperties(
+    preservedChildren: List<ComposeNode>? = null,
+    preservedChild: ComposeNode? = null
+): NodeProperties = when (this) {
+    Column, LazyColumn -> NodeProperties.ColumnProps(children = preservedChildren)
+    Row, LazyRow -> NodeProperties.RowProps(children = preservedChildren)
+    Box -> NodeProperties.BoxProps(children = preservedChildren)
     Spacer -> NodeProperties.SpacerProps
     Text -> NodeProperties.TextProps(
         text = "Text"
@@ -87,14 +92,14 @@ fun ComposeType.createDefaultProperties(): NodeProperties = when (this) {
     Icon -> NodeProperties.IconProps(
         iconName = "Add"
     )
-    Button, OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton -> NodeProperties.ButtonProps()
-    FloatingActionButton -> NodeProperties.FabProps()
+    Button, OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton -> NodeProperties.ButtonProps(child = preservedChild ?: preservedChildren?.firstOrNull())
+    FloatingActionButton -> NodeProperties.FabProps(icon = preservedChild ?: preservedChildren?.firstOrNull())
     ExtendedFloatingActionButton -> NodeProperties.ExtendedFabProps()
     Image -> NodeProperties.ImageProps()
     TextField, OutlinedTextField -> NodeProperties.TextFieldProps()
-    Scaffold -> NodeProperties.ScaffoldProps()
-    Card, ElevatedCard -> NodeProperties.CardProps()
-    OutlinedCard -> NodeProperties.OutlinedCardProps()
+    Scaffold -> NodeProperties.ScaffoldProps(child = preservedChild ?: preservedChildren?.firstOrNull())
+    Card, ElevatedCard -> NodeProperties.CardProps(child = preservedChild ?: preservedChildren?.firstOrNull())
+    OutlinedCard -> NodeProperties.OutlinedCardProps(child = preservedChild ?: preservedChildren?.firstOrNull())
     AlertDialog -> NodeProperties.AlertDialogProps()
     TopAppBar, CenterAlignedTopAppBar, MediumTopAppBar, LargeTopAppBar -> NodeProperties.TopAppBarProps()
     NavigationBar -> NodeProperties.NavigationBarProps()
@@ -103,23 +108,23 @@ fun ComposeType.createDefaultProperties(): NodeProperties = when (this) {
     NavigationRailItem -> NodeProperties.NavigationRailItemProps()
     ModalNavigationDrawer -> NodeProperties.NavigationDrawerProps()
     NavigationDrawerItem -> NodeProperties.NavigationDrawerItemProps()
-    TabRow, ScrollableTabRow -> NodeProperties.TabRowProps()
-    Tab -> NodeProperties.TabProps()
-    BottomBar -> NodeProperties.BottomBarProps()
+    TabRow, ScrollableTabRow -> NodeProperties.TabRowProps(children = preservedChildren)
+    Tab -> NodeProperties.TabProps(text = preservedChild ?: preservedChildren?.firstOrNull())
+    BottomBar -> NodeProperties.BottomBarProps(children = preservedChildren)
     BottomNavigationItem -> NodeProperties.BottomNavigationItemProps()
-    Switch -> NodeProperties.SwitchProps()
-    Checkbox -> NodeProperties.CheckboxProps()
-    Slider -> NodeProperties.SliderProps()
-    RadioButton -> NodeProperties.RadioButtonProps()
+    Switch -> NodeProperties.SwitchProps(checked = false)
+    Checkbox -> NodeProperties.CheckboxProps(checked = false)
+    Slider -> NodeProperties.SliderProps(value = 0f)
+    RadioButton -> NodeProperties.RadioButtonProps(selected = false)
     SingleChoiceSegmentedButtonRow, MultiChoiceSegmentedButtonRow -> NodeProperties.SegmentedButtonRowProps()
     SegmentedButton -> NodeProperties.SegmentedButtonProps()
     DatePicker -> NodeProperties.DatePickerProps()
     TimePicker -> NodeProperties.TimePickerProps()
     SearchBar -> NodeProperties.SearchBarProps()
     HorizontalDivider, VerticalDivider -> NodeProperties.DividerProps()
-    FlowRow -> NodeProperties.FlowRowProps()
-    FlowColumn -> NodeProperties.FlowColumnProps()
-    Surface -> NodeProperties.SurfaceProps()
+    FlowRow -> NodeProperties.FlowRowProps(children = preservedChildren)
+    FlowColumn -> NodeProperties.FlowColumnProps(children = preservedChildren)
+    Surface -> NodeProperties.SurfaceProps(child = preservedChild ?: preservedChildren?.firstOrNull())
     HorizontalPager, VerticalPager -> NodeProperties.PagerProps()
     ModalBottomSheet -> NodeProperties.ModalBottomSheetProps()
     Badge -> NodeProperties.BadgeProps()
