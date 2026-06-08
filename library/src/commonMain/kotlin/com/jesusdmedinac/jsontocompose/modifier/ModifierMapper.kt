@@ -81,6 +81,38 @@ enum class ModifierOperation {
     MaxHeight,
     AnimateContentSize,
     TestTag;
+
+    fun createDefaultOperation(): ComposeModifier.Operation = when (this) {
+        Padding -> ComposeModifier.Operation.Padding(0)
+        FillMaxSize -> ComposeModifier.Operation.FillMaxSize
+        FillMaxWidth -> ComposeModifier.Operation.FillMaxWidth
+        FillMaxHeight -> ComposeModifier.Operation.FillMaxHeight
+        Width -> ComposeModifier.Operation.Width(0)
+        Height -> ComposeModifier.Operation.Height(0)
+        BackgroundColor -> ComposeModifier.Operation.BackgroundColor("#00000000")
+        Border -> ComposeModifier.Operation.Border(1, "#FF000000", ComposeShape.Rectangle)
+        Shadow -> ComposeModifier.Operation.Shadow(0, ComposeShape.Rectangle, false)
+        Clip -> ComposeModifier.Operation.Clip(ComposeShape.Rectangle)
+        Background -> ComposeModifier.Operation.Background("#00000000", ComposeShape.Rectangle)
+        Alpha -> ComposeModifier.Operation.Alpha(1f)
+        Rotate -> ComposeModifier.Operation.Rotate(0f)
+        Clickable -> ComposeModifier.Operation.Clickable("")
+        Weight -> ComposeModifier.Operation.Weight(1f)
+        VerticalScroll -> ComposeModifier.Operation.VerticalScroll
+        HorizontalScroll -> ComposeModifier.Operation.HorizontalScroll
+        Offset -> ComposeModifier.Operation.Offset(0, 0)
+        Size -> ComposeModifier.Operation.Size(0, 0)
+        WrapContentWidth -> ComposeModifier.Operation.WrapContentWidth
+        WrapContentHeight -> ComposeModifier.Operation.WrapContentHeight
+        AspectRatio -> ComposeModifier.Operation.AspectRatio(1f)
+        ZIndex -> ComposeModifier.Operation.ZIndex(0f)
+        MinWidth -> ComposeModifier.Operation.MinWidth(0)
+        MinHeight -> ComposeModifier.Operation.MinHeight(0)
+        MaxWidth -> ComposeModifier.Operation.MaxWidth(0)
+        MaxHeight -> ComposeModifier.Operation.MaxHeight(0)
+        AnimateContentSize -> ComposeModifier.Operation.AnimateContentSize
+        TestTag -> ComposeModifier.Operation.TestTag("")
+    }
 }
 
 /**
