@@ -56,25 +56,6 @@ fun ComposeNode.nodeExists(targetId: String): Boolean {
  */
 fun ComposeNode.updateNodeRecursive(targetId: String, transform: (ComposeNode) -> ComposeNode): ComposeNode {
     if (this.id == targetId) return transform(this)
-    val newProps = when (val props = this.properties) {
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.ColumnProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.RowProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.BoxProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.ButtonProps -> props.copy(child = props.child?.updateNodeRecursive(targetId, transform))
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.ScaffoldProps -> props.copy(child = props.child?.updateNodeRecursive(targetId, transform))
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.CardProps -> props.copy(child = props.child?.updateNodeRecursive(targetId, transform))
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.OutlinedCardProps -> props.copy(child = props.child?.updateNodeRecursive(targetId, transform))
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.TabRowProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.TabProps -> props.copy(
-            text = props.text?.updateNodeRecursive(targetId, transform),
-            icon = props.icon?.updateNodeRecursive(targetId, transform)
-        )
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.BottomBarProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.FlowRowProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.FlowColumnProps -> props.copy(children = props.children?.map { it.updateNodeRecursive(targetId, transform) })
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.SurfaceProps -> props.copy(child = props.child?.updateNodeRecursive(targetId, transform))
-        is com.jesusdmedinac.jsontocompose.model.NodeProperties.FabProps -> props.copy(icon = props.icon?.updateNodeRecursive(targetId, transform))
-        else -> props
-    }
+    val newProps = this.properties.mapChildren { it.updateNodeRecursive(targetId, transform) }
     return this.copy(properties = newProps)
 }
