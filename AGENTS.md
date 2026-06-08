@@ -521,9 +521,11 @@ json-to-compose/
 
 ## Mandatory Testing Rules for Agents
 
+All new features or bug fixes in `library`, `composy`, or `composeApp` MUST be developed using Test-Driven Development (TDD) and accompanied by a corresponding Desktop UI Test. Agents must not submit a PR without tests covering the scenarios in progress.
+
 To avoid a `NullPointerException` (NPE) in Android Unit Tests, you **must NOT** run UI tests using `./gradlew :library:test`. Instead, always target a specific platform that supports the UI environment.
 
-- **Primary Validation:** Always use `./gradlew :library:desktopTest`.
+- **Primary Validation:** Always use `./gradlew :[module]:desktopTest`.
 - **Target-Specific:** See [Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more commands.
 - **CRITICAL - Composy Validation:** The `composy` (editor) module relies heavily on exhaustive `when` statements mapping `ComposeType` and `NodeProperties`. When adding new types or properties to the core library, you **MUST** ensure you don't break the syntax in `composy`. Always verify compilation by running `./gradlew :composy:compileKotlinDesktop` before creating a Pull Request.
 

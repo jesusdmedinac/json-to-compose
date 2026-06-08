@@ -122,6 +122,30 @@ fun textFieldRendersAndEmitsStateChange() = runComposeUiTest {
 }
 ```
 
+### Testing MVI Architecture (Composy)
+
+When building or fixing features in the `composy` editor, UI tests must validate the MVI flow (`EditorIntent` -> `EditorScreenModel` -> `EditorState` -> UI). Since `EditorScreenModel` exposes a `StateFlow`, you can test it directly or through the UI.
+
+```kotlin
+@Test
+fun testAddNodeIntentUpdatesStateAndUI() = runComposeUiTest {
+    val screenModel = EditorScreenModel()
+    
+    // Initial state check
+    assertEquals(1, screenModel.state.value.rootNode.children()?.size ?: 0)
+    
+    // Dispatch Intent
+    screenModel.onIntent(EditorIntent.AddNode(ComposeType.Button, "root"))
+    
+    // Validate State Update
+    val newRoot = screenModel.state.value.rootNode
+    assertEquals(2, newRoot.children()?.size)
+    assertEquals(ComposeType.Button, newRoot.children()?.last()?.type)
+    
+    // Optionally: Render the UI with the screenModel state and use onNodeWithTag
+}
+```
+
 ## Platform-Specific Configuration
 
 ### Android Instrumented Tests
