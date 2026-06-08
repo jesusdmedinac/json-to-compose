@@ -119,21 +119,22 @@ And the AI knows exactly where to continue.
 
 ---
 
-## Step 5: Scenario-by-Scenario Development (Methodical)
+## Step 5: Scenario-by-Scenario Development (TDD)
 
-Ask the AI to develop the code **scenario by scenario**. Each scenario is reviewed, tested, and committed independently.
+Ask the AI to develop the code **scenario by scenario** using **Test-Driven Development (TDD)**. Each scenario is reviewed, tested, and committed independently.
 
 ### Flow per scenario
 
 1. The AI reads `PROGRESS.md` to identify the next pending scenario.
 2. The AI reads the corresponding `.feature` file to get the full context.
-3. The AI implements the code needed to satisfy the scenario.
-4. Tests are run (if applying BDD/TDD, the Gherkin scenario becomes a test). For library changes, run tests for `library` and **CRITICALLY** run `./gradlew :composy:compileKotlinDesktop` to ensure the editor app does not break due to unhandled enumerations.
-5. The code is reviewed.
-6. A commit is made with a message referencing the scenario and the issue (e.g., `feat: basic Text [text.feature:Scenario 1] #12`).
-7. The AI updates the specific phase `PROGRESS.md` marking the scenario as completed.
-8. **CRITICAL:** The AI MUST immediately update the main `PROGRESS.md` file to reflect the new totals and percentages. Both files must ALWAYS remain in perfect sync.
-9. **Finalize:** Once all scenarios in a feature are checked off, push the branch to the remote repository and **Create a Pull Request (PR)** linked to the issue using the GitHub CLI. **The PR is fundamental** for the developer to review the agent's implementation before merging. Close the issue only after the PR is reviewed and merged.
+3. **Write the Failing Test First:** The AI translates the Gherkin scenario directly into an automated UI test (e.g., inside `commonTest` for `library`, `composy`, or `composeApp`).
+4. **Verify the Failure:** Run the test suite (e.g., `./gradlew :[module]:desktopTest`) to verify the test fails as expected.
+5. **Write the Implementation:** The AI implements the minimum production code needed to satisfy the scenario.
+6. **Verify the Success:** Run the tests again. For library changes, also **CRITICALLY** run `./gradlew :composy:compileKotlinDesktop` to ensure the editor app does not break due to unhandled enumerations.
+7. A commit is made with a message referencing the scenario and the issue (e.g., `feat: basic Text [text.feature:Scenario 1] #12`).
+8. The AI updates the specific phase `PROGRESS.md` marking the scenario as completed.
+9. **CRITICAL:** The AI MUST immediately update the main `PROGRESS.md` file to reflect the new totals and percentages. Both files must ALWAYS remain in perfect sync.
+10. **Finalize:** Once all scenarios in a feature are checked off, push the branch to the remote repository and **Create a Pull Request (PR)** linked to the issue using the GitHub CLI. **The PR is fundamental** for the developer to review the agent's implementation before merging. Close the issue only after the PR is reviewed and merged. Ensure no PRs are submitted without covering UI tests.
 
 ### Iterative prompt example
 
