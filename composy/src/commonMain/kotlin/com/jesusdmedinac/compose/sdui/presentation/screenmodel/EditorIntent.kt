@@ -12,6 +12,7 @@ sealed interface EditorIntent {
         fun visit(intent: SelectNode)
         fun visit(intent: AddNode)
         fun visit(intent: DeleteNode)
+        fun visit(intent: ReorderNode)
         fun visit(intent: UpdateNodeType)
         fun visit(intent: UpdateNodeText)
         fun visit(intent: AddModifier)
@@ -32,6 +33,10 @@ sealed interface EditorIntent {
         override fun accept(visitor: Visitor) = visitor.visit(this)
     }
     data class DeleteNode(val id: String) : EditorIntent {
+        override fun accept(visitor: Visitor) = visitor.visit(this)
+    }
+    data class ReorderNode(val id: String, val direction: Direction) : EditorIntent {
+        enum class Direction { UP, DOWN }
         override fun accept(visitor: Visitor) = visitor.visit(this)
     }
     
