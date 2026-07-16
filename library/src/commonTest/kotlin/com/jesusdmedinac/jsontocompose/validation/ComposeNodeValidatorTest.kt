@@ -615,10 +615,10 @@ class ComposeNodeValidatorTest {
     }
 
     @Test
-    fun nullPropertiesProducesNoError() {
+    fun emptyPropertiesProducesNoError() {
         val node = ComposeNode(
             type = ComposeType.Text,
-            properties = null,
+            properties = NodeProperties.TextProps(),
         )
 
         val result = node.validate()

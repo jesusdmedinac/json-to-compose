@@ -11,7 +11,7 @@ class ComposeNodeTreeTest {
 
     @Test
     fun countLevelsForRootNodeIsZero() {
-        val root = ComposeNode(type = ComposeType.Text)
+        val root = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps())
         assertEquals(0, root.countLevels())
     }
 
@@ -19,10 +19,10 @@ class ComposeNodeTreeTest {
 
     @Test
     fun countLevelsForNestedNodeReturnsDepth() {
-        val grandparent = ComposeNode(type = ComposeType.Column)
-        val parent = ComposeNode(type = ComposeType.Row, parent = grandparent)
-        val child = ComposeNode(type = ComposeType.Box, parent = parent)
-        val leaf = ComposeNode(type = ComposeType.Text, parent = child)
+        val grandparent = ComposeNode(type = ComposeType.Column, properties = NodeProperties.ColumnProps())
+        val parent = ComposeNode(type = ComposeType.Row, properties = NodeProperties.RowProps(), parent = grandparent)
+        val child = ComposeNode(type = ComposeType.Box, properties = NodeProperties.BoxProps(), parent = parent)
+        val leaf = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(), parent = child)
 
         assertEquals(0, grandparent.countLevels())
         assertEquals(1, parent.countLevels())
@@ -34,7 +34,7 @@ class ComposeNodeTreeTest {
 
     @Test
     fun parentsForRootNodeIsEmpty() {
-        val root = ComposeNode(type = ComposeType.Text)
+        val root = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps())
         assertTrue(root.parents().isEmpty())
     }
 
@@ -42,9 +42,9 @@ class ComposeNodeTreeTest {
 
     @Test
     fun parentsForNestedNodeReturnsAncestorsInOrder() {
-        val grandparent = ComposeNode(type = ComposeType.Column)
-        val parent = ComposeNode(type = ComposeType.Row, parent = grandparent)
-        val child = ComposeNode(type = ComposeType.Text, parent = parent)
+        val grandparent = ComposeNode(type = ComposeType.Column, properties = NodeProperties.ColumnProps())
+        val parent = ComposeNode(type = ComposeType.Row, properties = NodeProperties.RowProps(), parent = grandparent)
+        val child = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps(), parent = parent)
 
         val parents = child.parents()
         assertEquals(2, parents.size)
@@ -133,23 +133,26 @@ class ComposeNodeTreeTest {
     // --- Scenario 9: id generation for root node ---
 
     @Test
-    fun idForRootNodeIsZero() {
-        val root = ComposeNode(type = ComposeType.Text)
-        assertEquals("0", root.id)
+    fun idForRootNodeUsesRootPrefix() {
+        val root = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps())
+        assertTrue(root.id.matches(Regex("root_\\d+")), "Unexpected root id: ${root.id}")
     }
 
     // --- Scenario 10: id generation for child node ---
 
     @Test
-    fun idForChildNodeIncludesParentIdTypeAndSiblingIndex() {
-        val parent = ComposeNode(type = ComposeType.Column)
+    fun idForChildNodeIncludesParentIdAndType() {
+        val parent = ComposeNode(type = ComposeType.Column, properties = NodeProperties.ColumnProps())
         val child = ComposeNode(
             type = ComposeType.Text,
+            properties = NodeProperties.TextProps(),
             parent = parent
         )
 
-        // parent.id = "0", child has no children() so size = 0, index = 0 + 1 = 1
-        assertEquals("0_Text_1", child.id)
+        assertTrue(
+            child.id.matches(Regex("${Regex.escape(parent.id)}_Text_\\d+")),
+            "Unexpected child id: ${child.id}",
+        )
     }
 
     // --- Scenario 11: toString produces valid JSON ---
