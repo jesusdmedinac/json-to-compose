@@ -10,9 +10,9 @@
 
 | #   | Phase                                                             | Module        | Scenarios | Completed | Progress |
 | --- | ----------------------------------------------------------------- | ------------- | --------- | --------- | -------- |
-| 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
-| 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
-| 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
+| 1   | phase-1-solidify-library                                          | `library/`    | 187       | 187       | **100%** |
+| 2   | phase-actions-system                                              | `library/`    | 37        | 37        | **100%** |
+| 3   | phase-demo-showcase                                               | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
 | 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 12        | 9         | **75%**  |
 | 6   | [phase-2-editor-mvp](#phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
@@ -24,20 +24,6 @@
 Progress: [█████████████████████████████████░░░░░░] 83%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
-```
-
----
-...
-
-## Recommended Development Order
-
-### 1. phase-3-expand-library
-
-**Status:** 🏗️ In Progress (143/239 — 60%)
-  │
-  └── phase-4-semantics-testability
-        │
-  ──────┴── phase-3-differentiators
 ```
 
 ---

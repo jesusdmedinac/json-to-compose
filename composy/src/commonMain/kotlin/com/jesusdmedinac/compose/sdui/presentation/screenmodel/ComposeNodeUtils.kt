@@ -53,9 +53,16 @@ fun ComposeNode.nodeExists(targetId: String): Boolean {
 
 /**
  * Traverses the tree and applies [transform] to the node with [targetId].
+ * Subtrees that do not contain the target are returned as-is (structural sharing),
+ * so only the path from the root to the target is reallocated.
  */
 fun ComposeNode.updateNodeRecursive(targetId: String, transform: (ComposeNode) -> ComposeNode): ComposeNode {
     if (this.id == targetId) return transform(this)
-    val newProps = this.properties.mapChildren { it.updateNodeRecursive(targetId, transform) }
-    return this.copy(properties = newProps)
+    var changed = false
+    val newProps = this.properties.mapChildren { child ->
+        val updated = child.updateNodeRecursive(targetId, transform)
+        if (updated !== child) changed = true
+        updated
+    }
+    return if (changed) this.copy(properties = newProps) else this
 }

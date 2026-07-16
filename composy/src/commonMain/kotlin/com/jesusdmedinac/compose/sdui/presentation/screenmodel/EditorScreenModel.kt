@@ -105,11 +105,15 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     override fun visit(intent: EditorIntent.UpdateModifier) {
         reduce { state ->
             val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
-                val newOperations = node.composeModifier.operations.toMutableList()
-                if (intent.index in newOperations.indices) {
-                    newOperations[intent.index] = intent.operation
+                val operations = node.composeModifier.operations
+                if (intent.index in operations.indices) {
+                    val newOperations = operations.toMutableList().apply {
+                        set(intent.index, intent.operation)
+                    }
+                    node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
+                } else {
+                    node
                 }
-                node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
             }
             state.copy(rootNode = updatedRoot)
         }
@@ -118,11 +122,15 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     override fun visit(intent: EditorIntent.DeleteModifier) {
         reduce { state ->
             val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
-                val newOperations = node.composeModifier.operations.toMutableList()
-                if (intent.index in newOperations.indices) {
-                    newOperations.removeAt(intent.index)
+                val operations = node.composeModifier.operations
+                if (intent.index in operations.indices) {
+                    val newOperations = operations.toMutableList().apply {
+                        removeAt(intent.index)
+                    }
+                    node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
+                } else {
+                    node
                 }
-                node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
             }
             state.copy(rootNode = updatedRoot)
         }

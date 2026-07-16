@@ -8,6 +8,7 @@ import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertSame
 import kotlin.test.assertTrue
 import kotlin.test.assertNotNull
 
@@ -83,5 +84,48 @@ class EditorScreenModelTest {
         
         ops = screenModel.state.value.rootNode.composeModifier.operations
         assertTrue(ops.isEmpty())
+    }
+
+    @Test
+    fun testUpdateModifier_outOfBoundsIndex_keepsRootNodeInstance() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+        screenModel.onIntent(EditorIntent.AddModifier(rootId, ModifierOperation.Padding))
+        val rootBefore = screenModel.state.value.rootNode
+
+        screenModel.onIntent(EditorIntent.UpdateModifier(rootId, 5, ComposeModifier.Operation.Padding(32)))
+
+        assertSame(rootBefore, screenModel.state.value.rootNode)
+    }
+
+    @Test
+    fun testDeleteModifier_outOfBoundsIndex_keepsRootNodeInstance() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+        screenModel.onIntent(EditorIntent.AddModifier(rootId, ModifierOperation.Padding))
+        val rootBefore = screenModel.state.value.rootNode
+
+        screenModel.onIntent(EditorIntent.DeleteModifier(rootId, 5))
+
+        assertSame(rootBefore, screenModel.state.value.rootNode)
+    }
+
+    @Test
+    fun testUpdateNodeRecursive_untouchedSiblingsKeepIdentity() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Text))
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Text))
+        val childrenBefore = screenModel.state.value.rootNode.children()
+        val targetId = childrenBefore[0].id
+        val untouchedSibling = childrenBefore[1]
+
+        screenModel.onIntent(EditorIntent.UpdateNodeText(targetId, "Changed"))
+
+        val childrenAfter = screenModel.state.value.rootNode.children()
+        val targetProps = childrenAfter[0].properties
+        assertIs<NodeProperties.TextProps>(targetProps)
+        assertEquals("Changed", targetProps.text)
+        assertSame(untouchedSibling, childrenAfter[1])
     }
 }
