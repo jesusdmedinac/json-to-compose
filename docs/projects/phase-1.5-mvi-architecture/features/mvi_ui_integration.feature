@@ -25,4 +25,5 @@ Feature: MVI UI Integration
     Given all UI components consume EditorScreenModel
     When the legacy ScreenModels are deleted
     Then the project should compile and all tests should pass
-    And no UI code should reference EditNodeScreenModel or ComposeTreeScreenModel
+    And no code should reference ComposeTreeScreenModel, EditNodeScreenModel, ComposeComponentsScreenModel, or MainScreenModel
+    And AuthScreenModel should remain, as authentication is outside the editor's MVI scope
