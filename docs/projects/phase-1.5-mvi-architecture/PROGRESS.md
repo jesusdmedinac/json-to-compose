@@ -21,3 +21,13 @@ This phase focuses on migrating the scattered ScreenModels to a single, unidirec
 - [ ] Scenario: Migrate Panel Display toggles
 - [ ] Scenario: Migrate Viewport Modes
 - [ ] Scenario: Migrate Keyword Search
+
+## Feature: MVI UI Integration
+- [ ] Scenario: Tree panel dispatches intents
+- [ ] Scenario: Node editor dispatches intents
+- [ ] Scenario: Preview renders from EditorState
+- [ ] Scenario: Legacy ScreenModels removed
+
+> **Exit criterion:** the phase is complete only when the UI runs entirely on
+> `EditorScreenModel` and the legacy ScreenModels are deleted — not merely when
+> all state has been migrated into `EditorState`.
