@@ -10,34 +10,20 @@
 
 | #   | Phase                                                             | Module        | Scenarios | Completed | Progress |
 | --- | ----------------------------------------------------------------- | ------------- | --------- | --------- | -------- |
-| 1   | [phase-1-solidify-library](#1-phase-1-solidify-library)           | `library/`    | 187       | 187       | **100%** |
-| 2   | [phase-actions-system](#2-phase-actions-system)                   | `library/`    | 37        | 37        | **100%** |
-| 3   | [phase-demo-showcase](#3-phase-demo-showcase)                     | `composeApp/` | 36        | 36        | **100%** |
+| 1   | phase-1-solidify-library                                          | `library/`    | 187       | 187       | **100%** |
+| 2   | phase-actions-system                                              | `library/`    | 37        | 37        | **100%** |
+| 3   | phase-demo-showcase                                               | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
-| 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 12        | 6         | **50%**  |
+| 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 12        | 9         | **75%**  |
 | 6   | [phase-2-editor-mvp](#phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
 | 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
 | 8   | [phase-3-differentiators](#phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **632**   | **524**   | **82%**  |
+|     | **TOTAL**                                                         |               | **632**   | **527**   | **83%**  |
 
 ```text
-Progress: [█████████████████████████████████░░░░░░] 82%
+Progress: [█████████████████████████████████░░░░░░] 83%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
-```
-
----
-...
-
-## Recommended Development Order
-
-### 1. phase-3-expand-library
-
-**Status:** 🏗️ In Progress (143/239 — 60%)
-  │
-  └── phase-4-semantics-testability
-        │
-  ──────┴── phase-3-differentiators
 ```
 
 ---
@@ -80,7 +66,7 @@ Progress: [███████████████████████
 
 ### phase-1.5-mvi-architecture
 
-**Status:** 🏗️ In Progress (6/12 — 50%)
+**Status:** 🏗️ In Progress (9/12 — 75%)
 **Module:** `composy/`
 **Depends on:** Initial Editor MVP work.
 **Description:** Refactors scattered ScreenModels into a centralized MVI architecture (EditorState + EditorIntent) to solve state desynchronization bugs and enable predictable data flow.

@@ -47,6 +47,7 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.compatibleTypes
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
@@ -229,7 +230,8 @@ private fun LazyListScope.composeTypeDropdownMenu(
                             .onComposeTypeMenuExpandedChange(false)
                     }
                 ) {
-                    ComposeType.entries.forEach { type ->
+                    val compatibleTypes = editingComposeNode?.compatibleTypes() ?: ComposeType.entries
+                    compatibleTypes.forEach { type ->
                         DropdownMenuItem(
                             onClick = {
                                 editNodeBehavior.onComposeTypeSelected(type)

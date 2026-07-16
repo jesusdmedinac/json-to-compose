@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 /**
  * Traverses the tree and inserts the [child] into the node with [parentId].
@@ -49,4 +50,35 @@ fun ComposeNode.reorderNodeRecursive(targetId: String, direction: EditorIntent.R
 fun ComposeNode.nodeExists(targetId: String): Boolean {
     if (this.id == targetId) return true
     return this.children().any { it.nodeExists(targetId) }
+}
+
+/**
+ * Returns the list of types this node can safely be converted to, based on the
+ * children it currently holds: nodes with multiple children can only become
+ * multi-child layouts, nodes with one child can also become single-child
+ * containers, and childless nodes can become anything.
+ */
+fun ComposeNode.compatibleTypes(): List<ComposeType> {
+    val childCount = children().size
+    return when {
+        childCount > 1 -> ComposeType.entries.filter { it.isLayout() }
+        childCount == 1 -> ComposeType.entries.filter { it.isLayout() || it.hasChild() }
+        else -> ComposeType.entries
+    }
+}
+
+/**
+ * Traverses the tree and applies [transform] to the node with [targetId].
+ * Subtrees that do not contain the target are returned as-is (structural sharing),
+ * so only the path from the root to the target is reallocated.
+ */
+fun ComposeNode.updateNodeRecursive(targetId: String, transform: (ComposeNode) -> ComposeNode): ComposeNode {
+    if (this.id == targetId) return transform(this)
+    var changed = false
+    val newProps = this.properties.mapChildren { child ->
+        val updated = child.updateNodeRecursive(targetId, transform)
+        if (updated !== child) changed = true
+        updated
+    }
+    return if (changed) this.copy(properties = newProps) else this
 }

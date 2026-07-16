@@ -13,9 +13,9 @@ This phase focuses on migrating the scattered ScreenModels to a single, unidirec
 - [x] Scenario: Migrate Reorder Node
 
 ## Feature: MVI Editor Operations
-- [ ] Scenario: Migrate Update Node Type
-- [ ] Scenario: Migrate Update Node Text
-- [ ] Scenario: Migrate Modifiers CRUD
+- [x] Scenario: Migrate Update Node Type
+- [x] Scenario: Migrate Update Node Text
+- [x] Scenario: Migrate Modifiers CRUD
 
 ## Feature: MVI UI State
 - [ ] Scenario: Migrate Panel Display toggles

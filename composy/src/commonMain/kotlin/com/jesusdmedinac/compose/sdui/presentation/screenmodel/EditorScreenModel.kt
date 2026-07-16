@@ -64,23 +64,73 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     }
 
     override fun visit(intent: EditorIntent.UpdateNodeType) {
-        // To be implemented in next features
+        reduce { state ->
+            val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
+                if (intent.type !in node.compatibleTypes()) return@updateNodeRecursive node
+                node.copy(
+                    type = intent.type,
+                    properties = intent.type.createDefaultProperties(
+                        preservedChildren = node.children().takeIf { it.isNotEmpty() }
+                    )
+                )
+            }
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.UpdateNodeText) {
-        // To be implemented in next features
+        reduce { state ->
+            val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
+                val props = node.properties
+                if (props !is com.jesusdmedinac.jsontocompose.model.NodeProperties.TextProps) return@updateNodeRecursive node
+                node.copy(properties = props.copy(text = intent.text))
+            }
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.AddModifier) {
-        // To be implemented in next features
+        reduce { state ->
+            val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
+                val newOperations = node.composeModifier.operations + intent.operation.createDefaultOperation()
+                node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
+            }
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.UpdateModifier) {
-        // To be implemented in next features
+        reduce { state ->
+            val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
+                val operations = node.composeModifier.operations
+                if (intent.index in operations.indices) {
+                    val newOperations = operations.toMutableList().apply {
+                        set(intent.index, intent.operation)
+                    }
+                    node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
+                } else {
+                    node
+                }
+            }
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.DeleteModifier) {
-        // To be implemented in next features
+        reduce { state ->
+            val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
+                val operations = node.composeModifier.operations
+                if (intent.index in operations.indices) {
+                    val newOperations = operations.toMutableList().apply {
+                        removeAt(intent.index)
+                    }
+                    node.copy(composeModifier = com.jesusdmedinac.jsontocompose.model.ComposeModifier(newOperations))
+                } else {
+                    node
+                }
+            }
+            state.copy(rootNode = updatedRoot)
+        }
     }
 
     override fun visit(intent: EditorIntent.SetLeftPanelDisplayed) {
