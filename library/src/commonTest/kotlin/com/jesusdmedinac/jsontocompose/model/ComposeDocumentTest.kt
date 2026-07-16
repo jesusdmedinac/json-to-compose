@@ -20,7 +20,7 @@ class ComposeDocumentTest {
                 "switch_state" to JsonPrimitive(false),
                 "text_value" to JsonPrimitive(""),
             ),
-            root = ComposeNode(type = ComposeType.Text),
+            root = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps()),
         )
 
         assertEquals(2, doc.initialState.size)
@@ -37,7 +37,7 @@ class ComposeDocumentTest {
                 "count" to JsonPrimitive(42),
                 "opacity" to JsonPrimitive(0.75f),
             ),
-            root = ComposeNode(type = ComposeType.Text),
+            root = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps()),
         )
 
         assertEquals(4, doc.initialState.size)
@@ -61,7 +61,7 @@ class ComposeDocumentTest {
                     ComposeAction.Log(message = "Dialog dismissed"),
                 ),
             ),
-            root = ComposeNode(type = ComposeType.Text),
+            root = ComposeNode(type = ComposeType.Text, properties = NodeProperties.TextProps()),
         )
 
         assertEquals(2, doc.actions.size)
