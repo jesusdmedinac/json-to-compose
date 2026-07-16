@@ -111,6 +111,50 @@ class EditorScreenModelTest {
     }
 
     @Test
+    fun testUpdateNodeType_incompatibleType_keepsRootNodeInstance() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+        screenModel.onIntent(EditorIntent.AddNode(columnId, ComposeType.Text))
+        screenModel.onIntent(EditorIntent.AddNode(columnId, ComposeType.Text))
+        val rootBefore = screenModel.state.value.rootNode
+
+        // A Column with two children cannot become a single-child Button
+        screenModel.onIntent(EditorIntent.UpdateNodeType(columnId, ComposeType.Button))
+
+        assertSame(rootBefore, screenModel.state.value.rootNode)
+    }
+
+    @Test
+    fun testUpdateNodeType_emptyNode_convertsToAnyType() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+
+        // A childless Column may become a leaf type
+        screenModel.onIntent(EditorIntent.UpdateNodeType(columnId, ComposeType.Text))
+
+        val converted = screenModel.state.value.rootNode.children().first()
+        assertEquals(ComposeType.Text, converted.type)
+        assertIs<NodeProperties.TextProps>(converted.properties)
+    }
+
+    @Test
+    fun testUpdateNodeText_nonTextNode_keepsRootNodeInstance() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+        val rootBefore = screenModel.state.value.rootNode
+
+        screenModel.onIntent(EditorIntent.UpdateNodeText(columnId, "ignored"))
+
+        assertSame(rootBefore, screenModel.state.value.rootNode)
+    }
+
+    @Test
     fun testUpdateNodeRecursive_untouchedSiblingsKeepIdentity() {
         val screenModel = EditorScreenModel()
         val rootId = screenModel.state.value.rootNode.id

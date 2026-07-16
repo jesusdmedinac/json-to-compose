@@ -66,12 +66,11 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     override fun visit(intent: EditorIntent.UpdateNodeType) {
         reduce { state ->
             val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
-                if (!node.type.compatibleTypes().contains(intent.type)) return@updateNodeRecursive node
+                if (intent.type !in node.compatibleTypes()) return@updateNodeRecursive node
                 node.copy(
                     type = intent.type,
                     properties = intent.type.createDefaultProperties(
-                        preservedChildren = node.children().takeIf { it.isNotEmpty() },
-                        preservedChild = node.children().firstOrNull()
+                        preservedChildren = node.children().takeIf { it.isNotEmpty() }
                     )
                 )
             }
@@ -82,11 +81,9 @@ class EditorScreenModel : ScreenModel, EditorIntent.Visitor {
     override fun visit(intent: EditorIntent.UpdateNodeText) {
         reduce { state ->
             val updatedRoot = state.rootNode.updateNodeRecursive(intent.id) { node ->
-                val newProps = when (val props = node.properties) {
-                    is com.jesusdmedinac.jsontocompose.model.NodeProperties.TextProps -> props.copy(text = intent.text)
-                    else -> props
-                }
-                node.copy(properties = newProps)
+                val props = node.properties
+                if (props !is com.jesusdmedinac.jsontocompose.model.NodeProperties.TextProps) return@updateNodeRecursive node
+                node.copy(properties = props.copy(text = intent.text))
             }
             state.copy(rootNode = updatedRoot)
         }

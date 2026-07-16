@@ -195,16 +195,4 @@ enum class ComposeType {
 
         else -> false
     }
-
-    /**
-     * Returns a list of ComposeTypes that this type can safely be converted to.
-     * Layouts can be converted to other Layouts.
-     * Single child containers can be converted to other single child containers.
-     * Otherwise, returns all types.
-     */
-    fun compatibleTypes(): List<ComposeType> = when {
-        isLayout() -> ComposeType.entries.filter { it.isLayout() }
-        hasChild() -> ComposeType.entries.filter { it.hasChild() }
-        else -> ComposeType.entries
-    }
 }

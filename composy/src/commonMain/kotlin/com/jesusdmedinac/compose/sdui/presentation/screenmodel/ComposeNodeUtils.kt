@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.screenmodel
 
 import com.jesusdmedinac.jsontocompose.model.ComposeNode
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 /**
  * Traverses the tree and inserts the [child] into the node with [parentId].
@@ -49,6 +50,21 @@ fun ComposeNode.reorderNodeRecursive(targetId: String, direction: EditorIntent.R
 fun ComposeNode.nodeExists(targetId: String): Boolean {
     if (this.id == targetId) return true
     return this.children().any { it.nodeExists(targetId) }
+}
+
+/**
+ * Returns the list of types this node can safely be converted to, based on the
+ * children it currently holds: nodes with multiple children can only become
+ * multi-child layouts, nodes with one child can also become single-child
+ * containers, and childless nodes can become anything.
+ */
+fun ComposeNode.compatibleTypes(): List<ComposeType> {
+    val childCount = children().size
+    return when {
+        childCount > 1 -> ComposeType.entries.filter { it.isLayout() }
+        childCount == 1 -> ComposeType.entries.filter { it.isLayout() || it.hasChild() }
+        else -> ComposeType.entries
+    }
 }
 
 /**

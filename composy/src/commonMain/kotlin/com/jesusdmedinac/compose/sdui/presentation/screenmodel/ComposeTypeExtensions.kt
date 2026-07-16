@@ -79,8 +79,7 @@ import com.jesusdmedinac.jsontocompose.model.NodeProperties
  * Optionally preserves existing children when changing a node's type.
  */
 fun ComposeType.createDefaultProperties(
-    preservedChildren: List<ComposeNode>? = null,
-    preservedChild: ComposeNode? = null
+    preservedChildren: List<ComposeNode>? = null
 ): NodeProperties = when (this) {
     Column, LazyColumn -> NodeProperties.ColumnProps(children = preservedChildren)
     Row, LazyRow -> NodeProperties.RowProps(children = preservedChildren)
@@ -92,14 +91,14 @@ fun ComposeType.createDefaultProperties(
     Icon -> NodeProperties.IconProps(
         iconName = "Add"
     )
-    Button, OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton -> NodeProperties.ButtonProps(child = preservedChild ?: preservedChildren?.firstOrNull())
-    FloatingActionButton -> NodeProperties.FabProps(icon = preservedChild ?: preservedChildren?.firstOrNull())
+    Button, OutlinedButton, TextButton, ElevatedButton, FilledTonalButton, IconButton -> NodeProperties.ButtonProps(child = preservedChildren?.firstOrNull())
+    FloatingActionButton -> NodeProperties.FabProps(icon = preservedChildren?.firstOrNull())
     ExtendedFloatingActionButton -> NodeProperties.ExtendedFabProps()
     Image -> NodeProperties.ImageProps()
     TextField, OutlinedTextField -> NodeProperties.TextFieldProps()
-    Scaffold -> NodeProperties.ScaffoldProps(child = preservedChild ?: preservedChildren?.firstOrNull())
-    Card, ElevatedCard -> NodeProperties.CardProps(child = preservedChild ?: preservedChildren?.firstOrNull())
-    OutlinedCard -> NodeProperties.OutlinedCardProps(child = preservedChild ?: preservedChildren?.firstOrNull())
+    Scaffold -> NodeProperties.ScaffoldProps(child = preservedChildren?.firstOrNull())
+    Card, ElevatedCard -> NodeProperties.CardProps(child = preservedChildren?.firstOrNull())
+    OutlinedCard -> NodeProperties.OutlinedCardProps(child = preservedChildren?.firstOrNull())
     AlertDialog -> NodeProperties.AlertDialogProps()
     TopAppBar, CenterAlignedTopAppBar, MediumTopAppBar, LargeTopAppBar -> NodeProperties.TopAppBarProps()
     NavigationBar -> NodeProperties.NavigationBarProps()
@@ -109,7 +108,7 @@ fun ComposeType.createDefaultProperties(
     ModalNavigationDrawer -> NodeProperties.NavigationDrawerProps()
     NavigationDrawerItem -> NodeProperties.NavigationDrawerItemProps()
     TabRow, ScrollableTabRow -> NodeProperties.TabRowProps(children = preservedChildren)
-    Tab -> NodeProperties.TabProps(text = preservedChild ?: preservedChildren?.firstOrNull())
+    Tab -> NodeProperties.TabProps(text = preservedChildren?.firstOrNull())
     BottomBar -> NodeProperties.BottomBarProps(children = preservedChildren)
     BottomNavigationItem -> NodeProperties.BottomNavigationItemProps()
     Switch -> NodeProperties.SwitchProps(checked = false)
@@ -124,7 +123,7 @@ fun ComposeType.createDefaultProperties(
     HorizontalDivider, VerticalDivider -> NodeProperties.DividerProps()
     FlowRow -> NodeProperties.FlowRowProps(children = preservedChildren)
     FlowColumn -> NodeProperties.FlowColumnProps(children = preservedChildren)
-    Surface -> NodeProperties.SurfaceProps(child = preservedChild ?: preservedChildren?.firstOrNull())
+    Surface -> NodeProperties.SurfaceProps(child = preservedChildren?.firstOrNull())
     HorizontalPager, VerticalPager -> NodeProperties.PagerProps()
     ModalBottomSheet -> NodeProperties.ModalBottomSheetProps()
     Badge -> NodeProperties.BadgeProps()
