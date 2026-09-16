@@ -18,7 +18,8 @@
 | 6   | [phase-2-editor-mvp](#phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
 | 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
 | 8   | [phase-3-differentiators](#phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **632**   | **527**   | **83%**  |
+| 9   | [phase-remote-engine-caching](#phase-remote-engine-caching)       | `library/`    | 24        | 0         | **0%**   |
+|     | **TOTAL**                                                         |               | **656**   | **527**   | **80%**  |
 
 ```text
 Progress: [█████████████████████████████████░░░░░░] 83%
@@ -137,6 +138,26 @@ Progress: [███████████████████████
 | Functional Demo Server for SDUI | 9 |
 | IntelliJ/Android Studio Plugin for Preview | 10 |
 | Public Web Playground | 10 |
+
+### phase-remote-engine-caching
+
+**Status:** 📋 Planned (0/24 — 0%)  
+**Module:** `library/`  
+**Depends on:** `phase-1-solidify-library` ✅, `phase-actions-system` ✅  
+
+**Why this phase:**
+- Empowers `json-to-compose` with true production Server-Driven UI runtime capabilities.
+- Provides remote fetching via Ktor Client, dual-tier caching (L1 memory + L2 persistent), HTTP 304/ETag revalidation, and Stale-While-Revalidate (SWR) for instant 0ms cold starts.
+- Delivers the declarative `RemoteComposeDocument(url)` and `RemoteComposeNode(url)` Composables for zero-boilerplate remote rendering.
+- Serves as the technical foundation for the KMP-CLI synergy (`sdui-starter` template and `kmp-sdui-compose` skill).
+
+**Features:**
+| Feature | Scenarios | What it adds | Status |
+|---|---|---|---|
+| Remote Document Fetching | 6 | Ktor client, URL querying, custom auth/headers, error/timeout handling | 📋 Planned |
+| Offline Cache Storage | 6 | L1 memory + L2 disk storage, deterministic key hashing, TTL, LRU eviction | 📋 Planned |
+| Invalidation & Revalidation | 6 | ETag / 304 Not Modified, Stale-While-Revalidate Flow, offline fallback | 📋 Planned |
+| Remote Compose View | 6 | `RemoteComposeDocument`, `RemoteComposeNode`, slot APIs (loading, error, retry) | 📋 Planned |
 
 ---
 
