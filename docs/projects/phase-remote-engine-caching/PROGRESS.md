@@ -8,7 +8,7 @@
 
 ---
 
-## Feature 1: Remote SDUI Document Fetching via HTTP Client
+## Feature 1: Remote SDUI Document Fetching via HTTP Client (#102)
 - [ ] Fetch ComposeDocument from remote URL successfully
 - [ ] Fetch ComposeNode from remote URL successfully
 - [ ] Configure custom HTTP headers and bearer auth token
@@ -16,7 +16,7 @@
 - [ ] Handle network timeout and connectivity failures
 - [ ] Deserialize with custom Json configuration ignoring unknown keys
 
-## Feature 2: Offline Multiplatform Cache Storage for SDUI Documents
+## Feature 2: Offline Multiplatform Cache Storage for SDUI Documents (#103)
 - [ ] Store and retrieve remote document in memory cache (L1)
 - [ ] Persist cached document across app sessions (L2)
 - [ ] Cache key generation from URL and optional query parameters
@@ -24,7 +24,7 @@
 - [ ] Evict oldest entries when L1 memory cache reaches max capacity (LRU)
 - [ ] Clear cache programmatically
 
-## Feature 3: Cache Invalidation, HTTP 304 Revalidation, and Stale-While-Revalidate
+## Feature 3: Cache Invalidation, HTTP 304 Revalidation, and Stale-While-Revalidate (#104)
 - [ ] Send If-None-Match header when cached ETag exists
 - [ ] Handle 304 Not Modified by serving cached document
 - [ ] Update cache on 200 OK with new content and updated ETag
@@ -32,7 +32,7 @@
 - [ ] Offline fallback when network is unavailable but stale cache exists
 - [ ] Force-refresh bypasses cache and updates storage
 
-## Feature 4: Declarative Remote Compose UI Component
+## Feature 4: Declarative Remote Compose UI Component (#105)
 - [ ] Render RemoteComposeDocument with default loading and success states
 - [ ] Provide custom loading Composable slot
 - [ ] Provide custom error Composable slot with retry callback

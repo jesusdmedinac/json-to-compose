@@ -154,10 +154,10 @@ Progress: [███████████████████████
 **Features:**
 | Feature | Scenarios | What it adds | Status |
 |---|---|---|---|
-| Remote Document Fetching | 6 | Ktor client, URL querying, custom auth/headers, error/timeout handling | 📋 Planned |
-| Offline Cache Storage | 6 | L1 memory + L2 disk storage, deterministic key hashing, TTL, LRU eviction | 📋 Planned |
-| Invalidation & Revalidation | 6 | ETag / 304 Not Modified, Stale-While-Revalidate Flow, offline fallback | 📋 Planned |
-| Remote Compose View | 6 | `RemoteComposeDocument`, `RemoteComposeNode`, slot APIs (loading, error, retry) | 📋 Planned |
+| Remote Document Fetching (#102) | 6 | Ktor client, URL querying, custom auth/headers, error/timeout handling | 📋 Planned |
+| Offline Cache Storage (#103) | 6 | L1 memory + L2 disk storage, deterministic key hashing, TTL, LRU eviction | 📋 Planned |
+| Invalidation & Revalidation (#104) | 6 | ETag / 304 Not Modified, Stale-While-Revalidate Flow, offline fallback | 📋 Planned |
+| Remote Compose View (#105) | 6 | `RemoteComposeDocument`, `RemoteComposeNode`, slot APIs (loading, error, retry) | 📋 Planned |
 
 ---
 
