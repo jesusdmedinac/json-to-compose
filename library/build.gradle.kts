@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.dokka)
+//    alias(libs.plugins.dokka)
 }
 
 group = "com.jesusdmedinac"
@@ -40,7 +40,12 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    jvm("desktop") {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -129,7 +134,9 @@ dependencies {
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    signAllPublications()
+    if (providers.gradleProperty("signingInMemoryKeyId").isPresent || providers.gradleProperty("signing.keyId").isPresent) {
+        signAllPublications()
+    }
 
     coordinates(group.toString(), "json-to-compose", version.toString())
 
