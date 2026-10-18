@@ -58,7 +58,7 @@ Add the following dependency to your `build.gradle.kts` file:
 
 ```kotlin
 dependencies {
-  implementation("com.jesusdmedinac:json-to-compose:1.1.0")
+  implementation("com.jesusdmedinac:json-to-compose:1.2.0")
 }
 ```
 
