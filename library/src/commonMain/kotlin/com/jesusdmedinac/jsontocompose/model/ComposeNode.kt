@@ -15,7 +15,8 @@ import kotlinx.serialization.json.Json
  * inside their [properties], while leaf types (Text, Image, etc.) have no children.
  *
  * @property type The component type that determines which Compose widget is rendered.
- * @property properties Type-specific configuration for the component. Must match the expected
+ * @property properties Type-specific configuration for the component. Defaults to the default properties
+ *   for the given [type] via [ComposeType.createDefaultProperties]. Must match the expected
  *   [NodeProperties] subclass for the given [type] (e.g., [NodeProperties.TextProps] for [ComposeType.Text]).
  * @property parent Reference to the parent node in the tree. Transient — not serialized.
  * @property composeModifier Modifiers applied to this node (padding, size, background, etc.).
@@ -24,7 +25,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class ComposeNode(
     val type: ComposeType,
-    val properties: NodeProperties,
+    val properties: NodeProperties = type.createDefaultProperties(),
     val composeModifier: ComposeModifier = ComposeModifier(),
     @Transient
     val parent: ComposeNode? = null,
