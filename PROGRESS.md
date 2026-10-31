@@ -4,7 +4,7 @@
 > **Mandatory Workflow Requirement:** To avoid a `NullPointerException` (NPE) in Android Unit Tests, agents **must NOT** run UI tests using `./gradlew :library:test`. Instead, always use `./gradlew :library:desktopTest` for primary validation.
 > See the [Compose Multiplatform UI Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
 
-> Last updated: 2025-05-07
+> Last updated: 2026-07-16
 
 ## Overall Progress
 
@@ -14,11 +14,11 @@
 | 2   | phase-actions-system                                              | `library/`    | 37        | 37        | **100%** |
 | 3   | phase-demo-showcase                                               | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
-| 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 12        | 9         | **75%**  |
+| 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 16        | 9         | **56%**  |
 | 6   | [phase-2-editor-mvp](#phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
 | 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
 | 8   | [phase-3-differentiators](#phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **632**   | **527**   | **83%**  |
+|     | **TOTAL**                                                         |               | **636**   | **527**   | **83%**  |
 
 ```text
 Progress: [█████████████████████████████████░░░░░░] 83%
@@ -66,7 +66,7 @@ Progress: [███████████████████████
 
 ### phase-1.5-mvi-architecture
 
-**Status:** 🏗️ In Progress (9/12 — 75%)
+**Status:** 🏗️ In Progress (9/16 — 56%)
 **Module:** `composy/`
 **Depends on:** Initial Editor MVP work.
 **Description:** Refactors scattered ScreenModels into a centralized MVI architecture (EditorState + EditorIntent) to solve state desynchronization bugs and enable predictable data flow.
