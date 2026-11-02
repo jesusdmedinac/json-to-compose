@@ -1,11 +1,20 @@
 # json-to-compose
-> 🤖 **AI AGENTS:** Read [AGENTS.md](AGENTS.md) and [PROGRESS.md](PROGRESS.md) before starting any task. Follow the 5-step process in `docs/AI_PLANNING_PROCESS.md`.
 
-A library that dynamically converts JSON into Jetpack Compose components.
+> 🧩 **Declarative Server-Driven UI (SDUI) & Generative UI Engine for Compose Multiplatform (Android, iOS, Desktop, Wasm)**
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.jesusdmedinac/json-to-compose.svg?color=blue)](https://central.sonatype.com/artifact/com.jesusdmedinac/json-to-compose)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.1+-purple.svg)](https://kotlinlang.org)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.7+-green.svg)](https://jetbrains.com/compose-multiplatform)
+[![Platforms](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Desktop%20%7C%20Wasm-lightgrey.svg)](https://github.com/jesusdmedinac/json-to-compose)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Powered by KMP CLI](https://img.shields.io/badge/Tooling-KMP%20CLI-blueviolet.svg)](https://jesusdmedinac.github.io/KMP-CLI/)
+[![Deploy WASM](https://github.com/jesusdmedinac/json-to-compose/actions/workflows/wasm-publish.yml/badge.svg)](https://github.com/jesusdmedinac/json-to-compose/actions/workflows/wasm-publish.yml)
+
+> 🤖 **AI AGENTS:** Read [AGENTS.md](AGENTS.md) and [PROGRESS.md](PROGRESS.md) before starting any task. Follow the 5-step process in `docs/AI_PLANNING_PROCESS.md`.
 
 ## 📝 Description
 
-json-to-compose is an Android library that allows you to convert JSON structures into Jetpack Compose components at runtime. This makes it easy to create dynamic interfaces and update UI based on remote data.
+`json-to-compose` is a high-performance **Kotlin Multiplatform (KMP)** library that dynamically translates JSON schemas into native Jetpack Compose and Compose Multiplatform user interfaces at runtime. It enables dynamic layouts, server-driven features, and AI-generated interfaces without requiring app store updates across **Android, iOS, Desktop (JVM), and Web (Wasm)**.
 
 ## 💡 Use case
 
@@ -52,14 +61,45 @@ fun App(userContext: String) {
 }
 ```
 
-## ⚡️ Installation
+## ⚡️ Installation & Scaffolding
 
-Add the following dependency to your `build.gradle.kts` file:
+### 1. Instant Scaffolding via KMP CLI
+
+Scaffold a production-ready application with `json-to-compose` pre-wired across all platforms:
+
+```bash
+kmp create my-sdui-app --template json-to-compose-sample-app
+```
+
+### 2. Gradle Dependency
+
+#### Kotlin Multiplatform (`build.gradle.kts`)
 
 ```kotlin
-dependencies {
-  implementation("com.jesusdmedinac:json-to-compose:1.2.0")
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("com.jesusdmedinac:json-to-compose:1.2.0")
+        }
+    }
 }
+```
+
+#### Gradle Version Catalog (`gradle/libs.versions.toml`)
+
+```toml
+[versions]
+json-to-compose = "1.2.0"
+
+[libraries]
+json-to-compose = { module = "com.jesusdmedinac:json-to-compose", version.ref = "json-to-compose" }
+```
+
+#### Declarative Kotlin Toolchain (`module.yaml`)
+
+```yaml
+dependencies:
+  - com.jesusdmedinac:json-to-compose:1.2.0
 ```
 
 ## 🚀 Usage
@@ -423,6 +463,53 @@ Composy is a web and desktop app that facilitates the creation of JSON structure
 - Real-time preview
 - Export functionality
 
+## 🌐 Ecosystem & Production Showcase
+
+`json-to-compose` is battle-tested in real-world multiplatform applications and fully integrated into the Kotlin Multiplatform ecosystem:
+
+- **[Zora Community Edition](https://github.com/jesusdmedinac/Zora):** Production-grade automotive vehicle search and parts catalog app that uses `json-to-compose` for AI conversational onboarding and interactive dynamic component cards across Android, iOS, and Desktop.
+- **[KMP CLI & Agent Skills Hub](https://jesusdmedinac.github.io/KMP-CLI/):** Official procedural runbook and tooling integration via the certified [`kotlin-ui-sdui-compose`](https://jesusdmedinac.github.io/KMP-CLI/skills/catalog/) skill.
+- **AI Agent Workflows:** Autonomous coding agents (Google Antigravity, Claude Code, Cursor) can install and reference `json-to-compose` schema specifications directly:
+  ```bash
+  kmp skills install kotlin-ui-sdui-compose
+  ```
+
+## 🚀 GitHub Actions & CI/CD Workflows
+
+`json-to-compose` leverages automated GitHub Actions workflows for continuous delivery, multiplatform compilation, and artifact publication:
+
+| Workflow | Trigger | Description & Targets | Workflow File |
+| :--- | :--- | :--- | :--- |
+| **Publish to Maven Central** | `release` (released, prereleased) | Builds all KMP targets (Android, iOS ARM64/X64/Simulator, Desktop JVM, Wasm) and publishes signed artifacts via Vanniktech Maven Publish to Sonatype Maven Central. | [`.github/workflows/publish.yml`](.github/workflows/publish.yml) |
+| **WASM JS Web App** | `push` on `main`, `pull_request` | Compiles WebAssembly JS executable (`./gradlew :composy:wasmJsBrowserDistribution`) and deploys to Cloudflare Pages (`composy-web-app`). | [`.github/workflows/wasm-publish.yml`](.github/workflows/wasm-publish.yml) |
+| **Desktop App Distribution** | Push on release branch | Builds and packages desktop binaries via Hydraulic Conveyor and deploys to Netlify. | [`.github/workflows/desktop-publish.yml`](.github/workflows/desktop-publish.yml) |
+
+### Using `json-to-compose` in Downstream GitHub Actions
+
+To verify `json-to-compose` rendering and Semantics assertions in your own repository's CI pipeline:
+
+```yaml
+name: KMP CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run Multiplatform Tests
+        run: ./gradlew :library:desktopTest
+```
+
 ## 🧪 Testing & Testability
 
 This library prioritizes rigorous UI testing. Beyond basic existence checks, it exposes visual properties (like `fontSize`, `color`, `padding`, and layout arrangements) through **Jetpack Compose Semantics**.
@@ -433,13 +520,15 @@ For detailed guidance, see:
 - [Testing Guide (Phase 1)](docs/projects/phase-1-solidify-library/TESTING_GUIDE.md) - Project-specific testing patterns.
 - [Semantics Phase](docs/projects/phase-4-semantics-testability/README.md) - Details on semantic-based testing.
 
-## 📚 Documentation
+## 📚 Documentation & Resources
 
-WIP
+- [Official KMP CLI Documentation Site](https://jesusdmedinac.github.io/KMP-CLI/ecosystem/json-to-compose/)
+- [RFC-002: SDUI Synergy & Specification](https://jesusdmedinac.github.io/KMP-CLI/rfcs/RFC-002-sdui-synergy-json-to-compose/)
+- [Semantics Testability Deep-Dive](docs/projects/phase-4-semantics-testability/README.md)
 
 ## 🤝 Contributing
 
-WIP
+Contributions are welcome! Please read [AGENTS.md](AGENTS.md) and review the [5-Step AI Planning Process](docs/AI_PLANNING_PROCESS.md) before submitting Pull Requests. Ensure all unit and semantics tests pass via `./gradlew :library:desktopTest`.
 
 ## 📄 License
 
