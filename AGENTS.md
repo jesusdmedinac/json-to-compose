@@ -486,23 +486,38 @@ For guidelines on how to handle multiple concurrent features without branch conf
 1. **Define the idea in natural language** - Describe the milestone or functionality at a high level.
 2. **Generate Gherkin features and scenarios** - Ask the agent to propose features and scenarios in Gherkin format.
 3. **Persist and Sync (Mandatory)**:
-   - Create the `.feature` files in `docs/features/`.
+   - Create the `.feature` files in `docs/projects/<phase>/features/`.
    - **GitHub Sync:** Create a GitHub Issue for each feature using the `gh` CLI.
    - **GitHub Project:** Add the issues to the project and set status to "In Progress".
    - **GitHub Milestone:** Assign the issues to the active Milestone (Release target).
-4. **Maintain `PROGRESS.md`** - Use a development tracker with a checklist of completed scenarios.
+4. **Maintain `PROGRESS.md` via Traceability Tool** - Track progress in the phase checklist (`docs/projects/<phase>/PROGRESS.md`) and run `python3 scripts/traceability.py sync` to keep the root `PROGRESS.md` synchronized automatically.
 5. **Develop scenario by scenario** - Implement, test, and commit each scenario independently.
+
+### Automated Traceability CLI
+
+A dedicated Python script manages BDD scenario auditing and progress synchronization:
+
+```bash
+# Audit all phases and detect any checklist/scenario count drifts
+python3 scripts/traceability.py audit
+
+# Synchronize root PROGRESS.md table and ASCII progress bar with real phase files
+python3 scripts/traceability.py sync
+
+# Output the next pending scenario and a standardized commit template
+python3 scripts/traceability.py next [phase-name]
+```
 
 ### CRITICAL Instructions for the Agent
 
-- **BEFORE STARTING:** Always read the main `docs/projects/PROGRESS.md` and the specific phase file to know the current status.
+- **BEFORE STARTING:** Run `python3 scripts/traceability.py audit` or `python3 scripts/traceability.py next [phase]` to identify the next scenario and ensure trackers are in sync.
 - **GIT WORKTREES:** When working on a new feature, ALWAYS create a new Git Worktree outside the main repository (e.g., `git worktree add ../json-to-compose-feat -b <feat-branch>`) as specified in the [Git Worktrees Guide](docs/GIT_WORKTREES_GUIDE.md).
 - **SWITCHING WORKTREES:** If the user asks to work on a feature that is already in a different worktree within the `workdir` folder, or explicitly requests to switch, you MUST change your current directory to that worktree. Use `git worktree list` to identify existing worktrees and their paths.
 - **GITHUB MANDATE:** You MUST ensure that every feature being worked on has a corresponding GitHub Issue, is part of the Project, and is assigned to a Milestone. Use `gh issue list` and `gh issue create` to verify/sync.
-- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario. **CRITICALLY**, you MUST immediately update the matching numbers in the main `docs/projects/PROGRESS.md` file. The completed and total scenario counts and progress percentages of BOTH files must reflect EXACTLY the same reality.
-- **UPON COMPLETION:** Verify BOTH `PROGRESS.md` files are 100% synchronized. **Create a Pull Request (PR)** using the GitHub CLI (`gh pr create`) and link it to the corresponding GitHub Issue. The PR is **fundamental** so the developer can review your code before it gets merged. Do not close the issue directly; it should be closed when the PR is merged.
-- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/projects/<phase>/features/`, and update BOTH `PROGRESS.md` files.
-- **When receiving "Develop the next scenario":** Read BOTH `PROGRESS.md` files to identify the next pending scenario, read the corresponding `.feature`, implement the code, run tests, and update BOTH `PROGRESS.md` files to mark it completed.
+- **DURING DEVELOPMENT:** Update the specific phase `PROGRESS.md` as you complete each scenario, then run `python3 scripts/traceability.py sync`.
+- **UPON COMPLETION:** Run `python3 scripts/traceability.py sync` to ensure 100% synchronization. **Create a Pull Request (PR)** using the GitHub CLI (`gh pr create`) and link it to the corresponding GitHub Issue. The PR is **fundamental** so the developer can review your code before it gets merged. Do not close the issue directly; it should be closed when the PR is merged.
+- **When receiving a new idea:** Generate Gherkin features and scenarios, persist them in `docs/projects/<phase>/features/`, and run `python3 scripts/traceability.py sync`.
+- **When receiving "Develop the next scenario":** Run `python3 scripts/traceability.py next [phase]` to identify the next pending scenario, read the corresponding `.feature`, implement the code, run tests, mark it completed in `docs/projects/<phase>/PROGRESS.md`, run `python3 scripts/traceability.py sync`, and commit.
 - **When completing a scenario:** Commit with a message referencing the scenario (e.g., `feat: render basic Text from JSON [text_rendering.feature:Scenario 1]`).
 - **If you lose context:** Both `PROGRESS.md` files and `.feature` files contain everything needed to resume work.
 
@@ -510,12 +525,14 @@ For guidelines on how to handle multiple concurrent features without branch conf
 
 ```
 json-to-compose/
-├── PROGRESS.md                      → Development tracker (scenario checklist)
+├── PROGRESS.md                      → High-level development tracker (auto-synced)
+├── scripts/traceability.py          → Automated audit, sync, and next-scenario CLI
 ├── docs/
 │   ├── AI_PLANNING_PROCESS.md       → Full guide to the 5-step process
-│   └── features/                    → .feature files with Gherkin scenarios
-│       ├── text_rendering.feature
-│       ├── column_layout.feature
+│   └── projects/                    → Scoped phase directories
+│       ├── phase-1.5-mvi-architecture/
+│       │   ├── PROGRESS.md          → Phase scenario checklist
+│       │   └── features/            → .feature files with Gherkin scenarios
 │       └── ...
 ```
 

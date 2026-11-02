@@ -4,25 +4,25 @@
 > **Mandatory Workflow Requirement:** To avoid a `NullPointerException` (NPE) in Android Unit Tests, agents **must NOT** run UI tests using `./gradlew :library:test`. Instead, always use `./gradlew :library:desktopTest` for primary validation.
 > See the [Compose Multiplatform UI Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
 
-> Last updated: 2026-07-16
+> Last updated: 2026-11-01
 
 ## Overall Progress
 
 | #   | Phase                                                             | Module        | Scenarios | Completed | Progress |
 | --- | ----------------------------------------------------------------- | ------------- | --------- | --------- | -------- |
-| 1   | phase-1-solidify-library                                          | `library/`    | 187       | 187       | **100%** |
-| 2   | phase-actions-system                                              | `library/`    | 37        | 37        | **100%** |
-| 3   | phase-demo-showcase                                               | `composeApp/` | 36        | 36        | **100%** |
-| 4   | [phase-3-expand-library](#phase-3-expand-library)               | `library/`    | 239       | 239       | **100%** |
-| 5   | [phase-1.5-mvi-architecture](#phase-15-mvi-architecture)        | `composy/`    | 16        | 9         | **56%**  |
-| 6   | [phase-2-editor-mvp](#phase-2-editor-mvp)                       | `composy/`    | 58        | 19        | **32%**  |
-| 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/`    | 30        | 0         | **0%**   |
-| 8   | [phase-3-differentiators](#phase-3-differentiators)             | Multi-module  | 37        | 0         | **0%**   |
-| 9   | [phase-remote-engine-caching](#phase-remote-engine-caching)       | `library/`    | 24        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | **664**   | **527**   | **79%**  |
+| 1   | [phase-1-solidify-library](#phase-1-solidify-library) | `library/` | 187       | 187       | **100%** |
+| 2   | [phase-actions-system](#phase-actions-system) | `library/` | 37        | 37        | **100%** |
+| 3   | [phase-demo-showcase](#phase-demo-showcase) | `composeApp/` | 36        | 36        | **100%** |
+| 4   | [phase-3-expand-library](#phase-3-expand-library) | `library/` | 239       | 239       | **100%** |
+| 5   | [phase-1.5-mvi-architecture](#phase-1.5-mvi-architecture) | `composy/` | 16        | 9         | **56%**  |
+| 6   | [phase-2-editor-mvp](#phase-2-editor-mvp) | `composy/` | 63        | 12        | **19%**  |
+| 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/` | 26        | 0         | **0%**   |
+| 8   | [phase-3-differentiators](#phase-3-differentiators) | `Multi-module` | 37        | 0         | **0%**   |
+| 9   | [phase-remote-engine-caching](#phase-remote-engine-caching) | `library/` | 24        | 0         | **0%**   |
+|     | **TOTAL**                                                         |               | 665       | 520       | **78%**  |
 
 ```text
-Progress: [███████████████████████████████░░░░░░░░] 79%
+Progress: [███████████████████████████████░░░░░░░░░] 78%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
 ```
