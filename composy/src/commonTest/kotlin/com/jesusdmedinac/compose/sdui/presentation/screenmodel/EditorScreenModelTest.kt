@@ -7,6 +7,7 @@ import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
@@ -171,5 +172,35 @@ class EditorScreenModelTest {
         assertIs<NodeProperties.TextProps>(targetProps)
         assertEquals("Changed", targetProps.text)
         assertSame(untouchedSibling, childrenAfter[1])
+    }
+
+    @Test
+    fun testSetLeftPanelDisplayed_updatesFlagIndependently() {
+        val screenModel = EditorScreenModel()
+        assertTrue(screenModel.state.value.isLeftPanelDisplayed)
+        val rightBefore = screenModel.state.value.isRightPanelDisplayed
+
+        screenModel.onIntent(EditorIntent.SetLeftPanelDisplayed(false))
+        assertFalse(screenModel.state.value.isLeftPanelDisplayed)
+        assertEquals(rightBefore, screenModel.state.value.isRightPanelDisplayed)
+
+        screenModel.onIntent(EditorIntent.SetLeftPanelDisplayed(true))
+        assertTrue(screenModel.state.value.isLeftPanelDisplayed)
+        assertEquals(rightBefore, screenModel.state.value.isRightPanelDisplayed)
+    }
+
+    @Test
+    fun testSetRightPanelDisplayed_updatesFlagIndependently() {
+        val screenModel = EditorScreenModel()
+        assertTrue(screenModel.state.value.isRightPanelDisplayed)
+        val leftBefore = screenModel.state.value.isLeftPanelDisplayed
+
+        screenModel.onIntent(EditorIntent.SetRightPanelDisplayed(false))
+        assertFalse(screenModel.state.value.isRightPanelDisplayed)
+        assertEquals(leftBefore, screenModel.state.value.isLeftPanelDisplayed)
+
+        screenModel.onIntent(EditorIntent.SetRightPanelDisplayed(true))
+        assertTrue(screenModel.state.value.isRightPanelDisplayed)
+        assertEquals(leftBefore, screenModel.state.value.isLeftPanelDisplayed)
     }
 }
