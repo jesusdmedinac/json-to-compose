@@ -203,4 +203,39 @@ class EditorScreenModelTest {
         assertTrue(screenModel.state.value.isRightPanelDisplayed)
         assertEquals(leftBefore, screenModel.state.value.isLeftPanelDisplayed)
     }
+
+    @Test
+    fun testSetDeviceType_updatesDeviceTypeAndComputesSize() {
+        val screenModel = EditorScreenModel()
+        assertEquals(DeviceType.Smartphone, screenModel.state.value.deviceType)
+        assertEquals(DeviceOrientation.Portrait, screenModel.state.value.deviceOrientation)
+        assertEquals(DeviceSize(412, 917), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Tablet))
+        assertEquals(DeviceType.Tablet, screenModel.state.value.deviceType)
+        assertEquals(DeviceSize(800, 1280), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Desktop))
+        assertEquals(DeviceType.Desktop, screenModel.state.value.deviceType)
+        assertEquals(DeviceSize(1024, 1440), screenModel.state.value.deviceSize)
+    }
+
+    @Test
+    fun testSetDeviceOrientation_updatesOrientationAndComputesSize() {
+        val screenModel = EditorScreenModel()
+
+        screenModel.onIntent(EditorIntent.SetDeviceOrientation(DeviceOrientation.Landscape))
+        assertEquals(DeviceOrientation.Landscape, screenModel.state.value.deviceOrientation)
+        assertEquals(DeviceSize(917, 412), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Tablet))
+        assertEquals(DeviceSize(1280, 800), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Desktop))
+        assertEquals(DeviceSize(1440, 1024), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceOrientation(DeviceOrientation.Portrait))
+        assertEquals(DeviceOrientation.Portrait, screenModel.state.value.deviceOrientation)
+        assertEquals(DeviceSize(1024, 1440), screenModel.state.value.deviceSize)
+    }
 }

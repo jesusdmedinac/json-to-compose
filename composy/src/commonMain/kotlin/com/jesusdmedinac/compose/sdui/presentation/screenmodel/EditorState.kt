@@ -17,4 +17,31 @@ data class EditorState(
     val deviceType: DeviceType = DeviceType.Smartphone,
     val deviceOrientation: DeviceOrientation = DeviceOrientation.Portrait,
     val searchKeyword: String = ""
+) {
+    val deviceSize: DeviceSize
+        get() = when (deviceType to deviceOrientation) {
+            DeviceType.Smartphone to DeviceOrientation.Portrait -> DeviceSize(412, 917)
+            DeviceType.Smartphone to DeviceOrientation.Landscape -> DeviceSize(917, 412)
+            DeviceType.Tablet to DeviceOrientation.Portrait -> DeviceSize(800, 1280)
+            DeviceType.Tablet to DeviceOrientation.Landscape -> DeviceSize(1280, 800)
+            DeviceType.Desktop to DeviceOrientation.Portrait -> DeviceSize(1024, 1440)
+            DeviceType.Desktop to DeviceOrientation.Landscape -> DeviceSize(1440, 1024)
+            else -> DeviceSize()
+        }
+}
+
+data class DeviceSize(
+    val width: Int = 0,
+    val height: Int = 0,
 )
+
+enum class DeviceOrientation {
+    Portrait,
+    Landscape,
+}
+
+enum class DeviceType {
+    Smartphone,
+    Tablet,
+    Desktop,
+}
