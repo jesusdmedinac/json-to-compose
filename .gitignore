@@ -13,3 +13,5 @@ xcuserdata
 #So we don't accidentally commit our private keys
 *.gpg
 output
+a2ui-open-bot/**/*_files/
+a2ui-open-bot/**/*.html

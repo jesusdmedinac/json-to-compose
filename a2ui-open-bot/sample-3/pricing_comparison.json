@@ -1,0 +1,403 @@
+[
+  {
+    "version": "1.0",
+    "createSurface": {
+      "surfaceId": "ui-248921",
+      "catalogId": "https://copilotkit.ai/a2ui/catalogs/playground/v1",
+      "components": [
+        {
+          "id": "root",
+          "component": "Column",
+          "children": [
+            "header_box",
+            "toggle_row",
+            "cards_grid",
+            "comparison_section",
+            "faq_callout"
+          ],
+          "gap": 6
+        },
+        {
+          "id": "header_box",
+          "component": "Column",
+          "children": [
+            "title_hd",
+            "sub_txt"
+          ],
+          "align": "center",
+          "gap": 2
+        },
+        {
+          "id": "toggle_row",
+          "component": "Row",
+          "children": [
+            "monthly_lbl",
+            "billing_switch",
+            "annual_lbl",
+            "discount_badge"
+          ],
+          "align": "center",
+          "justify": "center",
+          "gap": 3
+        },
+        {
+          "id": "cards_grid",
+          "component": "Grid",
+          "children": [
+            "hobby_card",
+            "pro_card",
+            "ent_card"
+          ],
+          "columns": 3,
+          "gap": 4
+        },
+        {
+          "id": "comparison_section",
+          "component": "ComparisonTable",
+          "title": "Detailed Feature Comparison",
+          "options": [
+            "Hobby",
+            "Pro",
+            "Enterprise"
+          ],
+          "rows": [
+            {
+              "feature": "API Requests / mo",
+              "values": [
+                "100K",
+                "5M",
+                "Unlimited"
+              ]
+            },
+            {
+              "feature": "Max Concurrency",
+              "values": [
+                "5 workers",
+                "50 workers",
+                "Custom limits"
+              ]
+            },
+            {
+              "feature": "Custom Domains",
+              "values": [
+                false,
+                true,
+                true
+              ]
+            },
+            {
+              "feature": "Model Fine-tuning",
+              "values": [
+                false,
+                true,
+                true
+              ]
+            },
+            {
+              "feature": "Dedicated Support",
+              "values": [
+                false,
+                "Standard (Email)",
+                "24/7 Slack & Phone"
+              ]
+            },
+            {
+              "feature": "Guaranteed SLA",
+              "values": [
+                false,
+                "99.9%",
+                "99.99% Enterprise"
+              ]
+            }
+          ],
+          "highlight": 1
+        },
+        {
+          "id": "faq_callout",
+          "component": "Callout",
+          "title": "Need custom model weights or on-prem deployment?",
+          "text": "Our solutions team works with regulated entities and high-throughput customers on dedicated clusters.",
+          "icon": "server",
+          "actionLabel": "Schedule architecture review",
+          "onAction": {
+            "event": {
+              "name": "schedule_demo"
+            }
+          }
+        },
+        {
+          "id": "title_hd",
+          "component": "Heading",
+          "text": "Flexible pricing for teams of any size",
+          "eyebrow": "PLANS & PRICING",
+          "level": "1"
+        },
+        {
+          "id": "sub_txt",
+          "component": "Caption",
+          "text": "Deploy production-grade LLM workflows with predictable scaling and zero cold starts."
+        },
+        {
+          "id": "monthly_lbl",
+          "component": "Text",
+          "text": "Monthly",
+          "fontWeight": "medium"
+        },
+        {
+          "id": "billing_switch",
+          "component": "Switch",
+          "label": "Billing Interval",
+          "value": {
+            "@path": "/billing/annual"
+          }
+        },
+        {
+          "id": "annual_lbl",
+          "component": "Text",
+          "text": "Annual billing",
+          "fontWeight": "semibold"
+        },
+        {
+          "id": "discount_badge",
+          "component": "Badge",
+          "label": "Save 20%",
+          "variant": "soft",
+          "color": "success"
+        },
+        {
+          "id": "hobby_card",
+          "component": "Card",
+          "children": [
+            "hobby_head",
+            "hobby_price_row",
+            "hobby_desc",
+            "hobby_btn"
+          ],
+          "variant": "outline",
+          "gap": 4
+        },
+        {
+          "id": "pro_card",
+          "component": "Card",
+          "children": [
+            "pro_head",
+            "pro_price_row",
+            "pro_desc",
+            "pro_btn"
+          ],
+          "variant": "elevated",
+          "gap": 4
+        },
+        {
+          "id": "ent_card",
+          "component": "Card",
+          "children": [
+            "ent_head",
+            "ent_price_row",
+            "ent_desc",
+            "ent_btn"
+          ],
+          "variant": "outline",
+          "gap": 4
+        },
+        {
+          "id": "hobby_head",
+          "component": "Row",
+          "children": [
+            "hobby_title",
+            "hobby_badge"
+          ],
+          "justify": "spaceBetween",
+          "align": "center"
+        },
+        {
+          "id": "hobby_price_row",
+          "component": "Row",
+          "children": [
+            "hobby_val",
+            "hobby_per"
+          ],
+          "align": "baseline",
+          "gap": 1
+        },
+        {
+          "id": "hobby_desc",
+          "component": "Caption",
+          "text": "Perfect for prototyping, side projects, and evaluating platform models."
+        },
+        {
+          "id": "hobby_btn",
+          "component": "Button",
+          "label": "Get started free",
+          "block": true,
+          "variant": "default",
+          "onClick": {
+            "event": {
+              "name": "select_plan",
+              "context": {
+                "plan": "hobby"
+              }
+            }
+          }
+        },
+        {
+          "id": "hobby_title",
+          "component": "Title",
+          "text": "Hobby",
+          "size": "lg"
+        },
+        {
+          "id": "hobby_badge",
+          "component": "Badge",
+          "label": "Free tier",
+          "variant": "soft",
+          "color": "secondary"
+        },
+        {
+          "id": "hobby_val",
+          "component": "Title",
+          "text": "$0",
+          "size": "3xl"
+        },
+        {
+          "id": "hobby_per",
+          "component": "Caption",
+          "text": "/month forever"
+        },
+        {
+          "id": "pro_head",
+          "component": "Row",
+          "children": [
+            "pro_title",
+            "pro_pop_badge"
+          ],
+          "justify": "spaceBetween",
+          "align": "center"
+        },
+        {
+          "id": "pro_price_row",
+          "component": "Row",
+          "children": [
+            "pro_val",
+            "pro_per"
+          ],
+          "align": "baseline",
+          "gap": 1
+        },
+        {
+          "id": "pro_desc",
+          "component": "Caption",
+          "text": "High-concurrency access and dedicated endpoints for shipping live apps."
+        },
+        {
+          "id": "pro_btn",
+          "component": "Button",
+          "label": "Start 14-day free trial",
+          "block": true,
+          "variant": "primary",
+          "onClick": {
+            "event": {
+              "name": "select_plan",
+              "context": {
+                "plan": "pro"
+              }
+            }
+          }
+        },
+        {
+          "id": "pro_title",
+          "component": "Title",
+          "text": "Pro",
+          "size": "lg"
+        },
+        {
+          "id": "pro_pop_badge",
+          "component": "Badge",
+          "label": "Most Popular",
+          "variant": "solid",
+          "color": "discovery"
+        },
+        {
+          "id": "pro_val",
+          "component": "Title",
+          "text": "$23",
+          "size": "3xl"
+        },
+        {
+          "id": "pro_per",
+          "component": "Caption",
+          "text": "/mo billed annually ($29 monthly)"
+        },
+        {
+          "id": "ent_head",
+          "component": "Row",
+          "children": [
+            "ent_title",
+            "ent_badge"
+          ],
+          "justify": "spaceBetween",
+          "align": "center"
+        },
+        {
+          "id": "ent_title",
+          "component": "Title",
+          "text": "Enterprise",
+          "size": "lg"
+        },
+        {
+          "id": "ent_badge",
+          "component": "Badge",
+          "label": "Custom",
+          "variant": "soft",
+          "color": "info"
+        },
+        {
+          "id": "ent_price_row",
+          "component": "Row",
+          "children": [
+            "ent_val",
+            "ent_per"
+          ],
+          "align": "baseline",
+          "gap": 1
+        },
+        {
+          "id": "ent_val",
+          "component": "Title",
+          "text": "Custom",
+          "size": "3xl"
+        },
+        {
+          "id": "ent_per",
+          "component": "Caption",
+          "text": "tailored volume billing"
+        },
+        {
+          "id": "ent_desc",
+          "component": "Caption",
+          "text": "Dedicated VPC isolation, guaranteed throughput quotas, and 24/7 SLA."
+        },
+        {
+          "id": "ent_btn",
+          "component": "Button",
+          "label": "Contact sales",
+          "block": true,
+          "variant": "default",
+          "onClick": {
+            "event": {
+              "name": "contact_sales",
+              "context": {
+                "plan": "enterprise"
+              }
+            }
+          }
+        }
+      ],
+      "dataModel": {
+        "billing": {
+          "annual": true
+        }
+      }
+    }
+  }
+]
