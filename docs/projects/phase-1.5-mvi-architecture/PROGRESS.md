@@ -20,7 +20,7 @@ This phase focuses on migrating the scattered ScreenModels to a single, unidirec
 ## Feature: MVI UI State
 - [x] Scenario: Migrate Panel Display toggles
 - [x] Scenario: Migrate Viewport Modes
-- [ ] Scenario: Migrate Keyword Search
+- [x] Scenario: Migrate Keyword Search
 
 ## Feature: MVI UI Integration
 - [ ] Scenario: Tree panel dispatches intents

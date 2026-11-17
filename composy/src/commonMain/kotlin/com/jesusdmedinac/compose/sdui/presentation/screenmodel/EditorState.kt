@@ -28,6 +28,13 @@ data class EditorState(
             DeviceType.Desktop to DeviceOrientation.Landscape -> DeviceSize(1440, 1024)
             else -> DeviceSize()
         }
+
+    val filteredComposeTypes: List<ComposeType>
+        get() = if (searchKeyword.isBlank()) {
+            ComposeType.entries
+        } else {
+            ComposeType.entries.filter { it.name.contains(searchKeyword, ignoreCase = true) }
+        }
 }
 
 data class DeviceSize(
