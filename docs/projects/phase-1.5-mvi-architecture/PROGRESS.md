@@ -26,7 +26,7 @@ This phase focuses on migrating the scattered ScreenModels to a single, unidirec
 - [x] Scenario: Tree panel dispatches intents
 - [x] Scenario: Node editor dispatches intents
 - [x] Scenario: Preview renders from EditorState
-- [ ] Scenario: Legacy ScreenModels removed
+- [x] Scenario: Legacy ScreenModels removed
 
 > **Exit criterion:** the phase is complete only when the UI runs entirely on
 > `EditorScreenModel` and the legacy ScreenModels are deleted — not merely when

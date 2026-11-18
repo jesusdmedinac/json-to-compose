@@ -3,11 +3,7 @@ package com.jesusdmedinac.compose.sdui.di
 import com.jesusdmedinac.compose.sdui.auth.data.AuthRepositoryImpl
 import com.jesusdmedinac.compose.sdui.auth.domain.AuthRepository
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.composy.BuildKonfig
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
@@ -32,9 +28,5 @@ fun dataModule() = module {
 
 fun appModule() = module {
     single { EditorScreenModel() }
-    single { MainScreenModel() }
-    single { ComposeComponentsScreenModel() }
-    single { ComposeTreeScreenModel() }
-    single { EditNodeScreenModel() }
     single { AuthScreenModel(get()) }
 }
