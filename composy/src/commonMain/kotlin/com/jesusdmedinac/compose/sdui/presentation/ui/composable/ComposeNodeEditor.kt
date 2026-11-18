@@ -19,11 +19,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,12 +45,11 @@ import com.composables.icons.lucide.ArrowLeft
 import com.composables.icons.lucide.Delete
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeBehavior
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorIntent
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.compatibleTypes
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenState
 import com.jesusdmedinac.jsontocompose.model.ComposeModifier
+import com.jesusdmedinac.jsontocompose.model.ComposeNode
 import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.jesusdmedinac.jsontocompose.model.NodeProperties
 import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
@@ -60,22 +59,18 @@ fun ComposeNodeEditor(
     modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val editNodeScreenModel: EditNodeScreenModel = navigator.koinNavigatorScreenModel()
-    val editNodeState by editNodeScreenModel.state.collectAsState()
-    val composeTreeScreenModel: ComposeTreeScreenModel = navigator.koinNavigatorScreenModel()
-    val composeTreeState by composeTreeScreenModel.state.collectAsState()
-    
-    var showDeleteDialog by remember { mutableStateOf(false) }
+    val editorScreenModel: EditorScreenModel = navigator.koinNavigatorScreenModel()
+    val state by editorScreenModel.state.collectAsState()
 
-    val selectedComposeNode = editNodeState.selectedComposeNode
-    val editingComposeNode = editNodeState.editingComposeNode
+    val selectedNode = state.selectedNode
 
-    if (selectedComposeNode == null) {
-        NoComposeNodeSelected(
-            modifier = modifier
-        )
+    if (selectedNode == null) {
+        NoComposeNodeSelected(modifier = modifier)
         return
     }
+
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
@@ -84,7 +79,7 @@ fun ComposeNodeEditor(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        composeTreeScreenModel.deleteNode(selectedComposeNode)
+                        editorScreenModel.onIntent(EditorIntent.DeleteNode(selectedNode.id))
                         showDeleteDialog = false
                     }
                 ) {
@@ -99,6 +94,8 @@ fun ComposeNodeEditor(
         )
     }
 
+    val isRoot = state.rootNode.id == selectedNode.id
+
     LazyColumn(
         modifier = modifier
     ) {
@@ -110,32 +107,26 @@ fun ComposeNodeEditor(
             ) {
                 IconButton(
                     onClick = {
-                        editNodeScreenModel.onComposeNodeSelected(null)
+                        editorScreenModel.onIntent(EditorIntent.SelectNode(null))
                     },
-                    modifier = Modifier
-                        .pointerHoverIcon(
-                            icon = PointerIcon.Hand
-                        )
+                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
                 ) {
                     Icon(
                         imageVector = Lucide.ArrowLeft,
-                        contentDescription = null,
+                        contentDescription = "Deselect node",
                     )
                 }
-                
-                if (composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
+
+                if (!isRoot) {
                     IconButton(
                         onClick = {
-                            if (selectedComposeNode.children().isNotEmpty()) {
+                            if (selectedNode.children().isNotEmpty()) {
                                 showDeleteDialog = true
                             } else {
-                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                                editorScreenModel.onIntent(EditorIntent.DeleteNode(selectedNode.id))
                             }
                         },
-                        modifier = Modifier
-                            .pointerHoverIcon(
-                                icon = PointerIcon.Hand
-                            )
+                        modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
                     ) {
                         Icon(
                             imageVector = Lucide.Delete,
@@ -146,18 +137,32 @@ fun ComposeNodeEditor(
                 }
             }
         }
+
         composeTypeDropdownMenu(
-            editNodeState = editNodeState,
-            editNodeBehavior = editNodeScreenModel
+            selectedNode = selectedNode,
+            onTypeSelected = { type ->
+                editorScreenModel.onIntent(EditorIntent.UpdateNodeType(selectedNode.id, type))
+            }
         )
+
         composeTextTextField(
-            editNodeState = editNodeState,
-            editNodeBehavior = editNodeScreenModel
+            selectedNode = selectedNode,
+            onTextChanged = { text ->
+                editorScreenModel.onIntent(EditorIntent.UpdateNodeText(selectedNode.id, text))
+            }
         )
+
         composeModifierFields(
-            editNodeState = editNodeState,
-            editNodeBehavior = editNodeScreenModel,
-            composeTreeBehavior = composeTreeScreenModel,
+            selectedNode = selectedNode,
+            onAddModifier = { op ->
+                editorScreenModel.onIntent(EditorIntent.AddModifier(selectedNode.id, op))
+            },
+            onUpdateModifier = { index, op ->
+                editorScreenModel.onIntent(EditorIntent.UpdateModifier(selectedNode.id, index, op))
+            },
+            onDeleteModifier = { index ->
+                editorScreenModel.onIntent(EditorIntent.DeleteModifier(selectedNode.id, index))
+            }
         )
     }
 }
@@ -179,12 +184,11 @@ private fun NoComposeNodeSelected(
 
 @OptIn(ExperimentalMaterialApi::class)
 private fun LazyListScope.composeTypeDropdownMenu(
-    editNodeState: EditNodeScreenState,
-    editNodeBehavior: EditNodeBehavior,
+    selectedNode: ComposeNode,
+    onTypeSelected: (ComposeType) -> Unit,
 ) {
     item {
-        val isComposeTypeMenuExpanded = editNodeState.isComposeTypeMenuExpanded
-        val editingComposeNode = editNodeState.editingComposeNode
+        var isExpanded by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -192,14 +196,12 @@ private fun LazyListScope.composeTypeDropdownMenu(
                 .padding(16.dp)
         ) {
             ExposedDropdownMenuBox(
-                expanded = isComposeTypeMenuExpanded,
-                onExpandedChange = { isExpanded ->
-                    editNodeBehavior.onComposeTypeMenuExpandedChange(isExpanded)
-                },
+                expanded = isExpanded,
+                onExpandedChange = { isExpanded = it },
             ) {
                 OutlinedTextField(
                     readOnly = true,
-                    value = editingComposeNode?.type?.name ?: "",
+                    value = selectedNode.type.name,
                     onValueChange = {},
                     label = {
                         Text(
@@ -211,7 +213,7 @@ private fun LazyListScope.composeTypeDropdownMenu(
                         Icon(
                             Lucide.ArrowDown,
                             "Trailing icon for exposed dropdown menu",
-                            Modifier.rotate(if (isComposeTypeMenuExpanded) 180f else 360f),
+                            Modifier.rotate(if (isExpanded) 180f else 360f),
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     },
@@ -220,21 +222,18 @@ private fun LazyListScope.composeTypeDropdownMenu(
                         unfocusedBorderColor = MaterialTheme.colorScheme.onBackground,
                         textColor = MaterialTheme.colorScheme.onBackground
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 )
                 ExposedDropdownMenu(
-                    expanded = isComposeTypeMenuExpanded,
-                    onDismissRequest = {
-                        editNodeBehavior
-                            .onComposeTypeMenuExpandedChange(false)
-                    }
+                    expanded = isExpanded,
+                    onDismissRequest = { isExpanded = false }
                 ) {
-                    val compatibleTypes = editingComposeNode?.compatibleTypes() ?: ComposeType.entries
+                    val compatibleTypes = selectedNode.compatibleTypes()
                     compatibleTypes.forEach { type ->
                         DropdownMenuItem(
                             onClick = {
-                                editNodeBehavior.onComposeTypeSelected(type)
+                                onTypeSelected(type)
+                                isExpanded = false
                             }
                         ) {
                             Text(text = type.name)
@@ -248,13 +247,11 @@ private fun LazyListScope.composeTypeDropdownMenu(
 
 @OptIn(ExperimentalMaterialApi::class)
 private fun LazyListScope.composeTextTextField(
-    editNodeState: EditNodeScreenState,
-    editNodeBehavior: EditNodeBehavior,
+    selectedNode: ComposeNode,
+    onTextChanged: (String) -> Unit,
 ) {
     item {
-        val editingComposeNode = editNodeState.editingComposeNode
-        val props = editingComposeNode?.properties as? NodeProperties.TextProps
-            ?: return@item
+        val props = selectedNode.properties as? NodeProperties.TextProps ?: return@item
         if (props.text != null) {
             Column(
                 modifier = Modifier
@@ -264,9 +261,7 @@ private fun LazyListScope.composeTextTextField(
             ) {
                 OutlinedTextField(
                     value = props.text ?: "",
-                    onValueChange = {
-                        editNodeBehavior.onComposeNodeTextChange(it)
-                    },
+                    onValueChange = onTextChanged,
                     label = {
                         Text(
                             text = "Text",
@@ -278,8 +273,7 @@ private fun LazyListScope.composeTextTextField(
                         unfocusedBorderColor = MaterialTheme.colorScheme.onBackground,
                         textColor = MaterialTheme.colorScheme.onBackground
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -288,9 +282,10 @@ private fun LazyListScope.composeTextTextField(
 
 @OptIn(ExperimentalMaterialApi::class)
 private fun LazyListScope.composeModifierFields(
-    editNodeState: EditNodeScreenState,
-    editNodeBehavior: EditNodeBehavior,
-    composeTreeBehavior: com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeBehavior,
+    selectedNode: ComposeNode,
+    onAddModifier: (ModifierOperation) -> Unit,
+    onUpdateModifier: (Int, ComposeModifier.Operation) -> Unit,
+    onDeleteModifier: (Int) -> Unit,
 ) {
     item {
         Text(
@@ -299,22 +294,16 @@ private fun LazyListScope.composeModifierFields(
         )
     }
 
-    itemsIndexed(
-        editNodeState.editingComposeNode?.composeModifier?.operations ?: emptyList()
-    ) { index, operation ->
+    itemsIndexed(selectedNode.composeModifier.operations) { index, operation ->
         operation.ToComposeModifierOperation(
-            editNodeBehavior = editNodeBehavior,
             operationIndex = index,
-            onDelete = {
-                editNodeState.editingComposeNode?.let { node ->
-                    composeTreeBehavior.deleteModifier(node, index)
-                }
-            }
+            onUpdate = { newOp -> onUpdateModifier(index, newOp) },
+            onDelete = { onDeleteModifier(index) }
         )
     }
 
     item {
-        val isModifierMenuExpanded = editNodeState.isModifierMenuExpanded
+        var isModifierMenuExpanded by remember { mutableStateOf(false) }
 
         Box(
             modifier = Modifier
@@ -324,18 +313,13 @@ private fun LazyListScope.composeModifierFields(
         ) {
             ExposedDropdownMenuBox(
                 expanded = isModifierMenuExpanded,
-                onExpandedChange = {
-                    editNodeBehavior.onModifierMenuExpandedChange(true)
-                },
+                onExpandedChange = { isModifierMenuExpanded = it },
             ) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     OutlinedIconButton(
-                        onClick = {
-                            editNodeBehavior.onModifierMenuExpandedChange(true)
-                        }
+                        onClick = { isModifierMenuExpanded = true }
                     ) {
                         Icon(
                             imageVector = Lucide.Plus,
@@ -346,14 +330,13 @@ private fun LazyListScope.composeModifierFields(
                 }
                 ExposedDropdownMenu(
                     expanded = isModifierMenuExpanded,
-                    onDismissRequest = {
-                        editNodeBehavior.onModifierMenuExpandedChange(false)
-                    }
+                    onDismissRequest = { isModifierMenuExpanded = false }
                 ) {
                     ModifierOperation.entries.forEach { operation ->
                         DropdownMenuItem(
                             onClick = {
-                                editNodeBehavior.onModifierOperationSelected(operation)
+                                onAddModifier(operation)
+                                isModifierMenuExpanded = false
                             }
                         ) {
                             Text(text = operation.name)
@@ -369,35 +352,30 @@ private fun LazyListScope.composeModifierFields(
 private fun ComposeModifier.Operation.ToComposeModifierOperation(
     operationIndex: Int,
     modifier: Modifier = Modifier,
-    editNodeBehavior: EditNodeBehavior,
+    onUpdate: (ComposeModifier.Operation) -> Unit,
     onDelete: () -> Unit,
 ) {
     val value = when (this) {
         is ComposeModifier.Operation.BackgroundColor -> this.hexColor
-        is ComposeModifier.Operation.Height -> this.value
-        is ComposeModifier.Operation.Padding -> this.value
-        is ComposeModifier.Operation.Width -> this.value
+        is ComposeModifier.Operation.Height -> this.value.toString()
+        is ComposeModifier.Operation.Padding -> this.value.toString()
+        is ComposeModifier.Operation.Width -> this.value.toString()
         else -> ""
     }
-    var textFieldValue by remember { mutableStateOf(TextFieldValue(value.toString())) }
+    var textFieldValue by remember(this) { mutableStateOf(TextFieldValue(value)) }
 
     OutlinedTextField(
         value = textFieldValue,
         onValueChange = {
             textFieldValue = it
-            editNodeBehavior.onModifierOperationNameChange(
-                this,
-                operationValue = it.text,
-                operationIndex,
-            )
+            val updated = this.withUpdatedValue(it.text)
+            onUpdate(updated)
         },
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         label = {
-            Text(
-                text = modifierOperation?.name ?: ""
-            )
+            Text(text = modifierOperation?.name ?: "")
         },
         trailingIcon = {
             OutlinedIconButton(
@@ -415,4 +393,12 @@ private fun ComposeModifier.Operation.ToComposeModifierOperation(
             }
         }
     )
+}
+
+private fun ComposeModifier.Operation.withUpdatedValue(valueText: String): ComposeModifier.Operation = when (this) {
+    is ComposeModifier.Operation.Width -> ComposeModifier.Operation.Width(valueText.toIntOrNull() ?: 0)
+    is ComposeModifier.Operation.Height -> ComposeModifier.Operation.Height(valueText.toIntOrNull() ?: 0)
+    is ComposeModifier.Operation.Padding -> ComposeModifier.Operation.Padding(valueText.toIntOrNull() ?: 0)
+    is ComposeModifier.Operation.BackgroundColor -> ComposeModifier.Operation.BackgroundColor(valueText)
+    else -> this
 }

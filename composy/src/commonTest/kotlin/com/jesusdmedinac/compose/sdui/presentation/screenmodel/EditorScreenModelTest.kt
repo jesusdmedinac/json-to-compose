@@ -310,4 +310,48 @@ class EditorScreenModelTest {
         assertEquals(null, screenModel.state.value.selectedNodeId)
         assertEquals(null, screenModel.state.value.selectedNode)
     }
+
+    @Test
+    fun testNodeEditor_dispatchesIntents_and_rendersFromSelectedNode() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+
+        // Add a Column to root and select it
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+        screenModel.onIntent(EditorIntent.SelectNode(columnId))
+
+        // Selected node renders from state
+        val selected = screenModel.state.value.selectedNode
+        assertNotNull(selected)
+        assertEquals(columnId, selected.id)
+        assertEquals(ComposeType.Column, selected.type)
+
+        // 1. Update Node Type
+        screenModel.onIntent(EditorIntent.UpdateNodeType(columnId, ComposeType.Box))
+        assertEquals(ComposeType.Box, screenModel.state.value.selectedNode?.type)
+
+        // Add a Text child and select it to test text update
+        screenModel.onIntent(EditorIntent.AddNode(columnId, ComposeType.Text))
+        val textId = screenModel.state.value.selectedNode!!.children().first().id
+        screenModel.onIntent(EditorIntent.SelectNode(textId))
+
+        // 2. Update Node Text
+        screenModel.onIntent(EditorIntent.UpdateNodeText(textId, "Updated Title"))
+        val selectedTextNode = screenModel.state.value.selectedNode
+        assertNotNull(selectedTextNode)
+        assertEquals("Updated Title", (selectedTextNode.properties as NodeProperties.TextProps).text)
+
+        // 3. Modifiers (Add, Update, Delete) on selected node
+        screenModel.onIntent(EditorIntent.AddModifier(textId, ModifierOperation.Padding))
+        assertEquals(1, screenModel.state.value.selectedNode?.composeModifier?.operations?.size)
+
+        screenModel.onIntent(EditorIntent.UpdateModifier(textId, 0, ComposeModifier.Operation.Padding(24)))
+        val padOp = screenModel.state.value.selectedNode?.composeModifier?.operations?.first()
+        assertIs<ComposeModifier.Operation.Padding>(padOp)
+        assertEquals(24, padOp.value)
+
+        screenModel.onIntent(EditorIntent.DeleteModifier(textId, 0))
+        assertTrue(screenModel.state.value.selectedNode?.composeModifier?.operations?.isEmpty() == true)
+    }
 }
