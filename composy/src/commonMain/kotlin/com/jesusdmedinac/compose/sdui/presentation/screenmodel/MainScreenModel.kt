@@ -95,22 +95,6 @@ data class MainScreenState(
     }
 }
 
-data class DeviceSize(
-    val width: Int = 0,
-    val height: Int = 0,
-)
-
-enum class DeviceOrientation {
-    Portrait,
-    Landscape,
-}
-
-enum class DeviceType {
-    Smartphone,
-    Tablet,
-    Desktop,
-}
-
 sealed class MainScreenSideEffect {
     data object Idle : MainScreenSideEffect()
     data class ExportAsJSON(

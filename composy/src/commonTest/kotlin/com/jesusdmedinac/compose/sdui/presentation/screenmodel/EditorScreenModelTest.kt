@@ -7,6 +7,7 @@ import com.jesusdmedinac.jsontocompose.model.ComposeModifier
 import com.jesusdmedinac.jsontocompose.modifier.ModifierOperation
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
@@ -171,5 +172,109 @@ class EditorScreenModelTest {
         assertIs<NodeProperties.TextProps>(targetProps)
         assertEquals("Changed", targetProps.text)
         assertSame(untouchedSibling, childrenAfter[1])
+    }
+
+    @Test
+    fun testSetLeftPanelDisplayed_updatesFlagIndependently() {
+        val screenModel = EditorScreenModel()
+        assertTrue(screenModel.state.value.isLeftPanelDisplayed)
+        val rightBefore = screenModel.state.value.isRightPanelDisplayed
+
+        screenModel.onIntent(EditorIntent.SetLeftPanelDisplayed(false))
+        assertFalse(screenModel.state.value.isLeftPanelDisplayed)
+        assertEquals(rightBefore, screenModel.state.value.isRightPanelDisplayed)
+
+        screenModel.onIntent(EditorIntent.SetLeftPanelDisplayed(true))
+        assertTrue(screenModel.state.value.isLeftPanelDisplayed)
+        assertEquals(rightBefore, screenModel.state.value.isRightPanelDisplayed)
+    }
+
+    @Test
+    fun testSetRightPanelDisplayed_updatesFlagIndependently() {
+        val screenModel = EditorScreenModel()
+        assertTrue(screenModel.state.value.isRightPanelDisplayed)
+        val leftBefore = screenModel.state.value.isLeftPanelDisplayed
+
+        screenModel.onIntent(EditorIntent.SetRightPanelDisplayed(false))
+        assertFalse(screenModel.state.value.isRightPanelDisplayed)
+        assertEquals(leftBefore, screenModel.state.value.isLeftPanelDisplayed)
+
+        screenModel.onIntent(EditorIntent.SetRightPanelDisplayed(true))
+        assertTrue(screenModel.state.value.isRightPanelDisplayed)
+        assertEquals(leftBefore, screenModel.state.value.isLeftPanelDisplayed)
+    }
+
+    @Test
+    fun testSetDeviceType_updatesDeviceTypeAndComputesSize() {
+        val screenModel = EditorScreenModel()
+        assertEquals(DeviceType.Smartphone, screenModel.state.value.deviceType)
+        assertEquals(DeviceOrientation.Portrait, screenModel.state.value.deviceOrientation)
+        assertEquals(DeviceSize(412, 917), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Tablet))
+        assertEquals(DeviceType.Tablet, screenModel.state.value.deviceType)
+        assertEquals(DeviceSize(800, 1280), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Desktop))
+        assertEquals(DeviceType.Desktop, screenModel.state.value.deviceType)
+        assertEquals(DeviceSize(1024, 1440), screenModel.state.value.deviceSize)
+    }
+
+    @Test
+    fun testSetDeviceOrientation_updatesOrientationAndComputesSize() {
+        val screenModel = EditorScreenModel()
+
+        screenModel.onIntent(EditorIntent.SetDeviceOrientation(DeviceOrientation.Landscape))
+        assertEquals(DeviceOrientation.Landscape, screenModel.state.value.deviceOrientation)
+        assertEquals(DeviceSize(917, 412), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Tablet))
+        assertEquals(DeviceSize(1280, 800), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Desktop))
+        assertEquals(DeviceSize(1440, 1024), screenModel.state.value.deviceSize)
+
+        screenModel.onIntent(EditorIntent.SetDeviceOrientation(DeviceOrientation.Portrait))
+        assertEquals(DeviceOrientation.Portrait, screenModel.state.value.deviceOrientation)
+        assertEquals(DeviceSize(1024, 1440), screenModel.state.value.deviceSize)
+    }
+
+    @Test
+    fun testSetSearchKeyword_filtersComposeTypesCaseInsensitively() {
+        val screenModel = EditorScreenModel()
+        assertEquals("", screenModel.state.value.searchKeyword)
+        assertEquals(ComposeType.entries, screenModel.state.value.filteredComposeTypes)
+
+        // Exact case match
+        screenModel.onIntent(EditorIntent.SetSearchKeyword("Column"))
+        assertEquals("Column", screenModel.state.value.searchKeyword)
+        val columnMatches = screenModel.state.value.filteredComposeTypes
+        assertTrue(columnMatches.contains(ComposeType.Column))
+        assertTrue(columnMatches.contains(ComposeType.LazyColumn))
+        assertTrue(columnMatches.contains(ComposeType.FlowColumn))
+        assertTrue(columnMatches.all { it.name.contains("Column", ignoreCase = true) })
+
+        // Case-insensitive match
+        screenModel.onIntent(EditorIntent.SetSearchKeyword("text"))
+        val textMatches = screenModel.state.value.filteredComposeTypes
+        assertTrue(textMatches.contains(ComposeType.Text))
+        assertTrue(textMatches.contains(ComposeType.TextField))
+        assertTrue(textMatches.contains(ComposeType.OutlinedTextField))
+        assertTrue(textMatches.all { it.name.contains("text", ignoreCase = true) })
+
+        // Query with surrounding whitespace is trimmed
+        screenModel.onIntent(EditorIntent.SetSearchKeyword("  Button  "))
+        val buttonMatches = screenModel.state.value.filteredComposeTypes
+        assertTrue(buttonMatches.contains(ComposeType.Button))
+        assertTrue(buttonMatches.contains(ComposeType.IconButton))
+        assertTrue(buttonMatches.all { it.name.contains("Button", ignoreCase = true) })
+
+        // No matches
+        screenModel.onIntent(EditorIntent.SetSearchKeyword("NonExistentComponentXyz"))
+        assertTrue(screenModel.state.value.filteredComposeTypes.isEmpty())
+
+        // Blank restores all entries
+        screenModel.onIntent(EditorIntent.SetSearchKeyword("   "))
+        assertEquals(ComposeType.entries, screenModel.state.value.filteredComposeTypes)
     }
 }
