@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.jesusdmedinac.jsontocompose.model.ComposeType
 import com.composables.icons.lucide.Box
 import com.composables.icons.lucide.CaseSensitive
 import com.composables.icons.lucide.Circle
@@ -67,17 +66,18 @@ import com.composables.icons.lucide.SquareCheck
 import com.composables.icons.lucide.TextCursor
 import com.composables.icons.lucide.ToggleRight
 import com.composables.icons.lucide.WholeWord
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorIntent
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
+import com.jesusdmedinac.jsontocompose.model.ComposeType
 
 @Composable
 fun ComposeComponents(
     modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val composeComponentsScreenModel: ComposeComponentsScreenModel =
-        navigator.koinNavigatorScreenModel()
-    val state by composeComponentsScreenModel.state.collectAsState()
-    var keyword by remember { mutableStateOf(TextFieldValue("")) }
+    val editorScreenModel: EditorScreenModel = navigator.koinNavigatorScreenModel()
+    val state by editorScreenModel.state.collectAsState()
+    var keyword by remember(state.searchKeyword) { mutableStateOf(TextFieldValue(state.searchKeyword)) }
     Column(
         modifier = modifier
     ) {
@@ -85,7 +85,7 @@ fun ComposeComponents(
             value = keyword,
             onValueChange = {
                 keyword = it
-                composeComponentsScreenModel.onKeywordChanged(it.text)
+                editorScreenModel.onIntent(EditorIntent.SetSearchKeyword(it.text))
             },
             label = {
                 Text("Find a component")
@@ -106,13 +106,12 @@ fun ComposeComponents(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(ComposeType.entries.filter {
-                it.name.contains(state.keyword)
-            }) { type ->
+            items(state.filteredComposeTypes) { type ->
                 ComposeComponent(
                     type,
                     onClick = {
-                        composeComponentsScreenModel.onComposeTypeClick(type)
+                        val parentId = state.selectedNodeId ?: state.rootNode.id
+                        editorScreenModel.onIntent(EditorIntent.AddNode(parentId = parentId, type = type))
                     }
                 )
             }

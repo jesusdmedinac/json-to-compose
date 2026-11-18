@@ -17,8 +17,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinNavigatorScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
 import com.jesusdmedinac.jsontocompose.ToCompose
 
 @Composable
@@ -26,13 +25,11 @@ fun DeviceLayer(
     modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val mainScreenModel: MainScreenModel = navigator.koinNavigatorScreenModel()
-    val mainScreenState by mainScreenModel.state.collectAsState()
-    val composeTreeScreenModel: ComposeTreeScreenModel = navigator.koinNavigatorScreenModel()
-    val composeTreeState by composeTreeScreenModel.state.collectAsState()
+    val editorScreenModel: EditorScreenModel = navigator.koinNavigatorScreenModel()
+    val state by editorScreenModel.state.collectAsState()
 
-    val deviceType = mainScreenState.deviceType
-    val deviceSize = mainScreenState.deviceSize
+    val deviceType = state.deviceType
+    val deviceSize = state.deviceSize
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -47,7 +44,7 @@ fun DeviceLayer(
                 .clip(MaterialTheme.shapes.small)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            composeTreeState.composeNodeRoot.ToCompose()
+            state.rootNode.ToCompose()
         }
         Text(
             text = with(deviceSize) { "$deviceType: $width x $height" },

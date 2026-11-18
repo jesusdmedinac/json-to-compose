@@ -1,6 +1,7 @@
 package com.jesusdmedinac.compose.sdui.presentation.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,15 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.AlertDialog
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.foundation.focusable
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.type
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -36,108 +29,44 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.jesusdmedinac.compose.sdui.Platform
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthBehavior
 import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenState
-import com.jesusdmedinac.compose.sdui.getPlatform
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsSideEffect
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeState
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenBehavior
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenSideEffect
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.createDefaultProperties
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorIntent
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorState
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeComponents
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeEditor
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposeNodeTree
 import com.jesusdmedinac.compose.sdui.presentation.ui.composable.ComposePreview
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.SplitColumn
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.WindowWithPanels
-import com.jesusdmedinac.jsontocompose.model.ComposeNode
-import com.jesusdmedinac.jsontocompose.model.ComposeType
 import io.github.vinceglb.filekit.compose.rememberFileSaverLauncher
+import kotlinx.serialization.json.Json
 
 data object MainScreen : Screen {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
+        val editorScreenModel = koinScreenModel<EditorScreenModel>()
+        val editorState by editorScreenModel.state.collectAsState()
+        val selectedNode = editorState.selectedNode
 
-        // State & Behavior holders
-        val mainScreenModel = koinScreenModel<MainScreenModel>()
-        val mainScreenState by mainScreenModel.state.collectAsState()
-        val mainScreenSideEffect by mainScreenModel.sideEffect.collectAsState()
-
-        val composeComponentsScreenModel = koinScreenModel<ComposeComponentsScreenModel>()
-        val composeComponentsSideEffect by composeComponentsScreenModel.sideEffect.collectAsState()
-
-        val composeTreeScreenModel = koinScreenModel<ComposeTreeScreenModel>()
-        val composeTreeState by composeTreeScreenModel.state.collectAsState()
-        val selectedComposeNode = composeTreeState.selectedComposeNode
-
-        val editNodeScreenModel = koinScreenModel<EditNodeScreenModel>()
-        val editNodeState by editNodeScreenModel.state.collectAsState()
-        val selectedComposeNodeOnEditor = editNodeState.selectedComposeNode
-
-        // Side Effects
         val launcher = rememberFileSaverLauncher { file -> }
-        LaunchedEffect(mainScreenSideEffect) {
-            when (val sideEffect = mainScreenSideEffect) {
-                MainScreenSideEffect.Idle -> Unit
-                is MainScreenSideEffect.ExportAsJSON -> {
-                    launcher.launch(
-                        baseName = sideEffect.baseName,
-                        extension = sideEffect.extension,
-                        initialDirectory = sideEffect.initialDirectory,
-                        bytes = sideEffect.content.encodeToByteArray()
-                    )
-                }
-            }
-        }
 
-        LaunchedEffect(selectedComposeNode) {
-            mainScreenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNode != null)
-            editNodeScreenModel.onComposeNodeSelected(selectedComposeNode)
-        }
-
-        LaunchedEffect(selectedComposeNodeOnEditor) {
-            mainScreenModel.onDisplayRightPanelChange(isRightPanelDisplayed = selectedComposeNodeOnEditor != null)
-            composeTreeScreenModel.onComposeNodeSelected(selectedComposeNodeOnEditor)
-        }
-
-        LaunchedEffect(editNodeState) {
-            editNodeState.editingComposeNode?.let { composeTreeScreenModel.saveNode(it) }
-        }
-
-        LaunchedEffect(composeComponentsSideEffect) {
-            when (val sideEffect = composeComponentsSideEffect) {
-                ComposeComponentsSideEffect.Idle -> Unit
-                is ComposeComponentsSideEffect.ComposeTypeClicked -> {
-                    selectedComposeNode?.let { node ->
-                        composeTreeScreenModel.onAddNewNodeToChildren(
-                            ComposeNode(
-                                type = sideEffect.type,
-                                parent = node,
-                                properties = sideEffect.type.createDefaultProperties()
-                            )
-                        )
-                    }
-                }
-            }
-        }
-
-        // UI Layer
         var showDeleteDialog by remember { mutableStateOf(false) }
-        
+
         if (showDeleteDialog) {
             AlertDialog(
                 onDismissRequest = { showDeleteDialog = false },
@@ -146,8 +75,8 @@ data object MainScreen : Screen {
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            if (selectedComposeNode != null) {
-                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                            if (selectedNode != null) {
+                                editorScreenModel.onIntent(EditorIntent.DeleteNode(selectedNode.id))
                             }
                             showDeleteDialog = false
                         }
@@ -175,11 +104,11 @@ data object MainScreen : Screen {
                     if (event.type == KeyEventType.KeyUp && 
                         (event.key == Key.Delete || event.key == Key.Backspace)) {
                         
-                        if (selectedComposeNode != null && composeTreeState.composeNodeRoot.id != selectedComposeNode.id) {
-                            if (selectedComposeNode.children().isNotEmpty()) {
+                        if (selectedNode != null && editorState.rootNode.id != selectedNode.id) {
+                            if (selectedNode.children().isNotEmpty()) {
                                 showDeleteDialog = true
                             } else {
-                                composeTreeScreenModel.deleteNode(selectedComposeNode)
+                                editorScreenModel.onIntent(EditorIntent.DeleteNode(selectedNode.id))
                             }
                             true
                         } else false
@@ -187,12 +116,19 @@ data object MainScreen : Screen {
                 }
         ) {
             MainScreenLayout(
-                composeTreeState = composeTreeState,
-                mainScreenBehavior = mainScreenModel,
-                isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed,
-                isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed,
-                onLeftPanelClosed = { mainScreenModel.onDisplayLeftPanelChange(false) },
-                onRightPanelClosed = { mainScreenModel.onDisplayRightPanelChange(false) }
+                editorState = editorState,
+                onExportAsJSON = {
+                    launcher.launch(
+                        baseName = "composeAsJSON",
+                        extension = "json",
+                        initialDirectory = "",
+                        bytes = Json.encodeToString(editorState.rootNode).encodeToByteArray()
+                    )
+                },
+                isLeftPanelDisplayed = editorState.isLeftPanelDisplayed,
+                isRightPanelDisplayed = editorState.isRightPanelDisplayed,
+                onLeftPanelClosed = { editorScreenModel.onIntent(EditorIntent.SetLeftPanelDisplayed(false)) },
+                onRightPanelClosed = { editorScreenModel.onIntent(EditorIntent.SetRightPanelDisplayed(false)) }
             )
         }
     }
@@ -200,8 +136,8 @@ data object MainScreen : Screen {
 
 @Composable
 private fun MainScreenLayout(
-    composeTreeState: ComposeTreeState,
-    mainScreenBehavior: MainScreenBehavior,
+    editorState: EditorState,
+    onExportAsJSON: () -> Unit,
     isLeftPanelDisplayed: Boolean,
     isRightPanelDisplayed: Boolean,
     onLeftPanelClosed: () -> Unit,
@@ -209,8 +145,7 @@ private fun MainScreenLayout(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         MainScreenTopAppBar(
-            composeTreeState = composeTreeState,
-            mainScreenBehavior = mainScreenBehavior,
+            onExportAsJSON = onExportAsJSON,
         )
         WindowWithPanels(
             isLeftPanelDisplayed = isLeftPanelDisplayed,
@@ -271,23 +206,13 @@ private fun MainPanelContent() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainScreenTopAppBar(
-    composeTreeState: ComposeTreeState,
-    mainScreenBehavior: MainScreenBehavior,
+    onExportAsJSON: () -> Unit,
 ) {
     TopAppBar(
         title = { Text(text = "Composy") },
         actions = {
-            // TODO Ignore until desktop app is deployed
-            if (false && getPlatform() == Platform.Wasm) {
-                TextButton(
-                    onClick = { mainScreenBehavior.onDownloadDesktopClick() },
-                    modifier = Modifier.pointerHoverIcon(icon = PointerIcon.Hand)
-                ) {
-                    Text(text = "Download Desktop App")
-                }
-            }
             Button(
-                onClick = { mainScreenBehavior.exportAsJSONClick(composeTreeState.composeNodeRoot) },
+                onClick = onExportAsJSON,
                 modifier = Modifier.pointerHoverIcon(icon = PointerIcon.Hand)
             ) {
                 Text(text = "Export as JSON")

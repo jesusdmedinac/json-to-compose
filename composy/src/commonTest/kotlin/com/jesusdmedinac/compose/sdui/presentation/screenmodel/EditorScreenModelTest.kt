@@ -354,4 +354,36 @@ class EditorScreenModelTest {
         screenModel.onIntent(EditorIntent.DeleteModifier(textId, 0))
         assertTrue(screenModel.state.value.selectedNode?.composeModifier?.operations?.isEmpty() == true)
     }
+
+    @Test
+    fun testPreview_rendersFromEditorState_and_changingNodeTypePreservesSubtree_regression86() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+
+        // Build a subtree: Column -> Button -> Text
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+        screenModel.onIntent(EditorIntent.AddNode(columnId, ComposeType.Button))
+        val buttonId = screenModel.state.value.rootNode.children().first().children().first().id
+        screenModel.onIntent(EditorIntent.AddNode(buttonId, ComposeType.Text))
+
+        val rootBefore = screenModel.state.value.rootNode
+        assertEquals(1, rootBefore.children().size)
+        val col = rootBefore.children().first()
+        assertEquals(ComposeType.Column, col.type)
+        assertEquals(1, col.children().size)
+        assertEquals(ComposeType.Button, col.children().first().type)
+
+        // Regression for #86: Changing Column to Row must preserve its children and never crash/empty tree
+        screenModel.onIntent(EditorIntent.UpdateNodeType(columnId, ComposeType.Row))
+
+        val rootAfter = screenModel.state.value.rootNode
+        assertEquals(1, rootAfter.children().size)
+        val row = rootAfter.children().first()
+        assertEquals(ComposeType.Row, row.type)
+        assertEquals(1, row.children().size)
+        assertEquals(ComposeType.Button, row.children().first().type)
+        assertEquals(1, row.children().first().children().size)
+        assertEquals(ComposeType.Text, row.children().first().children().first().type)
+    }
 }

@@ -25,7 +25,7 @@ This phase focuses on migrating the scattered ScreenModels to a single, unidirec
 ## Feature: MVI UI Integration
 - [x] Scenario: Tree panel dispatches intents
 - [x] Scenario: Node editor dispatches intents
-- [ ] Scenario: Preview renders from EditorState
+- [x] Scenario: Preview renders from EditorState
 - [ ] Scenario: Legacy ScreenModels removed
 
 > **Exit criterion:** the phase is complete only when the UI runs entirely on

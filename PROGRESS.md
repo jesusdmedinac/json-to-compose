@@ -14,15 +14,15 @@
 | 2   | [phase-actions-system](#phase-actions-system) | `library/` | 37        | 37        | **100%** |
 | 3   | [phase-demo-showcase](#phase-demo-showcase) | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#phase-3-expand-library) | `library/` | 239       | 239       | **100%** |
-| 5   | [phase-1.5-mvi-architecture](#phase-1.5-mvi-architecture) | `composy/` | 16        | 14        | **88%**  |
+| 5   | [phase-1.5-mvi-architecture](#phase-1.5-mvi-architecture) | `composy/` | 16        | 15        | **94%**  |
 | 6   | [phase-2-editor-mvp](#phase-2-editor-mvp) | `composy/` | 63        | 12        | **19%**  |
 | 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/` | 26        | 0         | **0%**   |
 | 8   | [phase-3-differentiators](#phase-3-differentiators) | `Multi-module` | 37        | 0         | **0%**   |
 | 9   | [phase-remote-engine-caching](#phase-remote-engine-caching) | `library/` | 24        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | 665       | 525       | **78%**  |
+|     | **TOTAL**                                                         |               | 665       | 526       | **79%**  |
 
 ```text
-Progress: [████████████████████████████████░░░░░░░░] 78%
+Progress: [████████████████████████████████░░░░░░░░] 79%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
 ```

@@ -38,10 +38,10 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Monitor
 import com.composables.icons.lucide.Smartphone
 import com.composables.icons.lucide.Tablet
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceOrientation
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.DeviceType
-import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorIntent
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.BoxWithSizeListener
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.IconTabBar
 import com.jesusdmedinac.compose.sdui.presentation.ui.layouts.SelectionOption
@@ -55,19 +55,17 @@ fun ComposePreview(
     modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavigator.currentOrThrow
-    val mainScreenModel: MainScreenModel = navigator.koinNavigatorScreenModel()
-    val mainScreenState by mainScreenModel.state.collectAsState()
-    val deviceSize = mainScreenState.deviceSize
+    val editorScreenModel: EditorScreenModel = navigator.koinNavigatorScreenModel()
+    val state by editorScreenModel.state.collectAsState()
+    val deviceSize = state.deviceSize
     val density = LocalDensity.current
     val halfOfDeviceHeight = (with(density) { deviceSize.height.dp.toPx() / 2 }).roundToInt()
     val halfOfDeviceWidth = (with(density) { deviceSize.width.dp.toPx() / 2 }).roundToInt()
-    val deviceType = mainScreenState.deviceType
-    val deviceOrientation = mainScreenState.deviceOrientation
-    val isLeftPanelDisplayed = mainScreenState.isLeftPanelDisplayed
-    val isRightPanelDisplayed = mainScreenState.isRightPanelDisplayed
+    val deviceType = state.deviceType
+    val deviceOrientation = state.deviceOrientation
+    val isLeftPanelDisplayed = state.isLeftPanelDisplayed
+    val isRightPanelDisplayed = state.isRightPanelDisplayed
 
-    val composeTreeScreenModel: ComposeTreeScreenModel = navigator.koinNavigatorScreenModel()
-    val composeTreeState by composeTreeScreenModel.state.collectAsState()
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.surfaceContainer)
@@ -86,7 +84,7 @@ fun ComposePreview(
         ) {
             IconButton(
                 onClick = {
-                    mainScreenModel.onDisplayLeftPanelChange(!isLeftPanelDisplayed)
+                    editorScreenModel.onIntent(EditorIntent.SetLeftPanelDisplayed(!isLeftPanelDisplayed))
                 },
                 modifier = Modifier
                     .pointerHoverIcon(
@@ -101,7 +99,7 @@ fun ComposePreview(
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-                    mainScreenModel.onDisplayRightPanelChange(!isRightPanelDisplayed)
+                    editorScreenModel.onIntent(EditorIntent.SetRightPanelDisplayed(!isRightPanelDisplayed))
                 },
                 modifier = Modifier
                     .pointerHoverIcon(
@@ -185,7 +183,7 @@ fun ComposePreview(
                     options = listOf(
                         SelectionOption(
                             onClick = {
-                                mainScreenModel.onPortraitClick()
+                                editorScreenModel.onIntent(EditorIntent.SetDeviceOrientation(DeviceOrientation.Portrait))
                             },
                             icon = {
                                 Icon(
@@ -196,7 +194,7 @@ fun ComposePreview(
                         ),
                         SelectionOption(
                             onClick = {
-                                mainScreenModel.onLandscapeClick()
+                                editorScreenModel.onIntent(EditorIntent.SetDeviceOrientation(DeviceOrientation.Landscape))
                             },
                             icon = {
                                 Icon(
@@ -218,7 +216,7 @@ fun ComposePreview(
                     options = listOf(
                         SelectionOption(
                             onClick = {
-                                mainScreenModel.onSmartphoneClick()
+                                editorScreenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Smartphone))
                             },
                             icon = {
                                 Icon(
@@ -229,7 +227,7 @@ fun ComposePreview(
                         ),
                         SelectionOption(
                             onClick = {
-                                mainScreenModel.onTabletClick()
+                                editorScreenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Tablet))
                             },
                             icon = {
                                 Icon(
@@ -240,7 +238,7 @@ fun ComposePreview(
                         ),
                         SelectionOption(
                             onClick = {
-                                mainScreenModel.onDesktopClick()
+                                editorScreenModel.onIntent(EditorIntent.SetDeviceType(DeviceType.Desktop))
                             },
                             icon = {
                                 Icon(
