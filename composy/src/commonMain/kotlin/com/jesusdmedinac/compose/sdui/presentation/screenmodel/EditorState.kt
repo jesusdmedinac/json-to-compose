@@ -18,6 +18,8 @@ data class EditorState(
     val deviceOrientation: DeviceOrientation = DeviceOrientation.Portrait,
     val searchKeyword: String = ""
 ) {
+    val selectedNode: ComposeNode? get() = selectedNodeId?.let { rootNode.findNodeById(it) }
+
     val deviceSize: DeviceSize = when (deviceType) {
         DeviceType.Smartphone -> when (deviceOrientation) {
             DeviceOrientation.Portrait -> DeviceSize(412, 917)

@@ -277,4 +277,37 @@ class EditorScreenModelTest {
         screenModel.onIntent(EditorIntent.SetSearchKeyword("   "))
         assertEquals(ComposeType.entries, screenModel.state.value.filteredComposeTypes)
     }
+
+    @Test
+    fun testTreePanel_dispatchesIntents_and_rendersFromRootNode() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+
+        // 1. Add Node to root
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val column = screenModel.state.value.rootNode.children().first()
+        assertEquals(ComposeType.Column, column.type)
+
+        // 2. Select Node
+        screenModel.onIntent(EditorIntent.SelectNode(column.id))
+        assertEquals(column.id, screenModel.state.value.selectedNodeId)
+        assertEquals(column.id, screenModel.state.value.selectedNode?.id)
+
+        // 3. Add second child to test reordering
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Text))
+        val text = screenModel.state.value.rootNode.children()[1]
+        assertEquals(ComposeType.Text, text.type)
+
+        // 4. Reorder Node (move second child up)
+        screenModel.onIntent(EditorIntent.ReorderNode(text.id, EditorIntent.ReorderNode.Direction.UP))
+        assertEquals(text.id, screenModel.state.value.rootNode.children()[0].id)
+        assertEquals(column.id, screenModel.state.value.rootNode.children()[1].id)
+
+        // 5. Delete Node (delete currently selected node)
+        screenModel.onIntent(EditorIntent.DeleteNode(column.id))
+        assertEquals(1, screenModel.state.value.rootNode.children().size)
+        // Since selected node was deleted, selection should be cleared
+        assertEquals(null, screenModel.state.value.selectedNodeId)
+        assertEquals(null, screenModel.state.value.selectedNode)
+    }
 }

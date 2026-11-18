@@ -6,6 +6,7 @@ import com.jesusdmedinac.compose.sdui.auth.presentation.screenmodel.AuthScreenMo
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeComponentsScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.ComposeTreeScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditNodeScreenModel
+import com.jesusdmedinac.compose.sdui.presentation.screenmodel.EditorScreenModel
 import com.jesusdmedinac.compose.sdui.presentation.screenmodel.MainScreenModel
 import com.jesusdmedinac.composy.BuildKonfig
 import io.github.jan.supabase.auth.Auth
@@ -30,6 +31,7 @@ fun dataModule() = module {
 }
 
 fun appModule() = module {
+    single { EditorScreenModel() }
     single { MainScreenModel() }
     single { ComposeComponentsScreenModel() }
     single { ComposeTreeScreenModel() }
