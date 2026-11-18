@@ -277,4 +277,113 @@ class EditorScreenModelTest {
         screenModel.onIntent(EditorIntent.SetSearchKeyword("   "))
         assertEquals(ComposeType.entries, screenModel.state.value.filteredComposeTypes)
     }
+
+    @Test
+    fun testTreePanel_dispatchesIntents_and_rendersFromRootNode() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+
+        // 1. Add Node to root
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val column = screenModel.state.value.rootNode.children().first()
+        assertEquals(ComposeType.Column, column.type)
+
+        // 2. Select Node
+        screenModel.onIntent(EditorIntent.SelectNode(column.id))
+        assertEquals(column.id, screenModel.state.value.selectedNodeId)
+        assertEquals(column.id, screenModel.state.value.selectedNode?.id)
+
+        // 3. Add second child to test reordering
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Text))
+        val text = screenModel.state.value.rootNode.children()[1]
+        assertEquals(ComposeType.Text, text.type)
+
+        // 4. Reorder Node (move second child up)
+        screenModel.onIntent(EditorIntent.ReorderNode(text.id, EditorIntent.ReorderNode.Direction.UP))
+        assertEquals(text.id, screenModel.state.value.rootNode.children()[0].id)
+        assertEquals(column.id, screenModel.state.value.rootNode.children()[1].id)
+
+        // 5. Delete Node (delete currently selected node)
+        screenModel.onIntent(EditorIntent.DeleteNode(column.id))
+        assertEquals(1, screenModel.state.value.rootNode.children().size)
+        // Since selected node was deleted, selection should be cleared
+        assertEquals(null, screenModel.state.value.selectedNodeId)
+        assertEquals(null, screenModel.state.value.selectedNode)
+    }
+
+    @Test
+    fun testNodeEditor_dispatchesIntents_and_rendersFromSelectedNode() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+
+        // Add a Column to root and select it
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+        screenModel.onIntent(EditorIntent.SelectNode(columnId))
+
+        // Selected node renders from state
+        val selected = screenModel.state.value.selectedNode
+        assertNotNull(selected)
+        assertEquals(columnId, selected.id)
+        assertEquals(ComposeType.Column, selected.type)
+
+        // 1. Update Node Type
+        screenModel.onIntent(EditorIntent.UpdateNodeType(columnId, ComposeType.Box))
+        assertEquals(ComposeType.Box, screenModel.state.value.selectedNode?.type)
+
+        // Add a Text child and select it to test text update
+        screenModel.onIntent(EditorIntent.AddNode(columnId, ComposeType.Text))
+        val textId = screenModel.state.value.selectedNode!!.children().first().id
+        screenModel.onIntent(EditorIntent.SelectNode(textId))
+
+        // 2. Update Node Text
+        screenModel.onIntent(EditorIntent.UpdateNodeText(textId, "Updated Title"))
+        val selectedTextNode = screenModel.state.value.selectedNode
+        assertNotNull(selectedTextNode)
+        assertEquals("Updated Title", (selectedTextNode.properties as NodeProperties.TextProps).text)
+
+        // 3. Modifiers (Add, Update, Delete) on selected node
+        screenModel.onIntent(EditorIntent.AddModifier(textId, ModifierOperation.Padding))
+        assertEquals(1, screenModel.state.value.selectedNode?.composeModifier?.operations?.size)
+
+        screenModel.onIntent(EditorIntent.UpdateModifier(textId, 0, ComposeModifier.Operation.Padding(24)))
+        val padOp = screenModel.state.value.selectedNode?.composeModifier?.operations?.first()
+        assertIs<ComposeModifier.Operation.Padding>(padOp)
+        assertEquals(24, padOp.value)
+
+        screenModel.onIntent(EditorIntent.DeleteModifier(textId, 0))
+        assertTrue(screenModel.state.value.selectedNode?.composeModifier?.operations?.isEmpty() == true)
+    }
+
+    @Test
+    fun testPreview_rendersFromEditorState_and_changingNodeTypePreservesSubtree_regression86() {
+        val screenModel = EditorScreenModel()
+        val rootId = screenModel.state.value.rootNode.id
+
+        // Build a subtree: Column -> Button -> Text
+        screenModel.onIntent(EditorIntent.AddNode(rootId, ComposeType.Column))
+        val columnId = screenModel.state.value.rootNode.children().first().id
+        screenModel.onIntent(EditorIntent.AddNode(columnId, ComposeType.Button))
+        val buttonId = screenModel.state.value.rootNode.children().first().children().first().id
+        screenModel.onIntent(EditorIntent.AddNode(buttonId, ComposeType.Text))
+
+        val rootBefore = screenModel.state.value.rootNode
+        assertEquals(1, rootBefore.children().size)
+        val col = rootBefore.children().first()
+        assertEquals(ComposeType.Column, col.type)
+        assertEquals(1, col.children().size)
+        assertEquals(ComposeType.Button, col.children().first().type)
+
+        // Regression for #86: Changing Column to Row must preserve its children and never crash/empty tree
+        screenModel.onIntent(EditorIntent.UpdateNodeType(columnId, ComposeType.Row))
+
+        val rootAfter = screenModel.state.value.rootNode
+        assertEquals(1, rootAfter.children().size)
+        val row = rootAfter.children().first()
+        assertEquals(ComposeType.Row, row.type)
+        assertEquals(1, row.children().size)
+        assertEquals(ComposeType.Button, row.children().first().type)
+        assertEquals(1, row.children().first().children().size)
+        assertEquals(ComposeType.Text, row.children().first().children().first().type)
+    }
 }

@@ -53,6 +53,18 @@ fun ComposeNode.nodeExists(targetId: String): Boolean {
 }
 
 /**
+ * Recursively finds a node with the given [targetId] in the tree.
+ */
+fun ComposeNode.findNodeById(targetId: String): ComposeNode? {
+    if (this.id == targetId) return this
+    for (child in children()) {
+        val found = child.findNodeById(targetId)
+        if (found != null) return found
+    }
+    return null
+}
+
+/**
  * Returns the list of types this node can safely be converted to, based on the
  * children it currently holds: nodes with multiple children can only become
  * multi-child layouts, nodes with one child can also become single-child
