@@ -18,23 +18,29 @@ data class EditorState(
     val deviceOrientation: DeviceOrientation = DeviceOrientation.Portrait,
     val searchKeyword: String = ""
 ) {
-    val deviceSize: DeviceSize
-        get() = when (deviceType to deviceOrientation) {
-            DeviceType.Smartphone to DeviceOrientation.Portrait -> DeviceSize(412, 917)
-            DeviceType.Smartphone to DeviceOrientation.Landscape -> DeviceSize(917, 412)
-            DeviceType.Tablet to DeviceOrientation.Portrait -> DeviceSize(800, 1280)
-            DeviceType.Tablet to DeviceOrientation.Landscape -> DeviceSize(1280, 800)
-            DeviceType.Desktop to DeviceOrientation.Portrait -> DeviceSize(1024, 1440)
-            DeviceType.Desktop to DeviceOrientation.Landscape -> DeviceSize(1440, 1024)
-            else -> DeviceSize()
+    val deviceSize: DeviceSize = when (deviceType) {
+        DeviceType.Smartphone -> when (deviceOrientation) {
+            DeviceOrientation.Portrait -> DeviceSize(412, 917)
+            DeviceOrientation.Landscape -> DeviceSize(917, 412)
         }
+        DeviceType.Tablet -> when (deviceOrientation) {
+            DeviceOrientation.Portrait -> DeviceSize(800, 1280)
+            DeviceOrientation.Landscape -> DeviceSize(1280, 800)
+        }
+        DeviceType.Desktop -> when (deviceOrientation) {
+            DeviceOrientation.Portrait -> DeviceSize(1024, 1440)
+            DeviceOrientation.Landscape -> DeviceSize(1440, 1024)
+        }
+    }
 
-    val filteredComposeTypes: List<ComposeType>
-        get() = if (searchKeyword.isBlank()) {
+    val filteredComposeTypes: List<ComposeType> = run {
+        val query = searchKeyword.trim()
+        if (query.isEmpty()) {
             ComposeType.entries
         } else {
-            ComposeType.entries.filter { it.name.contains(searchKeyword, ignoreCase = true) }
+            ComposeType.entries.filter { it.name.contains(query, ignoreCase = true) }
         }
+    }
 }
 
 data class DeviceSize(

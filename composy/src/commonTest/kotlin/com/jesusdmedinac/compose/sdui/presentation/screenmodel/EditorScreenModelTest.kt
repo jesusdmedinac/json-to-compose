@@ -262,6 +262,13 @@ class EditorScreenModelTest {
         assertTrue(textMatches.contains(ComposeType.OutlinedTextField))
         assertTrue(textMatches.all { it.name.contains("text", ignoreCase = true) })
 
+        // Query with surrounding whitespace is trimmed
+        screenModel.onIntent(EditorIntent.SetSearchKeyword("  Button  "))
+        val buttonMatches = screenModel.state.value.filteredComposeTypes
+        assertTrue(buttonMatches.contains(ComposeType.Button))
+        assertTrue(buttonMatches.contains(ComposeType.IconButton))
+        assertTrue(buttonMatches.all { it.name.contains("Button", ignoreCase = true) })
+
         // No matches
         screenModel.onIntent(EditorIntent.SetSearchKeyword("NonExistentComponentXyz"))
         assertTrue(screenModel.state.value.filteredComposeTypes.isEmpty())
