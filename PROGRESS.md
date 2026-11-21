@@ -4,7 +4,7 @@
 > **Mandatory Workflow Requirement:** To avoid a `NullPointerException` (NPE) in Android Unit Tests, agents **must NOT** run UI tests using `./gradlew :library:test`. Instead, always use `./gradlew :library:desktopTest` for primary validation.
 > See the [Compose Multiplatform UI Testing Guide](docs/COMPOSE_MULTIPLATFORM_TESTING.md#mandatory-testing-rules-for-agents) for more details.
 
-> Last updated: 2026-11-18
+> Last updated: 2026-11-20
 
 ## Overall Progress
 
@@ -15,14 +15,13 @@
 | 3   | [phase-demo-showcase](#phase-demo-showcase) | `composeApp/` | 36        | 36        | **100%** |
 | 4   | [phase-3-expand-library](#phase-3-expand-library) | `library/` | 239       | 239       | **100%** |
 | 5   | [phase-1.5-mvi-architecture](#phase-1.5-mvi-architecture) | `composy/` | 16        | 16        | **100%** |
-| 6   | [phase-2-editor-mvp](#phase-2-editor-mvp) | `composy/` | 63        | 12        | **19%**  |
-| 7   | [phase-4-semantics-testability](#phase-4-semantics-testability) | `library/` | 26        | 0         | **0%**   |
-| 8   | [phase-3-differentiators](#phase-3-differentiators) | `Multi-module` | 37        | 0         | **0%**   |
-| 9   | [phase-remote-engine-caching](#phase-remote-engine-caching) | `library/` | 24        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | 665       | 527       | **79%**  |
+| 6   | [phase-2-editor-mvp](#phase-2-editor-mvp) | `composy/ [arch]` | 12        | 12        | **100%** |
+| 7   | [phase-3-ai-studio](#phase-3-ai-studio) | `Multi-module` | 14        | 0         | **0%**   |
+| 8   | [phase-remote-engine-caching](#phase-remote-engine-caching) | `library/` | 24        | 0         | **0%**   |
+|     | **TOTAL**                                                         |               | 565       | 527       | **93%**  |
 
 ```text
-Progress: [████████████████████████████████░░░░░░░░] 79%
+Progress: [█████████████████████████████████████░░░] 93%
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
            phase-1 ✅  actions ✅  demo ✅  expand ✅  editor  sem  diff
 ```

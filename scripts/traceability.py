@@ -25,9 +25,8 @@ PHASE_ORDER = [
     ("phase-demo-showcase", "composeApp/"),
     ("phase-3-expand-library", "library/"),
     ("phase-1.5-mvi-architecture", "composy/"),
-    ("phase-2-editor-mvp", "composy/"),
-    ("phase-4-semantics-testability", "library/"),
-    ("phase-3-differentiators", "Multi-module"),
+    ("phase-2-editor-mvp", "composy/ [arch]"),
+    ("phase-3-ai-studio", "Multi-module"),
     ("phase-remote-engine-caching", "library/"),
 ]
 
