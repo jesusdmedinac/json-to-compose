@@ -16,9 +16,9 @@
 | 4   | [phase-3-expand-library](#phase-3-expand-library) | `library/` | 239       | 239       | **100%** |
 | 5   | [phase-1.5-mvi-architecture](#phase-1.5-mvi-architecture) | `composy/` | 16        | 16        | **100%** |
 | 6   | [phase-2-editor-mvp](#phase-2-editor-mvp) | `composy/ [arch]` | 12        | 12        | **100%** |
-| 7   | [phase-3-ai-studio](#phase-3-ai-studio) | `Multi-module` | 14        | 0         | **0%**   |
+| 7   | [phase-3-ai-studio](#phase-3-ai-studio) | `Multi-module` | 14        | 1         | **7%**   |
 | 8   | [phase-remote-engine-caching](#phase-remote-engine-caching) | `library/` | 24        | 0         | **0%**   |
-|     | **TOTAL**                                                         |               | 565       | 527       | **93%**  |
+|     | **TOTAL**                                                         |               | 565       | 528       | **93%**  |
 
 ```text
 Progress: [█████████████████████████████████████░░░] 93%
