@@ -3,7 +3,7 @@
 This phase implements **Composy AI Studio**: an AI-first conversational generative UI workspace for Compose Multiplatform.
 
 ## Feature: A2UI Express DSL Engine
-- [ ] Scenario: Parse standard linear components
+- [x] Scenario: Parse standard linear components
 - [ ] Scenario: Parse modifier chains in A2UI Express
 - [ ] Scenario: Incremental streaming resilience
 - [ ] Scenario: Bidirectional conversion from ComposeNode to A2UI Express
